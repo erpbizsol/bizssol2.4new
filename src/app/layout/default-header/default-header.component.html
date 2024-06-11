@@ -1,0 +1,128 @@
+<!-- <c-header class="mb-4 d-print-none" position="sticky"> -->
+<ng-container>
+  <c-container [fluid]="true" class="border-bottom px-4 top-header">
+    <button [cSidebarToggle]="sidebarId" cHeaderToggler class="btn" toggle="visible"
+      style="margin-inline-start: -14px;">
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+
+    <c-header-nav class="ms-auto">
+      <h4 style="color: #263965;
+      font-size: 1.12rem;">Lead/Enquiry</h4>
+    </c-header-nav>
+
+    <c-header-nav class="ms-auto">
+      <input type="search" placeholder="Search" appearance="outline">
+    </c-header-nav> &nbsp;&nbsp;
+    <!-- <c-header-nav class="d-none d-md-flex ms-auto ">
+      <a cNavLink>
+        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
+      </a>
+      <a cNavLink>
+        <svg cIcon class="my-1" name="cilList" size="lg"></svg>
+      </a>
+      <a cNavLink>
+        <svg cIcon class="my-1" name="cilEnvelopeOpen" size="lg"></svg>
+      </a>
+    </c-header-nav> -->
+
+    <!-- <c-header-nav class="ms-auto ms-md-0">
+      <div class="nav-item py-1">
+        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+      </div>
+      <ng-container *ngTemplateOutlet="themeDropdown" />
+      <div class="nav-item py-1">
+        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+      </div>
+    </c-header-nav> -->
+
+    <c-header-nav class="mx-0">
+      <ng-container *ngTemplateOutlet="userDropdown" />
+    </c-header-nav>
+
+  </c-container>
+  <!-- <c-container [fluid]="true" class="px-4 breadcrumbSec">
+    <c-breadcrumb-router />
+  </c-container> -->
+</ng-container>
+<!--</c-header>-->
+
+<ng-template #userDropdown>
+  <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
+    <button [caret]="false" cDropdownToggle class="py-0 pe-0">
+      <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/user2.jpg" status="success" textColor="primary" />
+    </button>
+    <ul cDropdownMenu class="pt-0 w-auto">
+      <li>
+        <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
+          User
+        </h6>
+      </li>
+
+      <li>
+        <a cDropdownItem routerLink="">
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          Profile
+        </a>
+      </li>
+
+      <!-- <li>
+        <hr cDropdownDivider />
+      </li> -->
+      <!-- <li>
+        <a cDropdownItem routerLink="">
+          <i class='bx bxs-key'></i>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M3.433 17.325 3.079 19.8a1 1 0 0 0 1.131 1.131l2.475-.354C7.06 20.524 8 18 8 18s.472.405.665.466c.412.13.813-.274.948-.684L10 16.01s.577.292.786.335c.266.055.524-.109.707-.293a.988.988 0 0 0 .241-.391L12 14.01s.675.187.906.214c.263.03.519-.104.707-.293l1.138-1.137a5.502 5.502 0 0 0 5.581-1.338 5.507 5.507 0 0 0 0-7.778 5.507 5.507 0 0 0-7.778 0 5.5 5.5 0 0 0-1.338 5.581l-7.501 7.5a.994.994 0 0 0-.282.566zM18.504 5.506a2.919 2.919 0 0 1 0 4.122l-4.122-4.122a2.919 2.919 0 0 1 4.122 0z"></path></svg>
+          <i class="fas fa-spinner fa-spin"></i>
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Change Paasword
+        </a>
+      </li> -->
+
+      <li>
+        <hr cDropdownDivider />
+      </li>
+      <li>
+        <a cDropdownItem routerLink="">
+          <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+<ng-template #themeDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button [caret]="false" cDropdownToggle>
+      @switch (colorMode()) {
+      @case ("dark") {
+      <svg cIcon name="cilMoon" size="lg"></svg>
+      }
+      @case ("auto") {
+      <svg cIcon name="cilContrast" size="lg"></svg>
+      }
+      @default {
+      <svg cIcon name="cilSun" size="lg"></svg>
+      }
+      }
+    </button>
+    <div cDropdownMenu>
+      <button (click)="colorMode.set('light')" [active]="colorMode()==='light'" [routerLink]="[]" cDropdownItem
+        class="d-flex align-items-center">
+        <svg cIcon class="me-2" name="cilSun" size="lg"></svg>
+        Light
+      </button>
+      <button (click)="colorMode.set('dark')" [active]="colorMode()==='dark'" [routerLink]="[]" cDropdownItem
+        class="d-flex align-items-center">
+        <svg cIcon class="me-2" name="cilMoon" size="lg"></svg>
+        Dark
+      </button>
+      <button (click)="colorMode.set('auto')" [active]="colorMode()==='auto'" [routerLink]="[]" cDropdownItem
+        class="d-flex align-items-center">
+        <svg cIcon class="me-2" name="cilContrast" size="lg"></svg>
+        Auto
+      </button>
+    </div>
+  </c-dropdown>
+</ng-template>

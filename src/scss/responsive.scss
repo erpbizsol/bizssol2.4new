@@ -1,0 +1,51 @@
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+  .mobRowAngularMaterial {
+    display: grid !important;
+    grid-template-columns: 30% 70%;
+  }
+
+  .mtBtn12 {
+    margin-bottom: 1rem !important;
+  }
+
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+
+/* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+
+@media (min-width: 481px) and (max-width: 767px) {}
+
+/* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .mobRowAngularMaterial {
+    display: grid !important;
+    grid-template-columns: 40% 60%;
+  }
+
+
+}

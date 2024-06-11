@@ -1,0 +1,25 @@
+tr td input{
+    width: 100%;
+    text-align: end;
+}
+
+.form-card {
+    padding: 2px 7px;
+    box-shadow: 0 4px 8px 0 rgb(235 230 240);
+    transition: 0.3s;
+    background-color: #e3e9ee;
+    background-image: linear-gradient(#e3e9ee, #c0cfd6);
+}
+
+.row {
+    display: flex;
+    // justify-content: space-between;
+}
+
+// .required label:after {
+//     content:" *";
+//     color: red;
+//   }
+// .required label {
+//     font-weight: bold;
+// }

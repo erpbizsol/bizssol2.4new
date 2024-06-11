@@ -1,0 +1,142 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 mt-4 mb-2 text-end">
+      <button type="button" data-toggle="myModalAssign" class="btn btn-primary" (click)="toggleLiveDemo()">Create new <i
+          class="fa fa-plus-circle" aria-hidden="true"></i></button>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <table border="1" class="table">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>UOM</th>
+            <th>GST UOM</th>
+            <th>Decimal Digits</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @for(data of response; track data) { -->
+          <tr *ngFor="let UOM of UOM; let i = index">
+            <td>{{i+1}}</td>
+            <td> {{ UOM.UOM }} </td>
+            <td> {{ UOM.GSTUOM }}</td>
+            <td>{{ UOM.DecimalPoints }}</td>
+            <td class="buttonSet">
+              <button class=" btn btn-primary" (click)="editData(UOM.Code)"><i class="fa fa-pencil" aria-hidden="true"
+                  title="Edit"></i></button>&nbsp;
+              <button class="btn btn-danger" (click)="deleteData(UOM.Code)"><i class="fa fa-trash-o" aria-hidden="true"
+                  title="Delete"></i></button>
+            </td>
+          </tr>
+          <!-- } -->
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+  <!-- /////////////////////////UOM Modal///////////////////////// -->
+
+  <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <form [formGroup]="newUOMForm" (ngSubmit)="saveUOM()">
+      <c-modal-header>
+        <h5 cModalTitle>UOM Master (New)</h5>
+        <button (click)="toggleLiveDemo()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <div class="row mb-2">
+          <input type="hidden" formControlName="Code" class="form-control" value="0">
+          <div class="col-md-4 form-group">
+            <label for="uomname">UOM Description:</label>
+            <input type="text" formControlName="uomdesp" class="form-control" maxlength="100"
+              (input)="onInputCharacterChange($event)">
+            <div
+              *ngIf="newUOMForm.get('uomdesp').invalid && (newUOMForm.get('uomdesp').dirty || newUOMForm.get('uomdesp').touched)"
+              class="text-danger validation-msg">
+              <div *ngIf="newUOMForm.get('uomdesp').errors['required']" class="uomrequire">
+                UOM field is required</div>
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="gstuomDesp">GST UOM Description:</label>
+            <!-- <input type="text" formControlName="gstuomDesp" class="form-control" maxlength="50"> -->
+            <select id="gstUom" formControlName="gstuomDesp" class="form-control" maxlength="50">
+              <option value="">Select</option>
+              <option *ngFor="let gstUom of getGSTUOMList" [value]="gstUom.Desp">{{gstUom.Desp}}</option>
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="DigitsAfterDecimal">Digits After Decimal:</label>
+            <input type="text" formControlName="DigitsAfterDecimal" class="form-control"
+              (input)="onInputChange($event)">
+            <div
+              *ngIf="newUOMForm.get('DigitsAfterDecimal').invalid && (newUOMForm.get('DigitsAfterDecimal').dirty || newUOMForm.get('DigitsAfterDecimal').touched)"
+              class="text-danger validation-msg">
+              <div *ngIf="newUOMForm.get('DigitsAfterDecimal').errors['required']" class="uomrequire">
+                Decimal field is required</div>
+            </div>
+          </div>
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button cButton color="success" type="submit">Save</button>
+        <button (click)="toggleLiveDemo()" cButton color="secondary">Close</button>
+      </c-modal-footer>
+    </form>
+  </c-modal>
+  <!-------------Edit Department----------------->
+
+  <c-modal id="editDemoModal" [visible]="visible1" (visibleChange)="handleLiveDemoChange($event)">
+    <form [formGroup]="newUOMForm" (ngSubmit)="saveUOM()">
+      <c-modal-header>
+        <h5 cModalTitle>UOM Master (Update) </h5>
+        <button (click)="editDemoModal()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <div class="row mb-2">
+          <input type="hidden" formControlName="Code" class="form-control" value="0">
+          <div class="col-md-4 form-group">
+            <label for="uomname">UOM Description:</label>
+            <input type="text" formControlName="uomdesp" class="form-control" maxlength="100"
+              (input)="onInputCharacterChange($event)">
+            <div
+              *ngIf="newUOMForm.get('uomdesp').invalid && (newUOMForm.get('uomdesp').dirty || newUOMForm.get('uomdesp').touched)"
+              class="text-danger validation-msg">
+              <div *ngIf="newUOMForm.get('uomdesp').errors['required']" class="uomrequire">
+                UOM field is required</div>
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="gstuomDesp">GST UOM Description:</label>
+            <select id="gstUom" formControlName="gstuomDesp" class="form-control" maxlength="50">
+              <option value="">Select</option>
+              <option *ngFor="let gstUom of getGSTUOMList" [value]="gstUom.Desp">{{gstUom.Desp}}</option>
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="DigitsAfterDecimal">Digits After Decimal:</label>
+            <input type="text" formControlName="DigitsAfterDecimal" class="form-control"
+              (input)="onInputChange($event)">
+            <div
+              *ngIf="newUOMForm.get('DigitsAfterDecimal').invalid && (newUOMForm.get('DigitsAfterDecimal').dirty || newUOMForm.get('DigitsAfterDecimal').touched)"
+              class="text-danger validation-msg">
+              <div *ngIf="newUOMForm.get('DigitsAfterDecimal').errors['required']" class="uomrequire">
+                Decimal field is required</div>
+            </div>
+          </div>
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button cButton color="success" type="submit">Update </button>
+        <button (click)="editDemoModal()" cButton color="secondary">Close</button>
+      </c-modal-footer>
+    </form>
+  </c-modal>
+</div>

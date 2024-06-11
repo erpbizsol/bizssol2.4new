@@ -1,0 +1,45 @@
+<section>
+    <div class="container">
+        <form [formGroup]="newTankForm" (ngSubmit)="saveTank()">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-4 form-group">
+                    <label for="tank" class="required">Tank Name</label>
+                    <select id="tank" formControlName="tankName" class="form-control">
+                        <option value="">Select</option>
+                        <option *ngFor="let tank of Tank" [value]="tank.Desp">{{tank.Desp}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mt-4 mb-2 text-start">
+                    <button type="button" class="btn btn-primary" (click)="onFillGo()">Fill/Go</button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="row mt-4 mb-2" *ngIf="showTable">
+                <input type="hidden" formControlName="Code" class="form-control" value="0">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                    <table border="1" class="table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Stock Value</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="tableRows">
+                            <tr *ngFor="let row of tableRows.controls; let i = index" [formGroupName]="i">
+                                <td><input type="text" formControlName="level" #levelInput (keypress)="validateInteger($event)" /></td>
+                                <td><input type="text" formControlName="stockValue" (keypress)="validateFloat($event)" (keydown.enter)="onStockValueEnter($event, i)" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button type="submit" class="btn btn-success">Save</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,36 @@
+::ng-deep .mat-mdc-select-panel {
+    width: 100% !important;
+    max-height: 222px !important;
+    outline: 0;
+    overflow: auto;
+    padding: 0px 0 !important;
+    border-radius: 4px !important;
+    box-sizing: border-box;
+    position: static;
+    background-color: var(--mat-select-panel-background-color);
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: normal;
+    font-size: 9pt !important;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    font-family: inherit;
+    text-decoration: inherit;
+    text-transform: inherit;
+    margin-right: auto;
+}
+
+::ng-deep .mat-mdc-select-value {
+    font-size: 9pt;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+mat-label {
+    padding-right: 10px;
+    font-size: 9pt;
+}

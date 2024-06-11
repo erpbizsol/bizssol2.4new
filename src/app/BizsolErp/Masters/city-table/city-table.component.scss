@@ -1,0 +1,42 @@
+
+.mat-sort-header-arrow {
+    color: #fff !important;
+}
+
+.mat-sort-header-indicator {
+    color: #fff !important;
+}
+
+.button-spacing {
+    margin-right: 4px;
+    /* Adjust the margin to your desired spacing */
+}
+h4{
+    color: #263965;
+    font-size: 1.5rem;
+}
+
+// Table Dropdown 
+.dropup, .dropend, .dropdown, .dropstart, .dropup-center, .dropdown-center {
+    position: static !important;
+    border: none;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 7rem;
+}
+
+
+.error-message{
+    font-size: 12px; /* Adjust the font size as needed */
+    color: red; 
+
+}
+.row {
+    --bs-gutter-x: 1.rem;
+}
+
+/* Increase width of mat-select dropdown panel */
+.row {
+    --bs-gutter-x: 1.rem;
+  }

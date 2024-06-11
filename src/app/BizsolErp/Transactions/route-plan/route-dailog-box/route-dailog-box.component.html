@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Create New</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="routePlanForm" (ngSubmit)="registerRP(routePlanForm)">
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="extProcess" class="">Visit Type</label>
+                <select id="select2drop" class="select2 form-control" formControlName="visitType">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="uomname">Dealer Name</label>
+                <input type="text" formControlName="dealerName" class="form-control">
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="extProcess" class="">City</label>
+                <select id="select2drop" class="select2 form-control" formControlName="city">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="extProcess" class="">State</label>
+                <select id="select2drop" class="select2 form-control" formControlName="state">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" maxlength="">
+            </div>
+
+        </div>
+    </form>
+</mat-dialog-content>
+<!-- <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>ABC</button>
+</mat-dialog-actions> -->
+
+<div mat-dialog-actions align="end">
+    <button class="btn btn-primary" mat-dialog-close>Cancel</button>&nbsp;
+    <button class="btn btn-danger" type="submit" mat-dialog-close>Save</button>
+</div>

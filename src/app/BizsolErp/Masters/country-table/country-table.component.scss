@@ -1,0 +1,45 @@
+
+.mat-sort-header-arrow {
+    color: #fff !important;
+}
+
+.mat-sort-header-indicator {
+    color: #fff !important;
+}
+
+.button-spacing {
+    margin-right: 4px;
+    /* Adjust the margin to your desired spacing */
+}
+// .actionbtn{
+//     margin-left: 5px !important;
+// }
+h4{
+    color: #263965;
+    font-size: 1.5rem;
+}
+.row{
+    --bs-gutter-x: 1.rem;
+}
+
+// Table Dropdown 
+.dropup, .dropend, .dropdown, .dropstart, .dropup-center, .dropdown-center {
+    position: static !important;
+    border: none;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 7rem;
+}
+
+
+/////////////////////////////////////////////////////////////////Modal Css//////////////////////////////////////////////////////////////
+/* Modal Container */
+.modal-header {
+    justify-content: center;
+}
+/////////////////////////////////////////////////////////////////Validation  Css//////////////////////////////////////////////////////////////
+.error-message {
+    font-size: 12px; /* Adjust the font size as needed */
+    color: red; /* Optionally, you can adjust the color */
+}

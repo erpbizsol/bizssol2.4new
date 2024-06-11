@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form #routeDailog="ngForm" (ngSubmit)="register(routeDailog)">
+                <div class="row">
+                    <div class="col-md-2">
+                        <!-- <div class="form-group">
+                            <label>Plan Date</label>
+                            <input type="date" class="form-control" 
+                                [(ngModel)]="todayDate">
+                        </div> -->
+                        <!-- <mat-form-field>
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field> -->
+                    </div>
+                    <div class="col-md-7"></div>
+                    <div class="col-md-3 mt-4 text-end">
+                        <button type="button" class="btn btn-primary" (click)="openDialog()">Create new <i
+                                class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <table border="1" class="table">
+                        <thead>
+                            <tr>
+                                <th>Visit type</th>
+                                <th>Dealer Name</th>
+                                <th>City Name</th>
+                                <th>State Name</th>
+                                <th>Description</th>
+                                <!-- <th>Status</th> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of routePlanList">
+                                <td>{{data?.VisitType}}</td>
+                                <td>{{data?.DealerName}}</td>
+                                <td>{{data?.CityName}}</td>
+                                <td>{{data?.StateName}}</td>
+                                <td>{{data?.Description}}</td>
+                                <td>
+                                    <button class=" btn btn-primary" (click)="toggleEditDemo()"><i class="fa fa-pencil"
+                                            aria-hidden="true" title="Edit"></i></button>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"
+                                            title="Delete"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-------------Edit Department----------------->
+            <c-modal id="EditDemoModal" [visible]="visible" (visibleChange)="handleEditDemoChange($event)">
+                <c-modal-header>
+                    <h5 cModalTitle>Modal title</h5>
+                    <button (click)="toggleEditDemo()" cButtonClose></button>
+                </c-modal-header>
+                <c-modal-body>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="uomname">Dealer Name</label>
+                            <input type="text" formControlName="dealerName" class="form-control" maxlength="100">
+                        </div>
+                    </div>
+                </c-modal-body>
+                <c-modal-footer>
+                    <button (click)="toggleEditDemo()" cButton color="secondary">
+                        Close
+                    </button>
+                    <button cButton color="primary">Save changes</button>
+                </c-modal-footer>
+            </c-modal>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="row" style="align-items: center;">
+  <div class="col-md-2 form-outline" data-mdb-input-init>
+    <input type="search" class="form-control" placeholder="Search" aria-label="Search" [(ngModel)]="searchTerm" (input)="applySearchFilter()" />
+  </div>
+  <div class="col-md-3">
+    <mat-label>User Name</mat-label>
+    <mat-form-field class="mat-form-field-fluid" appearance="outline">
+      <mat-select placeholder="ALL" [(ngModel)]="selectedUser" (selectionChange)="applyUserFilter($event)">
+        <mat-option value="ALL">ALL</mat-option>
+        <mat-option *ngFor="let user of verifyRoutePlanList" [value]="user.UserName">{{ user.UserName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-3">
+    <mat-label>City Name</mat-label>
+    <mat-form-field class="mat-form-field-fluid" appearance="outline">
+      <mat-select placeholder="ALL" [(ngModel)]="selectedCity" (selectionChange)="applyCityFilter($event)">
+        <mat-option value="ALL" selected>ALL</mat-option>
+        <mat-option *ngFor="let city of verifyRoutePlanList" [value]="city.CityName">{{ city.CityName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-4 text-end">
+    <button class="btn btn-primary btn-height" (click)="verifyAllRoutePlan()">Verify All
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </button> &nbsp;
+    <button class="btn btn-danger btn-height" (click)="rejectAllRoutePlan()">Reject All
+      <i class="fa fa-times-circle" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<div class="col-md-12 mobileview">
+  <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <ng-container *ngIf="column !== 'SN' && column !== 'Action'">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <div class="header-wrapper">
+            <span class="header-label" [matTooltip]="columnDisplayNames[column]" matTooltipPosition="above">
+              {{ columnDisplayNames[column] || column }}
+            </span>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" class="ellipsis">
+          <ng-container *ngIf="column === 'Date' else otherColumn">
+            <span [matTooltip]="element[column]" matTooltipPosition="left">{{ element[column] | date: 'dd/MM/yyyy' }}</span>
+          </ng-container>
+          <ng-template #otherColumn>
+            <span [matTooltip]="element[column]" matTooltipPosition="above">{{ element[column] }}</span>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="column === 'SN'">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element[column] }}
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="column === 'Action'">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="content-center" *ngIf="element.IsVerify !== 'Rejected'">
+            <button class="btn btn-primary me-1" (click)="verify(element.Code)" matTooltip="Verify" matTooltipPosition="above">
+              <i class="fa fa-check-circle" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger me-1" (click)="rejectRoutePlan(element.Code)" matTooltip="Reject" matTooltipPosition="above">
+              <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

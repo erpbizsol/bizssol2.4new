@@ -1,0 +1,196 @@
+<div class="container">
+    <div class="row">
+        <div class="col m12">
+            <!-- <h4 class="mb-3">City</h4> -->
+        </div>
+    </div>
+
+    <div class="row mb-1">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <label>Country</label>
+
+            <mat-form-field class="mat-form-field-fluid" appearance="outline">
+                <mat-select placeholder="India" required (selectionChange)="getStateList($event.value)">
+                    <mat-option *ngFor="let country of countryList" [value]="country.CountryName">{{ country.CountryName
+                        }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <label>State</label>
+
+            <mat-form-field class="mat-form-field-fluid" appearance="outline">
+                <mat-select placeholder="Select" required (selectionChange)="getCityList($event.value)">
+                    <mat-option *ngFor="let state of stateList" [value]="state.StateName">{{ state.StateName
+                        }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="col-md-12 mb-2 text-end">
+                <button (click)="createtoggle()" class="btn btn-primary" style="font-size: 12pt;">Create new <i class="fa fa-plus-circle"
+                        aria-hidden="true"></i></button>
+            </div>
+
+
+
+            <div class="col-md-12 mobileview">
+                <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+                    <!-- Serial Number Column -->
+                    <ng-container matColumnDef="SN">
+                        <th mat-header-cell *matHeaderCellDef> S.No.</th>
+                        <td mat-cell *matCellDef="let element"> {{element.SN}} </td>
+                    </ng-container>
+
+                    <!-- Country Name Column -->
+                    <ng-container matColumnDef="StateName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ columnDisplayNames['StateName'] }}
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.StateName}} </td>
+                    </ng-container>
+
+                    <!-- State Name Column -->
+                    <ng-container matColumnDef="CityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="CityName"> {{
+                            columnDisplayNames['CityName'] }} </th>
+                        <td mat-cell *matCellDef="let element" class="ellipsis"> {{element.CityName}} </td>
+                    </ng-container>
+
+                    <!-- State Short Name Column -->
+                    <ng-container matColumnDef="Pin">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ columnDisplayNames['Pin']
+                            }} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Pin}} </td>
+                    </ng-container>
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn btn-primary" title="Edit" (click)="editState(element)">
+                                <i class="fa fa-pencil" aria-hidden="true" title="Edit"></i>
+                            </button>
+                            &nbsp; &nbsp;
+                            <button class="btn btn-danger" title="Delete" (click)="deleteState(element.Code)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- /////////////////////////////////////////////////////////////Create City///////////////////////////////////////////////////////////////////// -->
+
+    <c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)="handleLiveDemoChange($event)">
+        <c-modal-header>
+            <h5 cModalTitle>City</h5>
+            <button (click)="createtoggle()" cButtonClose></button>
+        </c-modal-header>
+        <form [formGroup]="cityForm" (ngSubmit)="submit()">
+            <c-modal-body>
+                <div class=" row">
+                    <div class="col-md-6 form-group">
+                        <label for="stateName">States</label>
+                        <select class="form-control" formControlName="stateName">
+                            @for (item of stateList; track item.id; let id= $index) {
+                            <option [value]='item.StateName'>{{item.StateName}}</option>
+                            <input value="{{item.StateName}}" class="form-control" type="text" maxlength="20">
+                            }
+                        </select>
+
+                        <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
+                        <div *ngIf="cityForm.get('stateName')?.hasError('required') && cityForm.get('stateName')?.touched"
+                            class="error-message">
+                            Please select state!
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="cityName">City Name</label>
+                        <input class="form-control" type="text" formControlName="cityName" maxlength="20" (keypress)="specialCharacternumberValidator($event)">
+                        <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
+                        <!-- Required field Validation -->
+                        <div *ngIf="cityForm.get('cityName')?.hasError('required') && cityForm.get('cityName')?.touched"
+                            class="error-message">
+                            City is required!
+                        </div>
+                        <!-- Max length Validation -->
+                        <!-- <div *ngIf="stateForm.get('stateName')?.hasError('maxLength') && stateForm.get(' stateName').touched"
+                class="error-message">
+                Length should be less than 5!
+            </div> -->
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="pinCode">Pin Code</label>
+                        <input class="form-control" type="text" formControlName="pinCode" maxlength="6" (keypress)="citypincodevalidation($event)">
+                        <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
+                        <!-- Required field Validation -->
+                        <div *ngIf="cityForm.get('pinCode')?.hasError('required') && cityForm.get('pinCode').touched"
+                            class="error-message">
+                            Pin Code is required!
+                        </div>
+                        <!-- Max length Validation -->
+                        <!-- <div *ngIf="stateForm.get('statename')?.hasError('maxLength') && stateForm.get('statename').touched"
+                class="danger ">
+                Length should be less than 5!
+            </div> -->
+
+                    </div>
+
+                </div>
+
+
+            </c-modal-body>
+            <c-modal-footer>
+                <button cButton color="primary" type="submit">Save</button>
+                <button (click)="createtoggle()" cButton color="danger">
+                    Cancel
+                </button>
+            </c-modal-footer>
+        </form>
+    </c-modal>
+<!-- ///////////////////////////////////////////////////////////////////Update City//////////////////////////////////////////////////////// -->
+<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Update State</h5>
+        <button (click)="updatetoggle()" cButtonClose></button>
+    </c-modal-header>
+    <form class="row" [formGroup]="cityForm" (ngSubmit)="updateSubmit(item.Code)">
+        <c-modal-body>
+            <div class="row justify-content-between">
+
+
+
+                <div class="col-md-5 form-group">
+                    <label for="stateName">State</label>
+                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20"  readonly="true">
+                </div>
+                <div class="col-md-5 form-group">
+                    <label for="cityName">City</label>
+                    <input class="form-control" type="text" matInput formControlName="cityName" maxlength="20">
+                </div>
+                <div class="col-md-5 form-group">
+                    <label for="pinCode">Pin Code</label>
+                    <input class="form-control" type="text" matInput formControlName="pinCode" maxlength="10">
+                </div>
+            </div>
+
+
+        </c-modal-body>
+        <c-modal-footer>
+            <button cButton color="primary" type="submit">Update</button>
+            <button (click)="updatetoggle()" cButton color="danger">
+                Cancel
+            </button>
+        </c-modal-footer>
+    </form>
+</c-modal>

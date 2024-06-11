@@ -1,0 +1,75 @@
+::ng-deep .mat-sort-header-content {
+    width: 7rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.header-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+::ng-deep .label {
+    display: block !important;
+}
+
+.header-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    max-width: 106px;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: normal;
+    outline: 0;
+}
+
+.btn-height {
+    margin-top: 1.8rem;
+    height: 1.8rem !important;
+}
+.table-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .table-data-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mat-cell.ellipsis, .mat-header-cell.ellipsis {
+    max-width: 150px; /* Adjust the width as needed */
+  }
+  .row {
+    --bs-gutter-x: 1.rem;
+  }
+  .modal-header {
+    justify-content: center;
+}
+/////////////////////////////////////////////////////////////////Validation  Css//////////////////////////////////////////////////////////////
+.error-message {
+    font-size: 12px; /* Adjust the font size as needed */
+    color: red; /* Optionally, you can adjust the color */
+}
+
+
+
+  
+  .row {
+    --bs-gutter-x: 1.rem;
+  }
+  
+

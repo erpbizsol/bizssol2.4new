@@ -1,0 +1,68 @@
+<div class="tab-content" id="myTabContent">
+  <div
+    class="tab-pane fade show active"
+    id="home-tab-pane"
+    role="tabpanel"
+    aria-labelledby="home-tab"
+    tabindex="0"
+  >
+    <form
+      [formGroup]="chemicalForm"
+      (ngSubmit)="chemicalsubmit()"
+      autocomplete="unInput"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <div class="radioLogin col-md-6">
+            <input
+              type="radio"
+              name="group"
+              id="chemicalhide"
+              checked
+              (click)="showchemical()"
+            /><span>Chemical Property</span>
+            &nbsp; &nbsp; &nbsp;
+            <input
+              type="radio"
+              name="group"
+              id="showmechemical"
+              (click)="showmechemical()"
+            /><span>Mechanical Property</span>
+
+               <button  class="btn btn-primary" style="font-size: 12pt;">Create new <i class="fa fa-plus-circle"
+                aria-hidden="true"></i></button>
+            
+
+        </div>
+         
+         
+        </div>
+      </div>
+      <div class="col-md-12 mobileview">
+        <table class="col-md-6">
+           <tr>
+            <th>SN</th>
+            <th>Chemical Name</th>
+            <th>Sort Order</th>
+            <th>Is Chemical Property</th>
+            <th>Action</th>
+           </tr>
+            <tr>
+                <td>1</td>
+                <td>C%</td>
+                <td>0.01</td>
+                <td>Y</td>
+                <td>
+                    <button class=" me-2 btn btn-primary" >
+                        <i class="fa fa-pencil" aria-hidden="true" title="Edit"></i>
+                    </button>
+                    <button class="btn btn-danger" >
+                        <i class="fa fa-trash" aria-hidden="true" title="Edit"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

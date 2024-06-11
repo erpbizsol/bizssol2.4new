@@ -1,0 +1,16 @@
+
+<div class="delete-confirmation-dialog">
+  <h5 class="header-bg" mat-dialog-title>Delete Confirmation</h5>
+  <div mat-dialog-content>
+    <div>
+      <label>Reason for deletion</label>
+      <div >
+        <input  type="text" class="form-control"  [(ngModel)]="reason">
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="content-end">
+    <button class="btn btn-primary me-1" (click)="onNoClick()">No</button>
+    <button class="btn btn-danger" (click)="onYesClick()">Yes</button>
+  </div>
+</div>
