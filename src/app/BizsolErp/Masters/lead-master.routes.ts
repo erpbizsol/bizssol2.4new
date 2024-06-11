@@ -34,7 +34,7 @@ export const routes: Routes = [
         // },
         {
             path: ':Code/new',
-            loadComponent: () => import('./enquiry-master/new-customer/new-customer.component').then(m => m.NewCustomerComponent),
+            loadComponent: () => import('../Transactions/enquiry-master/new-customer/new-customer.component').then(m => m.NewCustomerComponent),
             data: {
                 title: 'New Enquiry'
             }
@@ -97,42 +97,42 @@ export const routes: Routes = [
         },
         {
             path: 'newfollowup',
-            loadComponent: () => import('./follow-up/new-follow-up/new-follow-up.component').then(m => m.NewFollowUpComponent),
+            loadComponent: () => import('../Transactions/follow-up/new-follow-up/new-follow-up.component').then(m => m.NewFollowUpComponent),
             data: {
                 title: 'New FollowUp'
             }
         },
         {
             path: 'editfollowup/:code',
-            loadComponent: () => import('./follow-up/edit-follow-up/edit-follow-up.component').then(m => m.EditFollowUpComponent),
+            loadComponent: () => import('../Transactions/follow-up/edit-follow-up/edit-follow-up.component').then(m => m.EditFollowUpComponent),
             data: {
                 title: 'Edit FollowUp'
             }
         },
         {
             path: ':Code/edit',
-            loadComponent: () => import('./enquiry-master/edit-lead/edit-lead.component').then(m => m.EditLeadComponent),
+            loadComponent: () => import('../Transactions/enquiry-master/edit-lead/edit-lead.component').then(m => m.EditLeadComponent),
             data: {
                 title: 'New Enquiry'
             }
         },
         {
             path: 'table',
-            loadComponent: () => import('./enquiry-master/table/table.component').then(m => m.TableComponent),
+            loadComponent: () => import('../Transactions/enquiry-master/table/table.component').then(m => m.TableComponent),
             data: {
                 title: 'Leads'
             }
         },
         {
             path: 'followup/:code',
-            loadComponent: () => import('./follow-up/follow-up-table/follow-up-table.component').then(m => m.FollowUpTableComponent),
+            loadComponent: () => import('../Transactions/follow-up/follow-up-table/follow-up-table.component').then(m => m.FollowUpTableComponent),
             data: {
                 title: 'followUp'
             }
         },
         {
             path: 'followup-view/:code',
-            loadComponent: () => import('./follow-up/follow-up-view-table/follow-up-view-table.component').then(m => m.FollowUpViewTableComponent),
+            loadComponent: () => import('../Transactions/follow-up/follow-up-view-table/follow-up-view-table.component').then(m => m.FollowUpViewTableComponent),
             data: {
                 title: 'followUp-view'
             }

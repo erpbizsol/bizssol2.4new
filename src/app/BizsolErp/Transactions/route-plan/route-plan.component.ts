@@ -27,7 +27,7 @@ import {
   // MatFormFieldModule, MatInputModule,
   
 } from '@coreui/angular';
-import { RoutePlanService } from 'src/app/services/Master/route-plan.service';
+import { RoutePlanService } from 'src/app/services/Transaction/route-plan.service';
 
 @Component({
   selector: 'app-route-plan',

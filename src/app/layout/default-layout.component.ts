@@ -3,6 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { IconDirective } from '@coreui/icons-angular';
 import { INavData } from '@coreui/angular';
+import { HeaderService } from '../services/Shared/header.service'; // Import HeaderService
 import {
   ContainerComponent,
   ShadowOnScrollDirective,
@@ -13,8 +14,6 @@ import {
   SidebarNavComponent,
   SidebarToggleDirective,
   SidebarTogglerDirective,
-  // SidebarNavDropdownComponent,
-  // SidebarNavItemComponent
 } from '@coreui/angular';
 
 import { DefaultHeaderComponent } from './default-header/default-header.component';
@@ -47,25 +46,21 @@ import { CommonModule } from '@angular/common';
     DefaultFooterComponent, 
     CommonModule, 
   ],
-  providers: [MenuService], 
+  providers: [MenuService, HeaderService], 
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class DefaultLayoutComponent implements OnInit { 
-  // Array to hold navigation items
   public navItems: INavData[] = []; 
 
-  constructor(private menuService: MenuService) {} 
+  constructor(private menuService: MenuService, private headerService: HeaderService) {} // Inject HeaderService
 
   ngOnInit(): void {
-     // Call getMenuList on component initialization
     this.getMenuList();
   }
 
   getMenuList() {
     this.menuService.getMenuItems().subscribe((data: any) => { 
-      // Transform the data and assign to navItems
       this.navItems = this.transformMenuData(data); 
-// Add a "Home" item at the beginning of the navItems array
       this.navItems.unshift({ 
         name: 'Home',
         url: '',
@@ -75,9 +70,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   transformMenuData(data: any): INavData[] { 
-    // Transform the raw menu data to INavData format
     const urlMapping: { [key: string]: string } = { 
-      // Mapping of module descriptions to URLs
       'Enquiry': '/leads/table',
       'Country Master': '/leads/country',
       'State Master': '/leads/state',
@@ -91,65 +84,54 @@ export class DefaultLayoutComponent implements OnInit {
     };
 
     const menuMap: { [key: string]: INavData } = {}; 
-    // Map to hold menu items by their code
-    // Array to hold parent menu items
     const parentItems: INavData[] = []; 
 
     data.forEach((item: any) => { 
-      // Iterate over each item in the data
       const menuItem: INavData = { 
-         // Set the name from the module description
         name: item.ModuleDesp,
         iconComponent: { name: 'cil-notes' },
-        children: [], // Initialize an empty array for children
-        expanded: false, // Initially set expanded to false
-        url: urlMapping[item.ModuleDesp], // Set the URL based on the mapping
+        children: [],
+        expanded: false,
+        url: urlMapping[item.ModuleDesp], 
       };
 
-      menuMap[item.Code] = menuItem; // Add the menu item to the map
-       // Check if the item is a parent item
+      menuMap[item.Code] = menuItem; 
       if (item.MasterCode === '0') { 
-        // Add to parent items array
         parentItems.push(menuItem); 
-      } else { // If the item is a child item
-         // Find the parent item
+      } else { 
         const parent = menuMap[item.MasterCode];
-        // If parent exists
         if (parent) { 
-           // Ensure parent has a children array
           if (!parent.children) {
             parent.children = [];
           }
-          // Add the item to parent's children
           parent.children.push(menuItem); 
-          // Set expanded state based on parent
           menuItem.expanded = parent.expanded || false; 
         }
       }
     });
-// Iterate over parent items
+
     return parentItems.map(parent => { 
-      // Remove empty children arrays
       if (parent.children!.length === 0) { 
         delete parent.children;
       }
-      // Return the modified parent item
       return parent; 
     });
   }
-// Toggle the visibility of children menu items
+
   toggleChildrenVisibility(item: INavData) { 
-    // If no children, do nothing
     if (!item.children || item.children.length === 0) { 
       return;
     }
-    // Toggle the expanded state
     item.expanded = !item.expanded; 
-    // Collapse all other items except the clicked one
     this.navItems.forEach(parent => { 
       if (parent !== item) {
         parent.expanded = false;
       }
     });
+  }
+
+  // Update selected item on click
+  onNavItemClicked(item: INavData) {
+    this.headerService.setSelectedItem(item.name);
   }
 }

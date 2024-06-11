@@ -13,7 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
-import { RoutePlanService } from 'src/app/services/Master/route-plan.service';
+import { RoutePlanService } from 'src/app/services/Transaction/route-plan.service';
 import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
 
 @Component({
