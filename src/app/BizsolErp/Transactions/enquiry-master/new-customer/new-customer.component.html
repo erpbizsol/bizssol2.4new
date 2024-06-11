@@ -1,0 +1,836 @@
+<!-- <section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>New Enquiry</h3>
+                <div class="radioLogin">
+                    <input type="radio" name="group" checked>Existing
+                    &nbsp; &nbsp; &nbsp;
+                    <input type="radio" name="group" routerLink="/newcustomer">New
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="row" *ngIf="hidedetailsOfEnquiry">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Enquiry Number</label>
+                        <input type="text" class="form-control reference-header" [value]="leadData.EnquiryNo" disabled>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Enquiry Date</label>
+                        <input type="text" class="form-control reference-header"
+                            [value]="leadData.EnquiryDate | date:'dd-MM-yyyy'" disabled>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Company/Customer Name</label>
+                        <input type="text" class="form-control reference-header" [value]="leadData.AccountDesp"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mt-1">
+                    <!-- <div class="card-header">
+                        <h2>Lead Management Form</h2>
+                    </div> -->
+                    <div class="card-body">
+                        <div>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true">Enquiry</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                        aria-controls="contact-tab-pane" aria-selected="false"
+                                        >Contact
+                                        Person Details</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                        aria-controls="profile-tab-pane" aria-selected="false"
+                                        >Product
+                                        Details</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
+                                    <form [formGroup]="newCustomerForm" (ngSubmit)="newCustomer()"
+                                        autocomplete="unInput">
+                                        <div class="row">
+                                             <!-- <div class="col-md-12">
+                                                <mat-radio-group aria-label="Select an option">
+                                                    <mat-radio-button value="1" (click)="showexisting()">Existing
+                                                        Customer</mat-radio-button>
+                                                    <mat-radio-button value="2" (click)="hideexisting()" checked>New
+                                                        Customer</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div> -->
+                                            <div class="col-md-12">
+                                                <div class="radioLogin">
+                                                    <input type="radio" name="group" (click)="showexisting()"
+                                                        [checked]="selected === 'existing'">
+                                                    <span [ngClass]="{'Active': selected === 'existing'}">Existing
+                                                        Customer</span>
+                                                    &nbsp; &nbsp; &nbsp;
+                                                    <input type="radio" name="group" checked
+                                                        (click)="hideexisting()"><span
+                                                        [ngClass]="{'Active': selected === 'new'}">New
+                                                        Customer</span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="card form-card">
+                                                    <div class="row">
+                                                        <div class="col-md-6" *ngIf="!companyhide">
+                                                            <div class="form-group">
+                                                                <label class="required">Customer/Company Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="customername" maxLength="100"
+                                                                    autocomplete="unInput">
+                                                                <div *ngIf="newCustomerForm.get('customername').invalid && (newCustomerForm.get('customername').dirty || newCustomerForm.get('customername').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('customername').errors['required']">
+                                                                        customer/company name is required</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6" *ngIf="companyhide">
+                                                            <div class="form-group">
+                                                                <label for="extCustomer"
+                                                                    class="required">Customer/Company Name</label>
+                                                                <select class="form-control"
+                                                                    formControlName='customername'
+                                                                    (change)="getCompanyDetails($event)">
+                                                                    <option disabled value="">Select</option>
+                                                                    <option *ngFor="let company of companyList"
+                                                                        [value]="company.Desp">
+                                                                        {{company.Desp}}</option>
+                                                                </select>
+                                                                <!-- <div class=" text-danger validation-msg"
+                                                                    *ngIf="newCustomerForm.get('existingCompany').invalid && (newCustomerForm.get('existingCompany').dirty || newCustomerForm.get('existingCompany').touched)">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('existingCompany').errors['required']">
+                                                                        customer name is required</div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label for="extCustomer" class="required">Customer
+                                                                Type</label>
+                                                            <select id="abc" formControlName="customerType"
+                                                                class="form-control">
+                                                                <option disabled value="">Select</option>
+                                                                <option *ngFor="let data of customerTypeList"
+                                                                    [value]="data.Desp">{{data.Desp}}</option>
+                                                            </select>
+                                                            <div *ngIf="newCustomerForm.get('customerType').invalid && (newCustomerForm.get('customerType').dirty || newCustomerForm.get('customerType').touched)"
+                                                                class="text-danger validation-msg">
+                                                                <div
+                                                                    *ngIf="newCustomerForm.get('customerType').errors['required']">
+                                                                    customer type is required</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label for="extCustomer" class="required">Enquiry
+                                                                Type</label>
+                                                            <select id="abc" formControlName="enquirytype"
+                                                                class="form-control">
+                                                                <option disabled value="">Select</option>
+                                                                <option *ngFor="let data of EnquiryTypeList"
+                                                                    [value]="data.Desp">{{data.Desp}}</option>
+
+                                                            </select>
+                                                            <div *ngIf="newCustomerForm.get('enquirytype').invalid && (newCustomerForm.get('enquirytype').dirty || newCustomerForm.get('enquirytype').touched)"
+                                                                class="text-danger validation-msg">
+                                                                <div
+                                                                    *ngIf="newCustomerForm.get('enquirytype').errors['required']">
+                                                                    enquiry type is required</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="required">PIN/ZIP Code</label>
+                                                                <input type="text" class="form-control"
+                                                                    formControlName="pin" maxLength="6"
+                                                                    (input)="pinAcceptOnlyNumber($event)">
+                                                                <div *ngIf="newCustomerForm.get('pin').invalid && (newCustomerForm.get('pin').dirty || newCustomerForm.get('pin').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('pin').errors['required']">
+                                                                        pincode is required</div>
+                                                                    <small
+                                                                        *ngIf="newCustomerForm.get('pin').errors['minlength']">
+                                                                        pincode at most be 6 digits</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label for="extCustomer" class="required">Country</label>
+                                                            <select id="abc" formControlName="country"
+                                                                placeholder="select country" name="extCustomer"
+                                                                class="form-control" (change)="getState($event)">
+                                                                <option value="">Select</option>
+                                                                <option *ngFor="let country of countryList"
+                                                                    [value]="country.CountryName">{{
+                                                                    country.CountryName }}
+                                                                </option>
+                                                                <!-- <option *ngFor="let pincode of getPincode"
+                                                                    [value]="pincode.country">{{
+                                                                    pincode.country }}
+                                                                </option> -->
+                                                            </select>
+                                                            <div *ngIf="newCustomerForm.get('country').invalid && (newCustomerForm.get('country').dirty || newCustomerForm.get('country').touched)"
+                                                                class="text-danger validation-msg">
+                                                                <div
+                                                                    *ngIf="newCustomerForm.get('country').errors['required']">
+                                                                    country is required</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label for="extCustomer" class="required">State</label>
+                                                            <select id="abc" class="form-control"
+                                                                formControlName="state" placeholder="select state"
+                                                                (change)="getCityList($event)">
+                                                                <option value="">Select</option>
+                                                                <option *ngFor="let state of stateList"
+                                                                    [value]="state.StateName">{{
+                                                                    state.StateName }}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="newCustomerForm.get('state').invalid && (newCustomerForm.get('state').dirty || newCustomerForm.get('state').touched)"
+                                                                class="text-danger validation-msg">
+                                                                <div
+                                                                    *ngIf="newCustomerForm.get('state').errors['required']">
+                                                                    state is required</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label for="extCustomer" class="required">City/Town</label>
+                                                            <select id="abc" formControlName="city"
+                                                                class="form-control">
+                                                                <option value="">Select</option>
+                                                                <option *ngFor="let city of cityList"
+                                                                    [value]="city.CityName">{{
+                                                                    city.CityName }}
+                                                                </option>
+                                                            </select>
+                                                            <div *ngIf="newCustomerForm.get('city').invalid && (newCustomerForm.get('city').dirty || newCustomerForm.get('city').touched)"
+                                                                class="text-danger validation-msg">
+                                                                <div
+                                                                    *ngIf="newCustomerForm.get('city').errors['required']">
+                                                                    city is required</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="email">Email</label>
+                                                                <input type="email" formControlName="email"
+                                                                    class="form-control" maxLength="100"
+                                                                    (keypress)="onKeyPress($event)">
+                                                                <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div *ngIf="email?.errors?.['pattern']">
+                                                                        Invalid email format.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pno" class="required">Contact No.</label>
+                                                                <input type="text" formControlName="pno"
+                                                                    class="form-control" maxLength="14"
+                                                                    (input)="onInputChange($event)" autocomplete="nope">
+                                                                <div *ngIf="newCustomerForm.get('pno').invalid && (newCustomerForm.get('pno').dirty || newCustomerForm.get('pno').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('pno').errors['required']">
+                                                                        contact no. is required
+                                                                    </div>
+                                                                    <small
+                                                                        *ngIf="newCustomerForm.get('pno').errors['minlength']">
+                                                                        contact no. must be at most 10 digits</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Website</label>
+                                                                <input type="text" formControlName="website"
+                                                                    name="Remarks" class="form-control" maxLength="100"
+                                                                    autocomplete="nope">
+                                                                <div *ngIf="website?.invalid && (website?.dirty || website?.touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div *ngIf="website?.errors?.['pattern']">Please
+                                                                        enter a valid website URL.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="required">Address Line 1</label>
+                                                                <input type="text" formControlName="address1"
+                                                                    name="address1" class="form-control" maxLength="100"
+                                                                    autocomplete="nope">
+                                                                <div *ngIf="newCustomerForm.get('address1').invalid && (newCustomerForm.get('address1').dirty || newCustomerForm.get('address1').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('address1').errors['required']">
+                                                                        address is required</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Address Line 2</label>
+                                                                <input type="text" formControlName="address2"
+                                                                    name="address2" class="form-control" maxLength="100"
+                                                                    autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="card form-card">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="required">Enquiry Date</label>
+                                                                <input type="date" formControlName="enquiryDate"
+                                                                    class="form-control" [min]="minDate"
+                                                                    [max]="maxDate">
+                                                                <div *ngIf="newCustomerForm.get('enquiryDate').invalid && (newCustomerForm.get('enquiryDate').dirty || newCustomerForm.get('enquiryDate').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('enquiryDate').errors['required']">
+                                                                        enquiry no is required</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="required">Lead Source</label>
+                                                                <select formControlName="leadsource"
+                                                                    class="form-control">
+                                                                    <option disabled value="">Select</option>
+                                                                    <option *ngFor="let lead of leadSourceList"
+                                                                        [value]="lead.LeadSourceDesp">
+                                                                        {{lead.LeadSourceDesp}}</option>
+                                                                </select>
+                                                                <div *ngIf="newCustomerForm.get('leadsource').invalid && (newCustomerForm.get('leadsource').dirty || newCustomerForm.get('leadsource').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('leadsource').errors['required']">
+                                                                        lead source is required</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="">Reference</label>
+                                                                <input type="text" formControlName="referenceby"
+                                                                    class="form-control" maxLength="50"
+                                                                    autocomplete="nope" (keypress)="onInput($event)">
+                                                                <div *ngIf="newCustomerForm.get('referenceby').invalid && (newCustomerForm.get('referenceby').dirty || newCustomerForm.get('referenceby').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('referenceby').errors['required']">
+                                                                        Reference is required</div>
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('referenceby').errors['alphabetic']">
+                                                                        Reference must contain only alphabets.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="">Reference Date</label>
+                                                                <input type="Date" formControlName="referenceDate"
+                                                                    class="form-control" id="dateInput"
+                                                                    (click)="setMaxDate()">
+                                                                <!-- <div *ngIf="newCustomerForm.get('referenceDate').invalid && (newCustomerForm.get('referenceDate').dirty || newCustomerForm.get('referenceDate').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('referenceDate').errors['required']">
+                                                                        Reference date is required</div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Assign To salesman</label>
+                                                                <select formControlName="salesman" class="form-control">
+                                                                    <option disabled value="">Select</option>
+                                                                    <option *ngFor="let data of salePersonList"
+                                                                        [value]="data.PersonName">
+                                                                        {{ data.PersonName }}
+                                                                    </option>
+                                                                </select>
+                                                                <!-- <div *ngIf="newCustomerForm.get('referenceDate').invalid && (newCustomerForm.get('referenceDate').dirty || newCustomerForm.get('referenceDate').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('referenceDate').errors['required']">
+                                                                        Reference date is required</div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Attachment</label>
+                                                                <input accept="image/*" type="file" id="imgInp"
+                                                                    #fileInput (change)="onFileChange($event)"
+                                                                    class="form-control" mat-raised-button
+                                                                    matTooltip="Choose File"
+                                                                    aria-label="Button that displays a tooltip when focused or hovered over" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="image-preview mt-3" *ngIf="imageSrc">
+                                                                <img [src]="imageSrc" alt="your image"
+                                                                    class="AttachmentImg" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="required">Next Followup Date</label>
+                                                                <input type="date" formControlName="followupdate"
+                                                                    name="reference" class="form-control"
+                                                                    [min]="minDate1">
+                                                                <div *ngIf="newCustomerForm.get('followupdate').invalid && (newCustomerForm.get('followupdate').dirty || newCustomerForm.get('followupdate').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('followupdate').errors['required']">
+                                                                        next followup Date is required</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group select-wrapper">
+                                                                <label class="required">Next Followup Mode</label>
+                                                                <select formControlName="followupmode"
+                                                                    class="form-control">
+                                                                    <option disabled value="">Select</option>
+                                                                    <option *ngFor="let lead of leadSourceList"
+                                                                        [value]="lead.LeadSourceDesp">
+                                                                        {{lead.LeadSourceDesp}}</option>
+                                                                </select>
+                                                                <div *ngIf="newCustomerForm.get('followupmode').invalid && (newCustomerForm.get('followupmode').dirty || newCustomerForm.get('followupmode').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('followupmode').errors['required']">
+                                                                        followup mode is required</div>
+                                                                </div>
+
+                                                                <!-- <ng-container
+                                                                    *ngIf="newCustomerForm.get('followupmode').value === 'others'">
+                                                                    <input type="text" formControlName="customOption"
+                                                                        placeholder="Enter your option">
+                                                                    <div
+                                                                        *ngIf="newCustomerForm.get('customOption').hasError('required') && newCustomerForm.get('customOption').touched">
+                                                                        please field it.
+                                                                    </div>
+                                                                </ng-container> -->
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Remarks</label>
+                                                                <textarea type="text" formControlName="remark"
+                                                                    name="Remarks" rows="4" class="form-control"
+                                                                    maxLength="200"> </textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-md-2">
+                                                <div class="form-group d-flex">
+                                                    <button type="submit" class="btn btn-success" mat-stroked-button
+                                                        aria-label=" ">Save</button>
+                                                    &nbsp;
+                                                    <button class="btn btn-success"
+                                                        (click)="backtotable1()">Cancel</button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel"
+                                    aria-labelledby="contact-tab" tabindex="0">
+                                    <form [formGroup]="contactPerson" (ngSubmit)="savePersonDetails()">
+                                        <div class="row">
+
+                                            <!-- <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>Enquiry Number</label>
+                                                        <input type="text" class="form-control"
+                                                            [value]="leadData.EnquiryNo" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>Enquiry Date</label>
+                                                        <input type="text" class="form-control disabled"
+                                                            [value]="leadData.EnquiryDate | date:'dd-MM-yyyy'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Company/Customer Name</label>
+                                                        <input type="text" class="form-control"
+                                                            [value]="leadData.AccountDesp" readonly>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Name</label>
+                                                    <input type="text" formControlName="name" class="form-control"
+                                                        (input)="getTextOnly($event)" maxLength="100">
+                                                    <div *ngIf="contactPerson.get('name').invalid && (contactPerson.get('name').dirty || contactPerson.get('name').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="contactPerson.get('name').errors['required']">
+                                                            name is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Department</label>
+                                                    <select id="abc" formControlName="department" class="form-control">
+                                                        <option value="">Select</option>
+                                                        <option *ngFor="let deparment of departments"
+                                                            [value]="deparment.DepartmentName">{{
+                                                            deparment.DepartmentName }}
+                                                        </option>
+                                                    </select>
+                                                    <div *ngIf="contactPerson.get('department').invalid && (contactPerson.get('department').dirty || contactPerson.get('department').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="contactPerson.get('department').errors['required']">
+                                                            department is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Designation</label>
+                                                    <select id="abc" formControlName="designation" class="form-control">
+                                                        <option disabled value="">Select</option>
+                                                        <option *ngFor="let data of designation"
+                                                            [value]="data.DesignationName">{{
+                                                            data.DesignationName }}
+                                                        </option>
+                                                    </select>
+                                                    <div *ngIf="contactPerson.get('designation').invalid && (contactPerson.get('designation').dirty || contactPerson.get('designation').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div
+                                                            *ngIf="contactPerson.get('designation').errors['required']">
+                                                            designation is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Email Id</label>
+                                                    <input type="email" formControlName="email" class="form-control"
+                                                        (keypress)="onKeyPress($event)" maxLength="100">
+                                                    <div *ngIf="contactPerson.get('email').invalid && (contactPerson.get('email').dirty || contactPerson.get('email').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="contactPerson.get('email').errors['required']">
+                                                            Email is required</div>
+                                                        <div *ngIf="contactPerson.get('email').errors['pattern']">
+                                                            Invalid email format</div>
+                                                        <!-- <div *ngIf="email?.errors?.['pattern']">
+                                                                Invalid email format.
+                                                            </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Contact No</label>
+                                                    <input type="text" formControlName="contactNo" class="form-control"
+                                                        maxLength="14" (input)="onInputChange1($event)">
+                                                    <div *ngIf="contactPerson.get('contactNo').invalid && (contactPerson.get('contactNo').dirty || contactPerson.get('contactNo').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="contactPerson.get('contactNo').errors['required']">
+                                                            Mobile No. is required
+                                                        </div>
+                                                        <small
+                                                            *ngIf="contactPerson.get('contactNo').errors['minlength']">
+                                                            Mobile No. must be at most 10 digits</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 mt-4 text-center ">
+                                                <button class="btn btn-primary" type="submit"
+                                                    [disabled]="!contactPerson.valid"> Save
+                                                    <!-- <i class="fa fa-floppy-o" aria-hidden="true"></i> -->
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- cobntact table -->
+                                    <div class="tableMobile mt-4">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Department</th>
+                                                    <th>Designation</th>
+                                                    <th>Email Id</th>
+                                                    <th>Contact No</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let data of contactPersonsList">
+                                                    <td>{{data.ContactPersonName}}</td>
+                                                    <td>{{data.DepartmentName}}</td>
+                                                    <td>{{data.ContactPersonDesignation}}</td>
+                                                    <td>{{data.ContactPersonEMail}}</td>
+                                                    <td>{{data.ContactPersonMobile}}</td>
+                                                    <td class="text-center">
+                                                        <button class=" btn btn-primary"
+                                                            (click)="contactPersonUpdate(data.Code)"><i
+                                                                class="fa fa-pencil" aria-hidden="true"
+                                                                title="Edit"></i></button>
+                                                        &nbsp;&nbsp;
+                                                        <button class="btn btn-danger"
+                                                            (click)="deleteCustomerDetails(data.Code)">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"
+                                                                title="Delete"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade active" id="profile-tab-pane" role="tabpanel"
+                                    aria-labelledby="profile-tab" tabindex="0">
+                                    <form [formGroup]="productDetails" (ngSubmit)="saveProductDetails()">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required"> Product Name</label>
+                                                    <input list="productList" class="form-control"
+                                                        formControlName="productName"
+                                                        (change)="onProductChange($event)">
+                                                    <datalist id="productList">
+                                                        <option *ngFor="let data of productList"
+                                                            [value]="data.ItemName">
+                                                    </datalist>
+                                                    <!-- <select id="abc" formControlName="productName" class="form-control"
+                                                        placeholder="Select Product" (change)="onProductChange($event)">
+                                                        <option disabled value="">Select</option>
+                                                        <option *ngFor="let data of productList"
+                                                            [value]="data.ItemName">
+                                                            {{ data.ItemName }}
+                                                        </option>
+                                                    </select> -->
+                                                    <div *ngIf="productDetails.get('productName').invalid && (productDetails.get('productName').dirty || productDetails.get('productName').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div
+                                                            *ngIf="productDetails.get('productName').errors['required']">
+                                                            product name is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Specification</label>
+                                                    <input list="specificationList" class="form-control"
+                                                        formControlName="specification">
+                                                    <datalist id="specificationList">
+                                                        <option *ngFor="let data of Specification"
+                                                            [value]="data.SizeDesp">
+                                                    </datalist>
+                                                    <div *ngIf="productDetails.get('specification').invalid && (productDetails.get('specification').dirty || productDetails.get('specification').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div
+                                                            *ngIf="productDetails.get('specification').errors['required']">
+                                                            specification is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">UOM</label>
+                                                    <select id="abc" formControlName="uom" class="form-control">
+                                                        <option *ngFor="let uom of UOM" [value]="uom.UOM">{{
+                                                            uom.UOM }}
+                                                        </option>
+                                                    </select>
+                                                    <div *ngIf="productDetails.get('uom').invalid && (productDetails.get('uom').dirty || productDetails.get('uom').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="productDetails.get('uom').errors['required']">
+                                                            UOM is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="required">Quantity</label>
+                                                    <input type="text" formControlName="quantity" class="form-control"
+                                                        placeholder="0.000" maxLength="14"
+                                                        (input)="onInputChangeProductQuantity($event)">
+                                                    <div *ngIf="productDetails.get('quantity').invalid && (productDetails.get('quantity').dirty || productDetails.get('quantity').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="productDetails.get('quantity').errors['required']">
+                                                            quantity is required
+                                                        </div>
+                                                        <div
+                                                            *ngIf="productDetails.get('quantity').errors['invalidDecimal']">
+                                                            Invalid quantity format
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <input type="text" formControlName="remark" class="form-control"
+                                                        maxLength="100">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 mt-4">
+                                                <button class="btn btn-primary" type="submit"
+                                                    [disabled]="!productDetails.valid"> Save
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                    <div class="tableMobile mt-4">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Specification</th>
+                                                    <th>UOM</th>
+                                                    <th>Quantity</th>
+                                                    <th>Remarks</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let data of enquiryProductDetails">
+                                                    <td>{{data.ItemName}}</td>
+                                                    <td class="ellipsis" matTooltip="{{data.SizeDetails}}"
+                                                        matTooltipPosition="above">{{data.SizeDetails}}</td>
+                                                    <td>{{data.UOM}}</td>
+                                                    <td>{{data.Quantity}}</td>
+                                                    <td class="ellipsis" matTooltip="{{data.Remarks}}"
+                                                        matTooltipPosition="above">{{data.Remarks}}</td>
+                                                    <td class="text-center">
+                                                        <button class=" btn btn-primary"
+                                                            (click)="productDetailsUpdate(data.Code)"><i
+                                                                class="fa fa-pencil" aria-hidden="true"
+                                                                title="Edit"></i></button>
+                                                        &nbsp;&nbsp;
+                                                        <button class="btn btn-danger"
+                                                            (click)="deleteProductDetails(data.Code)"><i
+                                                                class="fa fa-trash-o" aria-hidden="true"
+                                                                title="Delete"></i></button>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>&nbsp;
+
+                                    <div class="col-md-2 mt-4">
+                                        <button class="btn btn-primary" (click)="backtotable()"> Back To Enquiry List
+                                        </button> &nbsp;
+                                        <!-- <button class="btn btn-success" (click)="backtotable()">Cancel</button> -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- <form [formGroup]="myForm">
+  <div formArrayName="fields">
+    <div *ngFor="let field of fields.controls; let i = index">
+      <input type="text" [formControlName]="i">
+    </div>
+  </div>
+</form>
+<button (click)="addControl()">Add Control</button> -->

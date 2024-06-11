@@ -1,0 +1,94 @@
+
+<h5>Follow-up View</h5>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card form-card">
+            <form>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="followName">Follow-up By Name</label>
+                            <input type="text" id="followName" class="form-control" [value]="selectedRowData?.FollowupByName" disabled>
+                        </div>
+                        
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Last Follow-up Date</label>
+                            <input type="date" class="form-control" [value]="selectedRowData?.LastFollowupDate | date:'yyyy-MM-dd'" disabled>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Follow-up Date</label>
+                            <input type="date" class="form-control" [value]="selectedRowData?.FollowupDate | date:'yyyy-MM-dd'" disabled>
+                        </div>
+                    </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Follow-up Mode</label>
+                                <input type="text" class="form-control" [value]="selectedRowData?.FollowupMode" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Next Follow-up Date</label>
+                                <input type="date" class="form-control" [value]="selectedRowData?.NextFollowupDate | date:'yyyy-MM-dd'" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Next Follow-up Mode</label>
+                                <input type="text" class="form-control" [value]="selectedRowData?.NextFollowupMode" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Contact Person Name</label>
+                                <input type="text" class="form-control" [value]="selectedRowData?.CustomerContactPersonName" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Contact Phone Number</label>
+                                <input type="text" class="form-control" [value]="selectedRowData?.CustomerContactPhoneNumber" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Contact Email ID</label>
+                                <input type="email" class="form-control" [value]="selectedRowData?.CustomerContactEmailID" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Overdue Follow-up Days</label>
+                                <input type="number" class="form-control" [value]="selectedRowData?.OverdueFollowupDays" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Our Remarks</label>
+                                <textarea name="ourDeliberation" class="form-control" rows="3" [value]="selectedRowData?.OurRemarks" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Customer Remarks</label>
+                                <textarea name="customerDeliberation" class="form-control" rows="3" [value]="selectedRowData?.CustomerRemarks" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+               
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12 mt-2 mb-2  content-end">
+        <button class="btn btn-danger" type="cancel" (click)="Cancel()">Back</button>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+.card-header,
+h2 {
+    font-size: 1.2rem;
+    // color: #fff;
+}
+
+// .card-header {
+//     background-color: #452b90;
+// }
+
+.form-card {
+    padding: 2px 7px;
+    box-shadow: 0 4px 8px 0 rgb(235 230 240);
+    transition: 0.3s;
+    background-color: #e3e9ee;
+    background-image: linear-gradient(#e3e9ee, #c0cfd6);
+}
+
+.radioLogin {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #286176;
+    font-weight: 500;
+}
+
+span {
+    font-size: 11pt;
+}
+
+.row {
+    display: flex;
+    // justify-content: space-between;
+}
+
+.abhi {
+    display: flex;
+    justify-content: flex-end;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .300rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
