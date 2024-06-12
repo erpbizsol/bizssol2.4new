@@ -133,7 +133,6 @@ export class DefaultLayoutComponent implements OnInit {
 
   // Update selected item on click
   onNavItemClicked(event: Event) {
-    debugger
     const clickedElement = event.target as HTMLElement;
     const itemName = clickedElement.innerText.trim();
     this.headerService.setSelectedItem(itemName);

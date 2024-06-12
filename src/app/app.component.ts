@@ -34,15 +34,21 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() =>{
-    this.userid = this.route.snapshot.queryParamMap.get('Auth-Key')
-    this.authService.setAuthKey(this.userid);
+    this.route.queryParamMap.subscribe(params => {
+      this.userid = params.get('Auth-Key');
+      if (this.userid) {
+        this.authService.setAuthKey(this.userid);
+      } else {
+        console.error('Auth-Key not found in URL');
+      }
+    });
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
+      // Additional logic if needed when navigation ends
     });
-    },100)
   }
 
 
