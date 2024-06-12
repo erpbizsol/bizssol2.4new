@@ -3,7 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { IconDirective } from '@coreui/icons-angular';
 import { INavData } from '@coreui/angular';
-import { HeaderService } from '../services/Shared/header.service'; // Import HeaderService
+import { HeaderService } from '../services/Shared/header.service';
 import {
   ContainerComponent,
   ShadowOnScrollDirective,
@@ -52,10 +52,10 @@ import { CommonModule } from '@angular/common';
 export class DefaultLayoutComponent implements OnInit { 
   public navItems: INavData[] = []; 
 
-  constructor(private menuService: MenuService, private headerService: HeaderService) {} // Inject HeaderService
+  constructor(private menuService: MenuService ,private headerService: HeaderService) { this.getMenuList();} 
 
   ngOnInit(): void {
-    this.getMenuList();
+    
   }
 
   getMenuList() {
@@ -76,11 +76,12 @@ export class DefaultLayoutComponent implements OnInit {
       'State Master': '/leads/state',
       'City Master': '/leads/city',
       'UOM Master': '/leads/uom',
-      'Payment Terms Master': 'leads/PaymentTermsMaster',
-      'Item Type Configuration': 'leads/Item-Type-Configurations',
-      'Stock Location Master': 'leads/tank-daily-stock',
-      'Enquiry DataSheet': '/leads/Route-Plan',
-      'Quotation': '/leads/Verify-Route-Plan'
+      'Payment Terms Master': '/leads/PaymentTermsMaster',
+      'Tank Configuration': '/leads/tank-Configuration',
+      'Stock Location Master': '/leads/tank-daily-stock',
+      'Route Plan': '/leads/Route-Plan',
+      'Verify Route Plan': '/leads/Verify-Route-Plan',
+      'Department': '/leads/department'
     };
 
     const menuMap: { [key: string]: INavData } = {}; 
@@ -131,7 +132,10 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   // Update selected item on click
-  onNavItemClicked(item: INavData) {
-    this.headerService.setSelectedItem(item.name);
+  onNavItemClicked(event: Event) {
+    debugger
+    const clickedElement = event.target as HTMLElement;
+    const itemName = clickedElement.innerText.trim();
+    this.headerService.setSelectedItem(itemName);
   }
 }

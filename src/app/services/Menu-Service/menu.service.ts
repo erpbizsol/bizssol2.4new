@@ -15,7 +15,6 @@ export class MenuService {
   ) {}
 
   private headers(): HttpHeaders {
-    debugger
     const authKey = this.authService.getAuthKey();
     const userMasterCode = this.authService.getUserMasterCode();
     const headersConfig: { [key: string]: string } = {
@@ -29,7 +28,6 @@ export class MenuService {
   }
 
   getMenuItems(): Observable<any> {
-    debugger
     const userMasterCode = this.authService.getUserMasterCode();
     const url = `${this._urlService.ERP_SIDE_MENU}/GetUserModuleMasterByUserID?UserID=${userMasterCode}`;
     return this._http.get(url, { headers: this.headers() });
