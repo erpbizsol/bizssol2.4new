@@ -5,11 +5,11 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class HeaderService {
-
-  private selectedItemSource = new BehaviorSubject<string>('Home');
+  private selectedItemSource = new BehaviorSubject<string>(localStorage.getItem('selectedItem') || '');
   selectedItem$ = this.selectedItemSource.asObservable();
+
   setSelectedItem(item: string) {
-    debugger
+    localStorage.setItem('selectedItem', item);
     this.selectedItemSource.next(item);
   }
 }

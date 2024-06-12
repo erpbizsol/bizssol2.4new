@@ -14,14 +14,16 @@ export class RoutePlanService {
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    const key = JSON.parse(authKey);
-    const obj = { ...key};
-    return new HttpHeaders({
+    const userMasterCode = this.authService.getUserMasterCode();
+    const headersConfig: { [key: string]: string } = {
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
-    });
+      'Auth-Key': authKey || ''
+    };
+    if (userMasterCode) {
+      headersConfig['UserMaster-Code'] = userMasterCode;
+    }
+    return new HttpHeaders(headersConfig);
   }
-
 
   getRoutePlanMasterList(): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();    
@@ -37,18 +39,18 @@ export class RoutePlanService {
   }
   verifyRoutePlan(code: any): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();  
-    let url = `${this._urlService.API_ENDPOINT_ROUTE_PLAN}/VerifyRoutePlan?Code=${code}&UserMaster_Code=${this.userCode}`;
+    let url = `${this._urlService.API_ENDPOINT_ROUTE_PLAN}/VerifyRoutePlan?Code=${code}&UserMaster_Code=${userMasterCode}`;
     return this._http.post(url, {}, { headers: this.headers() });
   }
   rejectAllRoutePlan(codes: any[], reason: any) {
     const userMasterCode = this.authService.getUserMasterCode();  
     const codesString = codes.join(',');
-    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/RejectAllRoutePlan" + `?MultiRoutePlanCodes=${codesString}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/RejectAllRoutePlan" + `?MultiRoutePlanCodes=${codesString}&UserMaster_Code=${userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, { reason }, { headers: this.headers() });
   }
   rejectRoutePlan(code: number, reason: any) {
     const userMasterCode = this.authService.getUserMasterCode();  
-    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/RejectRoutePlan" + `?Code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/RejectRoutePlan" + `?Code=${code}&UserMaster_Code=${userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, { reason }, { headers: this.headers() });
   }
 
