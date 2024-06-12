@@ -109,13 +109,13 @@ export const routes: Routes = [
                 title: 'Edit FollowUp'
             }
         },
-        {
-            path: ':Code/edit',
-            loadComponent: () => import('../Transactions/enquiry-master/edit-lead/edit-lead.component').then(m => m.EditLeadComponent),
-            data: {
-                title: 'New Enquiry'
-            }
-        },
+        // {
+        //     path: ':Code/edit',
+        //     loadComponent: () => import('../Transactions/enquiry-master/edit-lead/edit-lead.component').then(m => m.EditLeadComponent),
+        //     data: {
+        //         title: 'New Enquiry'
+        //     }
+        // },
         {
             path: 'table',
             loadComponent: () => import('../Transactions/enquiry-master/table/table.component').then(m => m.TableComponent),

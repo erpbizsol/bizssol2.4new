@@ -55,14 +55,14 @@
                                     <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                                         data-bs-target="#contact-tab-pane" type="button" role="tab"
                                         aria-controls="contact-tab-pane" aria-selected="false"
-                                        >Contact
+                                        [disabled]="!enquiryFormSubmitted">Contact
                                         Person Details</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                         data-bs-target="#profile-tab-pane" type="button" role="tab"
                                         aria-controls="profile-tab-pane" aria-selected="false"
-                                        >Product
+                                        [disabled]="!enquiryFormSubmitted">Product
                                         Details</button>
                                 </li>
                             </ul>
@@ -72,7 +72,7 @@
                                     <form [formGroup]="newCustomerForm" (ngSubmit)="newCustomer()"
                                         autocomplete="unInput">
                                         <div class="row">
-                                             <!-- <div class="col-md-12">
+                                            <!-- <div class="col-md-12">
                                                 <mat-radio-group aria-label="Select an option">
                                                     <mat-radio-button value="1" (click)="showexisting()">Existing
                                                         Customer</mat-radio-button>
@@ -83,12 +83,12 @@
                                             <div class="col-md-12">
                                                 <div class="radioLogin">
                                                     <input type="radio" name="group" (click)="showexisting()"
-                                                        [checked]="selected === 'existing'">
+                                                        [checked]="selected === 'existing'" [disabled]="editDisable">
                                                     <span [ngClass]="{'Active': selected === 'existing'}">Existing
                                                         Customer</span>
                                                     &nbsp; &nbsp; &nbsp;
-                                                    <input type="radio" name="group" checked
-                                                        (click)="hideexisting()"><span
+                                                    <input type="radio" name="group" checked (click)="hideexisting()"
+                                                        [disabled]="editDisable"><span
                                                         [ngClass]="{'Active': selected === 'new'}">New
                                                         Customer</span>
                                                 </div>
@@ -104,6 +104,7 @@
                                                             <div class="form-group">
                                                                 <label class="required">Customer/Company Name</label>
                                                                 <input type="text" class="form-control"
+                                                                    (input)="onInputChange2($event)"
                                                                     formControlName="customername" maxLength="100"
                                                                     autocomplete="unInput">
                                                                 <div *ngIf="newCustomerForm.get('customername').invalid && (newCustomerForm.get('customername').dirty || newCustomerForm.get('customername').touched)"
@@ -122,17 +123,17 @@
                                                                 <select class="form-control"
                                                                     formControlName='customername'
                                                                     (change)="getCompanyDetails($event)">
-                                                                    <option disabled value="">Select</option>
+                                                                    <option value="">Select</option>
                                                                     <option *ngFor="let company of companyList"
                                                                         [value]="company.Desp">
                                                                         {{company.Desp}}</option>
                                                                 </select>
-                                                                <!-- <div class=" text-danger validation-msg"
-                                                                    *ngIf="newCustomerForm.get('existingCompany').invalid && (newCustomerForm.get('existingCompany').dirty || newCustomerForm.get('existingCompany').touched)">
+                                                                <div *ngIf="newCustomerForm.get('customername').invalid && (newCustomerForm.get('customername').dirty || newCustomerForm.get('customername').touched)"
+                                                                    class="text-danger validation-msg">
                                                                     <div
-                                                                        *ngIf="newCustomerForm.get('existingCompany').errors['required']">
-                                                                        customer name is required</div>
-                                                                </div> -->
+                                                                        *ngIf="newCustomerForm.get('customername').errors['required']">
+                                                                        customer/company name is required</div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -251,7 +252,7 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="email">Email</label>
+                                                                <label for="email">Email </label>
                                                                 <input type="email" formControlName="email"
                                                                     class="form-control" maxLength="100"
                                                                     (keypress)="onKeyPress($event)">
@@ -417,22 +418,30 @@
                                                             <div class="form-group">
                                                                 <label>Attachment</label>
                                                                 <input accept="image/*" type="file" id="imgInp"
-                                                                    #fileInput (change)="onFileChange($event)"
+                                                                    #fileInput (change)="onFileUploadChange1($event)"
                                                                     class="form-control" mat-raised-button
                                                                     matTooltip="Choose File"
-                                                                    aria-label="Button that displays a tooltip when focused or hovered over" />
+                                                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                                                <div *ngIf="newCustomerForm.get('attachment').hasError('fileSize') && (newCustomerForm.get('attachment').dirty || newCustomerForm.get('attachment').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    File size should be greater than 100 KB
+                                                                </div>
+                                                                <!-- <div *ngIf="newCustomerForm.get('attachment').invalid && (newCustomerForm.get('attachment').dirty || newCustomerForm.get('attachment').touched)"
+                                                                    class="text-danger validation-msg">
+                                                                    File size should be greater than 2 MB
+                                                                </div> -->
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="image-preview mt-3" *ngIf="imageSrc">
-                                                                <img [src]="imageSrc" alt="your image"
+                                                                <img [src]="imageSrc" alt="Uploaded Image"
                                                                     class="AttachmentImg" />
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="required">Next Followup Date</label>
+                                                                <label class="required">Next Follow-Up Date</label>
                                                                 <input type="date" formControlName="followupdate"
                                                                     name="reference" class="form-control"
                                                                     [min]="minDate1">
@@ -440,7 +449,7 @@
                                                                     class="text-danger validation-msg">
                                                                     <div
                                                                         *ngIf="newCustomerForm.get('followupdate').errors['required']">
-                                                                        next followup Date is required</div>
+                                                                        next follow-Up Date is required</div>
                                                                 </div>
                                                             </div>
                                                         </div>

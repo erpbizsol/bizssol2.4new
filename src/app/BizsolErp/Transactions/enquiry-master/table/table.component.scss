@@ -76,16 +76,15 @@ mat-label {
     font-size: 9pt;
 }
 
-::ng-deep .mat-mdc-text-field-wrapper {
-    width: 100% !important;
-    background-color: var(--bs-body-bg) !important;
-    background-clip: padding-box;
-    border:none;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    height: 2rem !important;
-    margin-bottom: 5px;
-    appearance: auto !important;
-}
+// .mdc-data-table__table {
+//     min-width: 110%;
+// }
+
+// .mat-mdc-header-cell {
+//     max-width: 122px;
+// }
+
+
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
     .text-end {

@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnChanges, SimpleChanges, ElementRef, inject, Renderer2 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel, MatSnackBarRef } from '@angular/material/snack-bar';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import { FormsModule, FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angular/material/snack-bar';
 import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
 import { ContactPersonService } from 'src/app/services/Master/contact-person.service';
 import { ProductDetailsService } from 'src/app/services/Master/product-details.service';
+// import { StateComponent } from "src/app/pages/components/filters/state/state.component";
 import { StateService } from 'src/app/services/Master/state.service';
 import { CityService } from 'src/app/services/Master/city.service';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
@@ -12,11 +13,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { AsyncPipe, CommonModule, DatePipe, Location } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { UrlService } from 'src/app/services/URL/url.service';
 import { Observable } from 'rxjs';
 import { RouterLinkActive, RouterModule, ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,18 +23,19 @@ import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-conferma
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
-import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-new-customer',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, FormsModule, AsyncPipe, MatTooltipModule, MatRadioModule,
+  imports: [ReactiveFormsModule, RouterModule, FormsModule, AsyncPipe, MatTooltipModule,
     HttpClientModule, MatSnackBarModule, MatFormFieldModule, MatListModule, MatSelectModule, CommonModule, MatInputModule, MatAutocompleteModule, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
   templateUrl: './new-customer.component.html',
   styleUrl: './new-customer.component.scss',
   providers: [EnquiryService, StateService, CityService, ContactPersonService, ProductDetailsService, SnackBarService, DatePipe]
 })
 export class NewCustomerComponent implements OnInit {
+  imageSrc: string | ArrayBuffer | null = null;
+
   hidedetailsOfEnquiry: boolean = false;
   // Default decimal points
   uomDecimalPoints: number = 2;
@@ -45,10 +45,10 @@ export class NewCustomerComponent implements OnInit {
   enquiryFormSubmitted: boolean = false;
   companyhide: boolean = false;
   selected: string = 'new';
-
+  editDisable: boolean = false;
 
   newCode: number;
-  code: number;
+  editCode: any;
   contactPersonCode: any;
   productDetailsCode: any;
   leadData: any = [];
@@ -56,6 +56,7 @@ export class NewCustomerComponent implements OnInit {
   enquiryProductDetails: any = [];
   followupDetail: any = [];
 
+  // @ViewChild(StateComponent) stateComponent: StateComponent;
   newCustomerForm: FormGroup;
   contactPerson: FormGroup;
   productDetails: FormGroup;
@@ -88,20 +89,19 @@ export class NewCustomerComponent implements OnInit {
   base64String: string;
   documentType: string;
 
-  // constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private datePipe: DatePipe,
-  //   private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private snackBarService: SnackBarService,
-
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
-    private _contactPersonService: ContactPersonService, private productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
+    private _contactPersonService: ContactPersonService, private _productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
   ) {
     this.dropdown();
     this.newEnquiryForm();
     this.personForm();
     this.productForm();
+    this._enquiryService = _enquiryService;
   }
 
   ngOnInit(): void {
+    console.log("object", this.imageSrc);
     this.UOMList()
     this.getProduct()
     this.getLeadSource()
@@ -112,6 +112,16 @@ export class NewCustomerComponent implements OnInit {
     this.setMinDate1()
     this.productForm();
     // this.leadCode = this.route.snapshot.paramMap.get('Code');
+    this.route.params.subscribe(params => {
+      this.editCode = params['Code'];
+      this.getEnquirByCode()
+    });
+
+    if (this.editCode !== "undefined") {
+      this.hidedetailsOfEnquiry = true;
+      this.editDisable = true;
+      this.enquiryFormSubmitted = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -140,16 +150,49 @@ export class NewCustomerComponent implements OnInit {
     this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, this.customerType).subscribe((res: any) => {
       this.companyList = res;
     })
-    this._changeDetect.detectChanges;
+    // this._changeDetect.detectChanges;
+    this.setSelected('existing');
+    this.newCustomerForm.get('customername')?.reset();
+    this.newCustomerForm.get('customerType')?.reset();
+    this.newCustomerForm.get('pin')?.reset();
+    this.newCustomerForm.get('country')?.reset();
     this.newCustomerForm.get('state')?.reset();
-    this.setSelected('existing')
+    this.newCustomerForm.get('city')?.reset();
+    this.newCustomerForm.get('email')?.reset();
+    this.newCustomerForm.get('pno')?.reset();
+    this.newCustomerForm.get('website')?.reset();
+    this.newCustomerForm.get('address1')?.reset();
+    this.newCustomerForm.get('address2')?.reset();
 
+    this.editCode = undefined;
+    console.log("newCode", this.newCode, this.editCode);
+    if (this.newCode == undefined && this.editCode == undefined) {
+      console.log("newCode", this.newCode, this.editCode);
+    } else (console.log("showexisting not work"))
   }
   hideexisting() {
     this.companyhide = false;
-    this._changeDetect.detectChanges();
-    this.newCustomerForm.get('customername')?.reset();
+    // this._changeDetect.detectChanges();
     this.setSelected('new');
+    this.newCustomerForm.get('customername')?.reset();
+    this.newCustomerForm.get('customerType')?.reset();
+    this.newCustomerForm.get('pin')?.reset();
+    this.newCustomerForm.get('country')?.reset();
+    this.newCustomerForm.get('state')?.reset();
+    this.newCustomerForm.get('city')?.reset();
+    this.newCustomerForm.get('email')?.reset();
+    this.newCustomerForm.get('pno')?.reset();
+    this.newCustomerForm.get('website')?.reset();
+    this.newCustomerForm.get('address1')?.reset();
+    this.newCustomerForm.get('address2')?.reset();
+
+    // this.editCode = undefined;
+    if (this.newCode == undefined || this.editCode == undefined) {
+      console.log("newCode", this.newCode, this.editCode);
+    } else (console.log("hideexisting not work"))
+  }
+  setDisableConditions() {
+    this.editDisable = true; // or some condition
   }
 
   switchToContactTab() {
@@ -200,30 +243,15 @@ export class NewCustomerComponent implements OnInit {
     }
     this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, EnquiryType).subscribe((res: any) => {
       this.EnquiryTypeList = res;
-
-      this.route.params.subscribe(params => {
-        this.code = params['Code'];
-        console.log("this.code", this.code);
-        this.GetEnquiryDetailsByCode()
-      });
     })
   }
 
-  getEnquirByCode() {
-    this.newCode && this._enquiryService.GetEnquiryDetailsByCode(this.newCode).subscribe((res: any) => {
+  getEnquirByCode(): void {
+    const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
+    this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
       this.leadData = res.EnquiryMaster[0];
       this.contactPersonsList = res.ContactPersonsList;
       this.enquiryProductDetails = res.EnquiryDetails;
-      // this.followupDetail = res.EnquiryFollowupDetail[0];
-      console.log("EnquiryProductDetails--->", this.enquiryProductDetails);
-    })
-  }
-  GetEnquiryDetailsByCode(): void {
-    this._enquiryService.GetEnquiryDetailsByCode(this.code).subscribe((res: any) => {
-      this.leadData = res.EnquiryMaster[0];
-      this.contactPersonsList = res.ContactPersonsList;
-      this.enquiryProductDetails = res.EnquiryDetails;
-      console.log("GetEnquiryDetailsByCode", this.leadData);
       this.populateForm();
     })
   }
@@ -233,17 +261,38 @@ export class NewCustomerComponent implements OnInit {
     const inputValue: string = event.target.value;
     const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     this.newCustomerForm.get('pin').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
-    console.log("object", newValue);
     this.pinCode(newValue)
   }
+  // onInputChange(event: any) {
+  //   const inputValue: string = event.target.value;
+  //   const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+  //   this.newCustomerForm.get('pno').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
+  // }
+
   onInputChange(event: any) {
-    const inputValue: string = event.target.value;
-    const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-    this.newCustomerForm.get('pno').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
+    let inputValue: string = event.target.value;
+
+    // Remove non-numeric characters
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+    // If the first character is 0, remove it
+    if (inputValue.startsWith('0')) {
+      inputValue = inputValue.slice(1);
+    }
+
+    // Limit input to 10 characters
+    const newValue = inputValue.slice(0, 10);
+
+    // Set the modified value back to the form control
+    this.newCustomerForm.get('pno').setValue(newValue);
   }
+
   onInputChange1(event: any) {
     const inputValue: string = event.target.value;
-    const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    let newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    if (newValue.startsWith('0')) {
+      newValue = inputValue.slice(1);
+    }
     this.contactPerson.get('contactNo').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
   }
   getCurrentDate(): string {
@@ -280,13 +329,23 @@ export class NewCustomerComponent implements OnInit {
       event.preventDefault();
     }
   }
+
+
+
+
+  //   onKeyPress(event: KeyboardEvent) {
+  //     const allowedChars = /^[a-zA-Z0-9@.]*$/;
+  //     let inputChar = String.fromCharCode(event.charCode);
+
+  //     inputChar = inputChar.toUpperCase()
+  //     console.log(inputChar,"kkk")
+
+
+  //     if (!allowedChars.test(inputChar)) {
+  //         event.preventDefault();
+  //     }
+  // }
   onInput(event: KeyboardEvent) {
-    // const input = event.target as HTMLInputElement;
-    // const pattern = /^[A-Za-z]*$/;
-    // if (!pattern.test(input.value)) {
-    //   input.value = input.value.replace(/[^A-Za-z]/g, '');
-    //   event.preventDefault();
-    // }
 
     const allowedChars = /^[A-Za-z\s]*$/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -317,7 +376,7 @@ export class NewCustomerComponent implements OnInit {
       referenceDate: [''],
       followupdate: ['', Validators.required],
       followupmode: ['', Validators.required],
-      attachment: [''],
+      attachment: ['', [fileSizeValidator(2)]],
       customOption: [''],
       remark: ['']
     })
@@ -412,7 +471,6 @@ export class NewCustomerComponent implements OnInit {
 
   getCompanyList(event) {
     const selectedCustomerType = (event.target as HTMLSelectElement).value;
-    console.log("object", selectedCustomerType);
     const customerType = {
       tableName: "AccountMaster",
       fieldName: "AccountDesp",
@@ -424,9 +482,18 @@ export class NewCustomerComponent implements OnInit {
       this.companyList = res;
     })
   }
+
+  onInputChange2(event: any) {
+    const inputValue: string = event.target.value;
+    const formattedValue = this.capitalizeWords(inputValue);
+    this.newCustomerForm.get('customername').setValue(formattedValue);
+  }
+
+  capitalizeWords(str: string): string {
+    return str.replace(/(?:^|\s|\.)\S/g, (char) => char.toUpperCase());
+  }
   getCompanyDetails(event) {
     const selectedCompany = (event.target as HTMLSelectElement).value;
-    console.log("object", selectedCompany);
     this._enquiryService.GetAccountDetails(selectedCompany).subscribe((res: any) => {
       this.companyDetails = res.AccountMaster[0];
       this.state(this.companyDetails.Nation);
@@ -435,7 +502,6 @@ export class NewCustomerComponent implements OnInit {
     })
   }
   companyDetailsPopulates() {
-    console.log('companyDetails:', this.companyDetails);
     const data = {
       customerType: this.companyDetails.AccountCategory,
       pin: this.companyDetails.PinCode,
@@ -448,14 +514,11 @@ export class NewCustomerComponent implements OnInit {
       address1: this.companyDetails.Address1,
       address2: this.companyDetails.Address2
     }
-    console.log('Form values to be patched:', data); // Log form values to be patched
     this.newCustomerForm.patchValue(data);
-    console.log("Successfully populated form fields:", data);
   }
   pinCode(val) {
     // const val = (event.target as HTMLSelectElement).value;
     this.newCustomerForm.get('pin').setValue(val); // Set the value in the form control
-    console.log("pincode method", val);
     this._enquiryService.pincode(val).subscribe(res => {
       this.getPincode = res;
       this.state(this.getPincode.CountryName);
@@ -465,21 +528,17 @@ export class NewCustomerComponent implements OnInit {
     })
   }
   pinPoppulate() {
-    console.log('getPincode:', this.getPincode); // Log getPincode object to console
     const formValues = {
       country: this.getPincode.CountryName,
       state: this.getPincode.StateName,
       city: this.getPincode.CityName,
     };
-    console.log('Form values to be patched:', formValues); // Log form values to be patched
     // Patch only the specified form fields
     this.newCustomerForm.patchValue(formValues);
-    console.log("Successfully populated form fields:", formValues);
   }
 
   getState(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    console.log("selectedValue", selectedValue);
     this.newCustomerForm.get('country').setValue(selectedValue); // Set the value in the form control
 
     this._state.getStates(selectedValue).subscribe((res: any) => {
@@ -532,7 +591,7 @@ export class NewCustomerComponent implements OnInit {
   }
 
   getProduct(): void {
-    this.productDetailsService.getProduct().subscribe((res: any[]) => {
+    this._productDetailsService.getProduct().subscribe((res: any[]) => {
       this.productList = res;
       // this.productList = this.productDetails.valueChanges
       //   .pipe(
@@ -552,30 +611,23 @@ export class NewCustomerComponent implements OnInit {
   }
   productSpecification(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    console.log("object", selectedValue);
-    this.productDetailsService.getSpecification(selectedValue).subscribe(res => {
+    this._productDetailsService.getSpecification(selectedValue).subscribe(res => {
       this.Specification = res;
     })
   }
   UOMList() {
-    this.productDetailsService.getUOM().subscribe(res => {
+    this._productDetailsService.getUOM().subscribe(res => {
       this.UOM = res;
     })
   }
 
-  CheckDuplicateEmail(obj: any) {
-    this._enquiryService.CheckDuplicateEnquiryContactDetail(obj).subscribe(res => {
-      console.log("object-Abhishek Raut", res);
-    })
-  }
-
   newCustomer() {
-    // this.base64String = '';
+    this.editCode == "undefined" ? this.editCode = undefined : this.editCode;
     if (this.newCustomerForm.valid) {
       const Obj = {
         "enquiryMaster": [
           {
-            code: this.newCode,
+            code: this.newCode == undefined ? this.editCode : this.newCode,
             customerType: this.newCustomerForm.value.customerType,
             accountDesp: this.newCustomerForm.value.customername,
             enquirytypeName: this.newCustomerForm.value.enquirytype,
@@ -595,7 +647,7 @@ export class NewCustomerComponent implements OnInit {
             personName: this.newCustomerForm.value.salesman,
             isAttachmentExists: this.base64String ? "Y" : "N",
             documentName: this.documentType,
-            documentContent:this.base64String,
+            documentContent: this.base64String,
             NextFollowupdate: this.newCustomerForm.value.followupdate,
             NextFollowupmode: this.newCustomerForm.value.followupmode,
             remark: this.newCustomerForm.value.remark,
@@ -606,8 +658,6 @@ export class NewCustomerComponent implements OnInit {
       }
       this._enquiryService.postEnquiry(Obj).subscribe(res => {
         this.newCode = res.Code;
-        console.log("this.newCode", this.newCode);
-        console.log("this.URLCode", this.code);
         this.enquiryFormSubmitted = true;
         this.switchToContactTab();
         this.hidedetailsOfEnquiry = true;
@@ -621,11 +671,17 @@ export class NewCustomerComponent implements OnInit {
       this.newCustomerForm.markAllAsTouched();
     }
   }
-  populateForm(): void {
+  populateForm() {
+    this.documentType = this.leadData.DocumentName;
+    this.base64String = this.leadData.DocumentContent;
+    const image = "data:" + this.documentType + ";" + "base64," + this.base64String;
+    if (image == "data:;base64,") {
+      this.imageSrc = null;
+    } else this.imageSrc = image;
+    console.log("this.imageSrc", this.imageSrc);
     const enquiryDate = this.datePipe.transform(this.leadData.EnquiryDate, 'yyyy-MM-dd');
     const referenceDate = this.datePipe.transform(this.leadData.ReferenceDate, 'yyyy-MM-dd');
     const followupdate = this.datePipe.transform(this.leadData.NextFollowupdate, 'yyyy-MM-dd');
-    console.log(followupdate);
 
     // Patch the fetched data into the form
     this.newCustomerForm.patchValue({
@@ -647,19 +703,18 @@ export class NewCustomerComponent implements OnInit {
       salesman: this.leadData.PersonName,
       referenceby: this.leadData.ReferenceBy,
       referenceDate: referenceDate,
+      attachment: this.leadData.IsAttachmentExists,
       followupdate: followupdate,
       followupmode: this.leadData.NextFollowupmode,
-      // attachment: this.leadData.IsAttachmentExists,
       remark: this.leadData.Remark,
     });
-    console.log("object", this.newCustomerForm.value);
-    console.log("object", this.newCustomerForm.value.country);
-    this._http.get(this._urlService.API_ENDPOINT_STATE + `/GetStateList?CountryName=${this.newCustomerForm.value.country}`).subscribe((res: any) => {
-      this.stateList = res;
-    }),
-      this._http.get(this._urlService.API_ENDPOINT_CITY + `/GetCityList?StateName=${this.newCustomerForm.value.state}`).subscribe((res: any) => {
-        this.cityList = res;
-      })
+
+    // this._http.get(this._urlService.API_ENDPOINT_STATE + `/GetStateList?CountryName=${this.newCustomerForm.value.country}`).subscribe((res: any) => {
+    //   this.stateList = res;
+    // }),  
+    this._http.get(this._urlService.API_ENDPOINT_CITY + `/GetCityList?StateName=${this.newCustomerForm.value.state}`).subscribe((res: any) => {
+      this.cityList = res;
+    })
   }
 
   // Contact person save, update and delete method
@@ -667,7 +722,7 @@ export class NewCustomerComponent implements OnInit {
     const Obj = {
       "enquiryMaster": [
         {
-          Code: this.newCode,
+          code: this.newCode == undefined ? this.editCode : this.newCode,
           customerType: this.newCustomerForm.value.customerType,
           accountDesp: this.newCustomerForm.value.customername,
           enquirytypeName: this.newCustomerForm.value.enquirytype,
@@ -687,7 +742,7 @@ export class NewCustomerComponent implements OnInit {
           personName: this.newCustomerForm.value.salesman,
           isAttachmentExists: this.base64String ? "Y" : "N",
           documentName: this.documentType,
-          documentContent:this.base64String,
+          documentContent: this.base64String,
           NextFollowupdate: this.newCustomerForm.value.followupdate,
           NextFollowupmode: this.newCustomerForm.value.followupmode,
           remark: this.newCustomerForm.value.remark,
@@ -697,7 +752,7 @@ export class NewCustomerComponent implements OnInit {
       ],
       "contactPersonsList": [
         {
-          EnquiryMaster_Code: this.newCode,
+          EnquiryMaster_Code: this.newCode == undefined ? this.editCode : this.newCode,
           Code: this.contactPersonCode,
           contactPersonName: this.contactPerson.value.name,
           contactPersonMobile: this.contactPerson.value.contactNo,
@@ -722,13 +777,12 @@ export class NewCustomerComponent implements OnInit {
         alert(res.Msg)
       }
     })
-
   }
   contactPersonUpdate(code: number) {
     this.contactPersonCode = code;
-    console.log("person Code", code)
+    const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
 
-    this._enquiryService.GetEnquiryDetailsByCode(this.newCode).subscribe(res => {
+    this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe(res => {
       this.contactPersonsList = res.ContactPersonsList;
       this.enquiryProductDetails = res.EnquiryDetails;
 
@@ -767,6 +821,7 @@ export class NewCustomerComponent implements OnInit {
         const reason = result.reason;
         this._enquiryService.deleteContactPersionDetails(Code, reason).subscribe(() => {
           this.snackBarService.showSuccessMessage('Customer person details deleted successfully!');
+          this.contactPerson.reset();
           this.getEnquirByCode();
         },
           err => {
@@ -782,7 +837,7 @@ export class NewCustomerComponent implements OnInit {
     const Obj = {
       "enquiryMaster": [
         {
-          Code: this.newCode,
+          code: this.newCode == undefined ? this.editCode : this.newCode,
           customerType: this.newCustomerForm.value.customerType,
           accountDesp: this.newCustomerForm.value.customername,
           enquirytypeName: this.newCustomerForm.value.enquirytype,
@@ -802,7 +857,7 @@ export class NewCustomerComponent implements OnInit {
           personName: this.newCustomerForm.value.salesman,
           isAttachmentExists: this.base64String ? "Y" : "N",
           documentName: this.documentType,
-          documentContent:this.base64String,
+          documentContent: this.base64String,
           NextFollowupdate: this.newCustomerForm.value.followupdate,
           NextFollowupmode: this.newCustomerForm.value.followupmode,
           remark: this.newCustomerForm.value.remark,
@@ -812,7 +867,7 @@ export class NewCustomerComponent implements OnInit {
       ],
       "enquiryDetails": [
         {
-          EnquiryMaster_Code: this.newCode,
+          EnquiryMaster_Code: this.newCode == undefined ? this.editCode : this.newCode,
           Code: this.productDetailsCode,
           itemName: this.productDetails.value.productName,
           sizeDetails: this.productDetails.value.specification,
@@ -824,7 +879,7 @@ export class NewCustomerComponent implements OnInit {
         }
       ]
     }
-    this.productDetailsService.postProductDetails(Obj).subscribe(res => {
+    this._productDetailsService.postProductDetails(Obj).subscribe(res => {
       this.resetForm();
       this.productDetailsCode = undefined;
       this.getEnquirByCode();
@@ -837,10 +892,9 @@ export class NewCustomerComponent implements OnInit {
   }
   productDetailsUpdate(code: number) {
     this.productDetailsCode = code;
-    console.log("product Code", code)
-    this._enquiryService.GetEnquiryDetailsByCode(this.newCode).subscribe(res => {
+    const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
+    this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe(res => {
       this.enquiryProductDetails = res.EnquiryDetails;
-      console.log("product List", this.enquiryProductDetails);
 
       // Find the product by the provided code
       const selectedProduct = this.enquiryProductDetails.find(procuct => procuct.Code === code);
@@ -871,7 +925,8 @@ export class NewCustomerComponent implements OnInit {
       if (result) {
         const reason = result.reason;
         this._enquiryService.deleteProductDetails(Code, reason).subscribe(() => {
-          console.log(`${Code} has been deleted`);
+          // console.log(`${Code} has been deleted`);
+          this.productDetails.reset();
           this.getEnquirByCode();
           const index = this.dataSource.data.findIndex(item => item.Code === Code);
           if (index > -1) {
@@ -898,28 +953,59 @@ export class NewCustomerComponent implements OnInit {
     this.location.back();
   }
 
-  onFileChange(event: any) {
-    // const file = event.currentTarget.files[0];
+  onFileUploadChange(event: any) {
     const file = event.target.files[0];
-    console.log("file", file);
     const reader = new FileReader();
     reader.onload = () => {
-      const base64 = reader.result as string;
-      let words = base64.split(" "); // Split the string by spaces
-      // let documentType = words[0].replace(",", ""); // Remove the comma from the first word
-      this.documentType = base64.split(',')[0].split(';')[0].split(':')[1];
-      this.base64String = base64.split(',')[1];
-      console.log("object", this.documentType);
+      this.imageSrc = reader.result as string;
+      this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
+      this.base64String = this.imageSrc.split(',')[1];
     };
     if (file) {
       reader.readAsDataURL(file);
     }
-    this.setImage()
+  }
+
+  // onFileUploadChange1(event: any) {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.imageSrc = reader.result as string;
+  //     this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
+  //     this.base64String = this.imageSrc.split(',')[1];
+  //     console.log("object", this.imageSrc);
+  //   };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+
+  onFileUploadChange1(event: any) {
+    const file = event.target.files[0];
+    if (file && file.size > 100 * 1024) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageSrc = reader.result as string;
+        this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
+        this.base64String = this.imageSrc.split(',')[1];
+        console.log("object", this.imageSrc);
+
+        // Update the form control value
+        this.newCustomerForm.patchValue({
+          attachment: file
+        });
+        this.newCustomerForm.get('attachment').setErrors(null);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Set an error if the file size is less than 2 MB
+      this.newCustomerForm.get('attachment').setErrors({ fileSize: true });
+    }
+    this.setImage();
   }
 
   // Choose File
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
-  imageSrc: string | ArrayBuffer | null = null;
 
   setImage(): void {
     const input = this.fileInput.nativeElement;
@@ -937,10 +1023,20 @@ export class NewCustomerComponent implements OnInit {
   }
   // End Choose File
 
-
 }
 
 
+
+export function fileSizeValidator(maxSizeInMB: number): ValidatorFn {
+  const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const file = control.value;
+    if (file && file.size > 0) {
+      return file.size > maxSizeInBytes ? null : { fileSize: true };
+    }
+    return null;
+  };
+}
 
 
 export function alphabeticValidator(): ValidatorFn {
@@ -948,7 +1044,4 @@ export function alphabeticValidator(): ValidatorFn {
     const valid = /^[A-Za-z]+$/.test(control.value);
     return valid ? null : { 'alphabetic': { value: control.value } };
   };
-
-
-
 }

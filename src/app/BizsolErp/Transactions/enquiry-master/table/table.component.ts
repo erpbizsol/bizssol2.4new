@@ -33,14 +33,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { EnquiryService } from '../../../../services/Transaction/enquiry.service';
+import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
 // import { DilogBoxComponent } from '../../../../../core/dilog-box/dilog-box.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DeleteConfermationPopUpComponent } from '../../../../pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
+import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 import { UrlService } from 'src/app/services/URL/url.service';
 
 @Component({
@@ -114,7 +114,7 @@ export class TableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.EnquryList);
       this.dataSource.sort = this._sorting;
       this.dataSource.paginator = this._paging;
-      console.log('EnquryList', this.dataSource.data);
+      // console.log('EnquryList', this.dataSource.data);
 
       // Clear or reset selectedStatus
       this.selectedStatus = null; // or set to a default value if needed
@@ -213,7 +213,7 @@ export class TableComponent implements OnInit {
   }
 
   openFollowUp(code: string): void {
-    this.router.navigate(['/leads/followup', code]);
+    this.router.navigate(['/master/followup', code]);
   }
 
   closeModal() {
