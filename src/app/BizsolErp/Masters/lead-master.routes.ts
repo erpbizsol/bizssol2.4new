@@ -82,7 +82,7 @@ export const routes: Routes = [
             }
         },
         {
-            path: 'Item-Type-Configurations',
+            path: 'tank-Configuration',
             loadComponent: () => import('./tank-configuration/tank-configuration.component').then(m => m.TankConfigurationComponent),
             data: {
                 title: 'tank-configuration'

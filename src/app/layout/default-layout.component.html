@@ -1,4 +1,3 @@
-<!--sidebar-->
 <c-sidebar #sidebar1="cSidebar" class="d-print-none sidebar sidebar-fixed border-end" colorScheme="dark" id="sidebar1" visible>
   <c-sidebar-header class="border-bottom">
     <c-sidebar-brand [routerLink]="[]">
@@ -11,12 +10,13 @@
   </c-sidebar-header>
 
   <ng-scrollbar #scrollbar="ngScrollbar" class="overflow" pointerEventsMethod="scrollbar" visibility="hover">
-    <c-sidebar-nav class="pointer" #overflow [navItems]="navItems" dropdownMode="close" compact ></c-sidebar-nav>
+    <c-sidebar-nav class="pointer" #overflow [navItems]="navItems" dropdownMode="close" compact (click)="onNavItemClicked($event)"></c-sidebar-nav>
   </ng-scrollbar>
   <c-sidebar-footer cSidebarToggle="sidebar1" class="border-top d-none d-lg-flex" toggle="unfoldable" style="cursor: pointer;">
     <button cSidebarToggler></button>
   </c-sidebar-footer>
 </c-sidebar>
+
 
 <!--main-->
 <div class="wrapper d-flex flex-column min-vh-100">

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeaderService {
 
-  private selectedItemSubject = new BehaviorSubject<string>('Home');
-  selectedItem$ = this.selectedItemSubject.asObservable();
-
+  private selectedItemSource = new BehaviorSubject<string>('Home');
+  selectedItem$ = this.selectedItemSource.asObservable();
   setSelectedItem(item: string) {
-    this.selectedItemSubject.next(item);
+    debugger
+    this.selectedItemSource.next(item);
   }
 }
