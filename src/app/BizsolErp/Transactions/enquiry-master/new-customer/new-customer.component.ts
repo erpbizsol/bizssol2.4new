@@ -101,7 +101,6 @@ export class NewCustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("object", this.imageSrc);
     this.UOMList()
     this.getProduct()
     this.getLeadSource()
@@ -165,10 +164,9 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('address2')?.reset();
 
     this.editCode = undefined;
-    console.log("newCode", this.newCode, this.editCode);
     if (this.newCode == undefined && this.editCode == undefined) {
       console.log("newCode", this.newCode, this.editCode);
-    } else (console.log("showexisting not work"))
+    }
   }
   hideexisting() {
     this.companyhide = false;
@@ -186,10 +184,9 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('address1')?.reset();
     this.newCustomerForm.get('address2')?.reset();
 
-    // this.editCode = undefined;
     if (this.newCode == undefined || this.editCode == undefined) {
       console.log("newCode", this.newCode, this.editCode);
-    } else (console.log("hideexisting not work"))
+    }
   }
   setDisableConditions() {
     this.editDisable = true; // or some condition
@@ -338,7 +335,6 @@ export class NewCustomerComponent implements OnInit {
   //     let inputChar = String.fromCharCode(event.charCode);
 
   //     inputChar = inputChar.toUpperCase()
-  //     console.log(inputChar,"kkk")
 
 
   //     if (!allowedChars.test(inputChar)) {
@@ -598,7 +594,6 @@ export class NewCustomerComponent implements OnInit {
       //     startWith(''),
       //     map(value => this._filter(value))
       //   );
-      // console.log("filteredOptions", this.filteredOptions);
     })
   }
   onProductChange(event: any): void {
@@ -678,7 +673,6 @@ export class NewCustomerComponent implements OnInit {
     if (image == "data:;base64,") {
       this.imageSrc = null;
     } else this.imageSrc = image;
-    console.log("this.imageSrc", this.imageSrc);
     const enquiryDate = this.datePipe.transform(this.leadData.EnquiryDate, 'yyyy-MM-dd');
     const referenceDate = this.datePipe.transform(this.leadData.ReferenceDate, 'yyyy-MM-dd');
     const followupdate = this.datePipe.transform(this.leadData.NextFollowupdate, 'yyyy-MM-dd');
@@ -798,9 +792,6 @@ export class NewCustomerComponent implements OnInit {
       })
   }
   personDataPopplate(person: any) {
-    // this.contactPersonsList.forEach((person, index) => {
-    //   console.log(`Object ${index + 1}`, person.ContactPersonName);
-    // });
     this.contactPerson.patchValue({
       name: person.ContactPersonName,
       department: person.DepartmentName,
@@ -925,7 +916,6 @@ export class NewCustomerComponent implements OnInit {
       if (result) {
         const reason = result.reason;
         this._enquiryService.deleteProductDetails(Code, reason).subscribe(() => {
-          // console.log(`${Code} has been deleted`);
           this.productDetails.reset();
           this.getEnquirByCode();
           const index = this.dataSource.data.findIndex(item => item.Code === Code);
@@ -973,7 +963,6 @@ export class NewCustomerComponent implements OnInit {
   //     this.imageSrc = reader.result as string;
   //     this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
   //     this.base64String = this.imageSrc.split(',')[1];
-  //     console.log("object", this.imageSrc);
   //   };
   //   if (file) {
   //     reader.readAsDataURL(file);
@@ -988,7 +977,6 @@ export class NewCustomerComponent implements OnInit {
         this.imageSrc = reader.result as string;
         this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
         this.base64String = this.imageSrc.split(',')[1];
-        console.log("object", this.imageSrc);
 
         // Update the form control value
         this.newCustomerForm.patchValue({

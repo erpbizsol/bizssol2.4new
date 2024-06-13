@@ -114,7 +114,6 @@ export class TableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.EnquryList);
       this.dataSource.sort = this._sorting;
       this.dataSource.paginator = this._paging;
-      // console.log('EnquryList', this.dataSource.data);
 
       // Clear or reset selectedStatus
       this.selectedStatus = null; // or set to a default value if needed
@@ -192,7 +191,6 @@ export class TableComponent implements OnInit {
   onPersonChange(event: any): void {
     const value = event.target.value;
     const personData = this.salesPersonList.find(data => data.PersonName === value);
-    console.log("selectedSalesMan", personData.Code);
     if (personData.Code) {
       this.PersonCode = personData.Code;
       // this.assignPerson.patchValue({ assignPerson: this.salesPersonList.PersonName });
