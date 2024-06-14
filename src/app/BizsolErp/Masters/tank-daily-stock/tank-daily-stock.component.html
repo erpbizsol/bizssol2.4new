@@ -5,13 +5,13 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3 form-group">
                     <label for="tank" class="required">Today's Date</label>
-                    <input type="date" formControlName="date" class="form-control" id="dateInput" (click)="MaxDate()">
+                    <input type="date" formControlName="date" class="form-control" id="dateInput" (click)="MaxDate()" (change)="getDailyTankStockMasterByDate()" />
                 </div>
                 <div class="col-md-6"></div>
             </div>
 
             <div class="row mt-4 mb-2">
-                <input type="hidden" formControlName="Code" class="form-control" value="0">
+                <input type="hidden" formControlName="Code" class="form-control" value="0"/>
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <table border="1" class="table">
@@ -24,12 +24,16 @@
                         </thead>
                         <tbody formArrayName="tableRows">
                             <tr *ngFor="let row of tableRows.controls; let i = index" [formGroupName]="i">
-                                <td ><input type="text" formControlName="tankName" style="text-align: center;" [disabled]="true"/></td>
-                                <td><input type="text" formControlName="level" #levelInput (keypress)="validateInteger($event)" (keydown.enter)="onLevelEnter($event, i)"/></td>
-                                <td><input type="text" formControlName="stockValue" [disabled]="true" value={{this.newTankDailyStockForm.value.stockValue}}/></td>
+                                <td><input type="text" formControlName="tankName" style="text-align: center;"
+                                         /></td>
+                                <td><input type="text" formControlName="level" #levelInput
+                                        (keypress)=" validateFloat($event)" (keydown.enter)="onLevelEnter($event, i)" />
+                                </td>
+                                <td><input type="text" formControlName="stockValue" [value]="row.get('stockValue').value" /></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><b>Stock In Hand</b></td>
+                                <td><label for="totalStockInHand" >{{totalStockValue}}</label></td>
                             </tr>
                         </tbody>
                     </table>
@@ -37,7 +41,7 @@
                 <div class="col-md-3"></div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row mt-4 end">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="card form-card">
@@ -45,7 +49,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="required">Opening</label>
-                                    <input type="text" formControlName="opening" class="form-control">
+                                    <input type="text" formControlName="opening" class="form-control"
+                                        (keydown.enter)="onPurchaseEnter($event)" />
                                     <!-- <div *ngIf="newCustomerForm.get('enquiryDate').invalid && (newCustomerForm.get('enquiryDate').dirty || newCustomerForm.get('enquiryDate').touched)"
                                         class="text-danger validation-msg">
                                         <div *ngIf="newCustomerForm.get('enquiryDate').errors['required']">
@@ -57,7 +62,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="required">Purchase</label>
-                                    <input type="text" formControlName="purchase" class="form-control">
+                                    <input type="text" formControlName="purchase" class="form-control"
+                                        (keydown.enter)="onPurchaseEnter($event)" />
                                     <!-- <div *ngIf="newCustomerForm.get('leadsource').invalid && (newCustomerForm.get('leadsource').dirty || newCustomerForm.get('leadsource').touched)"
                                         class="text-danger validation-msg">
                                         <div *ngIf="newCustomerForm.get('leadsource').errors['required']">
@@ -69,21 +75,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">Consumption</label>
-                                    <input type="text" formControlName="consumption" class="form-control">
+                                    <input type="text" formControlName="consumption" class="form-control" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">Dispatch</label>
-                                    <input type="text" formControlName="dispatch" class="form-control" id="dateInput">
+                                    <input type="text" formControlName="dispatch" class="form-control" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">Production</label>
-                                    <input type="text" formControlName="production" class="form-control">
+                                    <input type="text" formControlName="production" class="form-control" readonly />
                                 </div>
                             </div>
                             <div>

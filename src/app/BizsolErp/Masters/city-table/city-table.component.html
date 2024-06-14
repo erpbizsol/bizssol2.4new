@@ -11,17 +11,17 @@
             <label>Country</label>
 
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="India" required (selectionChange)="getStateList($event.value)">
+                <mat-select placeholder="All" required class="mt-1"  (selectionChange)="getStateList($event.value)">
                     <mat-option *ngFor="let country of countryList" [value]="country.CountryName">{{ country.CountryName
                         }}</mat-option>
                 </mat-select>
             </mat-form-field>
 
 
-            <label>State</label>
+            <label class="margin">State</label>
 
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="Select" required (selectionChange)="getCityList($event.value)">
+                <mat-select placeholder="All" required class="mt-1"  (selectionChange)="getCityList($event.value)">
                     <mat-option *ngFor="let state of stateList" [value]="state.StateName">{{ state.StateName
                         }}</mat-option>
                 </mat-select>
@@ -88,7 +88,7 @@
 
     <!-- /////////////////////////////////////////////////////////////Create City///////////////////////////////////////////////////////////////////// -->
 
-    <c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal id="liveDemoModal" [visible]="createvisible" alignment="center" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
         <c-modal-header>
             <h5 cModalTitle>City</h5>
             <button (click)="createtoggle()" cButtonClose></button>
@@ -159,7 +159,7 @@
         </form>
     </c-modal>
 <!-- ///////////////////////////////////////////////////////////////////Update City//////////////////////////////////////////////////////// -->
-<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)">
+<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)" backdrop="static">
     <c-modal-header>
         <h5 cModalTitle>Update State</h5>
         <button (click)="updatetoggle()" cButtonClose></button>
@@ -167,8 +167,6 @@
     <form class="row" [formGroup]="cityForm" (ngSubmit)="updateSubmit(item.Code)">
         <c-modal-body>
             <div class="row justify-content-between">
-
-
 
                 <div class="col-md-5 form-group">
                     <label for="stateName">State</label>

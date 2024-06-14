@@ -167,6 +167,13 @@ export const routes: Routes = [
                                 title: 'verify-route-plan'
                             }
                         },
+                        {
+                            path: 'Bank-Master',
+                            loadComponent: () => import('./bank-master/bank-master.component').then(m => m.BankMasterComponent),
+                            data: {
+                              title: 'Bank-Master'
+                            }
+                          }
          
     ]
 },

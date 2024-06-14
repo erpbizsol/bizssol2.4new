@@ -101,6 +101,7 @@ export class NewCustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("object", this.imageSrc);
     this.UOMList()
     this.getProduct()
     this.getLeadSource()
