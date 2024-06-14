@@ -4,7 +4,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { FollowUpService } from 'src/app/services/Master/follow-up.service';
+import { FollowUpService } from '../../../../services/Transaction/follow-up.service';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 @Component({

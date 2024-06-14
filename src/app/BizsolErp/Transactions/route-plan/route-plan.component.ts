@@ -37,24 +37,24 @@ import { RoutePlanService } from 'src/app/services/Transaction/route-plan.servic
   templateUrl: './route-plan.component.html',
   styleUrl: './route-plan.component.scss'
 })
-export class RoutePlanComponent implements AfterViewInit {
-
+export class RoutePlanComponent {
   public visible = false;
   todayDate: any;
   routePlanList: any;
-  constructor(private fb: FormBuilder, private elRef: ElementRef, public dialog: MatDialog, private _routePlanService: RoutePlanService) { }
+  constructor( private elRef: ElementRef, public dialog: MatDialog, private _routePlanService: RoutePlanService) { }
 
-  ngAfterViewInit() {
-    // Use jQuery to select the element and initialize Select2
-    $(this.elRef.nativeElement).find("#select2drop").select2();
+
+  // for date 
+  ngOnInit() {
+    this.todayDate = new Date().toISOString().split('T')[0];
+    this.getRoutePlan( this.todayDate, '7075')//UserMaster Code -- shesnath se pucho kha se aye ga herd code nhi chale ga usen iski service banyi h ok
+
   }
 
-
-  ngOnInit() {
-    // var today=new Date();
-    this.getRoutePlan('30-apr-2024','7075')
-    this.todayDate = new Date().toISOString().split('T')[0];
-
+  onDateInputChange(event: any) {
+    this.getRoutePlan(event.target.value, '7075')
+    // Your onchange logic here
+    console.log('Date changed!', event.target.value);
   }
 
   // <!-------------Add Department----------------->
@@ -74,6 +74,7 @@ export class RoutePlanComponent implements AfterViewInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  
   // <!-------------Edit Department----------------->
   toggleEditDemo() {
     this.visible = !this.visible;
@@ -83,8 +84,8 @@ export class RoutePlanComponent implements AfterViewInit {
     this.visible = event;
   }
 
-// Date Formate 
-applyDate(){}
+  // Date Formate 
+  applyDate() { }
 
 
   // Service Call 
@@ -96,15 +97,15 @@ applyDate(){}
   // }
 
 
-  getRoutePlan(PlanDate:any, UserMaster_Code:any) {
-    this._routePlanService.getRoutePlanList(PlanDate,UserMaster_Code).subscribe(res => {
+  getRoutePlan(PlanDate: any, UserMaster_Code: any) {
+    this._routePlanService.getRoutePlanList(PlanDate, UserMaster_Code).subscribe(res => {
       this.routePlanList = res;
       console.log(this.routePlanList);
     });
   }
 
   // Route Plan Dailog Form
-  register(routeDailog:NgForm){
+  register(routeDailog: NgForm) {
     console.log(routeDailog.value);
   }
 

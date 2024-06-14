@@ -18,16 +18,15 @@ export class PaymetntTermService {
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
     const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-
-    return new HttpHeaders({
+    const headersConfig: { [key: string]: string } = {
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
-    });
+      'Auth-Key': authKey || ''
+    };
+    if (userMasterCode) {
+      headersConfig['UserMaster-Code'] = userMasterCode;
+    }
+    return new HttpHeaders(headersConfig);
   }
 
 
@@ -60,7 +59,8 @@ export class PaymetntTermService {
     }
   
   deletePaymentList(code: number, reason: any) {
-   let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    const userMasterCode = this.authService.getUserMasterCode();
+   let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers() });
   }
 

@@ -29,187 +29,189 @@ import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-conferma
 })
 export class CityTableComponent implements OnInit {
 
-  // @Input() statelist: any[];
-  @ViewChild(MatSort) _sorting: MatSort;
-  @ViewChild(MatPaginator) _paging: MatPaginator;
-  dataSource: MatTableDataSource<any>;
-
-  displayedColumns: string[] = ['SN','CityName', 'Pin','StateName', 'Action'];
-  columnDisplayNames: { [key: string]: string } = {
-    'SN': 'SN',
-    'StateName': 'State Name',
-    'CityName': 'City Name',
-    'Pin': 'Pin Code',
-    'Action': 'Action'
-  };
-  cityForm !: any;
-  countryList: any = [];
-  stateList: any = [];
-  selectedCountry: any = [];
-  selectedState: any;
-  cityList: any;
-  item: any;
-  countryName: any;
-  cityName: any;
-  public createvisible = false;
-  public updatevisible = false;
-
-  constructor(private _stateService: StateService, private _cityService: CityService, private _countryService: CountryService, private fb: FormBuilder, private dialog: MatDialog) { }
-
-  ngOnInit(): void {
-    this.setForm();
-    this._countryService.getCountry().subscribe(res => {
-      this.countryList = res;
-    })
-    this.getStateList('India')
-    this.getCityList('Uttar%20Pradesh')
-  }
-  setForm() {
-    this.cityForm = this.fb.group({
-      stateName: ['', [Validators.required, Validators.maxLength(20)]],
-      cityName: ['', [Validators.required, Validators.maxLength(20)]],
-      pinCode: ['', [Validators.required, Validators.maxLength(20)]],
-    })
-  }
-////////////////////////////////////////////////Validation for create city modal//////////////////////////////////////////////////
-specialCharacternumberValidator(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z]/;
-
-  if (!pattern.test(inputChar)) {
-    // If the input character is not an alphabet, prevent it from being entered into the input field
-    event.preventDefault();
-  }
-}
-citypincodevalidation(event:KeyboardEvent){
-  const inputChar =String.fromCharCode(event.charCode);
-  const pattern =/[0-9]/;
-  if(!pattern.test(inputChar)){
-    event.preventDefault();
-  }
-
-}
-//////////////////////////////////////////////////////togglers create & Update/////////////////////////////////////////////////////
-  createtoggle() {
-    this.createvisible = !this.createvisible;
-  }
-  updatetoggle() {
-    this.updatevisible = !this.updatevisible;
-
-  }
-  handleUpdateChange(event: any) {
-  }
-  handleLiveDemoChange(event: any) {
-
-  }
-
-  getStateList(country: any) {
-    this.countryName = country
-    this._stateService.getStatesList(this.countryName).subscribe(res => {
-      this.stateList = res
-    })
-  }
-
-  getCityList(state: any) {
-    this.selectedState = state;
-    this._cityService.getCityList(state).subscribe(res => {
-
-      this.cityList = res.map((item, index) => ({ SN: index + 1, ...item }));
-      this.dataSource = new MatTableDataSource(this.cityList);
-      this.dataSource.sort = this._sorting;
-      this.dataSource.paginator = this._paging;
-
-      console.log('Data Source:', this.dataSource.data);
-
-
-    })
-  }
-  submit() {
-    let obj = {
-      stateName: this.cityForm.value.stateName,
-      cityName: this.cityForm.value.cityName,
-      pin: this.cityForm.value.pinCode,
-      userMaster_Code: 13,
-    }
-
-    console.log("city", obj);
-
-    this._cityService.saveCity(obj).subscribe({
-      next: (res: any) => {
-        let obj = JSON.stringify(res);
-        const responseObj = JSON.parse(JSON.stringify(res));
-        alert(responseObj.Msg)
-        this.getCityList(this.selectedState)
-      },
-      error: console.log,
-    })
-    this.cityForm.reset();
-    this.updatevisible = false;
-  }
-  /////////////////////////////////////////////////////////////Update City////////////////////////////////////////////////////////////////////
-  editState(item: any) {
-    // console.log("unique Code", item.Code);
-    if (item.Code) {
-      this.cityForm.patchValue({
-        stateName: item.StateName,
-        cityName: item.CityName,
-        pinCode: item.Pin
-      });
-      this.updatetoggle();
-      this.item = item.Code; // Store the item for reference
-      console.log("the updated item are :", this.item);
-    } else {
-      console.error("Item or CountryName is undefined:", item);
-    }
-  }
-
-  updateSubmit(cityCode: any) {
-
-    const updatedState = this.cityForm.value.stateName;
-    const updatedCity = this.cityForm.value.cityName;
-    const updatedPincode = this.cityForm.value.pinCode;
-
-    let obj = {
-      Code: this.item,
-      stateName: updatedState,
-      cityName: updatedCity,
-      pin: updatedPincode,
-      userMaster_Code: 13,
-    };
-    this._cityService.saveCity(obj).subscribe({
-      next: (res: any) => {
-        const responseObj = JSON.parse(JSON.stringify(res));
-        if (responseObj && responseObj.Msg) {
-          alert(responseObj.Msg);
-          this.getCityList(this.selectedState);
-          this.cityForm.reset();
-        }
-        this.updatevisible = false;
-      },
-      error: console.error,
-    });
-  }
-
-  /////////////////////////////////////////////////////////////Delete City////////////////////////////////////////////////////////////////////
-
-  deleteState(Code: any): void {
-    const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
-      width: '375px',
-      data: { message: 'Are you sure you want to delete this followUp?', reason: '', code: Code }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.confirmed) {
-        const reason = result.reason;
-        this._cityService.deleteCity(Code, reason).subscribe((res) => {
-          console.log(`${Code} has been deleted`);
-          const responseObj = JSON.parse(JSON.stringify(res));
-          alert(responseObj.Msg);
-          this.getCityList(this.selectedState);
-        });
-      }
-    });
-  }
+   // @Input() statelist: any[];
+   @ViewChild(MatSort) _sorting: MatSort;
+   @ViewChild(MatPaginator) _paging: MatPaginator;
+   dataSource: MatTableDataSource<any>;
+ 
+   displayedColumns: string[] = ['SN','CityName', 'Pin','StateName', 'Action'];
+   columnDisplayNames: { [key: string]: string } = {
+     'SN': 'SN',
+     'StateName': 'State Name',
+     'CityName': 'City Name',
+     'Pin': 'Pin Code',
+     'Action': 'Action'
+   };
+   cityForm !: any;
+   countryList: any = [];
+   stateList: any = [];
+   selectedCountry: any = [];
+   selectedState: any;
+   cityList: any;
+   item: any;
+   countryName: any;
+   cityName: any;
+   public createvisible = false;
+   public updatevisible = false;
+ 
+   constructor(private _stateService: StateService, private _cityService: CityService, private _countryService: CountryService, private fb: FormBuilder, private dialog: MatDialog) { }
+ 
+   ngOnInit(): void {
+     this.setForm();
+     this._countryService.getCountry().subscribe(res => {
+       this.countryList = res;
+     })
+     this.getStateList('All')
+     this.getCityList('All')
+   }
+   setForm() {
+     this.cityForm = this.fb.group({
+       stateName: ['', [Validators.required, Validators.maxLength(20)]],
+       cityName: ['', [Validators.required, Validators.maxLength(20)]],
+       pinCode: ['', [Validators.required, Validators.maxLength(20)]],
+     })
+   }
+ ////////////////////////////////////////////////Validation for create city modal//////////////////////////////////////////////////
+ specialCharacternumberValidator(event: KeyboardEvent) {
+   const inputChar = String.fromCharCode(event.charCode);
+   const pattern = /[a-zA-Z]/;
+ 
+   if (!pattern.test(inputChar)) {
+     // If the input character is not an alphabet, prevent it from being entered into the input field
+     event.preventDefault();
+   }
+ }
+ citypincodevalidation(event:KeyboardEvent){
+   const inputChar =String.fromCharCode(event.charCode);
+   const pattern =/[0-9]/;
+   if(!pattern.test(inputChar)){
+     event.preventDefault();
+   }
+ 
+ }
+ //////////////////////////////////////////////////////togglers create & Update/////////////////////////////////////////////////////
+   createtoggle() {
+     this.createvisible = !this.createvisible;
+     this.cityForm.reset();
+   }
+   updatetoggle() {
+     this.updatevisible = !this.updatevisible;
+ 
+   }
+   handleLiveDemoChange(event: any) {
+     this.createvisible = event;
+   }
+   handleUpdateChange(event: any) {
+     this.updatevisible=event;
+   }
+ 
+   getStateList(country: any) {
+     this.countryName = country
+     this._stateService.getStatesList(this.countryName).subscribe(res => {
+       this.stateList = res
+     })
+   }
+ 
+   getCityList(state: any) {
+     this.selectedState = state;
+     this._cityService.getCityList(state).subscribe(res => {
+ 
+       this.cityList = res.map((item, index) => ({ SN: index + 1, ...item }));
+       this.dataSource = new MatTableDataSource(this.cityList);
+       this.dataSource.sort = this._sorting;
+       this.dataSource.paginator = this._paging;
+ 
+       // console.log('Data Source:', this.dataSource.data);
+ 
+ 
+     })
+   }
+   submit() {
+     let obj = {
+       stateName: this.cityForm.value.stateName,
+       cityName: this.cityForm.value.cityName,
+       pin: this.cityForm.value.pinCode,
+       userMaster_Code: 13,
+     }
+ 
+     // console.log("city", obj);
+ 
+     this._cityService.saveCity(obj).subscribe({
+       next: (res: any) => {
+         let obj = JSON.stringify(res);
+         const responseObj = JSON.parse(JSON.stringify(res));
+         alert(responseObj.Msg)
+         this.getCityList(this.selectedState)
+       },
+       // error: console.log,
+     })
+     this.cityForm.reset();
+     this.updatevisible = false;
+   }
+   /////////////////////////////////////////////////////////////Update City////////////////////////////////////////////////////////////////////
+   editState(item: any) {
+     // console.log("unique Code", item.Code);
+     if (item.Code) {
+       this.cityForm.patchValue({
+         stateName: item.StateName,
+         cityName: item.CityName,
+         pinCode: item.Pin
+       });
+       this.updatetoggle();
+       this.item = item.Code; // Store the item for reference
+       // console.log("the updated item are :", this.item);
+     } else {
+       // console.error("Item or CountryName is undefined:", item);
+     }
+   }
+ 
+   updateSubmit(cityCode: any) {
+ 
+     const updatedState = this.cityForm.value.stateName;
+     const updatedCity = this.cityForm.value.cityName;
+     const updatedPincode = this.cityForm.value.pinCode;
+ 
+     let obj = {
+       Code: this.item,
+       stateName: updatedState,
+       cityName: updatedCity,
+       pin: updatedPincode,
+       userMaster_Code: 13,
+     };
+     this._cityService.saveCity(obj).subscribe({
+       next: (res: any) => {
+         const responseObj = JSON.parse(JSON.stringify(res));
+         if (responseObj && responseObj.Msg) {
+           alert(responseObj.Msg);
+           this.getCityList(this.selectedState);
+           this.cityForm.reset();
+         }
+         this.updatevisible = false;
+       },
+       // error: console.error,
+     });
+   }
+ 
+   /////////////////////////////////////////////////////////////Delete City////////////////////////////////////////////////////////////////////
+ 
+   deleteState(Code: any): void {
+     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
+       width: '375px',
+       data: { message: 'Are you sure you want to delete this followUp?', reason: '', code: Code }
+     });
+ 
+     dialogRef.afterClosed().subscribe(result => {
+       if (result && result.confirmed) {
+         const reason = result.reason;
+         this._cityService.deleteCity(Code, reason).subscribe((res) => {
+           // console.log(`${Code} has been deleted`);
+           const responseObj = JSON.parse(JSON.stringify(res));
+           alert(responseObj.Msg);
+           this.getCityList(this.selectedState);
+         });
+       }
+     });
+   }
 }
 
 

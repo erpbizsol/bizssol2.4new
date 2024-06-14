@@ -1,9 +1,12 @@
+
+
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { PaymetntTermService } from 'src/app/services/Master/paymetnt-term.service';
-import { AddPaymentDialogComponent } from 'src/app/BizsolErp/Masters/payment-term-master/add-payment-dialog/add-payment-dialog.component';
+import { AddBankDialogComponent } from 'src/app/BizsolErp/Masters/bank-master/add-bank-dialog/add-bank-dialog.component';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,16 +18,17 @@ import { MatSortModule } from '@angular/material/sort';
 
 
 @Component({
-  selector: 'app-payment-term-master',
-  standalone: true,
-    imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
+    selector: 'app-bank-master',
 
-    templateUrl: './payment-term-master.component.html',
-    styleUrl: './payment-term-master.component.scss',
+  standalone: true,
+  imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
+
+      templateUrl: './bank-master.component.html',
+  styleUrl: './bank-master.component.scss',
     providers: [PaymetntTermService]
 
 })
-export class PaymentTermMasterComponent implements OnInit {
+export class BankMasterComponent implements OnInit {
   displayedColumns: string[] = ['sNo', 'description', 'status', 'advancePaymentStatus', 'advancePaymentAmount', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   
@@ -54,7 +58,8 @@ export class PaymentTermMasterComponent implements OnInit {
 
   deletePayment(code: number) {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
-      width: '375px',
+      width: '1000px',
+      height:'400px',
       data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
     });
 
@@ -72,11 +77,11 @@ export class PaymentTermMasterComponent implements OnInit {
   }
 
   addDialog(value: any) {
-    const dialogRef = this.dialog.open(AddPaymentDialogComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(AddBankDialogComponent, {
+      width: '700px',
       height: '380px',
       disableClose: true,
-      data: { element: value }
+      
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -85,3 +90,4 @@ export class PaymentTermMasterComponent implements OnInit {
     });
   }
 }
+

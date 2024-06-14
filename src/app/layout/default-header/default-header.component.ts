@@ -23,11 +23,12 @@ import {
   ThemeDirective
 } from '@coreui/angular';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IconDirective } from '@coreui/icons-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { delay, filter, map, tap } from 'rxjs/operators';
 import { HeaderService } from 'src/app/services/Shared/header.service';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 @Component({
   selector: 'app-default-header',
@@ -44,7 +45,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   selectedItem: string = '';
 
-  constructor(private headerService: HeaderService) {
+  constructor(private headerService: HeaderService, private router: Router,  private snackBarService: SnackBarService) {
     super();
     this.#colorModeService.localStorageItemName.set('coreui-free-angular-admin-template-theme-default');
     this.#colorModeService.eventName.set('ColorSchemeChange');
@@ -68,5 +69,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.headerService.selectedItem$.subscribe(item => {
       this.selectedItem = item;
     });
+  }
+
+  logout(): void {
+    sessionStorage.clear();
+    this.snackBarService.showSuccessMessage('session has cleared successfully')
+    this.router.navigate(['']).then(() => {
+      window.location.href = 'https://web.bizsol.in/erp'; } );
   }
 }

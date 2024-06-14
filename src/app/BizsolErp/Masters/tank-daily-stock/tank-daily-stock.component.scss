@@ -15,7 +15,9 @@ tr td input{
     display: flex;
     // justify-content: space-between;
 }
-
+.end input{
+    text-align: end;
+}
 // .required label:after {
 //     content:" *";
 //     color: red;
