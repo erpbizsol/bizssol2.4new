@@ -11,7 +11,8 @@
             <label>Country</label>
 
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="India" required (selectionChange)="getStateList($event.value)">
+                <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
+                    <mat-option value="All">All</mat-option>
                     <mat-option *ngFor="let country of countryList" [value]="country.CountryName">{{ country.CountryName
                         }}</mat-option>
                 </mat-select>
@@ -21,7 +22,8 @@
             <label>State</label>
 
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="Select" required (selectionChange)="getCityList($event.value)">
+                <mat-select placeholder="All" required (selectionChange)="getCityList($event.value)">
+                    <mat-option value="All">All</mat-option>
                     <mat-option *ngFor="let state of stateList" [value]="state.StateName">{{ state.StateName
                         }}</mat-option>
                 </mat-select>

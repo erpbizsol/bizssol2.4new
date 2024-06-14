@@ -61,8 +61,8 @@ export class CityTableComponent implements OnInit {
     this._countryService.getCountry().subscribe(res => {
       this.countryList = res;
     })
-    this.getStateList('India')
-    this.getCityList('Uttar%20Pradesh')
+    this.getStateList('All')
+    this.getCityList('All')
   }
   setForm() {
     this.cityForm = this.fb.group({

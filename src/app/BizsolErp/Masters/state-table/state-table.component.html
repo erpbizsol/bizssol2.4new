@@ -9,7 +9,8 @@
             <label>Country</label>
 
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="India" required (selectionChange)="getStateList($event.value)">
+                <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
+                    <mat-option value="All">All</mat-option>
                     <mat-option *ngFor="let country of countrylist" [value]="country.CountryName">{{ country.CountryName
                         }}</mat-option>
                 </mat-select>

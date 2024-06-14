@@ -75,6 +75,7 @@ export class DefaultLayoutComponent implements OnInit {
       'Country Master': '/leads/country',
       'State Master': '/leads/state',
       'City Master': '/leads/city',
+      'Chemical / Mechanical Properties':'/leads/chemical',
       'UOM Master': '/leads/uom',
       'Payment Terms Master': '/leads/PaymentTermsMaster',
       'Tank Configuration': '/leads/tank-Configuration',

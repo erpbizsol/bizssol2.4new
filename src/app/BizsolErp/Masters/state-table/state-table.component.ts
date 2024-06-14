@@ -103,7 +103,7 @@ export class StateTableComponent implements OnInit {
     this.setForm();
     this.getCountryList();
     // this.statelist;
-    this.getStateList("India");
+    this.getStateList("All");
   }
   setForm() {
     this.stateForm = this.fb.group({

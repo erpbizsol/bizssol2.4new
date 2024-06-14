@@ -8,9 +8,10 @@ export class UrlService {
 BASE_URL: string = environment.BASE_URL;
 ERP_SIDE_MENU: string = `${this.BASE_URL}/UserModule`
 API_ENDPOINT_ENQUIRY: string = `${this.BASE_URL}/Enquiry`;
-API_ENDPOINT_COUNTRY: string = `${this.BASE_URL}/Country`;
-API_ENDPOINT_STATE: string = `${this.BASE_URL}/State`;
-API_ENDPOINT_CITY: string = `${this.BASE_URL}/City`;
+API_ENDPOINT_COUNTRY: string = `${this.BASE_URL}/Country`;//priyabrath
+API_ENDPOINT_STATE: string = `${this.BASE_URL}/State`;//priyabrath
+API_ENDPOINT_CITY: string = `${this.BASE_URL}/City`;//priyabrath
+API_ENDPOINT_CHEMICAL: string = `${this.BASE_URL}Chemical`; //priyabrath
 API_ENDPOINT_LEADSOURCE: string = `${this.BASE_URL}/LeadSource`;
 API_ENDPOINT_INDUSTRYTYPE: string = `${this.BASE_URL}/IndustryType`;
 API_ENDPOINT_DEPARTMENT: string = `${this.BASE_URL}/Department`;
