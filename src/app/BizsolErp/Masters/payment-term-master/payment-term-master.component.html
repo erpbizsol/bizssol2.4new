@@ -1,56 +1,75 @@
-<!-- app.component.html -->
 <div class="container">
-  <div class="col-md-12 mt-4 mb-2 text-end">
-    <button type="button" class="btn btn-primary" (click)="addDialog('')">
-      Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    <div class="col-md-12 mt-4 mb-2 text-end">
+      <button type="button" class="btn btn-primary" (click)="addDialog('')">
+        Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="sNo">
+          <th mat-header-cell *matHeaderCellDef> S.No </th>
+
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.Desp}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Active/Inactive </th>
+          <td mat-cell *matCellDef="let element"> {{element.IsActive == 'Y' ? 'Active' : 'Inactive'}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="advancePaymentStatus">
+          <th mat-header-cell *matHeaderCellDef> Advance Payment Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.AdvPaymentApplicable}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="advancePaymentAmount">
+          <th mat-header-cell *matHeaderCellDef> Advance Payment Amount In % </th>
+          <td mat-cell *matCellDef="let element"> {{element.AdvancePayment}} </td>
+        </ng-container>
+  
+        <!-- <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="addDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deletePayment(element.Code)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container> -->
+
+
+
+  
+        <ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef> Action </th>
+  <td mat-cell *matCellDef="let element">
+    <button mat-stroked-button color="primary"  class="btn btn-primary me-1"(click)="addDialog(element)">
+      <!-- <mat-icon>edit</mat-icon> -->
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+
     </button>
+    <button mat-stroked-button color="warn" class="btn btn-danger me-1" (click)="deletePayment(element.Code)">
+      <!-- <mat-icon>delete</mat-icon> -->
+      <i class="fa fa-trash-o" aria-hidden="true"></i>
+    </button>
+  </td>
+</ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" #MatPaginator1></mat-paginator>
+    </div>
   </div>
-  <div>
-    <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
-      <!-- class="mat-elevation-z8"  -->
-      <ng-container matColumnDef="sNo">
-        <th mat-header-cell *matHeaderCellDef> S.No </th>
-        <td mat-cell *matCellDef="let element; let i = index">
-          {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header="Desp">Description</th>
-        <td mat-cell *matCellDef="let element"> {{element.Desp}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="IsActive">Active/Inactive</th>
-        <td mat-cell *matCellDef="let element">{{ element.IsActive === 'Y' ? 'Active' : 'Inactive' }}</td>
-      </ng-container>
-      
-
-      <ng-container matColumnDef="advancePaymentStatus">
-        <th mat-header-cell *matHeaderCellDef   mat-sort-header="AdvPaymentApplicable">Advance Payment Status</th>
-        <td mat-cell *matCellDef="let element"> {{element.AdvPaymentApplicable  ==='Y' ?'Yes':'No'}}  </td>
-      </ng-container>
-
-      <ng-container matColumnDef="advancePaymentAmount">
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header="AdvancePayment">Advance Payment Amount In %</th>
-        <td mat-cell *matCellDef="let element"> {{element.AdvancePayment}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-stroked-button color="primary"   title="Edit" class="btn btn-primary me-1" (click)="addDialog(element)">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </button>
-          <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deletePayment(element.Code)">
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" #MatPaginator1></mat-paginator>
-  </div>
-</div>
+  

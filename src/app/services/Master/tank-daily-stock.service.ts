@@ -22,19 +22,7 @@ export class TankDailyStockService {
   }
 
   getCalculateStockQty(TankName:any,Level:any):Observable<any>{
-    let url = this._urlService.API_ENDPOINT_TankDailyStock+ "/GetCalculateStockQTY?TankName="+`${TankName}`+'&Level='+`${Level}`;
+    let url = this._urlService.API_ENDPOINT_TankDailyStock + "/GetCalculateStockQTY?TankName="+`${TankName}`+'&Level='+`${Level}`;
     return this._http.get(url);
-  }
-
-  GetDailyTankStockMasterByDate(date:string):Observable<any>{
-    let url = this._urlService.API_ENDPOINT_TankDailyStock+ "/GetDailyTankStockMasterByDate?Date="+`${date}`;
-    return this._http.get(url);
-  }
-  postTankDailyStock(Obj: any): Observable<any> {
-    const data = JSON.stringify(Obj)
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    let url = this._urlService.API_ENDPOINT_TankDailyStock + "/SaveDailyTankStockMaster";
-    return this._http.post(url, data, { headers: this.headers });
   }
 }

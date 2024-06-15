@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Create New</h2>
 <mat-dialog-content class="mat-typography">
-    <form [formGroup]="routePlanForm" (ngSubmit)="registerRP()">
+    <form [formGroup]="routePlanForm" (ngSubmit)="registerRP(routePlanForm)">
         <div class="row">
             <div class="col-md-4 form-group">
                 <label for="extProcess" class="">Visit Type</label>
@@ -15,50 +15,23 @@
             </div>
 
             <div class="col-md-4 form-group">
-                <label for="extCustomer" class="required">State</label>
-                <select id="abc" class="form-control" getCityList
-                    formControlName="state" placeholder="select state"
-                    (change)="getCityList($event)">
-                    <option value="">Select</option>
-                    <option *ngFor="let state of stateList"
-                        [value]="state.StateName">{{
-                        state.StateName }}
-                    </option>
+                <label for="extProcess" class="">City</label>
+                <select id="select2drop" class="select2 form-control" formControlName="city">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
                 </select>
-                <div *ngIf="routePlanForm.get('state').invalid && (routePlanForm.get('state').dirty || routePlanForm.get('state').touched)"
-                    class="text-danger validation-msg">
-                    <div
-                        *ngIf="routePlanForm.get('state').errors['required']">
-                        state is required</div>
-                </div>
             </div>
 
             <div class="col-md-4 form-group">
-                <label for="extProcess" class="">City</label>
-                 <select id="abc" formControlName="city"
-                class="form-control">
-                <option value="">Select</option>
-                <option *ngFor="let city of cityList"
-                    [value]="city.CityName">{{
-                    city.CityName }}
-                </option>
-            </select>
-            <div *ngIf="routePlanForm.get('city').invalid && (routePlanForm.get('city').dirty || routePlanForm.get('city').touched)"
-                class="text-danger validation-msg">
-                <div
-                    *ngIf="routePlanForm.get('city').errors['required']">
-                    city is required</div>
+                <label for="extProcess" class="">State</label>
+                <select id="select2drop" class="select2 form-control" formControlName="state">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
             </div>
-            </div>
-
             <div class="col-md-4 form-group">
                 <label for="description">Description</label>
                 <input type="text" formControlName="description" class="form-control" maxlength="">
-            </div>
-
-            <div mat-dialog-actions align="end">
-                <button class="btn btn-primary" mat-dialog-close>Cancel</button>&nbsp;
-                <button class="btn btn-danger" type="submit" mat-dialog-close>Save</button>
             </div>
 
         </div>
@@ -69,7 +42,7 @@
     <button mat-button [mat-dialog-close]="true" cdkFocusInitial>ABC</button>
 </mat-dialog-actions> -->
 
-<!-- <div mat-dialog-actions align="end">
+<div mat-dialog-actions align="end">
     <button class="btn btn-primary" mat-dialog-close>Cancel</button>&nbsp;
     <button class="btn btn-danger" type="submit" mat-dialog-close>Save</button>
-</div> -->
+</div>
