@@ -4,7 +4,7 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FollowUpService } from 'src/app/services/Transaction/follow-up.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 @Component({
   selector: 'app-new-follow-up',
@@ -12,7 +12,7 @@ import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.
   imports: [ReactiveFormsModule, FormsModule, HttpClientModule, CommonModule],
   templateUrl: './new-follow-up.component.html',
   styleUrls: ['./new-follow-up.component.scss'],
-  providers: [FollowUpService, SnackBarService],
+  providers: [FollowUpService, ToasterService],
   encapsulation: ViewEncapsulation.None
 })
 export class NewFollowUpComponent {
@@ -27,7 +27,7 @@ export class NewFollowUpComponent {
   options: any = [];
   pastSelectedModeAndContactPersonName: any;
 
-  constructor(private followUpService: FollowUpService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService) { }
+  constructor(private followUpService: FollowUpService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private location: Location, private toasterService: ToasterService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -98,10 +98,10 @@ export class NewFollowUpComponent {
         res => {
           this.newFollowUpForm.reset();
           this.location.back();
-          this.snackBarService.showSuccessMessage('Follow Up saved successfully!');
+          this.toasterService.showSuccess('Follow-Up created successfully!');
         },
         error => {
-          this.snackBarService.showErrorMessage('Failed to save Follow Up');
+          this.toasterService.showError('Failed to save Follow Up');
         }
       );
 

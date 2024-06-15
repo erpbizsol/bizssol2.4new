@@ -419,3 +419,14 @@ mat-label {
 //   color: #fff;
 //   font-size: 4rem;
 // }
+// Bootstrap functions, variables, and mixins
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+// Regular style toast
+@import 'ngx-toastr/toastr';
+
+// Bootstrap style toast for version 4 or 5 (use only one based on your project)
+// @import 'ngx-toastr/toastr-bs4-alert'; // For Bootstrap 4
+@import 'ngx-toastr/toastr-bs5-alert'; // For Bootstrap 5

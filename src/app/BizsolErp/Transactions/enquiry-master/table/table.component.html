@@ -28,7 +28,7 @@
     </div>
 
     <div class="col-md-4 text-end mtBtn12">
-      <button routerLink="/leads/undefined/new" class="btn btn-primary">Create new <i class="fa fa-plus-circle"
+      <button routerLink="/master/undefined/new" class="btn btn-primary">Create new <i class="fa fa-plus-circle"
           aria-hidden="true"></i></button>
     </div>
 
@@ -79,7 +79,7 @@
             <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
           </th>
           <td mat-cell *matCellDef="let row" class="text-center action-link action-col">
-            <button class="btn btn-primary" routerLink="/leads/{{row.Code}}/new">
+            <button class="btn btn-primary" routerLink="/master/{{row.Code}}/new">
               <!-- [disabled]="row.Verified === 'Y' || row.Verified === 'R'"> -->
               <i class="fa fa-pencil" aria-hidden="true" title="Edit"></i>
             </button>
@@ -100,6 +100,9 @@
                 </li>
                 <li><a class="dropdown-item"><button class="btn btn-primary modalbtn" (click)="openFollowUp(row.Code)"
                       [disabled]="row.Verified !== 'Y'">Follow Up</button></a>
+                </li>
+                <li><a class="dropdown-item"><button class="btn btn-primary modalbtn"
+                      routerLink="/master/{{row.Code}}/history">History</button></a>
                 </li>
               </ul>
             </button>

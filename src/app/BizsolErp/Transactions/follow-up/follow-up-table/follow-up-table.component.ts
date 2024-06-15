@@ -14,10 +14,7 @@ import { FollowUpService } from 'src/app/services/Transaction/follow-up.service'
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
-import { NewFollowUpComponent } from '../new-follow-up/new-follow-up.component';
-import { EditFollowUpComponent } from '../edit-follow-up/edit-follow-up.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 @Component({
   selector: 'app-follow-up-table',
@@ -36,7 +33,7 @@ import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.serv
     FormsModule, 
     RouterModule
   ],
-  providers: [FollowUpService, DatePipe, SnackBarService],
+  providers: [FollowUpService, DatePipe, ToasterService],
   templateUrl: './follow-up-table.component.html',
   styleUrl: './follow-up-table.component.scss'
 })
@@ -88,7 +85,7 @@ export class FollowUpTableComponent {
     private route: ActivatedRoute, 
     private dialog: MatDialog, 
     private datePipe: DatePipe, 
-    private snackBarService: SnackBarService
+    private toasterService: ToasterService
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +114,7 @@ export class FollowUpTableComponent {
     }
     },
     err => {
-      this.snackBarService.showErrorMessage('Failed to fetch Follow-Up data');
+      this.toasterService.showError('err.Msg');
     });
   }
 
@@ -146,11 +143,11 @@ export class FollowUpTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.confirmed) {
         const reason = result.reason;
-        this.followUpService.deleteFollowup(Code, reason).subscribe(() => {
-          this.snackBarService.showSuccessMessage('Follow Up deleted successfully!');
+        this.followUpService.deleteFollowup(Code, reason).subscribe((res: any) => {
+          this.toasterService.showSuccess(res.Msg);
           },
           err => {
-            this.snackBarService.showErrorMessage('Failed to delete Follow Up');
+            this.toasterService.showError('Failed to delete Follow Up');
           }
         );
       
