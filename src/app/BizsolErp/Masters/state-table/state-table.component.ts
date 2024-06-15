@@ -93,8 +93,16 @@ export class StateTableComponent implements OnInit {
     this.createvisible = !this.createvisible;
 
   }
-  handleLiveDemoChange($event: boolean) {
-
+  Updatetoggle() {
+    this.updatevisible = !this.updatevisible;
+    
+  }
+  handleLiveDemoChange(event: boolean) {
+   this.createvisible=event;
+   this.stateForm.reset();
+  } 
+  handleLiveupdateChange(event:any){
+    this.updatevisible=event;
   }
 
   constructor(private _countryService: CountryService, private _stateService: StateService, private fb: FormBuilder, private dialog: MatDialog) { }
@@ -130,7 +138,13 @@ stateinitialvalidation(event:KeyboardEvent){
   if(!pattern.test(inputChar)){
     event.preventDefault();
   }
-
+}
+statecodevalidation(event:KeyboardEvent){
+const inputChar=String.fromCharCode(event.charCode);
+const pattern=/[0-9]/;
+if(!pattern.test(inputChar)){
+  event.preventDefault()
+}
 }
 
   getStateList(country: string) {

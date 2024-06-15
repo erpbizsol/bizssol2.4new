@@ -90,7 +90,7 @@
 
     <!-- /////////////////////////////////////////////////////////////Create City///////////////////////////////////////////////////////////////////// -->
 
-    <c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal id="liveDemoModal" [visible]="createvisible" alignment="center" backdrop="static" (visibleChange)="handleLiveDemoChange($event) ">
         <c-modal-header>
             <h5 cModalTitle>City</h5>
             <button (click)="createtoggle()" cButtonClose></button>
@@ -161,7 +161,7 @@
         </form>
     </c-modal>
 <!-- ///////////////////////////////////////////////////////////////////Update City//////////////////////////////////////////////////////// -->
-<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)">
+<c-modal id="updateModal" [visible]="updatevisible" alignment="center" backdrop="static" (visibleChange)="handleUpdateChange($event)">
     <c-modal-header>
         <h5 cModalTitle>Update State</h5>
         <button (click)="updatetoggle()" cButtonClose></button>

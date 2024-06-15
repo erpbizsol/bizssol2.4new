@@ -21,7 +21,7 @@ export class ChemicalDialogComponent {
   elementData: any;
   submitted: boolean = false
   chemicalForm !: FormGroup;
-  
+  // chemicallist: any = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
