@@ -1,0 +1,190 @@
+<h5>Lead History</h5>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card form-card">
+            <form>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="followName">Enquiry No</label>
+                            <input type="text" id="followName" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enquiry Date</label>
+                            <input type="date" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enquiry Type</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Customer Type</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>created By</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Submitted By</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Verified/Rejected By</label>
+                            <input type="text" class="form-control"
+                                [value]="selectedRowData?.CustomerContactPhoneNumber" disabled>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Approved By</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Completed By</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Completion Remarks</label>
+                            <input type="text" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2 mb-2  content-end" (click)="Cancel()">
+                        <button class="btn btn-danger" type="cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>&nbsp; &nbsp;
+        <div>
+            <h6>Assigned Deatils</h6>
+            <div class="tableMobile mt-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S. NO</th>
+                            <th>Assigned Date</th>
+                            <th>Assigned By</th>
+                            <th>Assigned To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td class="ellipsis" matTooltipPosition="above">13/06/2024</td>
+                            <td>Abhishek</td>
+                            <td>ABC</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h6>contact Person Deatils</h6>
+            <div class="tableMobile mt-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S. NO</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Email-Id</th>
+                            <th>Contact No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td class="ellipsis" matTooltipPosition="above">Testing</td>
+                            <td>Production</td>
+                            <td>HOD</td>
+                            <td>Email-Id</td>
+                            <td>6764534331</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h6>Product Deatils</h6>
+            <div class="tableMobile mt-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S. NO</th>
+                            <th>Item Name</th>
+                            <th>Specification</th>
+                            <th>UOM</th>
+                            <th>Quantity</th>
+                            <th>Remarks/th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Pipe 1</td>
+                            <td class="ellipsis" matTooltipPosition="above">1080 x 720</td>
+                            <td>MT</td>
+                            <td>12.1</td>
+                            <td class="ellipsis" matTooltipPosition="above">Testing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h6>Follow-up Deatils</h6>
+            <div class="tableMobile mt-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S. NO</th>
+                            <th>Follow-up Date</th>
+                            <th>Follow-up Mode</th>
+                            <th>Our Remarks</th>
+                            <th>Customer Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>13-06-2024</td>
+                            <td>Visit</td>
+                            <td class="ellipsis" matTooltipPosition="above">Testing 1</td>
+                            <td class="ellipsis" matTooltipPosition="above">Testing 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

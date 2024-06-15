@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-history',
   standalone: true,
@@ -8,12 +9,10 @@ import { Location } from '@angular/common';
   styleUrl: './history.component.scss'
 })
 export class HistoryComponent {
+  constructor(private location: Location) {
 
-constructor(private location: Location){
-
-}
-  Cancel(){
+  }
+  Cancel() {
     this.location.back();
   }
-
 }

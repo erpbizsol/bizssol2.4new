@@ -43,11 +43,11 @@ export class NewCustomerComponent implements OnInit {
   minDate1: string;
   maxDate: string
   enquiryFormSubmitted: boolean = false;
-  companyhide: boolean = false;
+  companyNamehide: boolean = false;
   selected: string = 'new';
   editDisable: boolean = false;
 
-  newCode: number;
+  newCode: any;
   editCode: any;
   contactPersonCode: any;
   productDetailsCode: any;
@@ -88,6 +88,7 @@ export class NewCustomerComponent implements OnInit {
   myControl: FormControl = new FormControl('');
   base64String: string;
   documentType: string;
+  existingContactPerson: any = [];
 
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -101,7 +102,6 @@ export class NewCustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("object", this.imageSrc);
     this.UOMList()
     this.getProduct()
     this.getLeadSource()
@@ -116,30 +116,23 @@ export class NewCustomerComponent implements OnInit {
       this.editCode = params['Code'];
       this.getEnquirByCode()
     });
-
-    if (this.editCode !== "undefined") {
-      this.hidedetailsOfEnquiry = true;
-      this.editDisable = true;
-      this.enquiryFormSubmitted = true;
-    }
   }
 
-  ngAfterViewInit() {
-    const activeElement = this.el.nativeElement.querySelector('#active');
-    const inactiveElement = this.el.nativeElement.querySelector('#inactive');
+  // ngAfterViewInit() {
+  //   const activeElement = this.el.nativeElement.querySelector('#active');
+  //   const inactiveElement = this.el.nativeElement.querySelector('#inactive');
 
-    if (activeElement && inactiveElement) {
-      this.renderer.setStyle(activeElement.nextSibling, 'color', 'green');
-      this.renderer.setStyle(inactiveElement.nextSibling, 'color', 'red');
-    }
-  }
-  // Radio button change color 
-  setSelected(value: string) {
-    this.selected = value;
-    // this.showexisting();
-  }
+  //   if (activeElement && inactiveElement) {
+  //     this.renderer.setStyle(activeElement.nextSibling, 'color', 'green');
+  //     this.renderer.setStyle(inactiveElement.nextSibling, 'color', 'red');
+  //   }
+  // }
+
   showexisting() {
-    this.companyhide = true;
+    this.companyNamehide = true;
+    this.selected = 'existing';
+    this._changeDetect.detectChanges;
+
     this.customerType = {
       tableName: "AccountMaster",
       fieldName: "AccountDesp",
@@ -150,8 +143,6 @@ export class NewCustomerComponent implements OnInit {
     this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, this.customerType).subscribe((res: any) => {
       this.companyList = res;
     })
-    // this._changeDetect.detectChanges;
-    this.setSelected('existing');
     this.newCustomerForm.get('customername')?.reset();
     this.newCustomerForm.get('customerType')?.reset();
     this.newCustomerForm.get('pin')?.reset();
@@ -165,14 +156,12 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('address2')?.reset();
 
     this.editCode = undefined;
-    if (this.newCode == undefined && this.editCode == undefined) {
-      console.log("newCode", this.newCode, this.editCode);
-    }
   }
   hideexisting() {
-    this.companyhide = false;
-    // this._changeDetect.detectChanges();
-    this.setSelected('new');
+    this.companyNamehide = false;
+    this.selected = 'new';
+    this._changeDetect.detectChanges();
+
     this.newCustomerForm.get('customername')?.reset();
     this.newCustomerForm.get('customerType')?.reset();
     this.newCustomerForm.get('pin')?.reset();
@@ -184,13 +173,6 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('website')?.reset();
     this.newCustomerForm.get('address1')?.reset();
     this.newCustomerForm.get('address2')?.reset();
-
-    if (this.newCode == undefined || this.editCode == undefined) {
-      console.log("newCode", this.newCode, this.editCode);
-    }
-  }
-  setDisableConditions() {
-    this.editDisable = true; // or some condition
   }
 
   switchToContactTab() {
@@ -248,8 +230,21 @@ export class NewCustomerComponent implements OnInit {
     const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
     this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
       this.leadData = res.EnquiryMaster[0];
-      this.contactPersonsList = res.ContactPersonsList;
+      // this.contactPersonsList = res.ContactPersonsList;
+      res.ContactPersonsList = this.contactPersonsList;
+      console.log("contactPersonsList", res.ContactPersonsList);
+
       this.enquiryProductDetails = res.EnquiryDetails;
+
+      if (this.editCode !== "undefined") {
+        this.hidedetailsOfEnquiry = true;
+        this.editDisable = true;
+        this.enquiryFormSubmitted = true;
+        if (this.leadData.CustomerFromMaster == "Y") {
+          this.selected = 'existing';
+        }
+        // this.getCompanyDetails('DEEPAK JAIN(HUF)')
+      }
       this.populateForm();
     })
   }
@@ -328,14 +323,12 @@ export class NewCustomerComponent implements OnInit {
     }
   }
 
-
-
-
   //   onKeyPress(event: KeyboardEvent) {
   //     const allowedChars = /^[a-zA-Z0-9@.]*$/;
   //     let inputChar = String.fromCharCode(event.charCode);
 
   //     inputChar = inputChar.toUpperCase()
+  //     console.log(inputChar,"kkk")
 
 
   //     if (!allowedChars.test(inputChar)) {
@@ -343,7 +336,6 @@ export class NewCustomerComponent implements OnInit {
   //     }
   // }
   onInput(event: KeyboardEvent) {
-
     const allowedChars = /^[A-Za-z\s]*$/;
     const inputChar = String.fromCharCode(event.charCode);
     if (!allowedChars.test(inputChar)) {
@@ -493,6 +485,7 @@ export class NewCustomerComponent implements OnInit {
     const selectedCompany = (event.target as HTMLSelectElement).value;
     this._enquiryService.GetAccountDetails(selectedCompany).subscribe((res: any) => {
       this.companyDetails = res.AccountMaster[0];
+      this.contactPersonsList = res.AccountContactPersonDetail;
       this.state(this.companyDetails.Nation);
       this.city(this.companyDetails.State)
       this.companyDetailsPopulates();
@@ -595,6 +588,7 @@ export class NewCustomerComponent implements OnInit {
       //     startWith(''),
       //     map(value => this._filter(value))
       //   );
+      // console.log("filteredOptions", this.filteredOptions);
     })
   }
   onProductChange(event: any): void {
@@ -674,6 +668,7 @@ export class NewCustomerComponent implements OnInit {
     if (image == "data:;base64,") {
       this.imageSrc = null;
     } else this.imageSrc = image;
+
     const enquiryDate = this.datePipe.transform(this.leadData.EnquiryDate, 'yyyy-MM-dd');
     const referenceDate = this.datePipe.transform(this.leadData.ReferenceDate, 'yyyy-MM-dd');
     const followupdate = this.datePipe.transform(this.leadData.NextFollowupdate, 'yyyy-MM-dd');
@@ -762,8 +757,13 @@ export class NewCustomerComponent implements OnInit {
         this._contactPersonService.postPersonDetails(Obj).subscribe(res => {
           this.contactPerson.reset();
           this.contactPersonCode = undefined;
+          console.log(Obj.contactPersonsList[0]);
+          this.contactPersonsList.push(Obj.contactPersonsList[0])
           this.getEnquirByCode();
-          this.snackBarService.showSuccessMessage('Contact person details saved successfully!');
+
+          if (Obj.contactPersonsList[0].Code) {
+            this.snackBarService.showSuccessMessage('Contact person details updated successfully!');
+          } else this.snackBarService.showSuccessMessage('Contact person details saved successfully!');
         },
           err => {
             this.snackBarService.showErrorMessage('Failed to save Contact person details');
@@ -786,13 +786,16 @@ export class NewCustomerComponent implements OnInit {
       if (selectedPerson) {
         this.personDataPopplate(selectedPerson)
       }
-      this.snackBarService.showSuccessMessage('Contact person details updated successfully!');
+      // this.snackBarService.showSuccessMessage('Contact person details updated successfully!');
     },
       err => {
         this.snackBarService.showErrorMessage('Failed to update Contact person details');
       })
   }
   personDataPopplate(person: any) {
+    // this.contactPersonsList.forEach((person, index) => {
+    //   console.log(`Object ${index + 1}`, person.ContactPersonName);
+    // });
     this.contactPerson.patchValue({
       name: person.ContactPersonName,
       department: person.DepartmentName,
@@ -917,6 +920,7 @@ export class NewCustomerComponent implements OnInit {
       if (result) {
         const reason = result.reason;
         this._enquiryService.deleteProductDetails(Code, reason).subscribe(() => {
+          // console.log(`${Code} has been deleted`);
           this.productDetails.reset();
           this.getEnquirByCode();
           const index = this.dataSource.data.findIndex(item => item.Code === Code);
@@ -945,32 +949,6 @@ export class NewCustomerComponent implements OnInit {
   }
 
   onFileUploadChange(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imageSrc = reader.result as string;
-      this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
-      this.base64String = this.imageSrc.split(',')[1];
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // onFileUploadChange1(event: any) {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     this.imageSrc = reader.result as string;
-  //     this.documentType = this.imageSrc.split(',')[0].split(';')[0].split(':')[1];
-  //     this.base64String = this.imageSrc.split(',')[1];
-  //   };
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  onFileUploadChange1(event: any) {
     const file = event.target.files[0];
     if (file && file.size > 100 * 1024) {
       const reader = new FileReader();
