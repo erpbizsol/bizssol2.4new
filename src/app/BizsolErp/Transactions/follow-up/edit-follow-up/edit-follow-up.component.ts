@@ -5,13 +5,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FollowUpService } from 'src/app/services/Transaction/follow-up.service';
-import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 @Component({
   selector: 'app-edit-follow-up',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, HttpClientModule, CommonModule],
-  providers: [FollowUpService, DatePipe, SnackBarService],
+  providers: [FollowUpService, DatePipe, ToasterService],
   templateUrl: './edit-follow-up.component.html',
   styleUrl: './edit-follow-up.component.scss'
 })
@@ -30,7 +30,7 @@ export class EditFollowUpComponent {
     private route: ActivatedRoute,
     private datePipe: DatePipe,
     private location: Location,
-    private snackBarService: SnackBarService) { }
+    private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -96,11 +96,11 @@ export class EditFollowUpComponent {
   
       this.followUpService.createFollowup(formData).subscribe(
         res => {
-          this.snackBarService.showSuccessMessage('Follow Up updated successfully!');
+          this.toasterService.showSuccess('Follow Up updated successfully!');
           this.location.back();
         },
         err => {
-          this.snackBarService.showErrorMessage('Failed to update Follow Up');
+          this.toasterService.showError('Failed to update Follow Up');
         }
       );
     } else {

@@ -19,6 +19,8 @@ import {
 import { DefaultHeaderComponent } from './default-header/default-header.component';
 import { DefaultFooterComponent } from './default-footer/default-footer.component';
 import { MenuService } from '../services/Menu-Service/menu.service';
+import { ToasterService } from '../services/toaster-message/toaster.service';
+
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -46,13 +48,13 @@ import { CommonModule } from '@angular/common';
     DefaultFooterComponent, 
     CommonModule, 
   ],
-  providers: [MenuService, HeaderService], 
+  providers: [MenuService, HeaderService, ToasterService], 
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class DefaultLayoutComponent implements OnInit { 
   public navItems: INavData[] = []; 
 
-  constructor(private menuService: MenuService ,private headerService: HeaderService) { this.getMenuList();} 
+  constructor(private toasterService: ToasterService,private menuService: MenuService ,private headerService: HeaderService) { this.getMenuList();} 
 
   ngOnInit(): void {
     
@@ -61,6 +63,7 @@ export class DefaultLayoutComponent implements OnInit {
   getMenuList() {
     this.menuService.getMenuItems().subscribe((data: any) => { 
       this.navItems = this.transformMenuData(data); 
+ this.toasterService.showSuccess('This is a success message!', 'Success');
       this.navItems.unshift({ 
         name: 'Home',
         url: '',
