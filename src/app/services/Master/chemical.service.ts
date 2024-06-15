@@ -18,19 +18,11 @@ export class ChemicalService {
    
 
   }
-
-
   saveChemical(payload: any): Observable<any> {
     let url = `${this._urlService.API_ENDPOINT_CHEMICAL}/SavePaymentTermsMaster`;
     return this._http.post(url, payload, { headers: this.headers });
   }
 
-  
-    updatePayMent(payload: any): Observable<any> {  
-      let url = `${this._urlService.API_ENDPOINT_CHEMICAL}/SavePaymentTermsMaster`;
-      return this._http.post(url, payload, { headers: this.headers });
-    }
-  
     deleteChemicalList(code: number, reason: any) {
    let url = this._urlService.API_ENDPOINT_CHEMICAL + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers });

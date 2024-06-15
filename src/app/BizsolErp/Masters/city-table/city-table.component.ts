@@ -97,11 +97,13 @@ citypincodevalidation(event:KeyboardEvent){
     this.updatevisible = !this.updatevisible;
 
   }
-  handleUpdateChange(event: any) {
-  }
   handleLiveDemoChange(event: any) {
-
+   this.createvisible=event;
+   this.cityForm.reset();
   }
+  handleUpdateChange(event: any) {
+    this.updatevisible=event;
+    }
 
   getStateList(country: any) {
     this.countryName = country

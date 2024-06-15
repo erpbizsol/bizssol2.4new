@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ChemicalService } from '../../../services/Master/chemical.service';
+import{ChemicalDialogComponent} from '../chemical/chemical-dialog/chemical-dialog.component'
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,7 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent } from '@coreui/angular';
 import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
-import { AddPaymentDialogComponent } from 'src/app/pop-up/add-payment-dialog/add-payment-dialog.component';
+
+
 
 @Component({
   selector: 'app-chemical',
@@ -28,6 +30,7 @@ export class ChemicalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
+
   constructor(private _chemicalService: ChemicalService, public dialog: MatDialog) {}
 
   ngOnInit() {
@@ -69,7 +72,7 @@ export class ChemicalComponent implements OnInit {
   }
 
   addDialog(value: any) {
-    const dialogRef = this.dialog.open(AddPaymentDialogComponent, {
+    const dialogRef = this.dialog.open(ChemicalDialogComponent, {
       width: '400px',
       height: '380px',
       disableClose: true,

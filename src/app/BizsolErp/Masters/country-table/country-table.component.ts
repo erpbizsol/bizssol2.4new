@@ -73,7 +73,7 @@ export class CountryTableComponent {
       countrycode: ['', [Validators.required, Validators.maxLength(3)]],
     })
   }
-  ////////////////////////////////////////////////Validation for create city modal//////////////////////////////////////////////////
+  ////////////////////////////////////////////////Validation for create country modal//////////////////////////////////////////////////
 specialCharacternumberValidator(event: KeyboardEvent) {
   const inputChar = String.fromCharCode(event.charCode);
   const pattern = /[a-zA-Z]/;
@@ -83,14 +83,17 @@ specialCharacternumberValidator(event: KeyboardEvent) {
     event.preventDefault();
   }
 }
-onlynumberinput(event:KeyboardEvent){
-  const inputChar =String.fromCharCode(event.charCode);
-  const pattern =/[0-9]/;
-  if(!pattern.test(inputChar)){
+onlynumberinput(event: KeyboardEvent) {
+  const inputChar = String.fromCharCode(event.charCode);
+  const pattern = /^[0-9+]$/;
+
+  // Check if the input character is a digit or a single '+'
+  if (!pattern.test(inputChar)) {
     event.preventDefault();
   }
-
+  
 }
+
   /////////////////////////////////////////////////    ReadCountry///////////////////////////////////////////////////////
 
   getCountryList() {
@@ -114,7 +117,10 @@ onlynumberinput(event:KeyboardEvent){
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
-    // this.countryForm.reset();
+    this.countryForm.reset();
+  }
+  handleLiveupdateChange(event:any){
+    this.updatevisible=event;
   }
 
   submit() {
@@ -124,8 +130,6 @@ onlynumberinput(event:KeyboardEvent){
     }
 
     let obj = {
-      // code: this.countryForm.value.code,
-      code: 0,
       CountryName: this.countryForm.value.countryname,
       CountryCode: this.countryForm.value.countrycode,
       userMaster_Code: 141,

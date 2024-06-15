@@ -85,7 +85,7 @@
 
 <!-- //////////////////////////////////////////////////////////////Create Modal/////////////////////////////////////////////////////////////////////// -->
 
-<c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)="handleLiveDemoChange($event)" alignment="center">
+<c-modal id="liveDemoModal" [visible]="createvisible" backdrop="static" (visibleChange)="handleLiveDemoChange($event)" alignment="center">
     <c-modal-header>
         <h5 cModalTitle style="text-align: center;">State</h5>
         <button (click)="toggleLiveDemo()" cButtonClose></button>
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="statecode">State Code</label>
-                    <input class="form-control" type="text" formControlName="stateCode" maxlength="2">
+                    <input class="form-control" type="text" formControlName="stateCode" maxlength="2" (keypress)="statecodevalidation($event)">
                     <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
                     <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
                         class="error-message">
@@ -163,7 +163,7 @@
 </c-modal>
 <!-- //////////////////////////////////////////////////Update Modal////////////////////////////////////////// -->
 
-<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)">
+<c-modal id="updateModal" [visible]="updatevisible" backdrop="static" alignment="center" (visibleChange)="handleUpdateChange($event)">
     <c-modal-header>
         <h5 cModalTitle  style="text-align: center;">Update State</h5>
         <button (click)="toggleUpdate()" cButtonClose></button>
