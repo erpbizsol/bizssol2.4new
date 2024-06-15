@@ -88,20 +88,13 @@ export class StateTableComponent implements OnInit {
   selectedCountry: string;
   countryName: string;
 
-/////////////////////////////////////////////////////////Toggler function for modal/////////////////////////////////////////////////
+
   toggleLiveDemo() {
     this.createvisible = !this.createvisible;
-    this.stateForm.reset(); 
+
   }
-  toggleUpdate() {
-    this.updatevisible = !this.updatevisible;  
-  }
-  handleCreateChange(event:any){
-    this.createvisible = event;
-    }
-    handleUpdateChange(event: any) {
-    this.updatevisible=event;
-    
+  handleLiveDemoChange($event: boolean) {
+
   }
 
   constructor(private _countryService: CountryService, private _stateService: StateService, private fb: FormBuilder, private dialog: MatDialog) { }
@@ -131,41 +124,10 @@ specialCharacternumberValidator(event: KeyboardEvent) {
     event.preventDefault();
   }
 }
-// stateinitialvalidation(event:KeyboardEvent){
-//   const inputChar =String.fromCharCode(event.charCode);
-//   const pattern =/[A-Z]/;
-//   if(!pattern.test(inputChar)){
-//     event.preventDefault();
-//   }
-
-// }
-stateinitialvalidation(event) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-z]/; 
-  if (pattern.test(inputChar)) {
-    const uppercaseChar = inputChar.toUpperCase(); // Convert to uppercase
-    const inputElement = event.target; // Assuming the event target is the input element
-    const currentValue = inputElement.value;
-    const selectionStart = inputElement.selectionStart;
-    const selectionEnd = inputElement.selectionEnd;
-    // Replace the lowercase character with its uppercase equivalent
-    const newValue =
-      currentValue.substring(0, selectionStart) +
-      uppercaseChar +
-      currentValue.substring(selectionEnd);
-    // Update the input value
-    inputElement.value = newValue;
-    // Adjust cursor position
-    inputElement.selectionStart = inputElement.selectionEnd = selectionStart + 1;
-    // Prevent the default action of the event (inserting the lowercase character)
-    event.preventDefault();
-  }
-}
-
-onlynumberinput(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[0-9]/;
-  if (!pattern.test(inputChar)) {
+stateinitialvalidation(event:KeyboardEvent){
+  const inputChar =String.fromCharCode(event.charCode);
+  const pattern =/[A-Z]/;
+  if(!pattern.test(inputChar)){
     event.preventDefault();
   }
 
@@ -174,28 +136,28 @@ onlynumberinput(event: KeyboardEvent) {
   getStateList(country: string) {
 
     this.selectedcountry=country;
-    // console.log(this.selectedcountry);
+    console.log(this.selectedcountry);
 
     this._stateService.getStatesList(country).subscribe((res: any[]) => {
       this.statelist = res.map((item, index) => ({ SN: index + 1, ...item }));
       this.dataSource = new MatTableDataSource(this.statelist);
       this.dataSource.sort = this._sorting;
       this.dataSource.paginator = this._paging;
-      // console.log('Data Source:', this.dataSource.data);
+      console.log('Data Source:', this.dataSource.data);
     });
   }
 
 
   submit() {
     let obj = {
-      // code: 0,
+      code: 0,
       CountryName: this.stateForm.value.countryName,
       StateName: this.stateForm.value.stateName,
       StateCode: this.stateForm.value.stateCode,
       StateShortName: this.stateForm.value.stateInitial,
       userMaster_Code: 13,
     }
-    // console.log("state", obj);
+    console.log("state", obj);
 
     if (obj.StateName === this.statelist.stateName) {
       alert(`Please Check ! Country Name already exists ${obj.StateName}`)
@@ -209,20 +171,20 @@ onlynumberinput(event: KeyboardEvent) {
             this.toggleLiveDemo();
           }
           alert(responseObj.Msg)
-          this.stateForm.reset();
-        this.getStateList(this.selectedcountry);
+          this.getStateList( this.countryName);
         },
-        // error: console.log,
+        error: console.log,
       })
     }
+    this.stateForm.reset();
 
+    this.getStateList(this.selectedcountry);
 
   }
   getCountryList() {
-    
     this._countryService.getCountry().subscribe(res => {
-      this.countrylist = res
-
+      this.countrylist = res;
+      // console.log("object",  this.countrylist[0].CountryName);
 
     })
   }
@@ -255,7 +217,16 @@ onlynumberinput(event: KeyboardEvent) {
   // //////////////////////////////////////////////////////////Update State/////////////////////////////////
   // public visible = false;
 
- 
+  toggleUpdate() {
+    this.updatevisible = !this.updatevisible;
+    if (!this.updatevisible) {
+      this.stateForm.reset();
+    }
+
+  }
+  handleUpdateChange(event: any) {
+
+  }
   editState(item: any) {
     // console.log("unique Code", item.Code);
     if (item.Code) {
@@ -267,14 +238,14 @@ onlynumberinput(event: KeyboardEvent) {
       });
       this.toggleUpdate();
       this.item = item.Code; // Store the item for reference
-      // console.log("the updated item are :", this.item);
+      console.log("the updated item are :", this.item);
     } else {
-      // console.error("Item or CountryName is undefined:", item);
+      console.error("Item or CountryName is undefined:", item);
     }
   }
 
   updateSubmit(stateCode: any) {
-    this.createvisible=false;
+
     const updatedCountry = this.stateForm.value.countryName;
     const updatedState = this.stateForm.value.stateName;
     const updatedInitial = this.stateForm.value.stateInitial;
@@ -300,10 +271,9 @@ onlynumberinput(event: KeyboardEvent) {
         }
        
         this.updatevisible = false;
-        
 
       },
-      // error: console.error,
+      error: console.error,
 
 
     });

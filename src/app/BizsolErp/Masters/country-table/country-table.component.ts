@@ -29,6 +29,8 @@ import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-conferma
 export class CountryTableComponent {
 
 
+
+  // displayedColumns: string[] = ['sn', 'countryname',];
   dataSource: MatTableDataSource<any>;
 
   countryForm !: FormGroup;
@@ -67,34 +69,34 @@ export class CountryTableComponent {
   }
   setForm() {
     this.countryForm = this.fb.group({
-      countryname: ['', [Validators.required]],
-      countrycode: ['', [Validators.required]],
+      countryname: ['', [Validators.required, Validators.maxLength(3)]],
+      countrycode: ['', [Validators.required, Validators.maxLength(3)]],
     })
   }
   ////////////////////////////////////////////////Validation for create city modal//////////////////////////////////////////////////
-  specialCharacternumberValidator(event: KeyboardEvent) {
-    const inputChar = String.fromCharCode(event.charCode);
-    const pattern = /[a-zA-Z\s]/;
+specialCharacternumberValidator(event: KeyboardEvent) {
+  const inputChar = String.fromCharCode(event.charCode);
+  const pattern = /[a-zA-Z]/;
 
-    if (!pattern.test(inputChar)) {
-      // If the input character is not an alphabet, prevent it from being entered into the input field
-      event.preventDefault();
-    }
+  if (!pattern.test(inputChar)) {
+    // If the input character is not an alphabet, prevent it from being entered into the input field
+    event.preventDefault();
   }
-  onlynumberinput(event: KeyboardEvent) {
-    const inputChar = String.fromCharCode(event.charCode);
-    const pattern = /[+0-9]/;
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    }
+}
+onlynumberinput(event:KeyboardEvent){
+  const inputChar =String.fromCharCode(event.charCode);
+  const pattern =/[0-9]/;
+  if(!pattern.test(inputChar)){
+    event.preventDefault();
+  }
 
-  }
-  ///////////////////////////////////////////////// ReadCountry///////////////////////////////////////////////////////
+}
+  /////////////////////////////////////////////////    ReadCountry///////////////////////////////////////////////////////
 
   getCountryList() {
     this._countryService.getCountry().subscribe(res => {
       this.countrylist = res;
-      // console.log(this.countrylist);
+      console.log(this.countrylist);
 
     })
   }
@@ -104,55 +106,47 @@ export class CountryTableComponent {
     this.visible = !this.visible;
 
   }
-
   Updatetoggle() {
-    this.updatevisible = false;
-    this.countryForm.reset();
+    this.updatevisible = !this.updatevisible;
+    
   }
+
+
   handleLiveDemoChange(event: any) {
     this.visible = event;
-
-  }
-  handleLiveupdateChange(event: any) {
-    this.updatevisible = event;
-
+    // this.countryForm.reset();
   }
 
   submit() {
-    let countryName = this.countryForm.value.countryname;
-    let countryCode = this.countryForm.value.countrycode;
-
-    if (!countryName) {
-        alert("Country name is required.");
-        return; // Exit the function
-    }
-    if (!countryCode) {
-        alert("Country code is required.");
-        return; // Exit the function
+    if (this.countryForm.get('countryname').value === null || this.countryForm.get('countryname').value === '') {
+      alert('Please enter a country name.');
+      return;
     }
 
     let obj = {
+      // code: this.countryForm.value.code,
+      code: 0,
       CountryName: this.countryForm.value.countryname,
       CountryCode: this.countryForm.value.countrycode,
       userMaster_Code: 141,
     };
 
-    // console.log("city", obj);
+
+    if (this.countrylist.some((item :any) => item.countryName === obj.CountryName)) {
+
+      alert(`Please Check! Country Name already exists: ${obj.CountryName}`);
+      return;
+    }
 
     this._countryService.saveCountry(obj).subscribe({
       next: (res: any) => {
-        let obj = JSON.stringify(res);
         const responseObj = JSON.parse(JSON.stringify(res));
-        alert(responseObj.Msg)
-        this.getCountryList();
+        alert(responseObj.Msg);
         this.countryForm.reset();
-        
+        this.getCountryList();
       },
-      // error: console.log,
-    })
-    this.updatevisible = false;
-    this.countryForm.reset();
-
+      error: console.error,
+    });
   }
 
 
@@ -163,20 +157,20 @@ export class CountryTableComponent {
 
 
   editCountry(item: any) {
-    this.updatevisible = !this.updatevisible;
-    // this.visible = !this.visible;
     this.selectedCountryCode = item.Code;
-
+  
+    this.updatevisible = true;
+    this.visible = false;
     this.countryForm.patchValue({
       countryname: item.CountryName,
       countrycode: item.CountryCode
     });
-
+    // this.countryForm.reset();
   }
 
   updateSubmit() {
-
-    this.visible=false;
+    
+    
     const updatedValue = this.countryForm.value.countryname;
     const countrycode = this.countryForm.value.countrycode;
     // const code=this.selectedCountryCode.Code
@@ -192,10 +186,11 @@ export class CountryTableComponent {
       alert('Please enter a country name.');
       return;
     }
-    else if (this.countryForm.get('countrycode').value === null || this.countryForm.get('countrycode').value === '') {
-      alert('Please enter a country code.');
-      return;
-    }
+    else if(this.countryForm.get('countrycode').value === null || this.countryForm.get('countrycode').value ===''){
+        alert('Please enter a country code.');
+        return;
+      }
+
 
 
     this._countryService.saveCountry(obj).subscribe({
@@ -206,14 +201,13 @@ export class CountryTableComponent {
           alert(responseObj.Msg);
           this.getCountryList();
           this.countryForm.reset();
-          // this.ClearData();
-
+          
         }
         this.updatevisible = false;
-
+       
 
       },
-      // error: console.error,
+      error: console.error,
     });
   }
 
@@ -235,7 +229,7 @@ export class CountryTableComponent {
         const reason = result.reason;
         this._countryService.deleteCountry(Code, reason).subscribe((res) => {
 
-          // console.log(`${Code} has been deleted`);
+          console.log(`${Code} has been deleted`);
           const responseObj = JSON.parse(JSON.stringify(res));
           alert(responseObj.Msg);
           this.getCountryList();
@@ -243,6 +237,7 @@ export class CountryTableComponent {
       }
     });
   }
+
 
 
 

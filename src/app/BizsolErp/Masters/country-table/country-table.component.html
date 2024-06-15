@@ -28,7 +28,7 @@
       <ng-container
         *ngFor="let item of countrylist.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage); let i = index">
         <tr>
-          <td >{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
           <td>{{item.CountryCode}}</td>
           <td>{{ item.CountryName }}</td>
           <td class="col-md-3 text-center">
@@ -46,16 +46,16 @@
  
   <!-- /////////////////*************************Create Modal*****************************////////////////////////// -->
   
-  <c-modal id="createModal" [visible]="visible" alignment="center" size="sm" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
+  <c-modal id="createModal" [visible]="visible" alignment="center" size="sm" (visibleChange)="handleLiveDemoChange($event)">
   <form class="row" [formGroup]="countryForm" (ngSubmit)="submit()">
     <c-modal-header class="text-center">
       <h5 cModalTitle>Create Country</h5>
-      <button (click)="createcountrytoggle()" cButtonClose></button>
+      <!-- <button (click)="createcountrytoggle()" cButtonClose></button> -->
     </c-modal-header>
       <c-modal-body>
         <div class="col-md-12 form-group">
           <label for="countryname">Country</label>
-          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="100" (keypress)="specialCharacternumberValidator($event)" >
+          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="56" (keypress)="specialCharacternumberValidator($event)" >
           <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
           <!-- Required field Validation -->
           <div *ngIf="countryForm.get('countryname')?.hasError('required') && countryForm.get('countryname').touched"
@@ -96,7 +96,7 @@
 
   <!-- /////////////////*************************Update Modal*****************************////////////////////////// -->
 
-  <c-modal id="updateModal" [visible]="updatevisible" alignment="center" size="sm"  (visibleChange)="handleLiveupdateChange($event)" backdrop="static">
+  <c-modal id="updateModal" [visible]="updatevisible" alignment="center" size="sm"  (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header>
       <h5 cModalTitle>Update Country</h5>
       <button (click)="Updatetoggle()" cButtonClose></button>
@@ -105,7 +105,7 @@
       <c-modal-body>
         <div class="col-md-12 form-group">
           <label for="countryname">Country</label>
-          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="100" (keypress)="specialCharacternumberValidator($event)">
+          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="56" (keypress)="specialCharacternumberValidator($event)">
         </div>
         <div class="col-md-12 form-group">
           <label for="countrycode">Country Code</label>

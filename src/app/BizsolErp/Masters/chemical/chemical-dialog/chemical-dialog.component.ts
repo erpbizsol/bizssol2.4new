@@ -6,8 +6,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { ChemicalService } from 'src/app/services/Master/chemical.service';
-import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
+import { ChemicalService } from '../../../../services/Master/chemical.service';
+import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
 
 @Component({
   selector: 'app-chemical-dialog',
@@ -21,7 +21,7 @@ export class ChemicalDialogComponent {
   elementData: any;
   submitted: boolean = false
   chemicalForm !: FormGroup;
-  // chemicallist: any = [];
+  
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,7 +33,9 @@ export class ChemicalDialogComponent {
   }
   ngOnInit(): void {
     this.setForm();
-    // this.patchChemicalData();
+    // this.chemicalForm.get('').valueChanges.subscribe(value=>{
+
+    // });
   }
 
 
@@ -56,6 +58,12 @@ export class ChemicalDialogComponent {
   // }
   saveChemical() {
     this.submitted = true;
+
+    if(this.chemicalForm.invalid){
+      this.snackBarService.showErrorMessage("Please Fill All the Field");
+      return
+    }
+    
 
     let data = [{
       code: this.elementData.Code ? this.elementData.Code : 0,
@@ -94,7 +102,16 @@ export class ChemicalDialogComponent {
   }
   patchChemicalData(){
     this.chemicalForm.patchValue({
-      
+      chemicalName:this.elementData?.chemical,
+      sortOrder:this.elementData?.sort,
     })
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  get f() {
+    return this.chemicalForm.controls
   }
 }

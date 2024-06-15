@@ -3,22 +3,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { PaymetntTermService } from 'src/app/services/Master/paymetnt-term.service';
-import { AddPaymentDialogComponent } from 'src/app/BizsolErp/Masters/payment-term-master/add-payment-dialog/add-payment-dialog.component';
+import { AddPaymentDialogComponent } from 'src/app/pop-up/add-payment-dialog/add-payment-dialog.component';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent } from '@coreui/angular';
-import { MatSort } from '@angular/material/sort';
-import { MatSortModule } from '@angular/material/sort';
-
 
 @Component({
   selector: 'app-payment-term-master',
   standalone: true,
-    imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
-
+    imports: [HttpClientModule,MatTableModule,MatPaginatorModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
     templateUrl: './payment-term-master.component.html',
     styleUrl: './payment-term-master.component.scss',
     providers: [PaymetntTermService]
@@ -29,8 +25,6 @@ export class PaymentTermMasterComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
 
   constructor(private payment: PaymetntTermService, public dialog: MatDialog) {}
 
@@ -41,9 +35,7 @@ export class PaymentTermMasterComponent implements OnInit {
   getPaymentTermsData() {
     this.payment.getPaymentList('GetPaymentTermsMasterList').subscribe({
       next: (res: any) => {
-        res.sort((a: any, b: any) => a.Code - b.Code);
-        this.dataSource.data = res.reverse();
-        this.dataSource.sort = this.sort;
+        this.dataSource.data = res;
         this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {

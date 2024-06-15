@@ -1,58 +1,42 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { ChemicalService } from 'src/app/services/Master/chemical.service';
-import { HttpClientModule } from '@angular/common/http';
-import { MatIconModule } from '@angular/material/icon';
-import { ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalFooterComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective } from '@coreui/angular';
-import {ChemicalDialogComponent} from '../chemical/chemical-dialog/chemical-dialog.component';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ChemicalService } from '../../../services/Master/chemical.service';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent } from '@coreui/angular';
+import { MatSort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+import { AddPaymentDialogComponent } from 'src/app/pop-up/add-payment-dialog/add-payment-dialog.component';
+
 @Component({
   selector: 'app-chemical',
   standalone: true,
   providers: [ChemicalService],
-  imports: [ReactiveFormsModule, FormsModule,HttpClientModule, CommonModule,MatPaginatorModule,MatTableModule,MatSortModule,MatIconModule,CommonModule,ButtonDirective,ModalComponent,ModalHeaderComponent,ModalTitleDirective,ThemeDirective,ButtonCloseDirective,ModalBodyComponent,ModalFooterComponent],
+  imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
   templateUrl: './chemical.component.html',
   styleUrl: './chemical.component.scss'
 })
-export class ChemicalComponent {
-
-  displayedColumns: string[] = ['sNo', 'chemical', 'status', 'advancePaymentStatus', 'advancePaymentAmount', 'action'];
+export class ChemicalComponent implements OnInit {
+  displayedColumns: string[] = ['sNo', 'chemicalname', 'sortorder','ischemicalproperty', 'action'];
   dataSource = new MatTableDataSource<any>([]);
-
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   
+  constructor(private _chemicalService: ChemicalService, public dialog: MatDialog) {}
 
-  constructor(private fb: FormBuilder, private changeDetect: ChangeDetectorRef, private dialog: MatDialog,private _chemicalService: ChemicalService) { }
-  
+  ngOnInit() {
+    this.getPaymentTermsData();
+  }
 
-  chemicalForm!: FormGroup;
-  chemicalhide: boolean = false;
-  chemicalList:any=[];
- 
+  getPaymentTermsData() {
 
-  showchemical() {
-    this.chemicalhide = true;
-    this.changeDetect.detectChanges;
-  }
-  showmechemical() {
-    this.chemicalhide = false;
-    this.changeDetect.detectChanges();
-  }
-  getChemicalList(){
-    this._chemicalService.getChemicalList().subscribe(res=>{
-      this.chemicalList=res;
-      console.log(this.chemicalList);
-    })
-  }
-  getChemicalData() {
-    this._chemicalService.getChemicalList().subscribe({
+    this._chemicalService.getChemicalList('GetChemicalMasterList').subscribe({
       next: (res: any) => {
         res.sort((a: any, b: any) => a.Code - b.Code);
         this.dataSource.data = res.reverse();
@@ -60,19 +44,12 @@ export class ChemicalComponent {
         this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {
-        console.log(err.error.message);
+        // console.log(err.error.Msg);
       }
     });
   }
-  
-  /////////////////////////////////////////////////////////////////Edit Chemical/////////////////////////////////////////////////////////
-  editState(_t44: any) {
 
-
-  }
-  /////////////////////////////////////////////////////////////////Delete Chemical////////////////////////////////////////////////////////
-
-  deleteChemical(code: number) {
+  deletePayment(code: number) {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
       width: '375px',
       data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
@@ -84,7 +61,7 @@ export class ChemicalComponent {
         this._chemicalService.deleteChemicalList(code, reason).subscribe((res) => {
           console.log(`${code} has been deleted`);
           const responseObj = JSON.parse(JSON.stringify(res));
-          this.getChemicalData();
+          this.getPaymentTermsData();
           alert(responseObj.Msg);
         });
       }
@@ -92,7 +69,7 @@ export class ChemicalComponent {
   }
 
   addDialog(value: any) {
-    const dialogRef = this.dialog.open(ChemicalDialogComponent, {
+    const dialogRef = this.dialog.open(AddPaymentDialogComponent, {
       width: '400px',
       height: '380px',
       disableClose: true,
@@ -101,9 +78,7 @@ export class ChemicalComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      this.getChemicalData();
+      this.getPaymentTermsData();
     });
   }
-
 }
-

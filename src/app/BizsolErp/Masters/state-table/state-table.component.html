@@ -8,13 +8,11 @@
         <div class="col-md-5">
             <label>Country</label>
 
-            <mat-form-field class="mat-form-field-fluid " appearance="outline">
-                <mat-select placeholder="All" required class="mt-1" (selectionChange)="getStateList($event.value)">
-                    <mat-option *ngFor="let country of countrylist" [value]="country.CountryName">
-                        {{ country.CountryName }}
-                    </mat-option>
-                        
-                       
+            <mat-form-field class="mat-form-field-fluid" appearance="outline">
+                <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
+                    <mat-option value="All">All</mat-option>
+                    <mat-option *ngFor="let country of countrylist" [value]="country.CountryName">{{ country.CountryName
+                        }}</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -87,7 +85,7 @@
 
 <!-- //////////////////////////////////////////////////////////////Create Modal/////////////////////////////////////////////////////////////////////// -->
 
-<c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)=" handleCreateChange($event)" alignment="center" backdrop="static">
+<c-modal id="liveDemoModal" [visible]="createvisible" (visibleChange)="handleLiveDemoChange($event)" alignment="center">
     <c-modal-header>
         <h5 cModalTitle style="text-align: center;">State</h5>
         <button (click)="toggleLiveDemo()" cButtonClose></button>
@@ -97,12 +95,13 @@
             <div class=" row justify-content-between">
                 <div class=" col-md-5 form-group">
                     <label for="countryName">Country</label>
-                    <select class="form-control" formControlName="countryName" >
+                    <select class="form-control" formControlName="countryName" (selectionChange)="getStateList(this.countrylist.CountryName)">
                         @for (item of countrylist; track item.id; let id= $index) {
                             <option [value]='item.CountryName'>{{item.CountryName}}</option>
                             <input value="{{item.CountryName}}" class="form-control" type="text" maxlength="20">
                         }
                     </select>
+
                     <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
                     <div *ngIf="stateForm.get('countryName')?.hasError('required') && stateForm.get('countryName')?.touched"
                         class="error-message">
@@ -141,7 +140,7 @@
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="statecode">State Code</label>
-                    <input class="form-control" type="text" formControlName="stateCode" maxlength="2" (keypress)="onlynumberinput($event)">
+                    <input class="form-control" type="text" formControlName="stateCode" maxlength="2">
                     <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
                     <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
                         class="error-message">
@@ -164,7 +163,7 @@
 </c-modal>
 <!-- //////////////////////////////////////////////////Update Modal////////////////////////////////////////// -->
 
-<c-modal id="updateModal" [visible]="updatevisible" alignment="center"  (visibleChange)=" handleUpdateChange($event)" backdrop="static">
+<c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleUpdateChange($event)">
     <c-modal-header>
         <h5 cModalTitle  style="text-align: center;">Update State</h5>
         <button (click)="toggleUpdate()" cButtonClose></button>
@@ -181,15 +180,15 @@
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateName">State</label>
-                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20"  (keypress)="specialCharacternumberValidator($event)">
+                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20">
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateInitial">State Initial</label>
-                    <input class="form-control" type="text" matInput formControlName="stateInitial" maxlength="20" (keypress)="stateinitialvalidation($event)">
+                    <input class="form-control" type="text" matInput formControlName="stateInitial" maxlength="20">
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateCode">State Code</label>
-                    <input class="form-control" type="text" matInput formControlName="stateCode" maxlength="20" (keypress)="onlynumberinput($event)">
+                    <input class="form-control" type="text" matInput formControlName="stateCode" maxlength="20">
                 </div>
             </div>
 
