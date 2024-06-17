@@ -213,7 +213,7 @@ export class TableComponent implements OnInit {
   }
 
   openFollowUp(code: string): void {
-    this.router.navigate(['/master/followup', code]);
+    this.router.navigate(['/transactions/followup', code]);
   }
 
   closeModal() {

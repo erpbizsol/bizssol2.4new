@@ -114,7 +114,7 @@ export class FollowUpTableComponent {
     }
     },
     err => {
-      this.toasterService.showError('err.Msg');
+      this.toasterService.showError(err.Msg);
     });
   }
 
@@ -161,15 +161,15 @@ export class FollowUpTableComponent {
   }
   
   editFollowUp(code: any) {
-    this.router.navigate(['/leads/editfollowup', code]);
+    this.router.navigate(['/transactions/editfollowup', code]);
   }
   viewFollowUp(code: string) {
-    this.router.navigate(['/leads/followup-view', code])
+    this.router.navigate(['/transactions/followup-view', code])
   }
   openNewFollowUp() {
     this.getCustomerNameAndNextFollowupCode().subscribe(data => {
       this.previousSelectedData = data;
-      this.router.navigate(['/leads/newfollowup'], { 
+      this.router.navigate(['/transactions/newfollowup'], { 
         queryParams: { 
           EnquiryMaster_Code: this.code, 
           isDataAvailable: this.isDataAvailable, 
