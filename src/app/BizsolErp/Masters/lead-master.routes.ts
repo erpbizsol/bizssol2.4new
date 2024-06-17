@@ -172,6 +172,15 @@ export const routes: Routes = [
                 }
             },
 
+            {
+                path: 'Bank-Master',
+                loadComponent: () => import('../Masters/bank-master/bank-master.component').then(m => m.BankMasterComponent),
+                data: {
+                    title: 'bank'
+                }
+            },
+
+
         ]
     },
 ]
