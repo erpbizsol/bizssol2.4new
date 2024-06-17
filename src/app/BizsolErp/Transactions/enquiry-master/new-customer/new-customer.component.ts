@@ -5,7 +5,6 @@ import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angula
 import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
 import { ContactPersonService } from 'src/app/services/Master/contact-person.service';
 import { ProductDetailsService } from 'src/app/services/Master/product-details.service';
-// import { StateComponent } from "src/app/pages/components/filters/state/state.component";
 import { StateService } from 'src/app/services/Master/state.service';
 import { CityService } from 'src/app/services/Master/city.service';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
@@ -46,6 +45,8 @@ export class NewCustomerComponent implements OnInit {
   companyNamehide: boolean = false;
   selected: string = 'new';
   editDisable: boolean = false;
+  showExistPersonList: boolean = false;
+  hideContactPersonControl: boolean = true;
 
   newCode: any;
   editCode: any;
@@ -56,7 +57,6 @@ export class NewCustomerComponent implements OnInit {
   enquiryProductDetails: any = [];
   followupDetail: any = [];
 
-  // @ViewChild(StateComponent) stateComponent: StateComponent;
   newCustomerForm: FormGroup;
   contactPerson: FormGroup;
   productDetails: FormGroup;
@@ -79,16 +79,12 @@ export class NewCustomerComponent implements OnInit {
   selectedCustomerType: any = [];
   customerType: any
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json; charset=utf-8',
-    // 'Authorization': this.authservice.getAccessTokenNew()
-  });
   dataSource: MatTableDataSource<any>;
 
   myControl: FormControl = new FormControl('');
   base64String: string;
   documentType: string;
-  existingContactPerson: any = [];
+  existingPersonNameList: any = [];
 
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -130,19 +126,12 @@ export class NewCustomerComponent implements OnInit {
 
   showexisting() {
     this.companyNamehide = true;
+    this.showExistPersonList = true;
+    this.hideContactPersonControl = false;
+
     this.selected = 'existing';
     this._changeDetect.detectChanges;
 
-    this.customerType = {
-      tableName: "AccountMaster",
-      fieldName: "AccountDesp",
-      fieldNameOrderBy: "",
-      distinct: "Y",
-      filterCondition: " AND Code in (Select Code From [Dbo].[UDF_GetNestedDealerList](0,0))"
-    }
-    this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, this.customerType).subscribe((res: any) => {
-      this.companyList = res;
-    })
     this.newCustomerForm.get('customername')?.reset();
     this.newCustomerForm.get('customerType')?.reset();
     this.newCustomerForm.get('pin')?.reset();
@@ -154,11 +143,25 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('website')?.reset();
     this.newCustomerForm.get('address1')?.reset();
     this.newCustomerForm.get('address2')?.reset();
+    this.contactPerson.reset();
 
-    this.editCode = undefined;
+    this.customerType = {
+      tableName: "AccountMaster",
+      fieldName: "AccountDesp",
+      fieldNameOrderBy: "",
+      distinct: "Y",
+      filterCondition: " AND Code in (Select Code From [Dbo].[UDF_GetNestedDealerList](0,0))"
+    }
+    this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, this.customerType).subscribe((res: any) => {
+      this.companyList = res;
+    })
+    // this.editCode = undefined;
   }
   hideexisting() {
     this.companyNamehide = false;
+    this.showExistPersonList = false;
+    this.hideContactPersonControl = true;
+
     this.selected = 'new';
     this._changeDetect.detectChanges();
 
@@ -173,6 +176,7 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('website')?.reset();
     this.newCustomerForm.get('address1')?.reset();
     this.newCustomerForm.get('address2')?.reset();
+    this.contactPerson.reset();
   }
 
   switchToContactTab() {
@@ -195,6 +199,28 @@ export class NewCustomerComponent implements OnInit {
     const tabPane = this.elementRef.nativeElement.querySelector(tabPaneSelector);
     if (tab) tab.classList.add('active');
     if (tabPane) tabPane.classList.add('show', 'active');
+  }
+
+  getEnquirByCode(): void {
+    const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
+    this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
+      this.leadData = res.EnquiryMaster[0];
+      this.contactPersonsList = res.ContactPersonsList;
+      // res.ContactPersonsList = this.contactPersonsList;
+      this.enquiryProductDetails = res.EnquiryDetails;
+
+      if (this.editCode !== "undefined") {
+        this.hidedetailsOfEnquiry = true;
+        this.editDisable = true;
+        this.enquiryFormSubmitted = true;
+        if (this.leadData.CustomerFromMaster == "Y") {
+          this.selected = 'existing';
+          this.showExistPersonList = true;
+          this.hideContactPersonControl = false;
+        }
+      }
+      this.populateForm();
+    })
   }
 
   dropdown(): void {
@@ -226,27 +252,32 @@ export class NewCustomerComponent implements OnInit {
     })
   }
 
-  getEnquirByCode(): void {
-    const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
-    this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
-      this.leadData = res.EnquiryMaster[0];
-      // this.contactPersonsList = res.ContactPersonsList;
-      res.ContactPersonsList = this.contactPersonsList;
-      console.log("contactPersonsList", res.ContactPersonsList);
+  getCompanyDetails(event) {
+    this.contactPerson.reset();
+    const selectedCompany = (event.target as HTMLSelectElement).value;
+    this._enquiryService.GetAccountDetails(selectedCompany).subscribe((res: any) => {
+      this.companyDetails = res.AccountMaster[0];
+      this.existingPersonNameList = res.AccountContactPersonDetail;
+      this.state(this.companyDetails.Nation);
+      this.city(this.companyDetails.State);
 
-      this.enquiryProductDetails = res.EnquiryDetails;
-
-      if (this.editCode !== "undefined") {
-        this.hidedetailsOfEnquiry = true;
-        this.editDisable = true;
-        this.enquiryFormSubmitted = true;
-        if (this.leadData.CustomerFromMaster == "Y") {
-          this.selected = 'existing';
-        }
-        // this.getCompanyDetails('DEEPAK JAIN(HUF)')
-      }
-      this.populateForm();
+      this.companyDetailsPopulates();
     })
+  }
+  companyDetailsPopulates() {
+    const data = {
+      customerType: this.companyDetails.AccountCategory,
+      pin: this.companyDetails.PinCode,
+      country: this.companyDetails.Nation,
+      state: this.companyDetails.State,
+      city: this.companyDetails.City,
+      email: this.companyDetails.EMail,
+      pno: this.companyDetails.PhoneNo,
+      website: this.companyDetails.WebSite,
+      address1: this.companyDetails.Address1,
+      address2: this.companyDetails.Address2
+    }
+    this.newCustomerForm.patchValue(data);
   }
 
   // Function to handle input change and filter non-numeric characters
@@ -481,31 +512,7 @@ export class NewCustomerComponent implements OnInit {
   capitalizeWords(str: string): string {
     return str.replace(/(?:^|\s|\.)\S/g, (char) => char.toUpperCase());
   }
-  getCompanyDetails(event) {
-    const selectedCompany = (event.target as HTMLSelectElement).value;
-    this._enquiryService.GetAccountDetails(selectedCompany).subscribe((res: any) => {
-      this.companyDetails = res.AccountMaster[0];
-      this.contactPersonsList = res.AccountContactPersonDetail;
-      this.state(this.companyDetails.Nation);
-      this.city(this.companyDetails.State)
-      this.companyDetailsPopulates();
-    })
-  }
-  companyDetailsPopulates() {
-    const data = {
-      customerType: this.companyDetails.AccountCategory,
-      pin: this.companyDetails.PinCode,
-      country: this.companyDetails.Nation,
-      state: this.companyDetails.State,
-      city: this.companyDetails.City,
-      email: this.companyDetails.EMail,
-      pno: this.companyDetails.PhoneNo,
-      website: this.companyDetails.WebSite,
-      address1: this.companyDetails.Address1,
-      address2: this.companyDetails.Address2
-    }
-    this.newCustomerForm.patchValue(data);
-  }
+
   pinCode(val) {
     // const val = (event.target as HTMLSelectElement).value;
     this.newCustomerForm.get('pin').setValue(val); // Set the value in the form control
@@ -567,7 +574,7 @@ export class NewCustomerComponent implements OnInit {
 
   departmentApi(): Observable<any> {
     let url = this._urlService.API_ENDPOINT_DEPARTMENT + "/GetDepartmentMasterList";
-    return this._http.get(url, { headers: this.headers });
+    return this._http.get(url);
   }
   getDepartment() {
     this.departmentApi().subscribe(res => {
@@ -825,6 +832,20 @@ export class NewCustomerComponent implements OnInit {
       }
     }
     );
+  }
+  onExistingPersonChange(event: any): void {
+    const selectedExistingPersonName = event.target.value;
+    // this.contactPerson.get('name').setValue(selectedExistingPersonName);
+    console.log(selectedExistingPersonName);
+    const formValues = {
+      name: selectedExistingPersonName,
+      department: this.existingPersonNameList[0].DepartmentName,
+      designation: this.existingPersonNameList[0].ContactPersonDesignation,
+      email: this.existingPersonNameList[0].ContactPersonEMail,
+      contactNo: this.existingPersonNameList[0].ContactPersonMobile,
+    };
+    this.contactPerson.patchValue(formValues);
+    console.log("formValues", formValues);
   }
 
   //product details save, update and delete method

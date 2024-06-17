@@ -495,11 +495,30 @@
                                     aria-labelledby="contact-tab" tabindex="0">
                                     <form [formGroup]="contactPerson" (ngSubmit)="savePersonDetails()">
                                         <div class="row">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" *ngIf="hideContactPersonControl">
                                                 <div class="form-group">
                                                     <label class="required">Name</label>
                                                     <input type="text" formControlName="name" class="form-control"
                                                         (input)="getTextOnly($event)" maxLength="100">
+                                                    <div *ngIf="contactPerson.get('name').invalid && (contactPerson.get('name').dirty || contactPerson.get('name').touched)"
+                                                        class="text-danger validation-msg">
+                                                        <div *ngIf="contactPerson.get('name').errors['required']">
+                                                            name is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" *ngIf="showExistPersonList">
+                                                <div class="form-group">
+                                                    <label class="required">Name</label>
+                                                    <input list="existingPersonList" type="text" formControlName="name"
+                                                        class="form-control" (change)="onExistingPersonChange($event)"
+                                                        maxLength="100">
+                                                    <datalist id="existingPersonList">
+                                                        <option value="Abhishek">
+                                                        <option *ngFor="let data of existingPersonNameList"
+                                                            [value]="data.ContactPersonName">
+                                                    </datalist>
                                                     <div *ngIf="contactPerson.get('name').invalid && (contactPerson.get('name').dirty || contactPerson.get('name').touched)"
                                                         class="text-danger validation-msg">
                                                         <div *ngIf="contactPerson.get('name').errors['required']">
@@ -568,7 +587,7 @@
                                                     <div *ngIf="contactPerson.get('contactNo').invalid && (contactPerson.get('contactNo').dirty || contactPerson.get('contactNo').touched)"
                                                         class="text-danger validation-msg">
                                                         <div *ngIf="contactPerson.get('contactNo').errors['required']">
-                                                            Mobile No. is required
+                                                            Contact No. is required
                                                         </div>
                                                         <small
                                                             *ngIf="contactPerson.get('contactNo').errors['minlength']">
