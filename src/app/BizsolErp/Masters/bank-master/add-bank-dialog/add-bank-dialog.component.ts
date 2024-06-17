@@ -43,7 +43,7 @@ import { tail } from 'lodash-es';
     MatSelectModule,
     MatIconModule,
     MatToolbarModule,
-    MatCardModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule],
+    MatCardModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,CommonModule],
 
   templateUrl: './add-bank-dialog.component.html',
   styleUrl: './add-bank-dialog.component.scss',
@@ -81,21 +81,21 @@ export class AddBankDialogComponent {
 }
   paymentTermsForm = new FormGroup({
     bankName: new FormControl('', Validators.required),
-    aliasName: new FormControl(),
+    aliasName: new FormControl('',Validators.required),
     accountNo: new FormControl('', Validators.required),
     currency: new FormControl('',Validators.required),
     ifscCode: new FormControl('',Validators.required),
-    swiftCode:new FormControl(''),
-    pin: new FormControl(''),
-    address: new FormControl(''),
-    country: new FormControl(''),
-    state: new FormControl(''),
-    city: new FormControl(''),
-    phone_no: new FormControl(''),
-    fax_no: new FormControl(''),
-    service_tax: new FormControl(''),
-    Pan_No: new FormControl(''),
-    email:new FormControl(''),
+    swiftCode:new FormControl('',Validators.required),
+    pin: new FormControl('',Validators.required),
+    address: new FormControl('',Validators.required),
+    country: new FormControl('',Validators.required),
+    state: new FormControl('',Validators.required),
+    city: new FormControl('',Validators.required),
+    phone_no: new FormControl('',Validators.required),
+    fax_no: new FormControl('',Validators.required),
+    service_tax: new FormControl('',Validators.required),
+    Pan_No: new FormControl('',Validators.required),
+    email:new FormControl('',Validators.required),
     default: new FormControl(false),
     cms_applicable: new FormControl(false),
 
@@ -215,6 +215,7 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
 
   saveBankDetailsData() {
     debugger
+    this.submitted=true
     let data=[
       {
         

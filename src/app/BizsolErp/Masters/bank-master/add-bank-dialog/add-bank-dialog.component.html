@@ -10,6 +10,9 @@
           <label><b>Bank Name </b></label>
           <div>
             <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
+            <div *ngIf="submitted && f['bank Name'].errors" class="text-danger">
+              <div *ngIf="f['bank Name'].hasError('required')">Bank Name is Required</div>
+            </div>
           </div>
         </div>
         <div class="col-md-6 form-group">
