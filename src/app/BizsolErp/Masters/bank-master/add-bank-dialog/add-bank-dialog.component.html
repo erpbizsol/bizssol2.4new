@@ -30,7 +30,7 @@
           <div class="col-md-6 form-group">
             <label><b>Account No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="accountNo"  maxlength="20" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
+              <input type="text" class="form-control" formControlName="accountNo"  maxlength="20" placeholder="Enter Account No." (keypress)="allowAlphabetsOnly($event)">
               <div *ngIf="submitted && f['accountNo'].errors" class="text-danger">
                 <div *ngIf="f['accountNo'].hasError('required')">Account No is Required</div>
               </div>
@@ -88,7 +88,7 @@
             <label><b> Address</b></label>
             <div>
     
-    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description"  formControlName="address" >
+    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address"  formControlName="address" >
     <div *ngIf="submitted && f['address'].errors" class="text-danger">
       <div *ngIf="f['address'].hasError('required')">Address is Required</div>
     </div>         
@@ -141,7 +141,17 @@
             </select>         
             <div *ngIf="submitted && f['city'].errors" class="text-danger">
               <div *ngIf="f['city'].hasError('required')">City is Required</div>
-            </div>     </div>
+            </div>     
+          </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label><b>Phone No</b></label>
+            <div>
+              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15" placeholder="Enter Phone No." >
+              <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
+                <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
+              </div>
+            </div>
           </div>
           <!-- <div class="col-md-6 form-group">
             <label><b>Pin Code</b></label>
@@ -152,26 +162,16 @@
         </div>
 
         <div class="row" mat-dialog-content>
-          <div class="col-md-6 form-group">
-            <label><b>Phone No</b></label>
-            <div>
-              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15" placeholder="Enter Description" >
-              <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
-                <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
-              </div>
-            </div>
-          </div>
+        
           <div class="col-md-6 form-group">
             <label><b>Fax No.</b></label>
             <div>
-              <input type="text" class="form-control"  formControlName="fax_no"  maxlength="14" placeholder="Enter Description" >
+              <input type="text" class="form-control"  formControlName="fax_no"  maxlength="14" placeholder="Enter Fax No." >
               <div *ngIf="submitted && f['fax_no'].errors" class="text-danger">
                 <div *ngIf="f['fax_no'].hasError('required')">Fax No. is Required</div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row" mat-dialog-content>
           <div class="col-md-6 form-group">
             <label><b>Service Tax No.</b></label>
             <div>
@@ -181,6 +181,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="row" mat-dialog-content>
+        
           <div class="col-md-6 form-group">
             <label><b>Pan No.</b></label>
             <div>
@@ -190,11 +193,7 @@
                 <div *ngIf="f['Pan_No'].hasError('required')">Pan No. is Required</div>
               </div> </div>
           </div>
-        </div>
-
-        
-        <div class="row" mat-dialog-content>
-          <div class="col-md-12 form-group">
+          <div class="col-md-6 form-group">
             <label><b>Email</b></label>
             <div>
               <input type="text" class="form-control" formControlName="email"  maxlength="50" placeholder="Enter Email Id" >
@@ -203,6 +202,11 @@
               </div>
             </div>
           </div>
+        </div>
+
+        
+        <div class="row" mat-dialog-content>
+         
           <div class="col-md-6 form-group">
             <label><b>Default</b></label> 
             <div>
