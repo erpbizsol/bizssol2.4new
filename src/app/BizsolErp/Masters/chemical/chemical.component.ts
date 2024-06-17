@@ -38,8 +38,7 @@ export class ChemicalComponent implements OnInit {
   }
 
   getPaymentTermsData() {
-
-    this._chemicalService.getChemicalList('GetChemicalMasterList').subscribe({
+ this._chemicalService.getChemicalList('GetChemicalMasterList').subscribe({
       next: (res: any) => {
         res.sort((a: any, b: any) => a.Code - b.Code);
         this.dataSource.data = res.reverse();
