@@ -59,8 +59,10 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getMenuList() {
+    debugger
     this.menuService.getMenuItems().subscribe((data: any) => { 
       this.navItems = this.transformMenuData(data); 
+      console.log(this.navItems,'kkkkkkhhhhhhh')
       this.navItems.unshift({ 
         name: 'Home',
         url: '',
@@ -97,11 +99,11 @@ export class DefaultLayoutComponent implements OnInit {
         url: urlMapping[item.ModuleDesp], 
       };
 
-      menuMap[item.Code] = menuItem; 
-      if (item.MasterCode === '0') { 
+      menuMap[item?.Code] = menuItem; 
+      if (item?.MasterCode === '0') { 
         parentItems.push(menuItem); 
       } else { 
-        const parent = menuMap[item.MasterCode];
+        const parent = menuMap[item?.MasterCode];
         if (parent) { 
           if (!parent.children) {
             parent.children = [];
@@ -113,7 +115,7 @@ export class DefaultLayoutComponent implements OnInit {
     });
 
     return parentItems.map(parent => { 
-      if (parent.children!.length === 0) { 
+      if (parent.children!?.length === 0) { 
         delete parent.children;
       }
       return parent; 

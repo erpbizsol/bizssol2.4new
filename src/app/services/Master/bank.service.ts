@@ -24,14 +24,14 @@ import { AuthService } from '../Auth-Service/auth.service';
     }
   
   
-    savePayment(payload: any): Observable<any> {
+    saveBank(payload: any): Observable<any> {
       // const data = {
       //   paymentListUpList: [payload]
       // };
   
   
-      let url = `${this._urlService.API_ENDPOINT_BANK_MASTER}/GetBankMasterList`;
-      return this._http.post(url, payload, { headers: this.headers });
+      let url = `${this._urlService.API_ENDPOINT_BANK_MASTER}/SaveBankMaster`;
+      return this._http.post(url, JSON.stringify(payload), { headers: this.headers });
     }
   
   
@@ -46,7 +46,7 @@ import { AuthService } from '../Auth-Service/auth.service';
         return this._http.post(url, payload, { headers: this.headers });
       }
     
-    deletePaymentList(code: number, reason: any) {
+    deleteBank(code: number, reason: any) {
      let url = this._urlService.API_ENDPOINT_BANK_MASTER + "/DeleteBankMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
       return this._http.post(url, '', { headers: this.headers });
     }

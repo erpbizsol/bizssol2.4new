@@ -1,168 +1,188 @@
 <div class="delete-confirmation-dialog">
-    <h5 class="header-bg" mat-dialog-title>
-      Add Bank
-      <!-- {{ this.elementData.Code === undefined ? 'Add Payment Terms' : 'Update Payment Terms' }} -->
-    </h5>
-    <div class="row">
-      <form [formGroup]="paymentTermsForm">
-        <div class="row" mat-dialog-content>
+  <h5 class="header-bg" mat-dialog-title>
+
+    {{ this.elementData.Code === undefined ? 'Add Bank' : 'Update  Bank' }}
+  </h5>
+  <div class="row">
+    <form [formGroup]="paymentTermsForm">
+      <div class="row" mat-dialog-content>
+        <div class="col-md-6 form-group">
+          <label><b>Bank Name </b></label>
+          <div>
+            <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label><b>Alias Name</b></label>
+          <div>
+            <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
+          </div>
+        </div>
+      </div> 
+      <div class="row" mat-dialog-content>
           <div class="col-md-6 form-group">
-            <label><b>Bank Name </b></label>
+            <label><b>Account No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
+              <input type="text" class="form-control" formControlName="accountNo"  maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
             </div>
           </div>
           <div class="col-md-6 form-group">
-            <label><b>Alias Name</b></label>
+            <label><b>Currency</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
+              <select class="select2 form-control"  formControlName = "currency">
+                <option value="" selected hidden>Select Currency</option>
+                <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
+            </select>
+              <!-- <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)"> -->
             </div>
           </div>
         </div>
         <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Account No.</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Currency</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
+          <div class="col-md-6 form-group">
+            <label><b>Ifsc Code</b></label>
+            <div>
+              <input type="text" class="form-control"   formControlName = "ifscCode"  maxlength="10" placeholder="Enter IfscCode" >
             </div>
           </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Ifsc Code</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Swift Code</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
+          <div class="col-md-6 form-group">
+            <label><b>Swift Code</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName = "swiftCode"  maxlength="12" placeholder="Enter Swift Code" >
             </div>
           </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-12 form-group">
-              <label><b> Address</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-           
-          </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Nation</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>State</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-          </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>City</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Pin Code</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-12 form-group">
+            <label><b> Pin Code</b></label>
+            <div>
+              <input type="text" class="form-control"   formControlName="pin"  (input)="pinAcceptOnlyNumber($event)" maxlength="6" placeholder="Enter Pin Code">
 
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Phone No</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Fax No.</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
+              <!-- <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)"> -->
             </div>
           </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Service Tax No.</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Pan No.</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
+         
+        </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-12 form-group">
+            <label><b> Address</b></label>
+            <div>
+    
+    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Description"  formControlName="address" >
             </div>
           </div>
-
-          <!-- <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>Nation</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="description1" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>State</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="description2" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
+         
+        </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-6 form-group">
+            <label><b>Nation</b></label>
+            <div>
+              <select class="select2 form-control"   formControlName="country"  (change)="getState($event)" >
+                <option  selected hidden value="">Select Nation</option>
+                <option *ngFor="let country of countryList"
+                [value]="country.CountryName">{{
+                country.CountryName }}
+            </option>
+            </select>
+                        </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label><b>State</b></label>
+            <div>
+              <select class="select2 form-control"   (change)="getCityList($event)" formControlName="state">
+                <option selected hidden  value="">select</option>
+                <option *ngFor="let state of stateList"
+                    [value]="state?.StateName">{{
+                    state.StateName }}
+                </option>
+            </select>
+                   </div>
+          </div>
+        </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-6 form-group">
+            <label><b>City</b></label>
+            <div>
+              <select class="select2 form-control"   formControlName="city">
+                <option  selected hidden value="">Select</option>
+                <option *ngFor="let city of cityList"
+                    [value]="city.CityName">{{
+                    city.CityName }}
+                </option>
+            </select>              </div>
+          </div>
+          <!-- <div class="col-md-6 form-group">
+            <label><b>Pin Code</b></label>
+            <div>
+              <input type="text" class="form-control"   fomConTrolName="FormControlName"  (input)="pinAcceptOnlyNumber($event)" maxlength="50" placeholder="Enter Description">
             </div>
           </div> -->
-          <div class="row" mat-dialog-content>
-            <div class="col-md-12 form-group">
-              <label><b>Email</b></label>
-              <div>
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b>Default</b></label> 
-              <div>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin" ></mat-checkbox>
-                </section>
-              </div>
-            </div>
-            <div class="col-md-6 form-group">
-              <label><b> e Cms Application </b></label> 
+        </div>
 
-              <div>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin" ></mat-checkbox>
-                </section>             
-               </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-6 form-group">
+            <label><b>Phone No</b></label>
+            <div>
+              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="50" placeholder="Enter Description" >
             </div>
           </div>
-
-
-          
-        <div mat-dialog-actions class="content-end">
-          <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
-          <button type="button" class="btn btn-success me-1" >
-            <!-- {{ this.elementData.Code === undefined ? 'Save' : 'Update' }} -->save
-          </button>
+          <div class="col-md-6 form-group">
+            <label><b>Fax No.</b></label>
+            <div>
+              <input type="text" class="form-control"  formControlName="fax_no"  maxlength="14" placeholder="Enter Description" >
+            </div>
+          </div>
         </div>
-      </form>
-    </div>
+        <div class="row" mat-dialog-content>
+          <div class="col-md-6 form-group">
+            <label><b>Service Tax No.</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="service_tax"   maxlength="50" placeholder="Enter Description" >
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label><b>Pan No.</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="Pan_No" maxlength="50" placeholder="Enter Description" >
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="row" mat-dialog-content>
+          <div class="col-md-12 form-group">
+            <label><b>Email</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="email"  maxlength="50" placeholder="Enter Description" >
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label><b>Default</b></label> 
+            <div>
+              <section class="example-section">
+                <mat-checkbox class="example-margin" formControlName="default" ></mat-checkbox>
+              </section>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <label><b> e Cms Application </b></label> 
+
+            <div>
+              <section class="example-section">
+                <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
+              </section>             
+             </div>
+          </div>
+        </div>
+
+
+        
+      <div mat-dialog-actions class="content-end">
+        <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
+        <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >
+           {{ this.elementData.Code === undefined ? 'Save' : 'Update ' }}
+
+        </button>
+      </div>
+    </form>
   </div>
-  
+</div>
