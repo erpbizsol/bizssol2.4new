@@ -20,10 +20,10 @@ export const routes: Routes = [
         loadChildren: () => import('./BizsolErp/Masters/lead-master.routes').then((m) => m.routes)
       },
 
-      // {
-      //   path: 'transactions',
-      //   loadChildren: () => import('./BizsolErp/Transactions/transactions.routes').then((m) => m.routes)
-      // },
+      {
+        path: 'transactions',
+        loadChildren: () => import('./BizsolErp/Transactions/transactions.routes').then((m) => m.routes)
+      },
 
       // {
       //   path: 'reports',

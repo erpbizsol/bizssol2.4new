@@ -33,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     IconSetService,
     provideAnimations(), provideAnimationsAsync(),
     provideToastr({
+      timeOut: 2000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),

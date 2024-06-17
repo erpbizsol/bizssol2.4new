@@ -19,7 +19,6 @@ import {
 import { DefaultHeaderComponent } from './default-header/default-header.component';
 import { DefaultFooterComponent } from './default-footer/default-footer.component';
 import { MenuService } from '../services/Menu-Service/menu.service';
-import { ToasterService } from '../services/toaster-message/toaster.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -48,13 +47,13 @@ import { CommonModule } from '@angular/common';
     DefaultFooterComponent, 
     CommonModule, 
   ],
-  providers: [MenuService, HeaderService, ToasterService], 
+  providers: [MenuService, HeaderService], 
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class DefaultLayoutComponent implements OnInit { 
   public navItems: INavData[] = []; 
 
-  constructor(private toasterService: ToasterService,private menuService: MenuService ,private headerService: HeaderService) { this.getMenuList();} 
+  constructor(private menuService: MenuService ,private headerService: HeaderService) { this.getMenuList();} 
 
   ngOnInit(): void {
     
@@ -63,7 +62,6 @@ export class DefaultLayoutComponent implements OnInit {
   getMenuList() {
     this.menuService.getMenuItems().subscribe((data: any) => { 
       this.navItems = this.transformMenuData(data); 
- this.toasterService.showSuccess('This is a success message!', 'Success');
       this.navItems.unshift({ 
         name: 'Home',
         url: '',
@@ -74,7 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   transformMenuData(data: any): INavData[] { 
     const urlMapping: { [key: string]: string } = { 
-      'Enquiry': '/leads/table',
+      'Enquiry': '/transactions/table',
       'Country Master': '/leads/country',
       'State Master': '/leads/state',
       'City Master': '/leads/city',
@@ -83,8 +81,8 @@ export class DefaultLayoutComponent implements OnInit {
       'Payment Terms Master': '/leads/PaymentTermsMaster',
       'Tank Configuration': '/leads/tank-Configuration',
       'Stock Location Master': '/leads/tank-daily-stock',
-      'Route Plan': '/leads/Route-Plan',
-      'Verify Route Plan': '/leads/Verify-Route-Plan',
+      'Route Plan': '/transactions/Route-Plan',
+      'Verify Route Plan': '/transactions/Verify-Route-Plan',
       'Department': '/leads/department'
     };
 
