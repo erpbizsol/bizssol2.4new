@@ -45,19 +45,16 @@
     constructor(private bank: BankService, public dialog: MatDialog) {}
 
     ngOnInit() {
-      this.getPaymentTermsData();
+      this.getBankData();
     }
 
-    getPaymentTermsData() {
+    
+    getBankData() {
       this.bank.getPaymentList('GetBankMasterList').subscribe({
         next: (res: any) => {
-          this.bankList =res.reverse()
-          // res.sort((a: any, b: any) => a.Code - b.Code);
-          // this.dataSource.data = res.reverse();
-          // this.dataSource.sort = this.sort;
-
-          
-          this.dataSource = new MatTableDataSource(this.bankList)
+          res.sort((a: any, b: any) => a.Code - b.Code);
+          this.dataSource.data = res.reverse();
+          this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         },
         error: (err: any) => {
@@ -66,10 +63,11 @@
       });
     }
 
-    deletePayment(code: number) {
+    deleteBank(code: number) {
+       console.log("hii",code)
       const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
-        width: '1000px',
-        height:'400px',
+        width: '375px',
+        disableClose:true,
         data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
       });
 
@@ -79,7 +77,7 @@
           this.bank.deleteBank(code, reason).subscribe((res) => {
             console.log(`${code} has been deleted`);
             const responseObj = JSON.parse(JSON.stringify(res));
-            this.getPaymentTermsData();
+            this.getBankData();
             alert(responseObj.Msg);
           });
         }
@@ -96,7 +94,7 @@
 
       dialogRef.afterClosed().subscribe((result: any) => {
         console.log(`Dialog result: ${result}`);
-        this.getPaymentTermsData();
+        this.getBankData();
       });
     }
   }

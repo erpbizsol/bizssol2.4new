@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent } from '@coreui/angular';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-payment-term-master',
@@ -25,6 +26,8 @@ export class PaymentTermMasterComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
 
   constructor(private payment: PaymetntTermService, public dialog: MatDialog) {}
 
@@ -35,7 +38,9 @@ export class PaymentTermMasterComponent implements OnInit {
   getPaymentTermsData() {
     this.payment.getPaymentList('GetPaymentTermsMasterList').subscribe({
       next: (res: any) => {
-        this.dataSource.data = res;
+        res.sort((a: any, b: any) => a.Code - b.Code);
+        this.dataSource.data = res.reverse();
+        this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       error: (err: any) => {

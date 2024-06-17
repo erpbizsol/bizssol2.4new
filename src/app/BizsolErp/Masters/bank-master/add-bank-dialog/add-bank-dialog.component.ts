@@ -27,6 +27,7 @@ import { CityService } from 'src/app/services/Master/city.service';
 import { StateService } from 'src/app/services/Master/state.service';
 import { UrlService } from 'src/app/services/URL/url.service';
 import { tail } from 'lodash-es';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 
 
@@ -66,6 +67,7 @@ export class AddBankDialogComponent {
     private _enquiryService: EnquiryService,
     private _state: StateService, private _city: CityService,
     private _http: HttpClient, private _urlService: UrlService,
+    private toaster:ToasterService,
     private bank: BankService,
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
@@ -102,10 +104,6 @@ export class AddBankDialogComponent {
 })
 
 patchBankData(){
-  debugger
-  console.log(this.elementData?.City,"hhh")
-  // this.getCityList(this.elementData?.State)
-  
   this.paymentTermsForm.patchValue({
     bankName: this.elementData?.BankName,
     aliasName: this.elementData.AliasName,
@@ -216,6 +214,9 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   saveBankDetailsData() {
     debugger
     this.submitted=true
+    if(this.paymentTermsForm.invalid){
+      return
+    }
     let data=[
       {
         
@@ -255,7 +256,8 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       next: (res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+         // this.snackBarService.showSuccessMessage(res.Msg);
+         this.toaster.showSuccess(res.Msg)
         },
       error: (err: any) => {  
         console.log(err.error.message);
@@ -267,7 +269,9 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       next: (res: any) => {
          this.paymentTermsForm.reset()
          this.dialogRef.close();
-         this.snackBarService.showSuccessMessage(res.Msg);
+         this.toaster.showSuccess(res.Msg)
+
+         //this.snackBarService.showSuccessMessage(res.Msg);
         },
       error: (err: any) => {  
         console.log(err.error.message);
