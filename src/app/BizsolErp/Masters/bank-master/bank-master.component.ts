@@ -56,6 +56,7 @@
           // this.dataSource.data = res.reverse();
           // this.dataSource.sort = this.sort;
 
+          
           this.dataSource = new MatTableDataSource(this.bankList)
           this.dataSource.paginator = this.paginator;
         },
