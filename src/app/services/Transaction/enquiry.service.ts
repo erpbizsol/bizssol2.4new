@@ -9,8 +9,6 @@ import { AuthService } from '../Auth-Service/auth.service';
 })
 export class EnquiryService {
 
-  userCode: number;
-
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   // private headers = new HttpHeaders({
@@ -18,20 +16,15 @@ export class EnquiryService {
   //   'Authorization': this.authService.getAuthKey()
   // });
 
+  authKey: any;
   private headers(): HttpHeaders {
-    const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
-    const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-    // console.log(JSON.stringify(obj));
-
+    this.authKey = this.authService.getAuthKey();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': ` ${this.authKey}`
     });
   }
+
   getEnquiry(param: any): Observable<any> {
     let url = this._urlService.API_ENDPOINT_ENQUIRY + "/GetEnquiryMasterList" + `?MarketingManPerson=${param}`;
     return this._http.get(url, { headers: this.headers() });
@@ -48,19 +41,9 @@ export class EnquiryService {
     return this._http.get(url);
   }
 
-  // editEnquiry(id: number): Observable<any> {
-  //   let url = this._urlService.API_ENDPOINT_ENQUIRY + "";
-  //   return this._http.put(url, id);
-  // }
-
   deleteEnquiry(code: number, reason: any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_ENQUIRY + "/DeleteEnquiryMaster" + `?Code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_ENQUIRY + "/DeleteEnquiryMaster" + `?Code=${code}&UserMaster_Code=${this.authKey}&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
-  }
-
-  industryType(): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_INDUSTRYTYPE + "/GetIndustryTypeMasterList";
-    return this._http.get(url);
   }
 
   pincode(pin: any): Observable<any> {
@@ -84,20 +67,20 @@ export class EnquiryService {
   }
 
   verifyDetails(enquiryCode: number): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.userCode}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.authKey}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
   rejectDetails(enquiryCode: number, remarks: any): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryReject' + `?Code=${enquiryCode}&UserMaster_Code=${this.userCode}` + `&ReasonForReject=${remarks}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryReject' + `?Code=${enquiryCode}&UserMaster_Code=${this.authKey}` + `&ReasonForReject=${remarks}`;
     return this._http.post(url, { headers: this.headers() });
   }
   deleteContactPersionDetails(code: any, reason: any) {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryContactDetail' + `?Code=${code}` + `&UserMaster_Code=${this.userCode}` + `&ReasonForDelete=${reason}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryContactDetail' + `?Code=${code}` + `&UserMaster_Code=${this.authKey}` + `&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
   deleteProductDetails(code: any, reason: any) {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryProductDetail' + `?Code=${code}` + `&UserMaster_Code=${this.userCode}` + `&ReasonForDelete=${reason}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryProductDetail' + `?Code=${code}` + `&UserMaster_Code=${this.authKey}` + `&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
