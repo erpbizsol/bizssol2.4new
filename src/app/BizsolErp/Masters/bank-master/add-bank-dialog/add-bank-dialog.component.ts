@@ -256,8 +256,8 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       next: (res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-         // this.snackBarService.showSuccessMessage(res.Msg);
-         this.toaster.showSuccess(res.Msg)
+         this.snackBarService.showSuccessMessage(res.Msg);
+        //  this.toaster.showSuccess(res.Msg)
         },
       error: (err: any) => {  
         console.log(err.error.message);
@@ -269,9 +269,9 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       next: (res: any) => {
          this.paymentTermsForm.reset()
          this.dialogRef.close();
-         this.toaster.showSuccess(res.Msg)
+        //  this.toaster.showSuccess(res.Msg)
 
-         //this.snackBarService.showSuccessMessage(res.Msg);
+         this.snackBarService.showSuccessMessage(res.Msg);
         },
       error: (err: any) => {  
         console.log(err.error.message);
