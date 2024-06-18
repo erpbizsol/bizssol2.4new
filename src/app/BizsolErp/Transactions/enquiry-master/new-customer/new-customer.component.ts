@@ -966,6 +966,7 @@ export class NewCustomerComponent implements OnInit {
   backtotable() {
     this.location.back();
   }
+  
   backtotable1() {
     this.location.back();
   }
