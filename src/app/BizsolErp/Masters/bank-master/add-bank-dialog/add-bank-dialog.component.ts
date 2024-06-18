@@ -338,7 +338,10 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     const value: string = event.target.value;
     this.f.service_tax.setValue(value.toUpperCase(), { emitEvent: false });
   }
- 
+  ifsc(event:any){
+    const value: string = event.target.value;
+    this.f.ifscCode.setValue(value.toUpperCase(), { emitEvent: false });
+  }
    onKeyPress(event: KeyboardEvent) {
     const allowedChars = /^[a-zA-Z0-9@.]*$/;
     const inputChar = String.fromCharCode(event.charCode);

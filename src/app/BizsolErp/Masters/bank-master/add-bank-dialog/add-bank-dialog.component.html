@@ -54,7 +54,7 @@
           <div class="col-md-6 form-group">
             <label><b>IFSC Code</b></label>
             <div>
-              <input type="text" class="form-control"   formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+              <input type="text" class="form-control"    (input)="ifsc($event)" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
               <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
                 <div *ngIf="f['ifscCode'].hasError('required')">Ifsc Code is Required</div>
               </div>
@@ -220,8 +220,7 @@
           </div>
           <div class="col-md-6 form-group">
             <label><b> e Cms Application </b></label> 
-
-            <div>
+             <div>
               <section class="example-section">
                 <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
               </section>             
