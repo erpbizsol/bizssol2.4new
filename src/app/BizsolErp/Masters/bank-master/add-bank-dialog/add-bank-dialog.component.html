@@ -219,16 +219,47 @@
             </div>
           </div>
           <div class="col-md-6 form-group">
-            <label><b> e Cms Application </b></label> 
+            <label><b> e -CMS Application </b></label> 
              <div>
               <section class="example-section">
                 <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
-              </section>             
+              </section>   
+                
              </div>
           </div>
         </div>
+<!-- ================================checkbo===================================== -->
+        <div class="row" mat-dialog-content>
+          
+         <div class="col-md-6 form-group">
+            <label><b> e cms   vendor</b></label>
+            <div>
+              <select class="select2 form-control" >
+                <option  value="">   hii</option>
+                <option  value=""> wify</option>
+                </select>
+                </div>
+          </div>
 
+          <div class="col-md-6 form-group">
+            <label><b> prifix </b></label> 
+             <div>
+              <input type="text" class="form-control" formControlName=""  maxlength="50"   placeholder="Enter Debit Amount details" >
 
+                
+             </div>
+          </div>
+        </div>
+        <div class="row" mat-dialog-content>
+          <div>
+            <select class="select2 form-control" >
+              <option  value="">   hii</option>
+              <option  value=""> wify</option>
+              </select>
+              </div>
+        
+          <!-- <input type="text" class="form-control" formControlName=""  maxlength="50"   placeholder="Enter Debit Amount" > -->
+         </div>
         
       <div mat-dialog-actions class="content-end">
         <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
