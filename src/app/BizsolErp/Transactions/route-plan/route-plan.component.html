@@ -1,21 +1,14 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <form #routeDailog="ngForm" (ngSubmit)="register(routeDailog)">
+            <!-- <form #routeDailog="ngForm" (ngSubmit)="register(routeDailog)"> -->
                 <div class="row">
                     <div class="col-md-2">
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label>Plan Date</label>
-                            <input type="date" class="form-control" 
-                                [(ngModel)]="todayDate">
-                        </div> -->
-                        <!-- <mat-form-field>
-                            <mat-label>Choose a date</mat-label>
-                            <input matInput [matDatepicker]="picker">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field> -->
+                            <input type="date" class="form-control" [(ngModel)]="todayDate"
+                                (change)="onDateInputChange($event)">
+                        </div>
                     </div>
                     <div class="col-md-7"></div>
                     <div class="col-md-3 mt-4 text-end">
@@ -23,7 +16,7 @@
                                 class="fa fa-plus-circle" aria-hidden="true"></i></button>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
             <div class="row">
                 <div class="col-md-12">
                     <table border="1" class="table">

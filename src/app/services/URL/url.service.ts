@@ -36,6 +36,8 @@ API_ENDPOINT_DROPDOWN: string = `${this.BASE_URL}/Dropdown`; // shobha
 
   API_ENDPOINT_ROUTE_PLAN: string = `${this.BASE_URL}/RoutePlan`;
 
+  API_ENDPOINT_ACCOUNT_MASTER: string = `${this.BASE_URL}/AccountMaster`;
+  
 
 
   constructor() { }

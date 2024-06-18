@@ -42,6 +42,7 @@ export class RoutePlanComponent implements AfterViewInit {
   public visible = false;
   todayDate: any;
   routePlanList: any;
+  // userMasterCode: any;
   constructor(private fb: FormBuilder, private elRef: ElementRef, public dialog: MatDialog, private _routePlanService: RoutePlanService) { }
 
   ngAfterViewInit() {
@@ -50,11 +51,16 @@ export class RoutePlanComponent implements AfterViewInit {
   }
 
 
+  // for date 
   ngOnInit() {
-    // var today=new Date();
-    this.getRoutePlan('30-apr-2024','7075')
     this.todayDate = new Date().toISOString().split('T')[0];
+    this.getRoutePlan( this.todayDate)//UserMaster Code -- shesnath se pucho kha se aye ga herd code nhi chale ga usen iski service banyi h ok
+  }
 
+  onDateInputChange(event: any) {
+    this.getRoutePlan(event.target.value)
+    // Your onchange logic here
+    console.log('Date changed!', event.target.value);
   }
 
   // <!-------------Add Department----------------->
@@ -96,8 +102,8 @@ applyDate(){}
   // }
 
 
-  getRoutePlan(PlanDate:any, UserMaster_Code:any) {
-    this._routePlanService.getRoutePlanList(PlanDate,UserMaster_Code).subscribe(res => {
+  getRoutePlan(PlanDate:any) {
+    this._routePlanService.getRoutePlanList(PlanDate).subscribe(res => {
       this.routePlanList = res;
       console.log(this.routePlanList);
     });
