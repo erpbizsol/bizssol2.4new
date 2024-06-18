@@ -84,9 +84,12 @@ export class DefaultLayoutComponent implements OnInit {
       'Route Plan': '/transactions/Route-Plan',
       'Verify Route Plan': '/transactions/Verify-Route-Plan',
       'Department': '/leads/department',
-      'Bank': '/leads/Bank-Master'
+      'Bank': '/leads/Bank-Master',
 
 
+      'Tank Daily Stock': '/leads/tank-daily-stock',
+      'HSN Code Master': '/leads/HSN-Code-Master',
+      
     };
 
     const menuMap: { [key: string]: INavData } = {}; 

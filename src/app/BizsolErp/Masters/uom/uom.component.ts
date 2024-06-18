@@ -108,7 +108,7 @@ export class UomComponent implements OnInit {
     });
   }
 
-                                           //  Special Character Validation 
+  //  Special Character Validation 
   onInputChange(event: any) {
     const inputValue: string = event.target.value;
     const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
@@ -121,7 +121,7 @@ export class UomComponent implements OnInit {
     this.newUOMForm.get('uomdesp').setValue(newValue);
   }
 
-                                              // Update Data
+  // Update Data
   editData(Code: number) {
     this.editDemoModal();
     this._UomService.editUOM(Code).subscribe(res => {

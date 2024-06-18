@@ -38,15 +38,7 @@ export class TankConfigurationComponent implements OnInit {
   }
 
   TankList() {
-    const obj = {
-      tableName: "TankMaster",
-      fieldName: "Desp",
-      fieldNameOrderBy: "Desp",
-      distinct: "",
-      filterCondition: "And Desp<>''"
-    };
-
-    this.tankConfigurationService.getTank(obj).subscribe(res => {
+    this.tankConfigurationService.getTank().subscribe(res => {
       this.Tank = res;
     });
   }
