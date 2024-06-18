@@ -7,69 +7,68 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="followName">Enquiry No</label>
-                            <input type="text" id="followName" class="form-control" disabled>
+                            <input type="text" id="followName" class="form-control" disabled [value]="history.Code">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Enquiry Date</label>
-                            <input type="date" class="form-control" disabled>
+                            <input type="date" class="form-control" disabled [value]="history.EnquiryDate">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Enquiry Type</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.EnquiryTypeName">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Customer Type</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.CustomerType">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Customer Name</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.CustomerName">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>created By</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.Status">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Submitted By</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.Code">
                         </div>
                     </div>
-                    <!-- <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Verified/Rejected By</label>
-                            <input type="text" class="form-control"
-                                [value]="selectedRowData?.CustomerContactPhoneNumber" disabled>
+                            <input type="text" class="form-control" disabled [value]="history?.VerifiedBy">
                         </div>
-                    </div> -->
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Approved By</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.Approved">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Completed By</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.ClosedRemarks">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Completion Remarks</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled [value]="history.ApprovedRemarks">
                         </div>
                     </div>
                     <div class="col-md-12 mt-2 mb-2  content-end" (click)="Cancel()">
