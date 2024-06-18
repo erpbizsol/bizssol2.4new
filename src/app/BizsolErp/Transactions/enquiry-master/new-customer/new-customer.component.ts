@@ -287,19 +287,16 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('pin').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
     this.pinCode(newValue)
   }
-  // onInputChange(event: any) {
-  //   const inputValue: string = event.target.value;
-  //   const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-  //   this.newCustomerForm.get('pno').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
-  // }
+  onEmailInput(event: any): void {
+    this.newCustomerForm.value.email = event.target.value.toLowerCase();
+  }
+  
 
   onInputChange(event: any) {
     let inputValue: string = event.target.value;
 
-    // Remove non-numeric characters
     inputValue = inputValue.replace(/[^0-9]/g, '');
 
-    // If the first character is 0, remove it
     if (inputValue.startsWith('0')) {
       inputValue = inputValue.slice(1);
     }
@@ -345,27 +342,28 @@ export class NewCustomerComponent implements OnInit {
     const dateInput = document.getElementById('dateInput') as HTMLInputElement;
     dateInput.max = referenceDate;
   }
-  onKeyPress(event: KeyboardEvent) {
-    const allowedChars = /^[a-zA-Z0-9@.]*$/;
-    const inputChar = String.fromCharCode(event.charCode);
+ 
 
-    if (!allowedChars.test(inputChar)) {
-      event.preventDefault();
-    }
+  onEmailInputEmail(event: any): void {
+    const inputValue = event.target.value;
+    const lowerCaseValue = inputValue.toLowerCase();
+    this.newCustomerForm.value.email= lowerCaseValue;
+    event.target.value = lowerCaseValue;
   }
 
-  //   onKeyPress(event: KeyboardEvent) {
-  //     const allowedChars = /^[a-zA-Z0-9@.]*$/;
-  //     let inputChar = String.fromCharCode(event.charCode);
 
-  //     inputChar = inputChar.toUpperCase()
-  //     console.log(inputChar,"kkk")
+    onKeyPress(event: KeyboardEvent) {
+      const allowedChars = /^[a-zA-Z0-9@.]*$/;
+      let inputChar = String.fromCharCode(event.charCode);
+
+      inputChar = inputChar.toUpperCase()
+      console.log(inputChar,"kkk")
 
 
-  //     if (!allowedChars.test(inputChar)) {
-  //         event.preventDefault();
-  //     }
-  // }
+      if (!allowedChars.test(inputChar)) {
+          event.preventDefault();
+      }
+  }
   onInput(event: KeyboardEvent) {
     const allowedChars = /^[A-Za-z\s]*$/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -401,6 +399,8 @@ export class NewCustomerComponent implements OnInit {
       remark: ['']
     })
   }
+  
+ 
   get website() {
     return this.newCustomerForm.get('website');
   }
