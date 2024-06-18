@@ -37,8 +37,6 @@ import{ DatasharingService} from 'src/app/services/subject/datasharing.service'
   selector: 'app-add-bank-dialog',
   standalone: true,
    imports: [CommonModule,
-  
-  
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,

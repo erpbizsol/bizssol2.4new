@@ -19,14 +19,11 @@
 
   @Component({
       selector: 'app-bank-master',
-
-    standalone: true,
-    
-    imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
-
-        templateUrl: './bank-master.component.html',
-    styleUrl: './bank-master.component.scss',
-      providers: [BankService]
+       standalone: true,
+       imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent],
+       templateUrl: './bank-master.component.html',
+       styleUrl: './bank-master.component.scss',
+       providers: [BankService]
 
   })
   export class BankMasterComponent implements OnInit {
