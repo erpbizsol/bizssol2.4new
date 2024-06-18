@@ -34,11 +34,12 @@ export class ChemicalComponent implements OnInit {
   constructor(private _chemicalService: ChemicalService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.getPaymentTermsData();
+    this.getChemicalData();
   }
 
-  getPaymentTermsData() {
- this._chemicalService.getChemicalList('GetChemicalMasterList').subscribe({
+  getChemicalData() {
+
+    this._chemicalService.getChemicalList('GetChemicalMasterList').subscribe({
       next: (res: any) => {
         res.sort((a: any, b: any) => a.Code - b.Code);
         this.dataSource.data = res.reverse();
@@ -51,7 +52,7 @@ export class ChemicalComponent implements OnInit {
     });
   }
 
-  deletePayment(code: number) {
+  deleteChemical(code: number) {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
       width: '375px',
       data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
@@ -60,10 +61,10 @@ export class ChemicalComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.confirmed) {
         const reason = result.reason;
-        this._chemicalService.deleteChemicalList(code, reason).subscribe((res) => {
+        this._chemicalService.deleteChemical(code, reason).subscribe((res) => {
           console.log(`${code} has been deleted`);
           const responseObj = JSON.parse(JSON.stringify(res));
-          this.getPaymentTermsData();
+          this.getChemicalData();
           alert(responseObj.Msg);
         });
       }
@@ -80,7 +81,7 @@ export class ChemicalComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      this.getPaymentTermsData();
+      this.getChemicalData();
     });
   }
 }

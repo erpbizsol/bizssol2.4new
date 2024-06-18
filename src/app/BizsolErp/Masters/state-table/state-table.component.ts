@@ -132,13 +132,45 @@ specialCharacternumberValidator(event: KeyboardEvent) {
     event.preventDefault();
   }
 }
-stateinitialvalidation(event:KeyboardEvent){
-  const inputChar =String.fromCharCode(event.charCode);
-  const pattern =/[A-Z]/;
-  if(!pattern.test(inputChar)){
+// stateinitialvalidation(event:KeyboardEvent){
+//   const inputChar =String.fromCharCode(event.charCode);
+//   const pattern =/[A-Z]/;
+//   if(!pattern.test(inputChar)){
+//     event.preventDefault();
+//   }
+// }
+ stateinitialvalidation(event: KeyboardEvent) {
+  const inputChar = String.fromCharCode(event.charCode);
+
+  // Only allow alphabetic characters (both uppercase and lowercase)
+  const pattern = /[a-zA-Z]/;
+
+  if (!pattern.test(inputChar)) {
+    // If the input character is not alphabetic, prevent it from being entered
     event.preventDefault();
+    return;
   }
+
+  // Convert lowercase letter to uppercase
+  const input = inputChar.toUpperCase();
+
+  // Update the input field value with the modified input
+  const inputElement = event.target as HTMLInputElement;
+  const currentValue = inputElement.value || '';
+  const selectionStart = inputElement.selectionStart || 0;
+  const selectionEnd = inputElement.selectionEnd || 0;
+  const newValue =
+    currentValue.slice(0, selectionStart) +
+    input +
+    currentValue.slice(selectionEnd);
+
+  inputElement.value = newValue;
+
+  // Prevent default behavior
+  event.preventDefault();
 }
+
+
 statecodevalidation(event:KeyboardEvent){
 const inputChar=String.fromCharCode(event.charCode);
 const pattern=/[0-9]/;

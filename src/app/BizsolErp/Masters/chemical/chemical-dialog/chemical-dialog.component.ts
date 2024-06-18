@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,13 +13,14 @@ import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.
   selector: 'app-chemical-dialog',
   standalone: true,
   providers: [ChemicalService],
-  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   templateUrl: './chemical-dialog.component.html',
   styleUrl: './chemical-dialog.component.scss'
 })
 export class ChemicalDialogComponent {
   elementData: any;
   submitted: boolean = false
+  isMechanical:boolean=false;
   chemicalForm !: FormGroup;
   // chemicallist: any = [];
 
@@ -37,6 +38,7 @@ export class ChemicalDialogComponent {
 
     // });
   }
+  
 
 
 
@@ -56,7 +58,7 @@ export class ChemicalDialogComponent {
 
   //   })
   // }
-  saveChemical() {
+  savechemicaldata() {
     this.submitted = true;
 
     if(this.chemicalForm.invalid){
@@ -66,14 +68,14 @@ export class ChemicalDialogComponent {
     
 
     let data = [{
-      code: this.elementData.Code ? this.elementData.Code : 0,
-      chemicalName: this.chemicalForm.value.chemical,
-      sortorder: this.chemicalForm.value.sortorder,
-      inspectionmethod: this.chemicalForm.value.inspectionmethod,
-      userMaster_Code: 0,
+      Code: this.elementData.Code ? this.elementData.Code : 0,
+      ChemicalName: this.chemicalForm.value.chemical,
+      SortOrder: this.chemicalForm.value.sortorder,
+      InspectionMethod: this.chemicalForm.value.inspectionmethod,
+      UserMaster_Code: 0,
     }]
     if (this.elementData.Code === undefined || 0) {
-      this._chemicalService.saveChemical(data).subscribe({
+      this._chemicalService.saveChemicaldata(data).subscribe({
         next:((res:any)=>{
           this.chemicalForm.reset()
           this.dialogRef.close();
@@ -87,7 +89,7 @@ export class ChemicalDialogComponent {
 
     }
     else{
-      this._chemicalService.saveChemical(data).subscribe({
+      this._chemicalService.saveChemicaldata(data).subscribe({
         next:((res:any)=>{
           this.chemicalForm.reset()
           this.dialogRef.close();
