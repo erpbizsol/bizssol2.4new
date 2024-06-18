@@ -76,23 +76,28 @@ export class CountryTableComponent {
   ////////////////////////////////////////////////Validation for create country modal//////////////////////////////////////////////////
 specialCharacternumberValidator(event: KeyboardEvent) {
   const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z]/;
-
+  const pattern = /[a-zA-Z ]/;
   if (!pattern.test(inputChar)) {
     // If the input character is not an alphabet, prevent it from being entered into the input field
     event.preventDefault();
   }
 }
-onlynumberinput(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /^[0-9+]$/;
 
-  // Check if the input character is a digit or a single '+'
-  if (!pattern.test(inputChar)) {
+
+
+
+
+onlynumberinput(event: KeyboardEvent) {
+  const inputElement = event.target as HTMLInputElement; // Typecast event.target to HTMLInputElement
+  const inputChar = String.fromCharCode(event.charCode);
+  
+  // Allow digits (0-9) and a single '+' at the beginning
+  if (!(event.key >= '0' && event.key <= '9') && !(inputChar === '+' && inputElement.value === '')) {
     event.preventDefault();
   }
-  
 }
+
+
 
   /////////////////////////////////////////////////    ReadCountry///////////////////////////////////////////////////////
 
