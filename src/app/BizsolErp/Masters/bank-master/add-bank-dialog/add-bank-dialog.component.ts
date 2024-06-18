@@ -80,8 +80,8 @@ export class AddBankDialogComponent {
    this.getDropList()
    this.patchBankData()
    this.paymentTermsForm.controls['bankName'].valueChanges.subscribe(value => {
-    this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
-    this.sendBankNameToService(value);
+   this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
+   this.sendBankNameToService(value);
   });
 }
   paymentTermsForm = new FormGroup({
@@ -206,8 +206,6 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     this.dialogRef.close();
   }
 
-  
-
   saveBankDetailsData() {
    this.submitted=true
     if(this.paymentTermsForm.invalid){
@@ -271,11 +269,20 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
         alert("Updated");
 
       }
-    });
-
-   }
+    });}
   }
 
+  
+  controlValue:boolean = false
+  datas(event: any, controlName: string): void {
+    this.controlValue = this.paymentTermsForm.get(controlName)?.value;
+    console.log(this.controlValue);
+  }
+
+  // Method to get the value of cms_applicable
+  // getCheckboxValue(): boolean {
+  //   return this.paymentTermsForm.get('cms_applicable')?.value;
+  // }
   getDropList(){
    let data ={
   tableName: "CurrencyMaster",

@@ -207,7 +207,7 @@
         </div>
 
         
-        <div class="row" mat-dialog-content>
+        <div class="row" mat-dialog-content >
          
           <div class="col-md-6 form-group">
             <label><b>Default</b></label> 
@@ -222,14 +222,14 @@
             <label><b> e -CMS Application </b></label> 
              <div>
               <section class="example-section">
-                <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
+                <mat-checkbox class="example-margin" (change)="datas($event,'cms_applicable')" formControlName="cms_applicable" ></mat-checkbox>
               </section>   
                 
              </div>
           </div>
         </div>
 <!-- ================================checkbo===================================== -->
-        <div class="row" mat-dialog-content>
+        <div class="row" mat-dialog-content *ngIf="controlValue">
           
          <div class="col-md-6 form-group">
             <label><b> e cms   vendor</b></label>
@@ -244,13 +244,13 @@
           <div class="col-md-6 form-group">
             <label><b> prifix </b></label> 
              <div>
-              <input type="text" class="form-control" formControlName=""  maxlength="50"   placeholder="Enter Debit Amount details" >
+              <input type="text" class="form-control"   maxlength="50"   placeholder="Enter Debit Amount details" >
 
                 
              </div>
           </div>
         </div>
-        <div class="row" mat-dialog-content>
+        <div class="row" mat-dialog-content *ngIf="controlValue">
           <div>
             <select class="select2 form-control" >
               <option  value="">   hii</option>
