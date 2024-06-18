@@ -94,10 +94,10 @@ export class AddBankDialogComponent {
     state: new FormControl('',Validators.required),
     city: new FormControl('',Validators.required),
     phone_no: new FormControl('',Validators.required),
-    fax_no: new FormControl('',Validators.required),
+    fax_no: new FormControl(''),//optinal
     service_tax: new FormControl('',Validators.required),
     Pan_No: new FormControl('',Validators.required),
-    email:new FormControl('',Validators.required),
+    email:new FormControl('',[Validators.required,Validators.email]),
     default: new FormControl(false),
     cms_applicable: new FormControl(false),
 
@@ -130,13 +130,7 @@ patchBankData(){
   })
 }
 
-
-  
-  
- 
-
-
-   pinAcceptOnlyNumber(event: any) {
+ pinAcceptOnlyNumber(event: any) {
     const inputValue: string = event.target.value;
     const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     this.paymentTermsForm.get('pin').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
@@ -151,10 +145,8 @@ patchBankData(){
     this.paymentTermsForm.get('pin').setValue(val); // Set the value in the form control
     this._enquiryService.pincode(val).subscribe(res => {
       this.getPincode = res;
-       console.log(this.getPincode,"ppppp")
       this.state(this.getPincode?.CountryName);
       this.city(this.getPincode?.StateName)
-      // Call pinPoppulate() after getPincode data is available
       this.pinPoppulate();
     })
   }
@@ -209,7 +201,7 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     this.dialogRef.close();
   }
 
- 
+  
 
   saveBankDetailsData() {
     debugger
@@ -304,31 +296,27 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   }
 
 
-  //====state=====
   getState(event:any) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.paymentTermsForm.get('country').setValue(selectedValue); // Set the value in the form control
 
     this._state.getStates(selectedValue).subscribe((res: any) => {
       this.stateList = res;
-     console.log("check")
     })
   }
  
   getCityList(event:any) {
     const selectedValue = event.target.value ;
-    // set state input value of form control named 'state' in form group
+    
     this.paymentTermsForm.get('state').setValue(selectedValue); // Set the value in the form control
 
     this._city.getCity(selectedValue).subscribe((res: any) => {
       this.cityList = res;
-      console.log(this.cityList,"llll")
     });
   }
   state(val:any) {
     this._state.getStates(val).subscribe(res => {
       this.stateList = res;
-      console.log(this.stateList,"uuuuuuuuuuuuuuu")
 
 
     })
@@ -336,12 +324,31 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   city(val:any) {
     this._city.getCity(val).subscribe(res => {
       this.cityList = res;
-       console.log(this.cityList,"kkkkkkkkkk")
     });
   }
-  //===================================end drop===========================
   get f() {
     return this.paymentTermsForm.controls
   }
+
+  transformToUpperCase(event: any) {
+    const value: string = event.target.value;
+    this.f.swiftCode.setValue(value.toUpperCase(), { emitEvent: false });
+  }
+  serviceTax(event:any){
+    const value: string = event.target.value;
+    this.f.service_tax.setValue(value.toUpperCase(), { emitEvent: false });
+  }
+ 
+   onKeyPress(event: KeyboardEvent) {
+    const allowedChars = /^[a-zA-Z0-9@.]*$/;
+    const inputChar = String.fromCharCode(event.charCode);
+
+    if (!allowedChars.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  
+
 
 }
