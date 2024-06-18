@@ -1,12 +1,7 @@
 .card-header,
 h2 {
     font-size: 1.2rem;
-    // color: #fff;
 }
-
-// .card-header {
-//     background-color: #452b90;
-// }
 
 .form-card {
     padding: 2px 7px;
@@ -29,13 +24,13 @@ span {
 
 .row {
     display: flex;
-    // justify-content: space-between;
 }
 
 .abhi {
     display: flex;
     justify-content: flex-end;
 }
+
  ::ng-deep .form-control:disabled {
     background-color: white;
     opacity: 1;

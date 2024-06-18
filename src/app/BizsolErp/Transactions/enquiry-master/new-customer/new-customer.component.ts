@@ -7,7 +7,7 @@ import { ContactPersonService } from 'src/app/services/Master/contact-person.ser
 import { ProductDetailsService } from 'src/app/services/Master/product-details.service';
 import { StateService } from 'src/app/services/Master/state.service';
 import { CityService } from 'src/app/services/Master/city.service';
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
@@ -90,7 +90,6 @@ export class NewCustomerComponent implements OnInit {
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
     private _contactPersonService: ContactPersonService, private _productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
   ) {
-    this.dropdown();
     this.newEnquiryForm();
     this.personForm();
     this.productForm();
@@ -98,6 +97,7 @@ export class NewCustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dropdown();
     this.UOMList()
     this.getProduct()
     this.getLeadSource()
@@ -107,7 +107,6 @@ export class NewCustomerComponent implements OnInit {
     this.setMinAndMaxDate()
     this.setMinDate1()
     this.productForm();
-    // this.leadCode = this.route.snapshot.paramMap.get('Code');
     this.route.params.subscribe(params => {
       this.editCode = params['Code'];
       this.getEnquirByCode()
@@ -155,7 +154,6 @@ export class NewCustomerComponent implements OnInit {
     this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, this.customerType).subscribe((res: any) => {
       this.companyList = res;
     })
-    // this.editCode = undefined;
   }
   hideexisting() {
     this.companyNamehide = false;
@@ -206,7 +204,6 @@ export class NewCustomerComponent implements OnInit {
     this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
       this.leadData = res.EnquiryMaster[0];
       this.contactPersonsList = res.ContactPersonsList;
-      // res.ContactPersonsList = this.contactPersonsList;
       this.enquiryProductDetails = res.EnquiryDetails;
 
       if (this.editCode !== "undefined") {
@@ -290,7 +287,6 @@ export class NewCustomerComponent implements OnInit {
   onEmailInput(event: any): void {
     this.newCustomerForm.value.email = event.target.value.toLowerCase();
   }
-  
 
   onInputChange(event: any) {
     let inputValue: string = event.target.value;
@@ -342,28 +338,25 @@ export class NewCustomerComponent implements OnInit {
     const dateInput = document.getElementById('dateInput') as HTMLInputElement;
     dateInput.max = referenceDate;
   }
- 
 
   onEmailInputEmail(event: any): void {
     const inputValue = event.target.value;
     const lowerCaseValue = inputValue.toLowerCase();
-    this.newCustomerForm.value.email= lowerCaseValue;
+    this.newCustomerForm.value.email = lowerCaseValue;
     event.target.value = lowerCaseValue;
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    const allowedChars = /^[a-zA-Z0-9@.]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
 
-    onKeyPress(event: KeyboardEvent) {
-      const allowedChars = /^[a-zA-Z0-9@.]*$/;
-      let inputChar = String.fromCharCode(event.charCode);
+    inputChar = inputChar.toUpperCase()
 
-      inputChar = inputChar.toUpperCase()
-      console.log(inputChar,"kkk")
-
-
-      if (!allowedChars.test(inputChar)) {
-          event.preventDefault();
-      }
+    if (!allowedChars.test(inputChar)) {
+      event.preventDefault();
+    }
   }
+
   onInput(event: KeyboardEvent) {
     const allowedChars = /^[A-Za-z\s]*$/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -399,8 +392,7 @@ export class NewCustomerComponent implements OnInit {
       remark: ['']
     })
   }
-  
- 
+
   get website() {
     return this.newCustomerForm.get('website');
   }
@@ -602,6 +594,7 @@ export class NewCustomerComponent implements OnInit {
     const selectedProductName = event.target.value;
     const selectedProduct = this.productList.find(product => product.ItemName === selectedProductName);
     if (selectedProduct) {
+      this.productDetails.get('quantity')?.reset();
       this.productDetails.patchValue({ uom: selectedProduct.UOM });
     }
     this.productSpecification(event)
@@ -835,17 +828,24 @@ export class NewCustomerComponent implements OnInit {
   }
   onExistingPersonChange(event: any): void {
     const selectedExistingPersonName = event.target.value;
-    // this.contactPerson.get('name').setValue(selectedExistingPersonName);
-    console.log(selectedExistingPersonName);
-    const formValues = {
-      name: selectedExistingPersonName,
-      department: this.existingPersonNameList[0].DepartmentName,
-      designation: this.existingPersonNameList[0].ContactPersonDesignation,
-      email: this.existingPersonNameList[0].ContactPersonEMail,
-      contactNo: this.existingPersonNameList[0].ContactPersonMobile,
-    };
-    this.contactPerson.patchValue(formValues);
-    console.log("formValues", formValues);
+    const selectedPerson = this.existingPersonNameList.find(person => person.ContactPersonName === selectedExistingPersonName);
+    if (selectedPerson) {
+      const formValues = {
+        name: selectedPerson.ContactPersonName,
+        department: selectedPerson.DepartmentName,
+        designation: selectedPerson.ContactPersonDesignation,
+        email: selectedPerson.ContactPersonEMail,
+        contactNo: selectedPerson.ContactPersonMobile,
+      };
+      this.contactPerson.patchValue(formValues);
+      console.log("formValues", formValues);
+    }
+
+    // this.existingPersonNameList.map(oneRecord => {
+    //   console.log(oneRecord);
+    //   return oneRecord
+    // })
+
   }
 
   //product details save, update and delete method
@@ -966,7 +966,7 @@ export class NewCustomerComponent implements OnInit {
   backtotable() {
     this.location.back();
   }
-  
+
   backtotable1() {
     this.location.back();
   }

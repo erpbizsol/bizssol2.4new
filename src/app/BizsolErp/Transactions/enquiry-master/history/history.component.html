@@ -7,68 +7,68 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="followName">Enquiry No</label>
-                            <input type="text" id="followName" class="form-control" disabled [value]="history.Code">
+                            <input id="followName" class="form-control" disabled [value]="history.Code">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Enquiry Date</label>
-                            <input type="date" class="form-control" disabled [value]="history.EnquiryDate">
+                            <input class="form-control" disabled [value]="enquiryDate">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Enquiry Type</label>
-                            <input type="text" class="form-control" disabled [value]="history.EnquiryTypeName">
+                            <input class="form-control" disabled [value]="history.EnquiryTypeName">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Customer Type</label>
-                            <input type="text" class="form-control" disabled [value]="history.CustomerType">
+                            <input class="form-control" disabled [value]="history.CustomerType">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Customer Name</label>
-                            <input type="text" class="form-control" disabled [value]="history.CustomerName">
+                            <input class="form-control" disabled [value]="history.CustomerName">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>created By</label>
-                            <input type="text" class="form-control" disabled [value]="history.Status">
+                            <input class="form-control" disabled [value]="history.Status">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Submitted By</label>
-                            <input type="text" class="form-control" disabled [value]="history.Code">
+                            <input class="form-control" disabled [value]="history.Code">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Verified/Rejected By</label>
-                            <input type="text" class="form-control" disabled [value]="history?.VerifiedBy">
+                            <input class="form-control" disabled [value]="history?.VerifiedBy">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Approved By</label>
-                            <input type="text" class="form-control" disabled [value]="history.Approved">
+                            <input class="form-control" disabled [value]="history.Approved">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Completed By</label>
-                            <input type="text" class="form-control" disabled [value]="history.ClosedRemarks">
+                            <input class="form-control" disabled [value]="history.ClosedRemarks">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Completion Remarks</label>
-                            <input type="text" class="form-control" disabled [value]="history.ApprovedRemarks">
+                            <input class="form-control" disabled [value]="history.ApprovedRemarks">
                         </div>
                     </div>
                     <div class="col-md-12 mt-2 mb-2  content-end" (click)="Cancel()">
@@ -90,17 +90,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td class="ellipsis" matTooltipPosition="above">13/06/2024</td>
-                            <td>Abhishek</td>
-                            <td>ABC</td>
+                        <tr *ngFor="let data of assignedDeatils let i = index">
+                            <td>{{i+1}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.AssignDate|date}}</td>
+                            <td>{{data.AssignedBy}}</td>
+                            <td>{{data.AssignedTo}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <div>
             <h6>contact Person Deatils</h6>
             <div class="tableMobile mt-4">
@@ -116,19 +115,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td class="ellipsis" matTooltipPosition="above">Testing</td>
-                            <td>Production</td>
-                            <td>HOD</td>
-                            <td>Email-Id</td>
-                            <td>6764534331</td>
+                        <tr *ngFor="let data of personDeatils let i = index">
+                            <td>{{i+1}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.ContactPersonName}}</td>
+                            <td>{{data.DepartmentName}}</td>
+                            <td>{{data.ContactPersonDesignation}}</td>
+                            <td>{{data.ContactPersonEMail}}</td>
+                            <td>{{data.ContactPersonMobile}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <div>
             <h6>Product Deatils</h6>
             <div class="tableMobile mt-4">
@@ -140,23 +138,22 @@
                             <th>Specification</th>
                             <th>UOM</th>
                             <th>Quantity</th>
-                            <th>Remarks/th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Pipe 1</td>
-                            <td class="ellipsis" matTooltipPosition="above">1080 x 720</td>
-                            <td>MT</td>
-                            <td>12.1</td>
-                            <td class="ellipsis" matTooltipPosition="above">Testing</td>
+                        <tr *ngFor="let data of productDeatils let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{data.Itemname}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.SizeDetails}}</td>
+                            <td>{{data.UOM}}</td>
+                            <td>{{data.Quantity}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.Remarks}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <div>
             <h6>Follow-up Deatils</h6>
             <div class="tableMobile mt-4">
@@ -171,19 +168,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>13-06-2024</td>
-                            <td>Visit</td>
-                            <td class="ellipsis" matTooltipPosition="above">Testing 1</td>
-                            <td class="ellipsis" matTooltipPosition="above">Testing 2</td>
+                        <tr *ngFor="let data of followUpDeatils let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{data.FollowupDate}}</td>
+                            <td>{{data.FollowupMode}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.OurRemarks}}</td>
+                            <td class="ellipsis" matTooltipPosition="above">{{data.CustomerRemarks}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-
     </div>
 
 </div>

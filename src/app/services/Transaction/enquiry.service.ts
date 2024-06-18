@@ -115,8 +115,8 @@ export class EnquiryService {
     return this._http.get(url);
   }
 
-  GetEnquiryHistory(): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/GetEnquiryHistory' + `?EnquiryMaster_Code=${803}`;
+  GetEnquiryHistory(enquiryCode: string): Observable<any> {
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/GetEnquiryHistory' + `?EnquiryMaster_Code=${enquiryCode}`;
     return this._http.get(url);
   }
 
