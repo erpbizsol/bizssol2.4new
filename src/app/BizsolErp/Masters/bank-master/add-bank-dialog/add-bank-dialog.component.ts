@@ -333,23 +333,12 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     return this.paymentTermsForm.controls
   }
 
-  transformToUpperCase(event: any) {
+
+  transformToUpperCase(event: any, controlName: string) {
     const value: string = event.target.value;
-    this.f.swiftCode.setValue(value.toUpperCase(), { emitEvent: false });
-  }
-  serviceTax(event:any){
-    const value: string = event.target.value;
-    this.f.service_tax.setValue(value.toUpperCase(), { emitEvent: false });
-  }
-  ifsc(event:any){
-    const value: string = event.target.value;
-    this.f.ifscCode.setValue(value.toUpperCase(), { emitEvent: false });
+    this.paymentTermsForm.controls[controlName].setValue(value.toUpperCase(), { emitEvent: false });
   }
 
-  pan(event:any){
-    const value: string = event.target.value;
-    this.f.Pan_No.setValue(value.toUpperCase(), { emitEvent: false });
-  }
 
    onKeyPress(event: KeyboardEvent) {
     const allowedChars = /^[a-zA-Z0-9@.]*$/;
@@ -359,8 +348,4 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       event.preventDefault();
     }
   }
-
-  
-
-
 }
