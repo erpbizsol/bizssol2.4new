@@ -28,6 +28,7 @@ import { StateService } from 'src/app/services/Master/state.service';
 import { UrlService } from 'src/app/services/URL/url.service';
 import { tail } from 'lodash-es';
 import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
+import{ DatasharingService} from 'src/app/services/subject/datasharing.service'
 
 
 
@@ -69,17 +70,21 @@ export class AddBankDialogComponent {
     private _http: HttpClient, private _urlService: UrlService,
     private toaster:ToasterService,
     private bank: BankService,
+    private datasharing: DatasharingService,
+
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
     this.elementData = data.element
-     console.log( this.elementData,"Hey  Ksishna ")
   }
 
   ngOnInit() {
-    this.getCountryList()
+   this.getCountryList()
    this.getDropList()
    this.patchBankData()
-
+   this.paymentTermsForm.controls['bankName'].valueChanges.subscribe(value => {
+    this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
+    this.sendBankNameToService(value);
+  });
 }
   paymentTermsForm = new FormGroup({
     bankName: new FormControl('', Validators.required),
@@ -137,7 +142,9 @@ patchBankData(){
     this.pinCode(newValue)
   }
 
-
+  sendBankNameToService(bankName: string) {
+    this.datasharing.sendData({ bankName });
+  }
  
 
   pinCode(val:any) {
@@ -204,24 +211,20 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   
 
   saveBankDetailsData() {
-    debugger
-    this.submitted=true
+   this.submitted=true
     if(this.paymentTermsForm.invalid){
       return
     }
     let data=[
       {
-        
         code: this.elementData.Code ? this.elementData.Code:0,
         bankName: this.paymentTermsForm.value.bankName,
         accountNo:this.paymentTermsForm.value.accountNo,
         currencyName:this.paymentTermsForm.value.currency,
-
         address: this.paymentTermsForm.value.address,
         Nation: this.paymentTermsForm.value.country,
         pinCode:this.paymentTermsForm.value.pin,
         city:this.paymentTermsForm.value.city,
-
         state:this.paymentTermsForm.value.state,
         eMail: this.paymentTermsForm.value.email,
         phoneNo:this.paymentTermsForm.value.phone_no,
@@ -277,11 +280,11 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
 
   getDropList(){
    let data ={
-  "tableName": "CurrencyMaster",
-  "fieldName": "Description",
-  "fieldNameOrderBy": "",
-  "distinct": "",
-  "filterCondition": " And Description<>''"
+  tableName: "CurrencyMaster",
+  fieldName: "Description",
+  fieldNameOrderBy: "",
+  distinct: "",
+  filterCondition: " And Description<>''"
    }
   this._http.post(this._urlService.API_ENDPOINT_DROPDOWN + '/GetDropDownList',data).subscribe((res: any) => {
     this.dropListData = res;
@@ -338,7 +341,16 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     const value: string = event.target.value;
     this.f.service_tax.setValue(value.toUpperCase(), { emitEvent: false });
   }
- 
+  ifsc(event:any){
+    const value: string = event.target.value;
+    this.f.ifscCode.setValue(value.toUpperCase(), { emitEvent: false });
+  }
+
+  pan(event:any){
+    const value: string = event.target.value;
+    this.f.Pan_No.setValue(value.toUpperCase(), { emitEvent: false });
+  }
+
    onKeyPress(event: KeyboardEvent) {
     const allowedChars = /^[a-zA-Z0-9@.]*$/;
     const inputChar = String.fromCharCode(event.charCode);

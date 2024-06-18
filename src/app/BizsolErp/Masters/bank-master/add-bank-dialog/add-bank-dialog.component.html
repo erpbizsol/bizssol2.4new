@@ -9,7 +9,7 @@
         <div class="col-md-6 form-group">
           <label><b>Bank Name </b></label>
           <div>
-            <input type="text" class="form-control"  maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
+            <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
             <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
               <div *ngIf="f['bankName'].hasError('required')">Bank Name is Required</div>
             </div>
@@ -54,7 +54,7 @@
           <div class="col-md-6 form-group">
             <label><b>IFSC Code</b></label>
             <div>
-              <input type="text" class="form-control"   formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+              <input type="text" class="form-control"    (input)="ifsc($event)" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
               <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
                 <div *ngIf="f['ifscCode'].hasError('required')">Ifsc Code is Required</div>
               </div>
@@ -175,7 +175,7 @@
           <div class="col-md-6 form-group">
             <label><b>Service Tax No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="service_tax"   (input)="transformToUpperCase($event)"  maxlength="15" placeholder="Enter Tervice Tax" >
+              <input type="text" class="form-control" formControlName="service_tax"  (input)="serviceTax($event)"  maxlength="15" placeholder="Enter Tervice Tax" >
               <div *ngIf="submitted && f['service_tax'].errors" class="text-danger">
                 <div *ngIf="f['service_tax'].hasError('required')">Service Tax is Required</div>
               </div>
@@ -187,7 +187,7 @@
           <div class="col-md-6 form-group">
             <label><b>Pan No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="Pan_No" maxlength="13" placeholder="Enter Pan No." >
+              <input type="text" class="form-control" formControlName="Pan_No"  (input)="pan($event)"  maxlength="10" placeholder="Enter Pan No." >
            
               <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
                 <div *ngIf="f['Pan_No'].hasError('required')">Pan No. is Required</div>
@@ -220,8 +220,7 @@
           </div>
           <div class="col-md-6 form-group">
             <label><b> e Cms Application </b></label> 
-
-            <div>
+             <div>
               <section class="example-section">
                 <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
               </section>             
