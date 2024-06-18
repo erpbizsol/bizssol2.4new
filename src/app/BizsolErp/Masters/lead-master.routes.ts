@@ -179,7 +179,13 @@ export const routes: Routes = [
                     title: 'bank'
                 }
             },
-
+            {
+                path: 'HSN-Code-Master',
+                loadComponent: () => import('./hsn-code-component/hsn-code-component.component').then(m => m.HSNCodeMasterComponent),
+                data: {
+                    title: 'HSN-Code-Master'
+                }
+              },
 
         ]
     },

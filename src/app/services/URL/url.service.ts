@@ -31,6 +31,7 @@ API_ENDPOINT_DROPDOWN: string = `${this.BASE_URL}/Dropdown`; // shobha
   API_ENDPOINT_HEATTREATMENT: string;
   API_ENDPOINT_Dropdown:String= `${this.BASE_URL}/Dropdown`;
   API_ENDPOINT_TankConfiguration:String= `${this.BASE_URL}/TankConfiguration`;
+  API_ENDPOINT_HSNCodeMaster:String= `${this.BASE_URL}/HSNCodeMaster`;
 
   API_ENDPOINT_TankDailyStock:String= `${this.BASE_URL}/DailyTankStock`;
 

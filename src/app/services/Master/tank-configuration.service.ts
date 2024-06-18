@@ -12,31 +12,32 @@ export class TankConfigurationService {
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
   private headers(): HttpHeaders {
-    const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
-    const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
+    // const authKey = this.authService.getAuthKey();
+    // const abhi = JSON.parse(authKey);
+    // const userMasterCode = this.authService.getUserMasterCode();
+    // const obj1 = { ...abhi, userMasterCode };
+    // this.userCode = obj1.UserMaster_Code;
+    // const obj=JSON.stringify(obj1);
+    // console.log("this.userCode--->", this.userCode);
 
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      // 'Auth-Key': ` ${obj}`
     });
   }
   getTankConfigurationList(TankName: any): Observable<any> {
     let url = this._urlService.API_ENDPOINT_TankConfiguration + "/GetTankConfigurationList?TankName=" + `${TankName}`;
     return this._http.get(url);
   }
-  getTank(obj:any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_Dropdown + "/GetDropdownList";
-    return this._http.post<any>(url, JSON.stringify(obj), { headers: this.headers() });
+  getTank(): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_TankConfiguration + "/GetTankDespDropDown";
+    return this._http.get<any>(url, {});
   }
-  postTankConfiguration(obj: any): Observable<any> {
+  postTankConfiguration(obj: any[]): Observable<any> {
     const data = JSON.stringify(obj)
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
     let url = this._urlService.API_ENDPOINT_TankConfiguration + "/SaveTankConfiguration";
-    return this._http.post(url, data, { headers: this.headers() });
+    return this._http.post(url, data, { headers:this.headers()});
   }
 }
