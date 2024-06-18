@@ -97,10 +97,11 @@
                                                             <div class="form-group">
                                                                 <label for="extCustomer"
                                                                     class="required">Customer/Company Name</label>
+
                                                                 <select class="form-control"
                                                                     formControlName='customername'
                                                                     (change)="getCompanyDetails($event)">
-                                                                    <option value="">Select</option>
+                                                                    <option  selected hidden value ="" >Select</option>
                                                                     <option *ngFor="let company of companyList"
                                                                         [value]="company.Desp">
                                                                         {{company.Desp}}</option>
@@ -119,7 +120,7 @@
                                                                 Type</label>
                                                             <select id="abc" formControlName="customerType"
                                                                 class="form-control">
-                                                                <option disabled value="">Select</option>
+                                                                <option selected hidden value ="">Select</option>
                                                                 <option *ngFor="let data of customerTypeList"
                                                                     [value]="data.Desp">{{data.Desp}}</option>
                                                             </select>
@@ -136,7 +137,7 @@
                                                                 Type</label>
                                                             <select id="abc" formControlName="enquirytype"
                                                                 class="form-control">
-                                                                <option disabled value="">Select</option>
+                                                                <option selected hidden value ="">Select</option>
                                                                 <option *ngFor="let data of EnquiryTypeList"
                                                                     [value]="data.Desp">{{data.Desp}}</option>
 
@@ -172,7 +173,7 @@
                                                             <select id="abc" formControlName="country"
                                                                 placeholder="select country" name="extCustomer"
                                                                 class="form-control" (change)="getState($event)">
-                                                                <option value="">Select</option>
+                                                                <option selected hidden value ="">Select</option>
                                                                 <option *ngFor="let country of countryList"
                                                                     [value]="country.CountryName">{{
                                                                     country.CountryName }}
@@ -195,7 +196,7 @@
                                                             <select id="abc" class="form-control"
                                                                 formControlName="state" placeholder="select state"
                                                                 (change)="getCityList($event)">
-                                                                <option value="">Select</option>
+                                                                <option selected hidden value ="">Select</option>
                                                                 <option *ngFor="let state of stateList"
                                                                     [value]="state.StateName">{{
                                                                     state.StateName }}
@@ -213,7 +214,7 @@
                                                             <label for="extCustomer" class="required">City/Town</label>
                                                             <select id="abc" formControlName="city"
                                                                 class="form-control">
-                                                                <option value="">Select</option>
+                                                                <option selected hidden value ="">Select</option>
                                                                 <option *ngFor="let city of cityList"
                                                                     [value]="city.CityName">{{
                                                                     city.CityName }}
@@ -232,7 +233,7 @@
                                                                 <label for="email">Email </label>
                                                                 <input type="email" formControlName="email"
                                                                     class="form-control" maxLength="100"
-                                                                    (keypress)="onKeyPress($event)">
+                                                                    (keypress)="onKeyPress($event)"   (input)="onEmailInputEmail($event)" >
                                                                 <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
                                                                     class="text-danger validation-msg">
                                                                     <div *ngIf="email?.errors?.['pattern']">
@@ -325,7 +326,7 @@
                                                                 <label class="required">Lead Source</label>
                                                                 <select formControlName="leadsource"
                                                                     class="form-control">
-                                                                    <option disabled value="">Select</option>
+                                                                    <option selected hidden value ="">Select</option>
                                                                     <option *ngFor="let lead of leadSourceList"
                                                                         [value]="lead.LeadSourceDesp">
                                                                         {{lead.LeadSourceDesp}}</option>
@@ -376,7 +377,7 @@
                                                             <div class="form-group">
                                                                 <label>Assign To salesman</label>
                                                                 <select formControlName="salesman" class="form-control">
-                                                                    <option disabled value="">Select</option>
+                                                                    <option selected hidden value ="">Select</option>
                                                                     <option *ngFor="let data of salePersonList"
                                                                         [value]="data.PersonName">
                                                                         {{ data.PersonName }}
@@ -436,7 +437,7 @@
                                                                 <label class="required">Next Followup Mode</label>
                                                                 <select formControlName="followupmode"
                                                                     class="form-control">
-                                                                    <option disabled value="">Select</option>
+                                                                    <option selected hidden value ="">Select</option>
                                                                     <option *ngFor="let lead of leadSourceList"
                                                                         [value]="lead.LeadSourceDesp">
                                                                         {{lead.LeadSourceDesp}}</option>
@@ -531,7 +532,7 @@
                                                 <div class="form-group">
                                                     <label class="required">Department</label>
                                                     <select id="abc" formControlName="department" class="form-control">
-                                                        <option value="">Select</option>
+                                                        <option selected hidden value ="">Select</option>
                                                         <option *ngFor="let deparment of departments"
                                                             [value]="deparment.DepartmentName">{{
                                                             deparment.DepartmentName }}
@@ -549,7 +550,7 @@
                                                 <div class="form-group">
                                                     <label class="required">Designation</label>
                                                     <select id="abc" formControlName="designation" class="form-control">
-                                                        <option disabled value="">Select</option>
+                                                        <option selected hidden value ="">Select</option>
                                                         <option *ngFor="let data of designation"
                                                             [value]="data.DesignationName">{{
                                                             data.DesignationName }}
@@ -652,7 +653,7 @@
                                                     <label class="required"> Product Name</label>
                                                     <input list="productList" class="form-control"
                                                         formControlName="productName"
-                                                        (change)="onProductChange($event)">
+                                                        (change)="onProductChange($event)" maxlength="100">
                                                     <datalist id="productList">
                                                         <option *ngFor="let data of productList"
                                                             [value]="data.ItemName">
@@ -677,7 +678,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="required">Specification</label>
-                                                    <input list="specificationList" class="form-control"
+                                                    <input list="specificationList" maxlength="100" class="form-control"
                                                         formControlName="specification">
                                                     <datalist id="specificationList">
                                                         <option *ngFor="let data of Specification"
