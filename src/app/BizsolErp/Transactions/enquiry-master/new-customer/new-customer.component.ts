@@ -899,9 +899,10 @@ export class NewCustomerComponent implements OnInit {
       this.resetForm();
       this.productDetailsCode = undefined;
       this.getEnquirByCode();
-      this.snackBarService.showSuccessMessage('Product details saved successfully!');
-    }
-      ,
+      if (Obj.enquiryDetails[0].Code) {
+        this.snackBarService.showSuccessMessage('Product details updated successfully!');
+      } else this.snackBarService.showSuccessMessage('Product details saved successfully!');
+    },
       err => {
         this.snackBarService.showErrorMessage('Failed to saved Product details');
       })
@@ -917,7 +918,7 @@ export class NewCustomerComponent implements OnInit {
       if (selectedProduct) {
         this.poductDataPopplate(selectedProduct)
       }
-      this.snackBarService.showSuccessMessage('Product details updated successfully!');
+      // this.snackBarService.showSuccessMessage('Product details updated successfully!');
     },
       err => {
         this.snackBarService.showErrorMessage('Failed to update Product details');

@@ -16,12 +16,14 @@ export class EnquiryService {
   //   'Authorization': this.authService.getAuthKey()
   // });
 
-  authKey: any;
+  userMasterCode: string;
   private headers(): HttpHeaders {
-    this.authKey = this.authService.getAuthKey();
+    const authKey = this.authService.getAuthKey();
+    this.userMasterCode = this.authService.getUserMasterCode();
+    console.log("this.userMasterCode--->", this.userMasterCode);
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${this.authKey}`
+      'Auth-Key': ` ${authKey}`
     });
   }
 
@@ -42,7 +44,7 @@ export class EnquiryService {
   }
 
   deleteEnquiry(code: number, reason: any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_ENQUIRY + "/DeleteEnquiryMaster" + `?Code=${code}&UserMaster_Code=${this.authKey}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_ENQUIRY + "/DeleteEnquiryMaster" + `?Code=${code}&UserMaster_Code=${this.userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
@@ -67,20 +69,22 @@ export class EnquiryService {
   }
 
   verifyDetails(enquiryCode: number): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.authKey}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.userMasterCode}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
   rejectDetails(enquiryCode: number, remarks: any): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryReject' + `?Code=${enquiryCode}&UserMaster_Code=${this.authKey}` + `&ReasonForReject=${remarks}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryReject' + `?Code=${enquiryCode}&UserMaster_Code=${this.userMasterCode}` + `&ReasonForReject=${remarks}`;
     return this._http.post(url, { headers: this.headers() });
   }
   deleteContactPersionDetails(code: any, reason: any) {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryContactDetail' + `?Code=${code}` + `&UserMaster_Code=${this.authKey}` + `&ReasonForDelete=${reason}`;
+    this.userMasterCode = this.authService.getUserMasterCode();
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryContactDetail' + `?Code=${code}` + `&UserMaster_Code=${this.userMasterCode}` + `&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
   deleteProductDetails(code: any, reason: any) {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryProductDetail' + `?Code=${code}` + `&UserMaster_Code=${this.authKey}` + `&ReasonForDelete=${reason}`;
+    this.userMasterCode = this.authService.getUserMasterCode();
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/DeleteEnquiryProductDetail' + `?Code=${code}` + `&UserMaster_Code=${this.userMasterCode}` + `&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
@@ -108,6 +112,11 @@ export class EnquiryService {
 
   GetAccountDetails(companyName: string): Observable<any> {
     const url = this._urlService.API_ENDPOINT_ENQUIRY + '/GetAccountDetailsByAccountDesp' + `?AccountDesp=${companyName}`;
+    return this._http.get(url);
+  }
+
+  GetEnquiryHistory(): Observable<any> {
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/GetEnquiryHistory' + `?EnquiryMaster_Code=${803}`;
     return this._http.get(url);
   }
 
