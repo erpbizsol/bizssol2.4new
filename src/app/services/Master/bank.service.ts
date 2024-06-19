@@ -21,31 +21,22 @@ export class BankService{
     let url = this._urlService.API_ENDPOINT_BANK_MASTER + `/${code}`
     return this._http.get(url, { headers: this.headers });
   }
+  getecmsDropDown(code: any) {
+    let url = this._urlService.API_ENDPOINT_BANK_MASTER + `/${code}`
+    return this._http.get(url, { headers: this.headers });
+  }
 
 
   saveBank(payload: any): Observable<any> {
-    // const data = {
-    //   paymentListUpList: [payload]
-    // };
-
-
     let url = `${this._urlService.API_ENDPOINT_BANK_MASTER}/SaveBankMaster`;
     return this._http.post(url, JSON.stringify(payload), { headers: this.headers });
   }
 
 
   
-    updatePayMent(payload: any): Observable<any> {
-      // const data = {
-      //   paymentListUpList: [payload]
-      // };
+    
   
-  
-      let url = `${this._urlService.API_ENDPOINT_BANK_MASTER}/SaveBankMaster`;
-      return this._http.post(url, payload, { headers: this.headers });
-    }
-  
-    deleteBank(code: number, reason: any) {
+   deleteBank(code: number, reason: any) {
    let url = this._urlService.API_ENDPOINT_BANK_MASTER + "/DeleteBankMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers });
   }
