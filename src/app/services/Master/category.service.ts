@@ -7,36 +7,36 @@ import { AuthService } from '../Auth-Service/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CountryService {
-  userMaster_Code: string;
+export class CategoryService {
+  userCode: any;
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    this.userMaster_Code = this.authService.getUserMasterCode();
+
+  
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${authKey}`
     });
   }
 
-  getCountry(): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_COUNTRY + "/GetCountryMasterList";
+  getCategory(): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/GetCountryMasterList";
     return this._http.get(url, { headers: this.headers() });
   }
 
-  saveCountry(obj: any) {
+  saveCategory(obj: any) {
     // let data = JSON.stringify(obj)
-    let url = this._urlService.API_ENDPOINT_COUNTRY + "/SaveCountryMaster";
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/SaveCountryMaster";
     return this._http.post(url, obj, { headers: this.headers() });
   }
-  updateCountry(code: any) {
-    let url = this._urlService.API_ENDPOINT_COUNTRY + `/${code}`;
+  updateCategory(code: any) {
+    let url = this._urlService.API_ENDPOINT_CATEGORY + `/${code}`;
     return this._http.get(url, { headers: this.headers() });
   }
-  deleteCountry(code: any, reason: any) {
-    let url = this._urlService.API_ENDPOINT_COUNTRY + "/DeleteCountryMaster" + `?code=${code}&UserMaster_Code=${this.userMaster_Code}&ReasonForDelete=${reason}`;
+  deleteCategory(code: any, reason: any) {
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/DeleteCountryMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers });
   }
 

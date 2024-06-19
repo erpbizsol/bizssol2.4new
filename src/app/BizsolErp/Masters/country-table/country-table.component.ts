@@ -74,28 +74,28 @@ export class CountryTableComponent {
     })
   }
   ////////////////////////////////////////////////Validation for create country modal//////////////////////////////////////////////////
-specialCharacternumberValidator(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z ]/;
-  if (!pattern.test(inputChar)) {
-    // If the input character is not an alphabet, prevent it from being entered into the input field
-    event.preventDefault();
+  specialCharacternumberValidator(event: KeyboardEvent) {
+    const inputChar = String.fromCharCode(event.charCode);
+    const pattern = /[a-zA-Z ]/;
+    if (!pattern.test(inputChar)) {
+      // If the input character is not an alphabet, prevent it from being entered into the input field
+      event.preventDefault();
+    }
   }
-}
 
 
 
 
 
-onlynumberinput(event: KeyboardEvent) {
-  const inputElement = event.target as HTMLInputElement; // Typecast event.target to HTMLInputElement
-  const inputChar = String.fromCharCode(event.charCode);
-  
-  // Allow digits (0-9) and a single '+' at the beginning
-  if (!(event.key >= '0' && event.key <= '9') && !(inputChar === '+' && inputElement.value === '')) {
-    event.preventDefault();
+  onlynumberinput(event: KeyboardEvent) {
+    const inputElement = event.target as HTMLInputElement; // Typecast event.target to HTMLInputElement
+    const inputChar = String.fromCharCode(event.charCode);
+
+    // Allow digits (0-9) and a single '+' at the beginning
+    if (!(event.key >= '0' && event.key <= '9') && !(inputChar === '+' && inputElement.value === '')) {
+      event.preventDefault();
+    }
   }
-}
 
 
 
@@ -116,46 +116,49 @@ onlynumberinput(event: KeyboardEvent) {
   }
   Updatetoggle() {
     this.updatevisible = !this.updatevisible;
-    
+    this.countryForm.reset();
   }
 
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
-    this.countryForm.reset();
+    // this.countryForm.reset();
   }
-  handleLiveupdateChange(event:any){
-    this.updatevisible=event;
+  handleLiveupdateChange(event: any) {
+    this.updatevisible = event;
   }
 
   submit() {
+    console.log(this.countryForm.value);
     if (this.countryForm.get('countryname').value === null || this.countryForm.get('countryname').value === '') {
       alert('Please enter a country name.');
-      return;
+      // return;
+    } else
+     {
+      let obj = {
+        CountryName: this.countryForm.value.countryname,
+        CountryCode: this.countryForm.value.countrycode,
+        userMaster_Code: 141,
+      };
+      if (this.countrylist.some((item: any) => item.countryName === obj.CountryName)) {
+        alert(`Please Check! Country Name already exists: ${obj.CountryName}`);
+        // return;
+      }
+      else {
+        this._countryService.saveCountry(obj).subscribe({
+          next: (res: any) => {
+            const responseObj = JSON.parse(JSON.stringify(res));
+            alert(responseObj.Msg);
+            this.countryForm.reset();
+            this.getCountryList();
+          },
+          error: console.error,
+        });
+      }
+
     }
 
-    let obj = {
-      CountryName: this.countryForm.value.countryname,
-      CountryCode: this.countryForm.value.countrycode,
-      userMaster_Code: 141,
-    };
 
-
-    if (this.countrylist.some((item :any) => item.countryName === obj.CountryName)) {
-
-      alert(`Please Check! Country Name already exists: ${obj.CountryName}`);
-      return;
-    }
-
-    this._countryService.saveCountry(obj).subscribe({
-      next: (res: any) => {
-        const responseObj = JSON.parse(JSON.stringify(res));
-        alert(responseObj.Msg);
-        this.countryForm.reset();
-        this.getCountryList();
-      },
-      error: console.error,
-    });
   }
 
 
@@ -167,7 +170,7 @@ onlynumberinput(event: KeyboardEvent) {
 
   editCountry(item: any) {
     this.selectedCountryCode = item.Code;
-  
+
     this.updatevisible = true;
     this.visible = false;
     this.countryForm.patchValue({
@@ -178,8 +181,8 @@ onlynumberinput(event: KeyboardEvent) {
   }
 
   updateSubmit() {
-    
-    
+
+
     const updatedValue = this.countryForm.value.countryname;
     const countrycode = this.countryForm.value.countrycode;
     // const code=this.selectedCountryCode.Code
@@ -195,10 +198,10 @@ onlynumberinput(event: KeyboardEvent) {
       alert('Please enter a country name.');
       return;
     }
-    else if(this.countryForm.get('countrycode').value === null || this.countryForm.get('countrycode').value ===''){
-        alert('Please enter a country code.');
-        return;
-      }
+    else if (this.countryForm.get('countrycode').value === null || this.countryForm.get('countrycode').value === '') {
+      alert('Please enter a country code.');
+      return;
+    }
 
 
 
@@ -210,10 +213,10 @@ onlynumberinput(event: KeyboardEvent) {
           alert(responseObj.Msg);
           this.getCountryList();
           this.countryForm.reset();
-          
+
         }
         this.updatevisible = false;
-       
+
 
       },
       error: console.error,

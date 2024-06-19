@@ -178,11 +178,11 @@
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="cityName">City</label>
-                    <input class="form-control" type="text" matInput formControlName="cityName" maxlength="20">
+                    <input class="form-control" type="text" matInput formControlName="cityName" maxlength="20" (keypress)="specialCharacternumberValidator($event)">
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="pinCode">Pin Code</label>
-                    <input class="form-control" type="text" matInput formControlName="pinCode" maxlength="6">
+                    <input class="form-control" type="text" matInput formControlName="pinCode" maxlength="6" (keypress)="citypincodevalidation($event)">
                 </div>
             </div>
 
