@@ -99,7 +99,7 @@ export class StateTableComponent implements OnInit {
   }
   handleLiveDemoChange(event: boolean) {
    this.createvisible=event;
-   this.stateForm.reset();
+
   } 
   handleLiveupdateChange(event:any){
     this.updatevisible=event;
@@ -125,25 +125,19 @@ export class StateTableComponent implements OnInit {
 /////////////////////////////////State Name////////////////////////////////////
 specialCharacternumberValidator(event: KeyboardEvent) {
   const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z]/;
+  const pattern = /[a-zA-Z ]/;
 
   if (!pattern.test(inputChar)) {
     // If the input character is not an alphabet, prevent it from being entered into the input field
     event.preventDefault();
   }
 }
-// stateinitialvalidation(event:KeyboardEvent){
-//   const inputChar =String.fromCharCode(event.charCode);
-//   const pattern =/[A-Z]/;
-//   if(!pattern.test(inputChar)){
-//     event.preventDefault();
-//   }
-// }
+
  stateinitialvalidation(event: KeyboardEvent) {
   const inputChar = String.fromCharCode(event.charCode);
 
   // Only allow alphabetic characters (both uppercase and lowercase)
-  const pattern = /[a-zA-Z]/;
+  const pattern = /[a-zA-Z.]/;
 
   if (!pattern.test(inputChar)) {
     // If the input character is not alphabetic, prevent it from being entered
@@ -203,7 +197,7 @@ if(!pattern.test(inputChar)){
       StateShortName: this.stateForm.value.stateInitial,
       userMaster_Code: 13,
     }
-    console.log("state", obj);
+    // console.log("state", obj);
 
     if (obj.StateName === this.statelist.stateName) {
       alert(`Please Check ! Country Name already exists ${obj.StateName}`)
@@ -225,12 +219,12 @@ if(!pattern.test(inputChar)){
     this.stateForm.reset();
 
     this.getStateList(this.selectedcountry);
+    
 
   }
   getCountryList() {
     this._countryService.getCountry().subscribe(res => {
       this.countrylist = res;
-      // console.log("object",  this.countrylist[0].CountryName);
 
     })
   }
@@ -296,6 +290,15 @@ if(!pattern.test(inputChar)){
     const updatedState = this.stateForm.value.stateName;
     const updatedInitial = this.stateForm.value.stateInitial;
     const updatedCode = this.stateForm.value.stateCode;
+
+    if (!updatedInitial) {
+      alert("State Initial is required.");
+     return       
+    }
+    if (!updatedCode) {
+      alert("State Code is required.");
+      return
+    }
 
     let obj = {
       code: this.item,

@@ -74,7 +74,7 @@ export class CityTableComponent implements OnInit {
 ////////////////////////////////////////////////Validation for create city modal//////////////////////////////////////////////////
 specialCharacternumberValidator(event: KeyboardEvent) {
   const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z]/;
+  const pattern = /[a-zA-Z ]/;
 
   if (!pattern.test(inputChar)) {
     // If the input character is not an alphabet, prevent it from being entered into the input field

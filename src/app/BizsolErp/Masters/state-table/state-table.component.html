@@ -180,15 +180,27 @@
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateName">State</label>
-                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20">
+                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20" (keypress)="specialCharacternumberValidator($event)">
+                    <div *ngIf="stateForm.get('stateName')?.hasError('required') && stateForm.get('stateName')?.touched"
+                    class="error-message">
+                    State is required!
+                </div>
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateInitial">State Initial</label>
-                    <input class="form-control" type="text" matInput formControlName="stateInitial" maxlength="20">
+                    <input class="form-control" type="text" matInput formControlName="stateInitial" maxlength="20" (keypress)="stateinitialvalidation($event)">
+                    <div *ngIf="stateForm.get('stateInitial')?.hasError('required') && stateForm.get('stateInitial').touched"
+                    class="error-message">
+                    State Initial is required!
+                </div>
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="stateCode">State Code</label>
-                    <input class="form-control" type="text" matInput formControlName="stateCode" maxlength="20">
+                    <input class="form-control" type="text" matInput formControlName="stateCode" maxlength="20" (keypress)="statecodevalidation($event)">
+                    <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
+                    class="error-message">
+                    State Code is required!
+                </div>
                 </div>
             </div>
 
