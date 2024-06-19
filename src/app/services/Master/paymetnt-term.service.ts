@@ -12,21 +12,16 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class PaymetntTermService {
-  userCode: any;
+  userMasterCode: string;
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
-    const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-
+    this.userMasterCode = this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': `${authKey}`
     });
   }
 
@@ -38,6 +33,13 @@ export class PaymetntTermService {
 
 
   savePayment(payload: any): Observable<any> {
+    let url = `${this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER}/SavePaymentTermsMaster`;
+    return this._http.post(url, payload, { headers: this.headers() });
+  }
+
+
+
+  updatePayMent(payload: any): Observable<any> {
     // const data = {
     //   paymentListUpList: [payload]
     // };
@@ -47,23 +49,10 @@ export class PaymetntTermService {
     return this._http.post(url, payload, { headers: this.headers() });
   }
 
-
-  
-    updatePayMent(payload: any): Observable<any> {
-      // const data = {
-      //   paymentListUpList: [payload]
-      // };
-  
-  
-      let url = `${this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER}/SavePaymentTermsMaster`;
-      return this._http.post(url, payload, { headers: this.headers() });
-    }
-  
   deletePaymentList(code: number, reason: any) {
-   let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${this.userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers() });
   }
-
 
 
   getCustomerNameAndFollowUpMode(enquiryMasterCode: number) {
