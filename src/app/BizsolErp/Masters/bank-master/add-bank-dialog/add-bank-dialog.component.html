@@ -222,7 +222,7 @@
             <label><b> e -CMS Application </b></label> 
              <div>
               <section class="example-section">
-                <mat-checkbox class="example-margin" (change)="datas($event,'cms_applicable')" formControlName="cms_applicable" ></mat-checkbox>
+                <mat-checkbox class="example-margin" (change)="checkEcms($event,'cms_applicable')" formControlName="cms_applicable" ></mat-checkbox>
               </section>   
                 
              </div>
@@ -235,8 +235,8 @@
             <label><b> e cms   vendor</b></label>
             <div>
               <select class="select2 form-control" >
-                <option  value="">   hii</option>
-                <option  value=""> wify</option>
+                <option  value="" selected hidden>  Select Bank</option>
+                <option  *ngFor=" let   bank of  bankNameList" [value]="bank.eCMSBank"> {{bank?.eCMSBank}}</option>
                 </select>
                 </div>
           </div>

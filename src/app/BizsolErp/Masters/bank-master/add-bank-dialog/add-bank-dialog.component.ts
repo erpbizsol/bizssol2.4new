@@ -60,6 +60,8 @@ export class AddBankDialogComponent {
   countryList:any
   submitted: boolean = false
   dropListData:any
+  controlValue:boolean = false
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -273,16 +275,13 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   }
 
   
-  controlValue:boolean = false
-  datas(event: any, controlName: string): void {
+  checkEcms(event: any, controlName: string): void {
     this.controlValue = this.paymentTermsForm.get(controlName)?.value;
     console.log(this.controlValue);
+    this.getBankDropDown()
   }
 
-  // Method to get the value of cms_applicable
-  // getCheckboxValue(): boolean {
-  //   return this.paymentTermsForm.get('cms_applicable')?.value;
-  // }
+
   getDropList(){
    let data ={
   tableName: "CurrencyMaster",
@@ -352,5 +351,21 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     if (!allowedChars.test(inputChar)) {
       event.preventDefault();
     }
+  }
+
+  bankNameList:any
+  getBankDropDown() {
+     console.log("hii")
+    this.bank.getecmsDropDown('GetF_eCMSMasterList').subscribe({
+      next: (res: any) => {
+        this.bankNameList = res
+         console.log(this.bankNameList )
+      
+      
+      },
+      error: (err: any) => {
+        console.log(err.error.message);
+      }
+    });
   }
 }
