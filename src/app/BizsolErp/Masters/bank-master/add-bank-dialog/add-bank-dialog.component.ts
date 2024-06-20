@@ -81,7 +81,10 @@ export class AddBankDialogComponent {
   ngOnInit() {
    this.getCountryList()
    this.getDropList()
-   this.patchBankData()
+   if(this.elementData.Code != undefined || 0){
+    this.patchBankData()
+
+   }
    this.paymentTermsForm.controls['bankName'].valueChanges.subscribe(value => {
    this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
    this.sendBankNameToService(value);
@@ -106,8 +109,6 @@ export class AddBankDialogComponent {
     email:new FormControl('',[Validators.required,Validators.email]),
     default: new FormControl(false),
     cms_applicable: new FormControl(false),
-
-    //ecms
     selectBank: new FormControl(''),
     debitBankAccount: new FormControl (''),
     prifix: new FormControl('')
@@ -115,6 +116,8 @@ export class AddBankDialogComponent {
 })
 
 patchBankData(){
+  console.log(this.elementData?.eCMSBank,"kkk");
+  
   this.paymentTermsForm.patchValue({
     bankName: this.elementData?.BankName,
     aliasName: this.elementData.AliasName,
@@ -133,9 +136,18 @@ patchBankData(){
     Pan_No: this.elementData.PANNo,
     email:this.elementData.EMail,
     default:this.elementData.IsDefault,
-    cms_applicable: this.elementData.VartualAccountAutoGenerate,
-  
+    cms_applicable: this.elementData.eCMSBank != ""? true: false ,
   })
+if(this.elementData.eCMSBank!=""){
+  this.controlValue = true
+  this.getDebit()
+  this.getBankDropDown()
+  this.paymentTermsForm.patchValue({
+    selectBank:this.elementData?.eCMSBank,
+    debitBankAccount:this.elementData?.eCMSDebitAccount,
+    prifix:this.elementData?.VartualAccountPrefix
+  })
+}
   this._http.get(this._urlService.API_ENDPOINT_CITY + `/GetCityList?StateName=${this.elementData?.State}`).subscribe((res: any) => {
     this.cityList = res;
   })
@@ -198,6 +210,7 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   }
   eCMSDebitData:any
   saveBankDetailsData() {
+    
    this.submitted=true
     if(this.paymentTermsForm.invalid){
       return
@@ -220,21 +233,21 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
         panNo:this.paymentTermsForm.value.phone_no,
         databaseLocation_Code: 0,
         ifsC_Code: this.paymentTermsForm.value.ifscCode,
-        isDefault: this.paymentTermsForm.value.default == true ? "y" :'N',
+        isDefault: this.paymentTermsForm.value.default == true ? "Y" :'N',
         micrCode: "string",
         aliasName: this.paymentTermsForm.value.aliasName,
         swiftCode:this.paymentTermsForm.value.swiftCode,
-        ecmsBank: this.paymentTermsForm.value.cms_applicable == true ? 'Y':'N',
-        vartualAccountPrefix: this.paymentTermsForm.value.prifix,
+        ecmsBank:this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.selectBank :"",
+        vartualAccountPrefix: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.prifix :"",
         vartualAccountLength: 0,
         vartualAccountAutoGenerate:'Y',
-        eCMSDebitAccountName: this.paymentTermsForm.value.debitBankAccount,
+        eCMSDebitAccountName: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.debitBankAccount :"",
         userMaster_Code: 0,
 
-        selectBank: new FormControl(''),
+        // selectBank: new FormControl(''),
       }
     ]
-
+delete this.paymentTermsForm.value.cms_applicable
     if (this.elementData.Code === undefined || 0) {
     this.bank.saveBank(data).subscribe({
       next: (res: any) => {
