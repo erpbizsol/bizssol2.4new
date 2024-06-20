@@ -26,10 +26,10 @@ export class HSNCodeMasterService {
     return this._http.get(url);
   }
 
-  // deleteUOM(code: number, reason: any): Observable<any> {
-  //   let url = this._urlService.API_ENDPOINT_UOM + "/DeleteUOMMaster?Code=" + code + `&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
-  //   return this._http.post(url, '', { headers: this.headers() });
-  // }
+  deleteHSNCode(code: number, reason: any): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_HSNCodeMaster + "/DeleteHSNCodeMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
+    return this._http.post(url, '', { headers: this.headers });
+  }
   saveHSNCode(hsnCodeData: any): Observable<any> {
     // const data = JSON.stringify(Obj)
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

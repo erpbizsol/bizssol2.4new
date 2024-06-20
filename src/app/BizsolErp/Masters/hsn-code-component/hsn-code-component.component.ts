@@ -1,23 +1,34 @@
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { AddHSNCodeMasterComponent } from 'src/app/BizsolErp/Masters/hsn-code-component/add-hsn-code-master/add-hsn-code-master.component';
+import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { HSNCodeMasterService } from 'src/app/services/Master/hsn-code-master.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { HSNCodeMasterService} from 'src/app/services/Master/hsn-code-master.service'
-import { FormBuilder, ReactiveFormsModule, FormGroup, FormArray, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-hsn-code-component',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
+  imports: [HttpClientModule,MatTableModule,MatPaginatorModule, CommonModule],
   templateUrl: './hsn-code-component.component.html',
   styleUrl: './hsn-code-component.component.scss',
   providers:[HSNCodeMasterService]
 })
 export class HSNCodeMasterComponent implements OnInit {
   @ViewChildren('levelInput') levelInputs!: QueryList<ElementRef>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   newHSNCodeForm: FormGroup;
+  dataSource = new MatTableDataSource<any>([]);
+  displayedColumns: string[] = ['sNo', 'HSNCode','ProductDescription', 'action'];
 
-  constructor(private hsnCodeService: HSNCodeMasterService,private fb: FormBuilder) {}
+  constructor(private hsnCodeService :HSNCodeMasterService,private fb:FormBuilder, public dialog: MatDialog) {}
+
 
   ngOnInit(): void {
     this.newHSNCodeForm = this.fb.group({
@@ -44,9 +55,9 @@ export class HSNCodeMasterComponent implements OnInit {
       DBKRate: ['', Validators.required]
     });
     // Focus the new row's first input element
-    setTimeout(() => {
-      this.focusNewRow();
-    });
+    // setTimeout(() => {
+    //   this.focusNewRow();
+    // });
   }
 
   createTableRow2(): FormGroup {
@@ -57,26 +68,101 @@ export class HSNCodeMasterComponent implements OnInit {
       CessRate: ['', Validators.required]
     });
     // Focus the new row's first input element
-    setTimeout(() => {
-      this.focusNewRow();
+    // setTimeout(() => {
+    //   this.focusNewRow();
+    // });
+  }
+
+  loadHSNCodeData(): void {
+    this.hsnCodeService.getHSNCodeMaterList().subscribe((data: any) => {
+      this.dataSource.data = data;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
-  focusNewRow() {
-    const inputArray = this.levelInputs.toArray();
-    const newRowInput = inputArray[inputArray.length - 1].nativeElement;
-    newRowInput.focus();
+  saveHSNCode(): void {
+    const formValues = this.newHSNCodeForm.getRawValue();
+    const Obj = {
+      hsnCodeDetails: formValues.tableRows2.map((row: any) => ({
+        code: formValues.Code === "" ? '0' : formValues.Code,
+        hsnCodeMaster_Code: 0,
+        applicableDate: row.applicableDate,
+        rates: row.rates,
+        specialRate: row.specialRate,
+        rates2: row.rates2,
+        // amountForRate: row.amountForRate,
+      })),
+      hsnCodeExportRateBenefitDetail: formValues.tableRows1.map((row: any) => (
+        {
+          code: formValues.Code === "" ? '0' : formValues.Code,
+          hsnCodeMaster_Code: 0,
+          applicableDate: row.applicableDate,
+          meisRate: row.meisRate,
+          dbkRate: row.dbkRate,
+          UserMaster_Code: 141
+        }
+      )),
+      hsnCodeMaster: [
+        {
+          code: formValues.Code === "" ? '0' : formValues.Code,
+          hsnCode: formValues.date,
+          productDesp: formValues.date,
+          userMaster_Code: 0
+        }
+      ]
+    };
+
+    this.hsnCodeService.saveHSNCode(Obj).subscribe({
+      next: (res: any) => {
+        alert(res.Msg);
+        this.loadHSNCodeData();
+      },
+      error: (err: any) => {
+        console.error('Error saving HSN Code:', err);
+        alert('Failed to save HSN Code.');
+      }
+    });
   }
 
-  saveHSNCode(): void {
-    if (this.newHSNCodeForm.valid) {
-      console.log(this.newHSNCodeForm.value);
-      // Call the service to save the form data
-      this.hsnCodeService.saveHSNCode(this.newHSNCodeForm.value).subscribe(response => {
-        console.log('HSN Code saved successfully', response);
-      }, error => {
-        console.error('Error saving HSN Code', error);
+  deleteHSNCodeMaster(code: number) {
+    const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
+      width: '375px',
+      disableClose:true,
+      data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        const reason = result.reason;
+        this.hsnCodeService.deleteHSNCode(code, reason).subscribe({
+          next: (res: any) => {
+            const responseObj = JSON.parse(JSON.stringify(res));
+            alert(responseObj.Msg);
+            this.loadHSNCodeData();
+          },
+          error: (err: any) => {
+            console.error('Error deleting HSN Code:', err);
+            alert('Failed to delete HSN Code.');
+          }
+        });
+      }
+    });
+}
+
+  addDialog(value: any) {
+    const dialogRef = this.dialog.open(AddHSNCodeMasterComponent, {
+      width: '1000px',
+      height: '500px',
+      disableClose: true,
+      data :{element:value}
       });
-    }
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.loadHSNCodeData();
+      }
+    });
   }
 }
+
