@@ -247,7 +247,7 @@
           <div class="col-md-6 form-group">
             <label><b> prifix </b></label> 
              <div>
-              <input type="text" class="form-control"   maxlength="10"   formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
+              <input type="text" class="form-control"   maxlength="10"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
               <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
                 <div *ngIf="f['prifix'].hasError('required')">Prifix  is Required</div>
               </div>
@@ -263,7 +263,7 @@
               <option *ngFor="let  item of debitList" [value]="item.AccountDesp"> {{item.AccountDesp}}</option>
               </select>
               <div *ngIf="submitted && controlValue && f['debitBankAccount'].errors" class="text-danger">
-                <div *ngIf="f['debitBankAccount'].hasError('required')">Debit BankAccount  is Required</div>
+                <div *ngIf="f['debitBankAccount'].hasError('required')">Debit Bank Account  is Required</div>
               </div>
               </div>
         
