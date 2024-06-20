@@ -30,7 +30,8 @@
           <div class="col-md-6 form-group">
             <label><b>Account No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="accountNo"  maxlength="20" placeholder="Enter Account No." >
+              <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
+" formControlName="accountNo"  maxlength="20" placeholder="Enter Account No." >
               <div *ngIf="submitted && f['accountNo'].errors" class="text-danger">
                 <div *ngIf="f['accountNo'].hasError('required')">Account No is Required</div>
               </div>
