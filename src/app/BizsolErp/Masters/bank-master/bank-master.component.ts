@@ -28,7 +28,9 @@
   })
   export class BankMasterComponent implements OnInit {
     bankList:any
-    displayedColumns: string[] = ['sNo', 'bankName','aliasName','account','currency','nation','state','city','pin','ifsc','swift','address','taxNo','pan','fax','email','action'];
+    displayedColumns: string[] = ['sNo', 'bankName','aliasName','account','state','city','pin','ifsc','swift','address','taxNo','action'];
+
+    // displayedColumns: string[] = ['sNo', 'bankName','aliasName','account','currency','nation','state','city','pin','ifsc','swift','address','taxNo','pan','fax','email','action'];
     dataSource = new MatTableDataSource<any>([]);
     
     @ViewChild(MatPaginator) paginator: MatPaginator;

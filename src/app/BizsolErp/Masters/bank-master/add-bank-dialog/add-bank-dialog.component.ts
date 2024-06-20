@@ -60,6 +60,8 @@ export class AddBankDialogComponent {
   countryList:any
   submitted: boolean = false
   dropListData:any
+  bankNameList:any
+  debitList:any
   controlValue:boolean = false
 
 
@@ -71,7 +73,6 @@ export class AddBankDialogComponent {
     private toaster:ToasterService,
     private bank: BankService,
     private datasharing: DatasharingService,
-
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
     this.elementData = data.element
@@ -105,6 +106,11 @@ export class AddBankDialogComponent {
     email:new FormControl('',[Validators.required,Validators.email]),
     default: new FormControl(false),
     cms_applicable: new FormControl(false),
+
+    //ecms
+    selectBank: new FormControl(''),
+    debitBankAccount: new FormControl (''),
+    prifix: new FormControl('')
 
 })
 
@@ -186,28 +192,11 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     }
   }
 
-  validateInput(event: any): void {
-    const input = event.target as HTMLInputElement;
-    let value = input.value;
-
-    // Handle case where multiple decimal points are entered
-    const decimalParts = value.split('.');
-    if (decimalParts.length > 2) {
-      input.value = value.slice(0, -1);
-      return;
-    }
-
-    // Handle value greater than 100
-    if (parseFloat(value) > 100) {
-      input.value = value.slice(0, -1);
-    }
-  }
-
-
-  onNoClick(): void {
+  
+ onNoClick(): void {
     this.dialogRef.close();
   }
-
+  eCMSDebitData:any
   saveBankDetailsData() {
    this.submitted=true
     if(this.paymentTermsForm.invalid){
@@ -235,12 +224,14 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
         micrCode: "string",
         aliasName: this.paymentTermsForm.value.aliasName,
         swiftCode:this.paymentTermsForm.value.swiftCode,
-        ecmsBank: "y",
-        vartualAccountPrefix: "string",
+        ecmsBank: this.paymentTermsForm.value.cms_applicable == true ? 'Y':'N',
+        vartualAccountPrefix: this.paymentTermsForm.value.prifix,
         vartualAccountLength: 0,
-        vartualAccountAutoGenerate: this.paymentTermsForm.value.cms_applicable == true ? 'y':'N',
-        eCMSDebitAccountName: "hii ",
-        userMaster_Code: 0
+        vartualAccountAutoGenerate:'Y',
+        eCMSDebitAccountName: this.paymentTermsForm.value.debitBankAccount,
+        userMaster_Code: 0,
+
+        selectBank: new FormControl(''),
       }
     ]
 
@@ -278,6 +269,8 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   checkEcms(event: any, controlName: string): void {
     this.controlValue = this.paymentTermsForm.get(controlName)?.value;
     console.log(this.controlValue);
+    // this.getBankDropDown()
+    this.getDebit()
     this.getBankDropDown()
   }
 
@@ -353,19 +346,32 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
     }
   }
 
-  bankNameList:any
+
+
+
   getBankDropDown() {
-     console.log("hii")
     this.bank.getecmsDropDown('GetF_eCMSMasterList').subscribe({
       next: (res: any) => {
         this.bankNameList = res
          console.log(this.bankNameList )
-      
-      
+        //  this.getDebit()
       },
       error: (err: any) => {
         console.log(err.error.message);
       }
     });
   }
+  
+  
+  getDebit() {
+   this.bank.GetDebitAccountData('GetDebitAccountDetails').subscribe({
+     next: (res: any) => {
+       this.debitList = res
+        // console.log(this.debitList ,"kkkkkkkkkk")
+     },
+     error: (err: any) => {
+       console.log(err.error.message);
+     }
+   });
+ }
 }
