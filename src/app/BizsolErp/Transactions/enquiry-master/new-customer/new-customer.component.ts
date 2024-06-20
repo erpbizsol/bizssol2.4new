@@ -22,6 +22,8 @@ import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-conferma
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
+import { AuthService } from 'src/app/services/Auth-Service/auth.service';
+
 
 @Component({
   selector: 'app-new-customer',
@@ -85,10 +87,11 @@ export class NewCustomerComponent implements OnInit {
   base64String: string;
   documentType: string;
   existingPersonNameList: any = [];
+  userMasterCode: string;
 
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
-    private _contactPersonService: ContactPersonService, private _productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
+    private _contactPersonService: ContactPersonService, private _authService: AuthService, private _productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
   ) {
     this.newEnquiryForm();
     this.personForm();
@@ -97,6 +100,8 @@ export class NewCustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userMasterCode = this._authService.getUserMasterCode();
+
     this.dropdown();
     this.UOMList()
     this.getProduct()
@@ -233,7 +238,7 @@ export class NewCustomerComponent implements OnInit {
 
       this._http.get(this._urlService.API_ENDPOINT_COUNTRY + '/GetCountryMasterList').subscribe((res: any) => {
         this.countryList = res;
-        this.state('India');
+        // this.state('India');
       })
     })
 
@@ -618,6 +623,7 @@ export class NewCustomerComponent implements OnInit {
         "enquiryMaster": [
           {
             code: this.newCode == undefined ? this.editCode : this.newCode,
+            userID: this.userMasterCode,
             customerType: this.newCustomerForm.value.customerType,
             accountDesp: this.newCustomerForm.value.customername,
             enquirytypeName: this.newCustomerForm.value.enquirytype,
@@ -713,6 +719,7 @@ export class NewCustomerComponent implements OnInit {
       "enquiryMaster": [
         {
           code: this.newCode == undefined ? this.editCode : this.newCode,
+          userID: this.userMasterCode,
           customerType: this.newCustomerForm.value.customerType,
           accountDesp: this.newCustomerForm.value.customername,
           enquirytypeName: this.newCustomerForm.value.enquirytype,
@@ -737,7 +744,7 @@ export class NewCustomerComponent implements OnInit {
           NextFollowupmode: this.newCustomerForm.value.followupmode,
           remark: this.newCustomerForm.value.remark,
           "verifiedOn": "",
-          "status": "I"
+          "status": "I",
         }
       ],
       "contactPersonsList": [
@@ -854,6 +861,7 @@ export class NewCustomerComponent implements OnInit {
       "enquiryMaster": [
         {
           code: this.newCode == undefined ? this.editCode : this.newCode,
+          userID: this.userMasterCode,
           customerType: this.newCustomerForm.value.customerType,
           accountDesp: this.newCustomerForm.value.customername,
           enquirytypeName: this.newCustomerForm.value.enquirytype,

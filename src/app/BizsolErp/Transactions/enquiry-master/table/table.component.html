@@ -101,6 +101,19 @@
                 <li><a class="dropdown-item"><button class="btn btn-primary modalbtn" (click)="openFollowUp(row.Code)"
                       [disabled]="row.Verified !== 'Y'">Follow Up</button></a>
                 </li>
+                <div *ngIf="closeAppear">
+                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalClose">Close</button></a>
+                  </li>
+                </div>
+                <div *ngIf="!closeAppear">
+                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalApproval">Approval</button></a>
+                  </li>
+                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalReopen">Reopen</button></a>
+                  </li>
+                </div>
                 <li><a class="dropdown-item"><button class="btn btn-primary modalbtn"
                       routerLink="/leads/{{row.Code}}/history">History</button></a>
                 </li>
@@ -187,6 +200,116 @@
                     &nbsp;&nbsp;&nbsp;
                     <button class="btn btn-danger" (click)="enquiryRejected(selectedRow.Code)"
                       [disabled]="!remarksControl.value">Reject</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The Close Modal -->
+            <div class="modal" id="myModalClose" #myModalClose>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Close</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Remarks</label>
+                        </div>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" [formControl]="closeRemark" maxLength="100">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button class="btn btn-success" (click)="EnquiryClosed(selectedRow.Code)"
+                      [disabled]="!closeRemark.value"> Close Enquiry</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The Approval Modal -->
+            <div class="modal" id="myModalApproval" #myModalApproval>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Approval</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="container-fluid">
+                      <form [formGroup]="approvalForm">
+                        <div class="radioLogin">
+                          <input type="radio" name="Approve" [checked]="selected === 'satisfied'"
+                            (click)="satisfiedVlaue()">&nbsp;
+                          <span [ngClass]="{'Active': selected === 'satisfied'}">Satisfied</span>
+                          &nbsp; &nbsp; &nbsp;
+                          <input type="radio" name="Approve" [checked]="selected === 'unsatisfied'"
+                            (click)="unsatisfiedVlaue()">&nbsp;
+                          <span [ngClass]="{'Active': selected === 'unsatisfied'}">Unsatisfied</span>
+                        </div> &nbsp;
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label>Remarks</label>
+                          </div>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" [formControl]="remarkApproval" maxLength="100">
+                          </div>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button class="btn btn-success" (click)="EnquiryApproved(selectedRow.Code)"> Submit</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The Reopen Modal -->
+            <div class="modal" id="myModalReopen" #myModalReopen>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Reopen</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label>Remarks</label>
+                        </div>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" [formControl]="reopenRemark" maxLength="100">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button class="btn btn-success" (click)="EnquiryReOpen(selectedRow.Code)"
+                      [disabled]="!reopenRemark.value"> Reopen Enquiry</button>
                     &nbsp;&nbsp;&nbsp;
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                   </div>

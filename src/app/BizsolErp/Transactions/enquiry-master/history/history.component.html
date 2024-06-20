@@ -7,7 +7,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="followName">Enquiry No</label>
-                            <input id="followName" class="form-control" disabled [value]="history.Code">
+                            <input id="followName" class="form-control" disabled [value]="history.EnquiryNo">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -38,37 +38,37 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>created By</label>
-                            <input class="form-control" disabled [value]="history.Status">
+                            <input class="form-control" disabled [value]="history.CreatedBy">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Submitted By</label>
-                            <input class="form-control" disabled [value]="history.Code">
+                            <input class="form-control" disabled [value]="history.SubmittedBy">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Verified/Rejected By</label>
-                            <input class="form-control" disabled [value]="history?.VerifiedBy">
+                            <input class="form-control" disabled [value]="history?.UserVerifiedBy">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Approved By</label>
-                            <input class="form-control" disabled [value]="history.Approved">
+                            <input class="form-control" disabled [value]="history.ApprovedBy">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Completed By</label>
+                            <label>Closed By</label>
+                            <input class="form-control" disabled [value]="history.ClosedBy">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Closed Remarks</label>
                             <input class="form-control" disabled [value]="history.ClosedRemarks">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Completion Remarks</label>
-                            <input class="form-control" disabled [value]="history.ApprovedRemarks">
                         </div>
                     </div>
                     <div class="col-md-12 mt-2 mb-2  content-end" (click)="Cancel()">
@@ -163,6 +163,8 @@
                             <th>S. NO</th>
                             <th>Follow-up Date</th>
                             <th>Follow-up Mode</th>
+                            <th>Follow-up By</th>
+                            <th>Contact Person Name</th>
                             <th>Our Remarks</th>
                             <th>Customer Remarks</th>
                         </tr>
@@ -172,6 +174,8 @@
                             <td>{{ i + 1 }}</td>
                             <td>{{data.FollowupDate}}</td>
                             <td>{{data.FollowupMode}}</td>
+                            <td>{{data.FollowupBy}}</td>
+                            <td>{{data.ContactPersonName}}</td>
                             <td class="ellipsis" matTooltipPosition="above">{{data.OurRemarks}}</td>
                             <td class="ellipsis" matTooltipPosition="above">{{data.CustomerRemarks}}</td>
                         </tr>

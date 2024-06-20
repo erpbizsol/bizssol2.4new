@@ -32,7 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
 // import { DilogBoxComponent } from '../../../../../core/dilog-box/dilog-box.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -87,9 +87,25 @@ export class TableComponent implements OnInit {
   @ViewChild(MatSort) _sorting: MatSort;
   @ViewChild(MatPaginator) _paging: MatPaginator;
   @ViewChild('myModalVerify') myModalVerify: ElementRef;
-  selectedRow: any;
+  @ViewChild('myModalClose') myModalClose: ElementRef;
+  @ViewChild('myModalApproval') myModalApproval: ElementRef;
+  @ViewChild('myModalReopen') myModalReopen: ElementRef;
 
-  constructor(private _enquiryService: EnquiryService, private _urlService: UrlService, private router: Router, public _dialog: MatDialog, private _http: HttpClient, private snackBarService: SnackBarService) { }
+  selectedRow: any;
+  closeAppear: boolean = true;
+  selected: string = 'unsatisfied';
+
+  closeRemark = new FormControl('');
+  remarkApproval = new FormControl('');
+  reopenRemark = new FormControl('');
+  approvalForm: FormGroup;
+
+  constructor(private _enquiryService: EnquiryService, private _urlService: UrlService, private fb: FormBuilder, private router: Router, public _dialog: MatDialog, private _http: HttpClient, private snackBarService: SnackBarService) {
+    this.approvalForm = this.fb.group({
+      approve: [''],
+      remarks: ['']
+    });
+  }
 
   ngOnInit(): void {
     // this.getStatus().subscribe((res: any) => {
@@ -104,9 +120,18 @@ export class TableComponent implements OnInit {
     // };
   }
 
+  satisfiedVlaue() {
+    this.selected = 'satisfied';
+  }
+  unsatisfiedVlaue() {
+    this.selected = 'unsatisfied';
+  }
   openAssignModal(row: any) {
     this.selectedRow = row; // Store the selected row
     this.assignPerson = this.selectedRow.PersonName;
+    if (this.selectedRow.Status == "Closed") {
+      this.closeAppear = false
+    } else this.closeAppear = true
   }
   enquiryList(val: string) {
     this._enquiryService.getEnquiry(val).subscribe((res: any[]) => {
@@ -183,6 +208,20 @@ export class TableComponent implements OnInit {
     });
   }
 
+  enquiryVerify(code: any) {
+    this._enquiryService.verifyDetails(code).subscribe(res => {
+      this.closeModal();
+      this.enquiryList("ALL");
+      this.remarksControl.reset();
+    });
+  }
+  enquiryRejected(code: any) {
+    this._enquiryService.rejectDetails(code, this.remarksControl.value).subscribe(res => {
+      this.closeModal();
+      this.enquiryList("ALL");
+      this.remarksControl.reset();
+    });
+  }
   getAssign(code: any) {
     this._enquiryService.assignDetails(code, this.PersonCode).subscribe(res => {
       this.closeModal();
@@ -198,22 +237,58 @@ export class TableComponent implements OnInit {
       // this.assignPerson.patchValue({ assignPerson: this.salesPersonList.PersonName });
     }
   }
-
-  enquiryVerify(code: any) {
-    this._enquiryService.verifyDetails(code).subscribe(res => {
-      this.closeModal();
-      this.enquiryList("ALL");
-    });
-  }
-  enquiryRejected(code: any) {
-    this._enquiryService.rejectDetails(code, this.remarksControl.value).subscribe(res => {
-      this.closeModal();
-      this.enquiryList("ALL");
-    });
-  }
-
   openFollowUp(code: string): void {
     this.router.navigate(['/leads/followup', code]);
+  }
+
+  EnquiryClosed(code: any) {
+    const modal = this.myModalClose.nativeElement;
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    this._enquiryService.enquiryClosed(code, this.closeRemark.value).subscribe(res => {
+      this.enquiryList("ALL");
+      this.closeRemark.reset();
+    });
+  }
+
+  EnquiryApproved(code: any) {
+    console.log("this.selected", this.selected);
+    // this.approvalForm.value.approve,
+    this._enquiryService.enquiryApproved(code, this.remarkApproval.value).subscribe(res => {
+      const modal = this.myModalApproval.nativeElement;
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+
+      this.enquiryList("ALL");
+      this.remarkApproval.reset();
+      this.selected = 'unsatisfied';
+
+    });
+  }
+
+  EnquiryReOpen(code: any) {
+    this._enquiryService.enquiryReOpen(code, this.reopenRemark.value).subscribe(res => {
+      const modal = this.myModalReopen.nativeElement;
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      backdrop.remove();
+
+      this.enquiryList("ALL");
+      this.reopenRemark.reset();
+    });
   }
 
   closeModal() {
@@ -225,7 +300,6 @@ export class TableComponent implements OnInit {
     if (backdrop) {
       backdrop.remove();
     }
-    this.remarksControl.reset();
   }
 
 }
