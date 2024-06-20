@@ -1,76 +1,51 @@
-<section>
-    <div class="container">
-        <form [formGroup]="newHSNCodeForm" (ngSubmit)="saveHSNCode()">
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3 form-group">
-                    <label for="HSNCode">HSN Code</label>
-                    <input type="text" formControlName="HSNCode" class="form-control"/>
-                </div>
-                <div class="col-md-6"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3 form-group">
-                    <label for="ProductionDescription">Production/Description</label>
-                    <input type="text" formControlName="ProductionDescription" class="form-control"/>
-                </div>
-                <div class="col-md-6"></div>
-            </div>
+<div class="container">
+  <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 mt-4 mb-2 text-end">
+    <button type="button" class="btn btn-primary" (click)="addDialog('')">
+      Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+  <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+      <ng-container matColumnDef="sNo">
+        <th mat-header-cell *matHeaderCellDef> S.No. </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ paginator.pageIndex * paginator.pageSize + (i + 1) }}
+        </td>
+      </ng-container>
 
-            <div class="row mt-4 mb-2">
-                <input type="hidden" formControlName="Code" class="form-control" value="0"/>
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
-                    <table border="1" class="table">
-                        <thead>
-                            <tr>
-                                <th>S.No.</th>
-                                <th>Applicable Date</th>
-                                <th>MEIS Rate(%)</th>
-                                <th>DBK Rate(%) </th>
-                            </tr>
-                        </thead>
-                        <tbody formArrayName="tableRows1">
-                            <tr *ngFor="let row of tableRows1.controls; let i = index" [formGroupName]="i">
-                                <td>{{i + 1}}</td>
-                                <td><input type="date" formControlName="ApplicableDate" class="form-control"/></td>
-                                <td><input type="text" formControlName="MEISRate" class="form-control"/></td>
-                                <td><input type="text" formControlName="DBKRate" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-end"><button type="submit" class="btn btn-success">Save</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table border="1" class="table">
-                        <thead>
-                            <tr>
-                                <th>S.No.</th>
-                                <th>Applicable Date</th>
-                                <th>Rate(%)</th>
-                                <th>Special Rate(%)</th>
-                                <th>Cess Rate(%)</th>
-                            </tr>
-                        </thead>
-                        <tbody formArrayName="tableRows2">
-                            <tr *ngFor="let row of tableRows2.controls; let i = index" [formGroupName]="i">
-                                <td>{{i + 1}}</td>
-                                <td><input type="date" formControlName="ApplicableDate1" class="form-control"/></td>
-                                <td><input type="text" formControlName="Rate" class="form-control"/></td>
-                                <td><input type="text" formControlName="SpecialRate" class="form-control"/></td>
-                                <td><input type="text" formControlName="CessRate" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end"><button type="submit" class="btn btn-success">Save</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </form>
-    </div>
-</section>
+      <ng-container matColumnDef="HSNCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="HSNCode">HSN Code</th>
+        <td mat-cell *matCellDef="let element"> {{ element?.HSNCode }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ProductDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="ProductDescription">Product Description</th>
+        <td mat-cell *matCellDef="let element"> {{ element?.ProductDesp }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-stroked-button color="primary" title="Edit" class="btn btn-primary me-1" (click)="addDialog(element)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deleteHSNCodeMaster(element.Code)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" #paginator></mat-paginator>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+</div>
