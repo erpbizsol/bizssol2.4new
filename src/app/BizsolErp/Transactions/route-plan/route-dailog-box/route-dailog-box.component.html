@@ -10,11 +10,17 @@
                         visit.Desp}}
                     </option>
                 </select>
+                <div *ngIf="routePlanForm.controls['visitType'].touched && !routePlanForm.controls['visitType'].valid" class="text-danger validation-msg">
+                    Visit type is required 
+                </div>
             </div>
             
             <div class="col-md-4 form-group" *ngIf="showDealerNameList">
                 <label class="required">Dealer Name</label>
                 <input type="text" formControlName="dealerName" class="form-control">
+                <div *ngIf="routePlanForm.controls['dealerName'].touched && !routePlanForm.controls['dealerName'].valid" class="text-danger validation-msg">
+                    Dealer name is required 
+                </div>
             </div>
 
             <div class="col-md-4" *ngIf="hideDealerNameList">
@@ -26,6 +32,9 @@
                             data.AccountDesp}}
                         </option>
                     </select>
+                    <div *ngIf="routePlanForm.controls['dealerName'].touched && !routePlanForm.controls['dealerName'].valid" class="text-danger validation-msg">
+                        Dealer name is required 
+                    </div>
                     <!-- <div class=" text-danger validation-msg"
                         *ngIf="routePlanForm.get('existingCompany').invalid && (routePlanForm.get('existingCompany').dirty || routePlanForm.get('existingCompany').touched)">
                         <div
@@ -49,6 +58,8 @@
                     <div *ngIf="routePlanForm.get('state').errors['required']">
                         state is required</div>
                 </div>
+
+                
             </div>
 
 
@@ -70,6 +81,9 @@
             <div class="col-md-4 form-group">
                 <label for="description">Description</label>
                 <input type="text" formControlName="description" class="form-control" maxlength="">
+                <div *ngIf="routePlanForm.controls['description'].touched && !routePlanForm.controls['description'].valid" class="text-danger validation-msg">
+                    Dealer name is required 
+                </div>
             </div>
         </div>
     </form>

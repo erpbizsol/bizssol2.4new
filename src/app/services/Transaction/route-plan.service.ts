@@ -69,7 +69,7 @@ export class RoutePlanService {
   }
 
   // getAccountMasterDetails(UserMaster_Code:any): Observable<any>
-  getAccountMasterDetails(): Observable<any>  {
+  getAccountMasterDetails(): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();
     // let url = this._urlService.API_ENDPOINT_ACCOUNT_MASTER + "/GetNestedDealerList?UserMaster_Code=1&MarketingManMaster_Code=0";
     let url = this._urlService.API_ENDPOINT_ACCOUNT_MASTER + "/GetNestedDealerList" + `?UserMaster_Code=${userMasterCode}&MarketingManMaster_Code=0`;
@@ -77,12 +77,19 @@ export class RoutePlanService {
   }
 
   //SAVE ROUTE PLAN 
-  postSaveRoutePlan(payload:any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/SaveRoutePlan";
-    console.log(url,payload)
-
-    return this._http.post(url,payload, {headers: this.headers() });
+  postSaveRoutePlan(payload: any): Observable<any> {
+    const userMasterCode = this.authService.getUserMasterCode();
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/SaveRoutePlan" + `?UserMaster_Code=${userMasterCode}`;
+    console.log(url, payload)
+    return this._http.post(url, payload, { headers: this.headers() });
   }
 
-  
+  // UPDATE ROUTE PLAN
+
+  getRoutePlanByCode(RoutePlanMaster_Code): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/GetRoutePlanByCode?Code="+RoutePlanMaster_Code;
+    return this._http.get(url, { headers: this.headers() });
+  }
+
+
 }
