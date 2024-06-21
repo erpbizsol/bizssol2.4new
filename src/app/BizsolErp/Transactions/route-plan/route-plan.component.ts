@@ -91,7 +91,7 @@ export class RoutePlanComponent implements AfterViewInit {
   
     const dialogRef = this.dialog.open(RouteDailogBoxComponent, {
       disableClose: true,
-      data: { routePlanMaster_Code: value },
+      data: { data: value },
     });
 
     dialogRef.afterClosed().subscribe(result => {
