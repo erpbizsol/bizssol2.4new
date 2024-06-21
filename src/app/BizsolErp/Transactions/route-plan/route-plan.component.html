@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-7"></div>
                     <div class="col-md-3 mt-4 text-end">
-                        <button type="button" class="btn btn-primary" (click)="openDialog()">Create new <i
+                        <button type="button" class="btn btn-primary" (click)="addDialog('')">Create new <i
                                 class="fa fa-plus-circle" aria-hidden="true"></i></button>
                     </div>
                 </div>
@@ -37,12 +37,13 @@
                                 <td>{{data?.DealerName}}</td>
                                 <td>{{data?.CityName}}</td>
                                 <td>{{data?.StateName}}</td>
-                                <td>{{data?.Description}}</td>
+<td>{{data?.Description}}</td>
+                                <td>{{data?.Code}}</td>
                                 <td>
-                                    <button class=" btn btn-primary" (click)="toggleEditDemo()"><i class="fa fa-pencil"
+                                    <button class=" btn btn-primary" (click)="addDialog(data)"><i class="fa fa-pencil"
                                             aria-hidden="true" title="Edit"></i></button>
                                     &nbsp;&nbsp;
-                                    <button class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"
+                                    <button class="btn btn-danger" (click)="deleteRoutePlan(data.Code)"><i class="fa fa-trash-o" aria-hidden="true"
                                             title="Delete"></i></button>
                                 </td>
                             </tr>
@@ -51,28 +52,6 @@
                 </div>
             </div>
 
-
-            <!-------------Edit Department----------------->
-            <c-modal id="EditDemoModal" [visible]="visible" (visibleChange)="handleEditDemoChange($event)">
-                <c-modal-header>
-                    <h5 cModalTitle>Modal title</h5>
-                    <button (click)="toggleEditDemo()" cButtonClose></button>
-                </c-modal-header>
-                <c-modal-body>
-                    <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label for="uomname">Dealer Name</label>
-                            <input type="text" formControlName="dealerName" class="form-control" maxlength="100">
-                        </div>
-                    </div>
-                </c-modal-body>
-                <c-modal-footer>
-                    <button (click)="toggleEditDemo()" cButton color="secondary">
-                        Close
-                    </button>
-                    <button cButton color="primary">Save changes</button>
-                </c-modal-footer>
-            </c-modal>
         </div>
     </div>
 </div>

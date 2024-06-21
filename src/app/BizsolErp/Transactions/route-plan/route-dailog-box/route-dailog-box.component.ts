@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StateService } from 'src/app/services/Master/state.service';
 import { CityService } from 'src/app/services/Master/city.service';
@@ -20,32 +20,126 @@ export class RouteDailogBoxComponent {
   routePlanForm: FormGroup;
   stateList: any;
   cityList: any;
+  editData:any
   visittypehide: boolean = false;
   getRoutePlanVTDropDownList1: any = [];
   showDealerNameList: boolean = false;
   hideDealerNameList: boolean = true;
   dealerList: any = []
   saveRplan: any;
+  RoutePlanMaster_Code: number = 0;
+  EntryDate: any;
+  routePBycode: any;
 
-  constructor(private state: StateService, private city: CityService, private rPVTDList: RoutePlanService, private accountMaster: RoutePlanService, private saveRP: RoutePlanService) { }
+  // routePPLANbycode: any;
+  // submitted: boolean = false;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<RouteDailogBoxComponent>, private state: StateService, private city: CityService, private rPVTDList: RoutePlanService, private accountMaster: RoutePlanService, private saveRP: RoutePlanService, private fb: FormBuilder, private routePBCode: RoutePlanService) {
+     this.editData= data.routePlanMaster_Code.Code
+     console.log(this.editData,"uuuuuuu")
+
+
+     }
 
   ngOnInit() {
+    
     this.getState();
     this.getRoutePlanVTDropDownList();
     this.getAccountMDetails()
+    this.RoutePlanMaster_Code = this.data.routePlanMaster_Code;
+    this.EntryDate = new Date().toISOString().split('T')[0];
+    if(this.editData.Code!== undefined||0||''){
+      this.populateData()
+      
+    }
+    // this.getRoutePBycode();
 
-    this.routePlanForm = new FormGroup({
-      visitType: new FormControl(''),
-      dealerName: new FormControl(),
-      city: new FormControl(),
-      state: new FormControl(),
-      description: new FormControl(),
+    // this.routePlanForm = new FormGroup({
+    //   visitType: new FormControl(''),
+    //   dealerName: new FormControl(),
+    //   city: new FormControl(),
+    //   state: new FormControl(),
+    //   description: new FormControl(),
+    // })
+   
+   
+      this.routePlanForm = this.fb.group({
+        visitType: ['', [Validators.required]],
+        dealerName: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        state: ['', [Validators.required]],
+        description: ['', [Validators.required]],
+      })
+    
+
+  }
+
+  populateData(){
+    this.routePlanForm.patchValue({
+      visitType:this.editData?.VisitType,
+      description:this.editData?.Description
     })
   }
   // Form
   registerRP() {
     console.log(this.routePlanForm);
   }
+
+  // registerRP(): void {
+  //   if (this.routePlanForm.valid) {
+  //     const formData = this.routePlanForm.value;
+  //     formData.code = this.code;
+  //     formData.EnquiryMaster_Code = this.selectedRowData.EnquiryMaster_Code;
+
+  //     if (!this.routePlanForm.get('showNextFollowup').value) {
+  //       delete formData.NextFollowupMode;
+  //       delete formData.NextFollowupDate;
+  //     }
+
+  //     this.followUpService.createFollowup(formData).subscribe(
+  //       res => {
+  //         this.toasterService.showSuccess('Follow Up updated successfully!');
+  //         this.location.back();
+  //       },
+  //       err => {
+  //         this.toasterService.showError('Failed to update Follow Up');
+  //       }
+  //     );
+  //   } else {
+  //     this.routePlanForm.markAllAsTouched();
+  //   }
+  // }
+
+
+
+  // onUpdate(): void {
+  //   if (this.routePlanForm.valid) {
+  //     const formData = this.routePlanForm.value;
+  //     formData.code = this.code;
+  //     formData.EnquiryMaster_Code = this.selectedRowData.EnquiryMaster_Code;
+
+  //     if (!this.routePlanForm.get('showNextFollowup').value) {
+  //       delete formData.NextFollowupMode;
+  //       delete formData.NextFollowupDate;
+  //     }
+
+  //     this.followUpService.createFollowup(formData).subscribe(
+  //       res => {
+  //         this.toasterService.showSuccess('Follow Up updated successfully!');
+  //         this.location.back();
+  //       },
+  //       err => {
+  //         this.toasterService.showError('Failed to update Follow Up');
+  //       }
+  //     );
+  //   } else {
+  //     this.routePlanForm.markAllAsTouched();
+  //   }
+  // }
+
+
 
   // state
   getState() {
@@ -98,18 +192,22 @@ export class RouteDailogBoxComponent {
   //   }) 
   // }
 
-  postSaveRoutePlan
+  // postSaveRoutePlan
 
   saveData() {
-    console.log("hiii")
     debugger
+
+    // if (this.routePlanForm.invalid) {
+    //   return
+    // }
+
     let data = [
       {
-        code: 0,
-        date: "",
+        code: this.RoutePlanMaster_Code,
+        date: this.EntryDate,
         visitType: this.routePlanForm.value.visitType,
         cityName: this.routePlanForm.value.city,
-        accountDesp: this.routePlanForm.value.visitType,
+        accountDesp: this.routePlanForm.value.dealerName,
         stateName: this.routePlanForm.value.state,
         description: this.routePlanForm.value.description,
         dealerName: this.routePlanForm.value.dealerName,
@@ -122,16 +220,31 @@ export class RouteDailogBoxComponent {
         rejectedReason: ""
       }
     ]
-    this.saveRP.postSaveRoutePlan(data).subscribe({
-      next: (res: any) => {
-        // Handle the response here
-        console.log("hiii");
-      },
-      error: (err: any) => {
-        // Handle errors here
+    // const formData = this.routePlanForm.value;
 
+
+    this.rPVTDList.postSaveRoutePlan(data).subscribe(
+      response => {
+        console.log("hiihhhh")
+        console.log('Data saved successfully:', response);
+
+        this.dialogRef.close();
+      },
+      error => {
+        // Handle error during save
+        console.error('Error saving data:', error);
       }
-    });
+    );
+
+
   }
 
+
+  // UPDATE ROUTE PLAN
+  getRoutePBycode(RoutePlanMaster_Code:number) {
+    this.routePBCode.getRoutePlanByCode(RoutePlanMaster_Code).subscribe(res => {
+      this.routePBycode = res;
+      console.log("routePBycode", this.routePBycode);
+    })
+  }
 }
