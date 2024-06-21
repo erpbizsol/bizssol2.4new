@@ -1,58 +1,119 @@
 <!-- app.component.html -->
- 
+
 <div class="delete-confirmation-dialog">
-  <h5 class="header-bg" mat-dialog-title> {{this.elementData.Code === undefined||''  ? 'Add Chemical ':'Update Chemical'}}</h5>
+  <h5 class="header-bg" mat-dialog-title>
+    {{
+      this.elementData.Code === undefined || ""
+        ? "Add Chemical "
+        : "Update Chemical"
+    }}
+  </h5>
   <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
-  
- <form [formGroup]="chemicalForm">
+
+  <form [formGroup]="chemicalForm">
     <div mat-dialog-content>
       <div>
         <div>
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="status"
+          >
+            <mat-radio-button
+              value="Y"
+              [checked]="!isMechanical"
+              (change)="toggleDiv($event.source.value)"
+              >Chemical Property</mat-radio-button
+            >
+            <mat-radio-button
+              value="N"
+              [checked]="isMechanical"
+              (change)="toggleDiv($event.source.value)"
+              >Mechanical Property</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+        <div *ngIf="!isMechanical">
           <label><b>Chemical Name</b></label>
-        <div>
-          <input type="text" class="form-control" formControlName="chemical"  maxlength="50" placeholder=" Enter Chemical Name" >
-          <div *ngIf="submitted && f['chemical'].errors" class="text-danger">
-            <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
+          <div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="chemical"
+              maxlength="50"
+              placeholder=" Enter Chemical Name"
+              (keypress)="Charactervalidation($event)"
+            />
+            <div *ngIf="submitted && f['chemical'].errors" class="text-danger">
+              <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
+            </div>
           </div>
         </div>
-        </div>
-       <div *ngIf=" isMechanical"> 
-        <label><b>Mechanical Name</b></label>
-        <div>
-          <input type="text" class="form-control" formControlName="chemical"  maxlength="50" placeholder=" Enter Mechanical Name" >
-          <div *ngIf="submitted && f['chemical'].errors" class="text-danger">
-            <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
+        <div *ngIf="isMechanical">
+          <div>
+            <label><b>Mechanical Name</b></label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="chemical"
+                maxlength="50"
+                placeholder=" Enter Mechanical Name"
+                (keypress)="Charactervalidation($event)"
+              />
+              <div
+                *ngIf="submitted && f['chemical'].errors"
+                class="text-danger"
+              >
+                <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
+              </div>
+            </div>
           </div>
         </div>
-       </div>
         <div>
           <label><b>SortOrder</b></label>
-          <input type="text" class="form-control" formControlName="sortorder"  maxlength="50" placeholder=" Enter Sort Order" >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="sortorder"
+            maxlength="50"
+            placeholder=" Enter Sort Order"
+            (keypress)="orderValidation($event)"
+          />
           <div *ngIf="submitted && f['sortorder'].errors" class="text-danger">
             <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
           </div>
         </div>
         <div>
           <label> <b> Inspection Method</b></label>
-          <input type="text" class="form-control" formControlName="inspection"  maxlength="50" placeholder="Inspection Method " >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="inspection"
+            maxlength="50"
+            placeholder="Inspection Method "
+          />
           <div *ngIf="submitted && f['inspection'].errors" class="text-danger">
             <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
           </div>
         </div>
-        <div>
-          <mat-radio-group aria-label="Select an option" formControlName="status">
-            <mat-radio-button value="Y" checked >Chemical Property</mat-radio-button>
-            <mat-radio-button value="N" (click)="isMechanical">Mechanical Property</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        
       </div>
     </div>
     <div mat-dialog-actions class="content-end">
-      <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">Close</button>
-      <button type="button" class="btn btn-success"  (click)="savechemicaldata()" >{{this.elementData.Code === undefined  ?'Save':'Update'}}</button>
+      <button
+        type="button"
+        class="btn btn-danger me-1"
+        mat-dialog-close
+        (click)="onNoClick()"
+      >
+        Close
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="savechemicaldata()"
+      >
+        {{ this.elementData.Code === undefined ? "Save" : "Update" }}
+      </button>
     </div>
   </form>
 </div>
-
-

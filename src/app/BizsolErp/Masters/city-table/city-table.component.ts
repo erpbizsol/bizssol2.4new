@@ -197,7 +197,7 @@ citypincodevalidation(event:KeyboardEvent){
   deleteState(Code: any): void {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
       width: '375px',
-      data: { message: 'Are you sure you want to delete this followUp?', reason: '', code: Code }
+      data: { message: 'Are you sure you want to delete this City?', reason: '', code: Code }
     });
 
     dialogRef.afterClosed().subscribe(result => {

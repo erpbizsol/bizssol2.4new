@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ChemicalService } from '../../../services/Master/chemical.service';
-import{ChemicalDialogComponent} from '../chemical/chemical-dialog/chemical-dialog.component'
+import {ChemicalDialogComponent} from '../chemical/chemical-dialog/chemical-dialog.component'
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,8 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent } from '@coreui/angular';
 import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
-
-
 
 @Component({
   selector: 'app-chemical',
@@ -55,7 +53,7 @@ export class ChemicalComponent implements OnInit {
   deleteChemical(code: number) {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
       width: '375px',
-      data: { message: 'Are you sure you want to delete this State?', reason: '', code: code }
+      data: { message: 'Are you sure you want to delete this Chemical?', reason: '', code: code }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -84,4 +82,6 @@ export class ChemicalComponent implements OnInit {
       this.getChemicalData();
     });
   }
+
+  
 }

@@ -8,22 +8,16 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class CityService {
-  userCode: any;
+  userMaster_Code: string;
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-
-    const abhi = JSON.parse(authKey);
-    const obj = { ...abhi, UserMaster_Code: 13 };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-    // console.log(JSON.stringify(obj));
-
+    this.userMaster_Code=this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': ` ${authKey}`
     });
   }
 
@@ -40,7 +34,7 @@ export class CityService {
 
   deleteCity(code: any,reason:any) {
 
-    let url = this._urlService.API_ENDPOINT_CITY + "/DeleteCityMaster" + `?Code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_CITY + "/DeleteCityMaster" + `?Code=${code}&UserMaster_Code=${this.userMaster_Code}&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers });
   }
 

@@ -10,6 +10,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalFooterComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective } from '@coreui/angular';
 import {CategoryService} from '../../../services/Master/category.service';
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
+import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 
 @Component({
   selector: 'app-category-master',
@@ -21,7 +22,7 @@ import { CategoryDialogComponent } from './category-dialog/category-dialog.compo
 })
 export class CategoryMasterComponent {
 
-  displayedColumns: string[] = ['sNo', 'chemicalname', 'sortorder','ischemicalproperty', 'action'];
+  displayedColumns: string[] = ['sNo', 'categoryname', 'categorydescription','componentcost', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,8 +31,44 @@ export class CategoryMasterComponent {
   constructor(private _categoryService:CategoryService ,public dialog:MatDialog){}
 
   ngOnInit(){
+    this.getCategoryData();
     
     
+  }
+
+  getCategoryData() {
+
+    this._categoryService.getCategorylist().subscribe({
+      next: (res: any) => {
+        res.sort((a: any, b: any) => a.Code - b.Code);
+        this.dataSource.data = res.reverse();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err: any) => {
+        // console.log(err.error.Msg);
+      }
+    });
+  }
+
+//////////////////////////////////////////////Delete function for the category//////////////////////////////////////////////
+  deleteChemical(code: number) {
+    const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
+      width: '375px',
+      data: { message: 'Are you sure you want to delete this Category?', reason: '', code: code }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        const reason = result.reason;
+        this._categoryService.deleteCategory(code, reason).subscribe((res) => {
+          console.log(`${code} has been deleted`);
+          const responseObj = JSON.parse(JSON.stringify(res));
+          this.getCategoryData();
+          alert(responseObj.Msg);
+        });
+      }
+    });
   }
 
 ////////////////////////////////////////////////Add dialog dimensions and functionality////////////////////////////////
@@ -46,7 +83,7 @@ export class CategoryMasterComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      // this.getChemicalData();
+      this.getCategoryData();
     });
   }
 
