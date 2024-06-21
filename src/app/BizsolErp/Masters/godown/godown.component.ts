@@ -41,11 +41,11 @@ export class GodownComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getBankData();
+    this.getGodownData();
   }
 
   
-  getBankData() {
+  getGodownData() {
     this.godown.getwarehouse('GetWarehouseMasterList').subscribe({
       next: (res: any) => {
         res.sort((a: any, b: any) => a.Code - b.Code);
@@ -73,7 +73,7 @@ export class GodownComponent implements OnInit {
         this.godown.deletwarehouse(code, reason).subscribe((res) => {
           console.log(`${code} has been deleted`);
           const responseObj = JSON.parse(JSON.stringify(res));
-          this.getBankData();
+          this.getGodownData();
           alert(responseObj.Msg);
         });
       }
@@ -90,7 +90,7 @@ export class GodownComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      this.getBankData();
+      this.getGodownData();
     });
   }
 }
