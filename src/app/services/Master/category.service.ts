@@ -21,7 +21,7 @@ export class CategoryService {
     });
   }
 
-  getCategory(): Observable<any> {
+  getCategorylist(): Observable<any> {
     let url = this._urlService.API_ENDPOINT_CATEGORY + "/GetCountryMasterList";
     return this._http.get(url, { headers: this.headers() });
   }

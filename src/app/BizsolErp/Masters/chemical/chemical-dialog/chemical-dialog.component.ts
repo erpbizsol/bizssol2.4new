@@ -20,8 +20,9 @@ import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.
 export class ChemicalDialogComponent {
   elementData: any;
   submitted: boolean = false
-  isMechanical:boolean=false;
+  isMechanical:boolean;
   chemicalForm !: FormGroup;
+  name: any;
   // chemicallist: any = [];
 
   constructor(
@@ -32,6 +33,16 @@ export class ChemicalDialogComponent {
     private fb: FormBuilder) {
     this.elementData = data.element
   }
+
+  toggleDiv(value:string) {
+    if (value === 'Y') {
+      this.isMechanical = false;
+      this.chemicalForm.reset();
+    } else if (value === 'N') {
+      this.isMechanical = true;
+      this.chemicalForm.reset();
+    }
+  }
   ngOnInit(): void {
     this.setForm();
     // this.chemicalForm.get('').valueChanges.subscribe(value=>{
@@ -39,25 +50,15 @@ export class ChemicalDialogComponent {
     // });
   }
   
-
-
-
   setForm() {
     this.chemicalForm = this.fb.group({
       chemical: ['', [Validators.required,]],
       sortorder: ['', [Validators.required,]],
+      status: ['Y'] ,
       inspection: ['', [Validators.required,]],
 
     })
   }
-
-  // getChemicalList() {
-  //   this._chemicalService.getChemicalList().subscribe(res => {
-  //     this.chemicallist = res;
-  //     console.log(this.chemicallist);
-
-  //   })
-  // }
   savechemicaldata() {
     this.submitted = true;
 
@@ -72,6 +73,7 @@ export class ChemicalDialogComponent {
       ChemicalName: this.chemicalForm.value.chemical,
       SortOrder: this.chemicalForm.value.sortorder,
       InspectionMethod: this.chemicalForm.value.inspectionmethod,
+      isChemicalProperty:this.chemicalForm.value.status,
       UserMaster_Code: 0,
     }]
     if (this.elementData.Code === undefined || 0) {
@@ -99,14 +101,17 @@ export class ChemicalDialogComponent {
           console.log(err.error.message);
           this.snackBarService.showErrorMessage(err?.error?.Msg);
         }
-      })
+      }) 
     }
   }
   patchChemicalData(){
     this.chemicalForm.patchValue({
-      chemicalName:this.elementData?.chemical,
-      sortOrder:this.elementData?.sort,
+      chemical:this.elementData?.ChemicalName,
+      sortorder:this.elementData?.SortOrder,
+      status:this.elementData?.isChemicalProperty,
+      inspection:this.elementData.InspectionMethod
     })
+
   }
 
   onNoClick(): void {
@@ -116,4 +121,25 @@ export class ChemicalDialogComponent {
   get f() {
     return this.chemicalForm.controls
   }
+
+/////////////////////////////////////////////////////////////Validation for the fields/////////////////////////////////////////////
+Charactervalidation(event:KeyboardEvent){
+  const inputChar = String.fromCharCode(event.charCode);
+  const pattern = /[a-zA-Z% ]/;
+  if (!pattern.test(inputChar)) {
+    // If the input character is not an alphabet, prevent it from being entered into the input field
+    event.preventDefault();
+  }
+}
+
+orderValidation(event:KeyboardEvent){
+  const inputChar =String.fromCharCode(event.charCode);
+  const pattern=/[0-9. ]/;
+  if(!pattern.test(inputChar)){
+    event.preventDefault();
+  }
+}
+
+
+
 }

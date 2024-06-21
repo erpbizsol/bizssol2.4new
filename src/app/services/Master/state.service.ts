@@ -8,28 +8,18 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class StateService {
-  userCode: any;
+  userMaster_Code: string;
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   private headers(): HttpHeaders {
-    const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
-    const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-
+   const authKey=this.authService.getAuthKey();
+   this.userMaster_Code=this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': ` ${authKey}`
     });
   }
-
-  // getStates(countryName: any): Observable<any> {
-  //   let url = this._urlService.API_ENDPOINT_STATE + "/GetStateList" + `?CountryName=${countryName}`;
-  //   return this._http.get(url, { headers: this.headers });
-  // }
 
 
   getStatesList(countryname: any): Observable<any> {
@@ -46,7 +36,7 @@ export class StateService {
   }
 
   deleteState(code: any, reason: any) {
-    let url = this._urlService.API_ENDPOINT_STATE + "/DeleteStateMaster" + `?Code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_STATE + "/DeleteStateMaster" + `?Code=${code}&UserMaster_Code=${this.userMaster_Code}&ReasonForDelete=${reason}`;
     return this._http.post(url, { headers: this.headers() });
   }
 
