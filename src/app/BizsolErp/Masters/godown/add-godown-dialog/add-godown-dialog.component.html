@@ -1,1 +1,284 @@
-<p>add-godown-dialog works!</p>
+<div class="delete-confirmation-dialog">
+    <h5 class="header-bg" mat-dialog-title>
+  
+      {{ this.elementData.Code === undefined ? 'Add Bank' : 'Update  Bank' }}
+    </h5>
+    <div class="row">
+      <form [formGroup]="addgodownForm">
+        <div class="row" mat-dialog-content>
+          <div class="col-md-6 form-group">
+            <label><b>Bank Name </b></label>
+            <div>
+              <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
+              <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
+                <div *ngIf="f['bankName'].hasError('required')">Bank Name is Required</div>
+              </div>
+          </div>
+         
+        </div>
+          <div class="col-md-6 form-group">
+            <label><b>Alias Name</b></label>
+            <div>
+              <input type="text" class="form-control"  maxlength="50" placeholder="Enter Alias Name"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
+              <div *ngIf="submitted && f['aliasName'].errors" class="text-danger">
+                <div *ngIf="f['aliasName'].hasError('required')">Alias Name is Required</div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="row" mat-dialog-content>
+            <div class="col-md-6 form-group">
+              <label><b>Account No.</b></label>
+              <div>
+                <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
+  " formControlName="accountNo"  maxlength="20" placeholder="Enter Account No." >
+                <div *ngIf="submitted && f['accountNo'].errors" class="text-danger">
+                  <div *ngIf="f['accountNo'].hasError('required')">Account No is Required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Currency</b></label>
+              <div>
+                <select class="select2 form-control"  formControlName = "currency">
+                  <option value="" selected hidden>Select Currency</option>
+                  <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
+              </select>
+                <!-- <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)"> -->
+              </div>
+              <div *ngIf="submitted && f['currency'].errors" class="text-danger">
+                <div *ngIf="f['currency'].hasError('required')">Currency is Required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row" mat-dialog-content>  
+            <div class="col-md-6 form-group">
+              <label><b>IFSC Code</b></label>
+              <div>
+                <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+                <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
+                  <div *ngIf="f['ifscCode'].hasError('required')">Ifsc Code is Required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Swift Code</b></label>
+              <div>
+                <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'swiftCode')">
+                <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
+                  <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" mat-dialog-content>
+            <div class="col-md-12 form-group">
+              <label><b> Pin Code</b></label>
+              <div>
+                <input type="text" class="form-control"   formControlName="pin"   maxlength="6" placeholder="Enter Pin Code">
+  
+                <div *ngIf="submitted && f['currency'].errors" class="text-danger">
+                  <div *ngIf="f['currency'].hasError('required')">Pin is Required</div>
+                </div>
+                  </div>
+            </div>
+           
+          </div>
+          <div class="row" mat-dialog-content>
+            <div class="col-md-12 form-group">
+              <label><b> Address</b></label>
+              <div>
+      
+      <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address" (keypress)="allowAlphabetsOnly($event)"  formControlName="address" >
+      <div *ngIf="submitted && f['address'].errors" class="text-danger">
+        <div *ngIf="f['address'].hasError('required')">Address is Required</div>
+      </div>         
+    </div>
+            </div>
+           
+          </div>
+          <div class="row" mat-dialog-content>
+            <div class="col-md-6 form-group">
+              <label><b>Nation</b></label>
+              <div>
+                <select class="select2 form-control"   formControlName="country">
+                  <option  selected hidden value="">Select Nation</option>
+                  <option *ngFor="let country of countryList"
+                  [value]="country.CountryName">{{
+                  country.CountryName }}
+              </option>
+              </select>
+                          </div>
+                          <div *ngIf="submitted && f['country'].errors" class="text-danger">
+                            <div *ngIf="f['country'].hasError('required')">Country Name is Required</div>
+                          </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>State</b></label>
+              <div>
+                <select class="select2 form-control"  formControlName="state">
+                  <option selected hidden  value="">Select State</option>
+                  <option *ngFor="let state of stateList"
+                      [value]="state?.StateName">{{
+                      state.StateName }}
+                  </option>
+              </select>
+              <div *ngIf="submitted && f['state'].errors" class="text-danger">
+                <div *ngIf="f['state'].hasError('required')">State is Required</div>
+              </div>
+                     </div>
+            </div>
+          </div>
+          <div class="row" mat-dialog-content>
+            <div class="col-md-6 form-group">
+              <label><b>City</b></label>
+              <div>
+                <select class="select2 form-control"   formControlName="city">
+                  <option  selected hidden value="">Select</option>
+                  <option *ngFor="let city of cityList"
+                      [value]="city.CityName">{{
+                      city.CityName }}
+                  </option>
+              </select>         
+              <div *ngIf="submitted && f['city'].errors" class="text-danger">
+                <div *ngIf="f['city'].hasError('required')">City is Required</div>
+              </div>     
+            </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Phone No</b></label>
+              <div>
+                <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15" placeholder="Enter Phone No." >
+                <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
+                  <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-6 form-group">
+              <label><b>Pin Code</b></label>
+              <div>
+                <input type="text" class="form-control"   fomConTrolName="FormControlName"  (input)="pinAcceptOnlyNumber($event)" maxlength="50" placeholder="Enter Description">
+              </div>
+            </div> -->
+          </div>
+  
+          <div class="row" mat-dialog-content>
+          
+            <div class="col-md-6 form-group">
+              <label><b>Fax No.</b></label>
+              <div>
+                <input type="text" class="form-control"  formControlName="fax_no"  (input)="transformToUpperCase($event, 'fax_no')" maxlength="14" placeholder="Enter Fax No." >
+                <div *ngIf="submitted && f['fax_no'].errors" class="text-danger">
+                  <div *ngIf="f['fax_no'].hasError('required')">Fax No. is Required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Service Tax No.</b></label>
+              <div>
+                <input type="text" class="form-control" formControlName="service_tax"  (input)="transformToUpperCase($event, 'service_tax')"  maxlength="15" placeholder="Enter Tervice Tax" >
+                <div *ngIf="submitted && f['service_tax'].errors" class="text-danger">
+                  <div *ngIf="f['service_tax'].hasError('required')">Service Tax is Required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" mat-dialog-content>
+          
+            <div class="col-md-6 form-group">
+              <label><b>Pan No.</b></label>
+              <div>
+                <input type="text" class="form-control" formControlName="Pan_No"  (input)="transformToUpperCase($event, 'Pan_No')"  maxlength="10" placeholder="Enter Pan No." >
+             
+                <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
+                  <div *ngIf="f['Pan_No'].hasError('required')">Pan No. is Required</div>
+                </div> </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b>Email</b></label>
+              <div>
+                <input type="text" class="form-control" formControlName="email"  maxlength="50"   placeholder="Enter Email Id" >
+                <div *ngIf="submitted && f['email'].errors" class="text-danger">
+                  <div *ngIf="f['email'].hasError('required')">Email Id is Required</div>
+                  <div *ngIf="f['email'].hasError('email')"> Enter Valid  email id</div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          
+          <div class="row" mat-dialog-content >
+           
+            <div class="col-md-6 form-group">
+              <label><b>Default</b></label> 
+              <div>
+                <section class="example-section">
+                  <mat-checkbox class="example-margin" formControlName="default" ></mat-checkbox>
+                </section>
+                
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label><b> e -CMS Application </b></label> 
+               <div>
+                <section class="example-section">
+                  <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
+                </section>   
+                  
+               </div>
+            </div>
+          </div>
+  <!-- ================================checkbo===================================== -->
+          <div class="row" mat-dialog-content *ngIf="controlValue">
+            
+           <div class="col-md-6 form-group">
+              <label><b> e cms   vendor</b></label>
+              <div>
+                <select class="select2 form-control"    formControlName="selectBank" required>
+                  <option  value="" selected hidden>  Select Bank</option>
+                  <option  *ngFor=" let   bank of  bankNameList" [value]="bank.eCMSBank"> {{bank?.eCMSBank}}</option>
+                  </select>
+                  <div *ngIf="submitted && controlValue && f['selectBank'].errors" class="text-danger">
+                    <div *ngIf="f['selectBank'].hasError('required')">Select bank   is Required</div>
+                  </div>
+                  </div>
+            </div>
+  
+            <div class="col-md-6 form-group">
+              <label><b> prifix </b></label> 
+               <div>
+                <input type="text" class="form-control"   maxlength="10"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
+                <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
+                  <div *ngIf="f['prifix'].hasError('required')">Prifix  is Required</div>
+                </div>
+                  
+               </div>
+            </div>
+          </div>
+          <div class="row" mat-dialog-content *ngIf="controlValue">
+            <div>
+              <select class="select2 form-control"    formControlName="debitBankAccount" required>
+  
+                <option   selected hidden value="">  Select debit amount</option>
+                <option *ngFor="let  item of debitList" [value]="item.AccountDesp"> {{item.AccountDesp}}</option>
+                </select>
+                <div *ngIf="submitted && controlValue && f['debitBankAccount'].errors" class="text-danger">
+                  <div *ngIf="f['debitBankAccount'].hasError('required')">Debit Bank Account  is Required</div>
+                </div>
+                </div>
+          
+            <!-- <input type="text" class="form-control" formControlName=""  maxlength="50"   placeholder="Enter Debit Amount" > -->
+           </div>
+          
+        <div mat-dialog-actions class="content-end">
+          <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
+          <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >
+             {{ this.elementData.Code === undefined ? 'Save' : 'Update ' }}
+  
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

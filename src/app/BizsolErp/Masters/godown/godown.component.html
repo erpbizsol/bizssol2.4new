@@ -1,1 +1,83 @@
-<p>godown works!</p>
+<!-- app.component.html -->
+<div class="container">
+    <div class="col-md-12 mt-4 mb-2 text-end">
+      <button type="button" class="btn btn-primary" (click)="addDialog('')">
+        Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+        <!-- class="mat-elevation-z8"  -->
+        <ng-container matColumnDef="sNo">
+          <th mat-header-cell *matHeaderCellDef> S.No </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="wareType">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="">Ware Type</th>
+          <td mat-cell *matCellDef="let element"> jj</td>
+        </ng-container>
+      
+   
+       
+       <ng-container matColumnDef="sortOrder">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="">Sort Order</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+  
+  
+  
+        <ng-container matColumnDef="whouseacc">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Ware house account  No.</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+        <ng-container matColumnDef="whouseName">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Ware house Name</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+        <ng-container matColumnDef="whousealias">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Company  Alias Name</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Durg</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Durg</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container> -->
+  
+        <ng-container matColumnDef="gstNo">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">GST No.</th>
+          <td mat-cell *matCellDef="let element"> 7 </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobil">
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header="ServiceTaxNo">Mobile No.</th>
+            <td mat-cell *matCellDef="let element"> 7 </td>
+          </ng-container>
+        
+  
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-stroked-button color="primary"   title="Edit" class="btn btn-primary me-1" (click)="addDialog(element)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deleteGodown(element.Code)">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" #MatPaginator1></mat-paginator>
+    </div>
+  </div>
+  

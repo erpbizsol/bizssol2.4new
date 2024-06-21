@@ -31,9 +31,9 @@
             <label><b>Account No.</b></label>
             <div>
               <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
-" formControlName="accountNo"  maxlength="20" placeholder="Enter Account No." >
-              <div *ngIf="submitted && f['accountNo'].errors" class="text-danger">
-                <div *ngIf="f['accountNo'].hasError('required')">Account No is Required</div>
+" formControlName="account_No"  maxlength="20" placeholder="Enter Account No." >
+              <div *ngIf="submitted && f['account_No'].errors" class="text-danger">
+                <div *ngIf="f['account_No'].hasError('required')">Account No is Required</div>
               </div>
             </div>
           </div>
@@ -185,7 +185,7 @@
         </div>
         <div class="row" mat-dialog-content>
         
-          <div class="col-md-6 form-group">
+          <!-- <div class="col-md-6 form-group">
             <label><b>Pan No.</b></label>
             <div>
               <input type="text" class="form-control" formControlName="Pan_No"  (input)="transformToUpperCase($event, 'Pan_No')"  maxlength="10" placeholder="Enter Pan No." >
@@ -193,6 +193,18 @@
               <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
                 <div *ngIf="f['Pan_No'].hasError('required')">Pan No. is Required</div>
               </div> </div>
+          </div> -->
+
+
+
+          <div class="col-md-6 form-group">
+            <label><b>Pan No.</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="Pan_No"  (input)="transformToUpperCase($event, 'Pan_No')"  maxlength="15" placeholder="Enter Pan NO." >
+              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
+                <div *ngIf="f['Pan_No'].hasError('required')">Pan No .is Required</div>
+              </div>
+            </div>
           </div>
           <div class="col-md-6 form-group">
             <label><b>Email</b></label>

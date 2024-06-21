@@ -85,6 +85,8 @@ export class DefaultLayoutComponent implements OnInit {
       'Verify Route Plan': '/transactions/Verify-Route-Plan',
       'Department': '/leads/department',
       'Bank': '/leads/Bank-Master',
+      'Warehouse Master': '/leads/Godown-Master',
+
 
 
       'Tank Daily Stock': '/leads/tank-daily-stock',
