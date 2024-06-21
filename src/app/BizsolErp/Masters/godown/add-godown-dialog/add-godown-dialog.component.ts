@@ -73,7 +73,7 @@ export class AddGodownDialogComponent {
 
 
  constructor(
-  private  godo : GodownService 
+  private  godown : GodownService 
  ){}
 
   ngOnInit() {}
@@ -113,6 +113,23 @@ saveBankDetailsData(){
  checkEcms(value:any){
 
  }
+
+ wareHouseList:any
+ wareHouseType(){
+
+
+ }
+
+ getGodownData() {
+  this.godown.getwarehouse('GetWarehouseMasterList').subscribe({
+    next: (res: any) => {
+  
+    },
+    error: (err: any) => {
+      console.log(err.error.message);
+    }
+  });
+}
 
   
  
