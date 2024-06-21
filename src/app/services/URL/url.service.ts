@@ -25,6 +25,7 @@ API_ENDPOINT_SPECIFICATION: string = `${this.BASE_URL}/ItemSize`;
 API_ENDPOINT_PAYMENT_TERMS_MASTER: string = `${this.BASE_URL}/PaymentTerms`; // shobha 
 API_ENDPOINT_BANK_MASTER: string = `${this.BASE_URL}/Bank`; // shobha 
 API_ENDPOINT_DROPDOWN: string = `${this.BASE_URL}/Dropdown`; // shobha 
+API_ENDPOINT_WARE_HOUSE: string = `${this.BASE_URL}/WarehouseMaster`; // shobha 
 
  
   API_ENDPOINT_DROPDOWND = `${this.BASE_URL}/Dropdown/GetDropdownList`;

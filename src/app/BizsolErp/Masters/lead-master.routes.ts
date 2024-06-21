@@ -180,6 +180,13 @@ export const routes: Routes = [
                 }
             },
             {
+                path: 'Godown-Master',
+                loadComponent: () => import('../Masters/godown/godown.component').then(m => m.GodownComponent),
+                data: {
+                    title: 'Godown'
+                }
+            },
+            {
                 path: 'HSN-Code-Master',
                 loadComponent: () => import('./hsn-code-component/hsn-code-component.component').then(m => m.HSNCodeMasterComponent),
                 data: {

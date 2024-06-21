@@ -93,7 +93,7 @@ export class AddBankDialogComponent {
   paymentTermsForm = new FormGroup({
     bankName: new FormControl('', Validators.required),
     aliasName: new FormControl('',Validators.required),
-    accountNo: new FormControl('', Validators.required),
+    account_No: new FormControl('', Validators.required),
     currency: new FormControl('',Validators.required),
     ifscCode: new FormControl('',Validators.required),
     swiftCode:new FormControl('',Validators.required),
@@ -116,26 +116,24 @@ export class AddBankDialogComponent {
 })
 
 patchBankData(){
-  console.log(this.elementData?.eCMSBank,"kkk");
-  
-  this.paymentTermsForm.patchValue({
+    this.paymentTermsForm.patchValue({
     bankName: this.elementData?.BankName,
     aliasName: this.elementData.AliasName,
-    accountNo: this.elementData.AccountNo,
+    account_No: this.elementData.AccountNo,
     currency: this.elementData?.CurrencyName,
     ifscCode: this.elementData.IFSC_Code,
-    swiftCode:this.elementData.SwiftCode,
+    swiftCode:this.elementData?.SwiftCode,
     pin:this.elementData?.PinCode,
-    address: this.elementData.Address,
-    country: this.elementData.Nation,
-    state: this.elementData.State,
+    address: this.elementData?.Address,
+    country: this.elementData?.Nation,
+    state: this.elementData?.State,
     city: this.elementData?.City,
-    phone_no: this.elementData.PhoneNo,
+    phone_no: this.elementData?.PhoneNo,
     fax_no: this.elementData.FaxNo,
-    service_tax: this.elementData.ServiceTaxNo,
-    Pan_No: this.elementData.PANNo,
-    email:this.elementData.EMail,
-    default:this.elementData.IsDefault,
+    service_tax: this.elementData?.ServiceTaxNo,
+    Pan_No: this.elementData?.PANNo,
+    email:this.elementData?.EMail,
+    default:this.elementData?.IsDefault,
     cms_applicable: this.elementData.eCMSBank != ""? true: false ,
   })
 if(this.elementData.eCMSBank!=""){
@@ -210,16 +208,17 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   }
   eCMSDebitData:any
   saveBankDetailsData() {
-    
+    debugger
    this.submitted=true
     if(this.paymentTermsForm.invalid){
       return
     }
+    console.log(this.paymentTermsForm.value,"jjjj")
     let data=[
       {
         code: this.elementData.Code ? this.elementData.Code:0,
         bankName: this.paymentTermsForm.value.bankName,
-        accountNo:this.paymentTermsForm.value.accountNo,
+        accountNo:this.paymentTermsForm.value.account_No,
         currencyName:this.paymentTermsForm.value.currency,
         address: this.paymentTermsForm.value.address,
         Nation: this.paymentTermsForm.value.country,
@@ -244,7 +243,6 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
         eCMSDebitAccountName: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.debitBankAccount :"",
         userMaster_Code: 0,
 
-        // selectBank: new FormControl(''),
       }
     ]
 delete this.paymentTermsForm.value.cms_applicable
