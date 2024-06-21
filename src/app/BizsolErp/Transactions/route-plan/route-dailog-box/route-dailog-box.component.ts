@@ -17,7 +17,7 @@ import { RoutePlanService } from 'src/app/services/Transaction/route-plan.servic
 })
 export class RouteDailogBoxComponent {
   [x: string]: any;
-  routePlanForm: FormGroup;
+  // routePlanForm: FormGroup;
   stateList: any;
   cityList: any;
   editData:any
@@ -37,7 +37,7 @@ export class RouteDailogBoxComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<RouteDailogBoxComponent>, private state: StateService, private city: CityService, private rPVTDList: RoutePlanService, private accountMaster: RoutePlanService, private saveRP: RoutePlanService, private fb: FormBuilder, private routePBCode: RoutePlanService) {
-     this.editData= data.routePlanMaster_Code.Code
+     this.editData= data.data
      console.log(this.editData,"uuuuuuu")
 
 
@@ -50,7 +50,7 @@ export class RouteDailogBoxComponent {
     this.getAccountMDetails()
     this.RoutePlanMaster_Code = this.data.routePlanMaster_Code;
     this.EntryDate = new Date().toISOString().split('T')[0];
-    if(this.editData.Code!== undefined||0||''){
+    if(this.editData.Code!== undefined||''){
       this.populateData()
       
     }
@@ -65,21 +65,28 @@ export class RouteDailogBoxComponent {
     // })
    
    
-      this.routePlanForm = this.fb.group({
-        visitType: ['', [Validators.required]],
-        dealerName: ['', [Validators.required]],
-        city: ['', [Validators.required]],
-        state: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-      })
+     
     
 
   }
 
+  routePlanForm = this.fb.group({
+    visitType: ['', [Validators.required]],
+    dealerName: ['', [Validators.required]],
+    city: ['', [Validators.required]],
+    state: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+  })
   populateData(){
+    console.log(this.editData.Description,"kkkk")
     this.routePlanForm.patchValue({
       visitType:this.editData?.VisitType,
-      description:this.editData?.Description
+      description:this.editData?.Description,
+      dealerName:this.editData?.DealerName,
+    city:this.editData?.CityName,
+    state:this.editData?.StateName
+
+      
     })
   }
   // Form
