@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
 import { FormsModule, FormControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule, MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angular/material/snack-bar';
 import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
 import { ContactPersonService } from 'src/app/services/Master/contact-person.service';
 import { ProductDetailsService } from 'src/app/services/Master/product-details.service';
@@ -29,7 +28,7 @@ import { AuthService } from 'src/app/services/Auth-Service/auth.service';
   selector: 'app-new-customer',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, FormsModule, AsyncPipe, MatTooltipModule,
-    HttpClientModule, MatSnackBarModule, MatFormFieldModule, MatListModule, MatSelectModule, CommonModule, MatInputModule, MatAutocompleteModule, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction],
+    HttpClientModule, MatFormFieldModule, MatListModule, MatSelectModule, CommonModule, MatInputModule, MatAutocompleteModule, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatSnackBarModule],
   templateUrl: './new-customer.component.html',
   styleUrl: './new-customer.component.scss',
   providers: [EnquiryService, StateService, CityService, ContactPersonService, ProductDetailsService, SnackBarService, DatePipe]
@@ -90,7 +89,7 @@ export class NewCustomerComponent implements OnInit {
   userMasterCode: string;
 
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
-    private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog, private _snackBar: MatSnackBar,
+    private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog,
     private _contactPersonService: ContactPersonService, private _authService: AuthService, private _productDetailsService: ProductDetailsService, private route: ActivatedRoute, private location: Location, private snackBarService: SnackBarService
   ) {
     this.newEnquiryForm();
@@ -117,16 +116,6 @@ export class NewCustomerComponent implements OnInit {
       this.getEnquirByCode()
     });
   }
-
-  // ngAfterViewInit() {
-  //   const activeElement = this.el.nativeElement.querySelector('#active');
-  //   const inactiveElement = this.el.nativeElement.querySelector('#inactive');
-
-  //   if (activeElement && inactiveElement) {
-  //     this.renderer.setStyle(activeElement.nextSibling, 'color', 'green');
-  //     this.renderer.setStyle(inactiveElement.nextSibling, 'color', 'red');
-  //   }
-  // }
 
   showexisting() {
     this.companyNamehide = true;
@@ -219,6 +208,9 @@ export class NewCustomerComponent implements OnInit {
           this.selected = 'existing';
           this.showExistPersonList = true;
           this.hideContactPersonControl = false;
+          this._enquiryService.GetAccountDetails(this.leadData.AccountDesp).subscribe((res: any) => {
+            this.existingPersonNameList = res.AccountContactPersonDetail;
+          })
         }
       }
       this.populateForm();
@@ -648,7 +640,7 @@ export class NewCustomerComponent implements OnInit {
             NextFollowupmode: this.newCustomerForm.value.followupmode,
             remark: this.newCustomerForm.value.remark,
             "verifiedOn": "",
-            "status": "I"
+            "status": this.contactPersonsList.length && this.enquiryProductDetails.length ? "U" : "I"
           }
         ]
       }
@@ -744,7 +736,7 @@ export class NewCustomerComponent implements OnInit {
           NextFollowupmode: this.newCustomerForm.value.followupmode,
           remark: this.newCustomerForm.value.remark,
           "verifiedOn": "",
-          "status": "I",
+          "status": this.enquiryProductDetails.length ? "U" : "I"
         }
       ],
       "contactPersonsList": [
@@ -857,6 +849,7 @@ export class NewCustomerComponent implements OnInit {
 
   //product details save, update and delete method
   saveProductDetails() {
+    console.log("In product save contactPersonsList", this.contactPersonsList.length);
     const Obj = {
       "enquiryMaster": [
         {
@@ -886,7 +879,7 @@ export class NewCustomerComponent implements OnInit {
           NextFollowupmode: this.newCustomerForm.value.followupmode,
           remark: this.newCustomerForm.value.remark,
           "verifiedOn": "",
-          "status": "U"
+          "status": this.contactPersonsList.length ? "U" : "I"
         }
       ],
       "enquiryDetails": [

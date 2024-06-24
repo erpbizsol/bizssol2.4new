@@ -78,8 +78,8 @@ export class EnquiryService {
     const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryAssignPersonDetail' + `?EnquiryMaster_Code=${code}&MarketingPersonMaster_Code=${marketingPersonMasterCode}&UserMaster_Code=${this.userMasterCode}`;
     return this._http.post(url, { headers: this.headers });
   }
-  verifyDetails(enquiryCode: number): Observable<any> {
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.userMasterCode}`;
+  verifyDetails(enquiryCode: number, remarks: string): Observable<any> {
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryVerifyDetail' + `?Code=${enquiryCode}&UserMaster_Code=${this.userMasterCode}` + `&ReasonForVerify=${remarks}`;;
     return this._http.post(url, { headers: this.headers() });
   }
   rejectDetails(enquiryCode: number, remarks: any): Observable<any> {
@@ -91,9 +91,9 @@ export class EnquiryService {
     const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryClosed' + `?EnquiryMaster_Code=${enquiryCode}` + `&UserMaster_Code=${this.userMasterCode}` + `&Remark=${remark}`;
     return this._http.post(url, { headers: this.headers() });
   }
-  enquiryApproved(enquiryCode: any, remark: any) {
+  enquiryApproved(enquiryCode: any, remark: any, status: string) {
     this.userMasterCode = this.authService.getUserMasterCode();
-    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryApproved' + `?EnquiryMaster_Code=${enquiryCode}` + `&UserMaster_Code=${this.userMasterCode}` + `&Remark=${remark}`;
+    const url = this._urlService.API_ENDPOINT_ENQUIRY + '/EnquiryApproved' + `?EnquiryMaster_Code=${enquiryCode}` + `&UserMaster_Code=${this.userMasterCode}` + `&Remark=${remark}` + `&ApprovedStatus=${status}`;
     return this._http.post(url, { headers: this.headers() });
   }
   enquiryReOpen(enquiryCode: any, remark: any) {

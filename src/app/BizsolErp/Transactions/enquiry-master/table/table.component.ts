@@ -30,7 +30,7 @@ import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { EnquiryService } from 'src/app/services/Transaction/enquiry.service';
@@ -42,12 +42,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 import { UrlService } from 'src/app/services/URL/url.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { map, Observable, ReplaySubject, startWith, Subject, takeUntil } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule, HttpClientModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, RouterModule, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent],
+  imports: [CommonModule,MatSelectModule,NgxMatSelectSearchModule, MatTooltipModule, HttpClientModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
+    MatFormFieldModule,MatAutocompleteModule,MatInputModule,  FormsModule, ReactiveFormsModule, RouterModule, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent],
 
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -93,7 +97,9 @@ export class TableComponent implements OnInit {
 
   selectedRow: any;
   closeAppear: boolean = true;
-  selected: string = 'unsatisfied';
+  selected: string = 'S';
+  hideApproval: boolean = true;
+  newSales: any;
 
   closeRemark = new FormControl('');
   remarkApproval = new FormControl('');
@@ -121,22 +127,36 @@ export class TableComponent implements OnInit {
   }
 
   satisfiedVlaue() {
-    this.selected = 'satisfied';
+    this.selected = 'S';
   }
   unsatisfiedVlaue() {
-    this.selected = 'unsatisfied';
+    this.selected = 'U';
   }
   openAssignModal(row: any) {
     this.selectedRow = row; // Store the selected row
     this.assignPerson = this.selectedRow.PersonName;
+    this.btnAppearAcc2Status()
+  }
+
+  btnAppearAcc2Status() {
     if (this.selectedRow.Status == "Closed") {
       this.closeAppear = false
     } else this.closeAppear = true
+
+    if (this.selectedRow.Status == "Approved(Satisfied)" || this.selectedRow.Status == "Approved(Unsatisfied)") {
+      this.closeAppear = false
+      this.hideApproval = false
+    } else {
+      // this.closeAppear = true
+      this.hideApproval = true
+    }
   }
+
   enquiryList(val: string) {
     this._enquiryService.getEnquiry(val).subscribe((res: any[]) => {
       this.EnquryList = res.map((item, index) => ({ SN: index + 1, editable: false, ...item }));
       this.dataSource = new MatTableDataSource(this.EnquryList);
+      console.log('dataSource', this.dataSource.filteredData);
       this.dataSource.sort = this._sorting;
       this.dataSource.paginator = this._paging;
       // console.log('EnquryList', this.dataSource.data);
@@ -209,7 +229,7 @@ export class TableComponent implements OnInit {
   }
 
   enquiryVerify(code: any) {
-    this._enquiryService.verifyDetails(code).subscribe(res => {
+    this._enquiryService.verifyDetails(code, this.remarksControl.value).subscribe(res => {
       this.closeModal();
       this.enquiryList("ALL");
       this.remarksControl.reset();
@@ -260,7 +280,7 @@ export class TableComponent implements OnInit {
   EnquiryApproved(code: any) {
     console.log("this.selected", this.selected);
     // this.approvalForm.value.approve,
-    this._enquiryService.enquiryApproved(code, this.remarkApproval.value).subscribe(res => {
+    this._enquiryService.enquiryApproved(code, this.remarkApproval.value, this.selected).subscribe(res => {
       const modal = this.myModalApproval.nativeElement;
       modal.classList.remove('show');
       modal.style.display = 'none';
@@ -272,7 +292,7 @@ export class TableComponent implements OnInit {
 
       this.enquiryList("ALL");
       this.remarkApproval.reset();
-      this.selected = 'unsatisfied';
+      this.selected = 'S';
 
     });
   }
