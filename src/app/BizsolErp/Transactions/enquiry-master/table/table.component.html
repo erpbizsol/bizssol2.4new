@@ -10,7 +10,7 @@
       <mat-form-field class="mat-form-field-fluid" appearance="outline">
         <mat-select placeholder="ALL" required (selectionChange)='enquiryList($event.value)'>
           <mat-option value="ALL" selected>ALL</mat-option>
-          <mat-option *ngFor="let person of salesPersonList" [value]="person.PersonName">
+        <mat-option *ngFor="let person of salesPersonList" [value]="person.PersonName">
             {{ person.PersonName }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -89,27 +89,29 @@
             <span class="button-spacing"></span> <!-- Add spacing between buttons -->
             <button class="dropdown">
               <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                (click)="openAssignModal(row)"> ...</button>
+                (click)="openAssignModal(row)" [disabled]="row.Status=='Draft'"> ...</button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
-                      data-bs-target="#myModalVerify">Verify</button></a>
-                </li>
-                <li><a class="dropdown-item">
-                    <button class="btn btn-primary modalbtn" data-bs-toggle="modal"
-                      data-bs-target="#myModalAssign">Assign</button></a>
-                </li>
-                <li><a class="dropdown-item"><button class="btn btn-primary modalbtn" (click)="openFollowUp(row.Code)"
-                      [disabled]="row.Verified !== 'Y'">Follow Up</button></a>
-                </li>
                 <div *ngIf="closeAppear">
+                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalVerify">Verify</button></a>
+                  </li>
+                  <li><a class="dropdown-item">
+                      <button class="btn btn-primary modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalAssign">Assign</button></a>
+                  </li>
+                  <li><a class="dropdown-item"><button class="btn btn-primary modalbtn" (click)="openFollowUp(row.Code)"
+                        [disabled]="row.Verified !== 'Y'">Follow Up</button></a>
+                  </li>
                   <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
                         data-bs-target="#myModalClose">Close</button></a>
                   </li>
                 </div>
                 <div *ngIf="!closeAppear">
-                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
-                        data-bs-target="#myModalApproval">Approval</button></a>
-                  </li>
+                  <div>
+                    <li *ngIf="hideApproval"><a class="dropdown-item"><button class="btn btn-success modalbtn"
+                          data-bs-toggle="modal" data-bs-target="#myModalApproval">Approval</button></a>
+                    </li>
+                  </div>
                   <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
                         data-bs-target="#myModalReopen">Reopen</button></a>
                   </li>
@@ -254,13 +256,13 @@
                     <div class="container-fluid">
                       <form [formGroup]="approvalForm">
                         <div class="radioLogin">
-                          <input type="radio" name="Approve" [checked]="selected === 'satisfied'"
+                          <input type="radio" name="Approve" [checked]="selected === 'S'"
                             (click)="satisfiedVlaue()">&nbsp;
-                          <span [ngClass]="{'Active': selected === 'satisfied'}">Satisfied</span>
+                          <span [ngClass]="{'Active': selected === 'S'}">Satisfied</span>
                           &nbsp; &nbsp; &nbsp;
-                          <input type="radio" name="Approve" [checked]="selected === 'unsatisfied'"
+                          <input type="radio" name="Approve" [checked]="selected === 'U'"
                             (click)="unsatisfiedVlaue()">&nbsp;
-                          <span [ngClass]="{'Active': selected === 'unsatisfied'}">Unsatisfied</span>
+                          <span [ngClass]="{'Active': selected === 'U'}">Unsatisfied</span>
                         </div> &nbsp;
                         <div class="row">
                           <div class="col-md-2">
