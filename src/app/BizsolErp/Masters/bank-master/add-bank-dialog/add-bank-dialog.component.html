@@ -7,7 +7,7 @@
     <form [formGroup]="paymentTermsForm">
       <div class="row" mat-dialog-content>
         <div class="col-md-6 form-group">
-          <label><b>Bank Name </b></label>
+          <label><b >Bank Name </b></label>
           <div>
             <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
             <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
@@ -148,9 +148,11 @@
           <div class="col-md-6 form-group">
             <label><b>Phone No</b></label>
             <div>
-              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15" placeholder="Enter Phone No." >
+              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15"   minlength="10" placeholder="Enter Phone No." >
               <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
                 <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
+                <div *ngIf="f['phone_no'].hasError('minlength') ||f['phone_no'].hasError('minlength')"> Enter Phone No. between  10  to  15 digit only </div>
+
               </div>
             </div>
           </div>
@@ -200,7 +202,7 @@
           <div class="col-md-6 form-group">
             <label><b>Pan No.</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="Pan_No"  (input)="transformToUpperCase($event, 'Pan_No')"  maxlength="15" placeholder="Enter Pan NO." >
+              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter Pan No." >
               <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
                 <div *ngIf="f['Pan_No'].hasError('required')">Pan No .is Required</div>
               </div>
@@ -260,7 +262,7 @@
           <div class="col-md-6 form-group">
             <label><b> prefix </b></label> 
              <div>
-              <input type="text" class="form-control"   maxlength="10"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
+              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
               <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
                 <div *ngIf="f['prifix'].hasError('required')">Prefix  is Required</div>
               </div>

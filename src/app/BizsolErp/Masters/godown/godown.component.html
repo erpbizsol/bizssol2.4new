@@ -9,7 +9,7 @@
       <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
         <!-- class="mat-elevation-z8"  -->
         <ng-container matColumnDef="sNo">
-          <th mat-header-cell *matHeaderCellDef> S.No </th>
+          <th mat-header-cell *matHeaderCellDef> S.No. </th>
           <td mat-cell *matCellDef="let element; let i = index">
             {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
           </td>

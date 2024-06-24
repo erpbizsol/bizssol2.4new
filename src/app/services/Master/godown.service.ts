@@ -50,7 +50,7 @@ export class  GodownService{
     
   
    deletwarehouse(code: number, reason: any) {
-   let url = this._urlService.API_ENDPOINT_WARE_HOUSE + "/DeleteBankMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
+   let url = this._urlService.API_ENDPOINT_WARE_HOUSE + "/DeleteWarehouseMaster" + `?code=${code}&UserMaster_Code=13&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers });
   }
 

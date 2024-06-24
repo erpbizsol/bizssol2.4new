@@ -80,29 +80,32 @@ export class AddGodownDialogComponent {
   addgodownForm = new FormGroup({
     ware_house_type: new FormControl('', Validators.required),
     sort_order: new FormControl('',Validators.required),
-   ware_house_account_name: new FormControl('', Validators.required),
+   ware_house_account_no: new FormControl('', Validators.required),
     ware_house_name: new FormControl('',Validators.required),
     short_description: new FormControl('',Validators.required),
     compony_alias_name:new FormControl('',Validators.required),
-    address: new FormControl('',Validators.required),
-
     pin: new FormControl('',Validators.required),
+    address: new FormControl('',Validators.required),
     city: new FormControl('',Validators.required),
-
     gst_no: new FormControl('',Validators.required),
     tin_no: new FormControl('',Validators.required),
     cst_no: new FormControl('',Validators.required),
     cin_no: new FormControl(''),//optinal
-    service_tax: new FormControl('',Validators.required),
     mobile_no: new FormControl('',Validators.required),
     email:new FormControl('',[Validators.required,Validators.email]),
 
-    default: new FormControl(false),
     // cms_applicable: new FormControl(false),
     ware_house_group: new FormControl(''),
+
 is_default_ware_house: new FormControl(false),
  
 store_ware_house: new FormControl(false),
+in_transit_ware_house:new FormControl(false),
+
+qaulity_ware_house:new FormControl(''),
+gate_entry:new FormControl(false),
+
+
 
 })
 
@@ -132,7 +135,53 @@ saveBankDetailsData(){
 }
 
   
+
  
+ saveGodownDetails() {
+  let  data = [
+    
+      {
+        "code": 0,
+        "godownName": "string",
+        "isDefault": "string",
+        "forStore": "string",
+        "initialGoDownDesp": "string",
+        "accountDesp": "string",
+        "department": "string",
+        "address1": "string",
+        "city": "string",
+        "pinCode": "string",
+        "godownTINNo": "string",
+        "godownCSTNo": "string",
+        "godownCINNo": "string",
+        "godownMobileNo": "string",
+        "godownEmail": "string",
+        "godownFor": "string",
+        "godownGSTNo": "string",
+        "godownSortOrder": 0,
+        "gateEntryMandatory": "string",
+        "showOnWeb": "string",
+        "companyAliasName": "string",
+        "forRejectedMaterial": "string",
+        "warehouseGroup": "string",
+        "inTransitWarehouse": "string",
+        "applicableInDispatch": "string",
+        "userName": "string",
+        "userMaster_Code": 0
+      }
+    ]
+  
+  this.godown.savewareHouses(data).subscribe({
+    next: (res: any) => {
+  
+    },
+    error: (err: any) => {
+      console.log(err.error.message);
+    }
+  });
+}
+
+
 
   
   pinPoppulate() {
