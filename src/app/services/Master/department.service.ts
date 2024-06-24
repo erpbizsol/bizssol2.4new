@@ -15,15 +15,11 @@ export class DepartmentService {
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
 
-    const abhi = JSON.parse(authKey);
-    const obj = { ...abhi, UserMaster_Code: 13 };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-    // console.log(JSON.stringify(obj));
+   
 
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': JSON.stringify(authKey)
     });
   }
   getDepartment(): Observable<any> {
@@ -36,7 +32,8 @@ export class DepartmentService {
     return this._http.get(url, { headers: this.headers() });
   }
   deleteDepartment(code: number, reason: any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_DEPARTMENT + "/DeleteDepartmentMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    const userMasterCode = this.authService.getUserMasterCode();
+    let url = this._urlService.API_ENDPOINT_DEPARTMENT + "/DeleteDepartmentMaster" + `?code=${code}&UserMaster_Code=${userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers() });
   }
   postDepartment(Obj: any): Observable<any> {

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { UserService } from '../../services/Shared/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   setAuthKey(authKey: string): void {
     sessionStorage.setItem('Auth-Key', authKey);
@@ -23,4 +24,5 @@ export class AuthService {
     }
     return null;
   }
+
 }
