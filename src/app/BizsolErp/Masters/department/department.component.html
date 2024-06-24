@@ -20,9 +20,9 @@
                     </tr> -->
                     <tr>
                         <th>S.No.</th>
-                        <th>Initials (Department Code)</th>
+                        <th>Department Code</th>
                         <th>Department Name</th>
-                        <th>Department Type</th>
+                        <!-- <th>Department Type</th> -->
                         <!-- <th>EMail Id</th> -->
                         <th style="width: 100px;">Action</th>
                     </tr>
@@ -33,7 +33,7 @@
                         <td>{{i+1}}</td>
                         <td>{{ department.Initials }}</td>
                         <td>{{ department.DepartmentName }}</td>
-                        <td>{{ department.DepartmentType }}</td>
+                        <!-- <td>{{ department.DepartmentType }}</td> -->
                         <!-- <td>{{ department.DepartmentEmailId }}</td> -->
                         <td class="buttonSet">
                           <button class=" btn btn-primary" (click)="editData(department.Code)"><i class="fa fa-pencil"
@@ -70,14 +70,14 @@
           <label for="deptName">Department Description:</label>
           <input type="text" formControlName="departmentName"  class="form-control" maxlength="50" >
         </div>
-        <div class="col-md-6 form-group">
+        <!-- <div class="col-md-6 form-group">
           <label for="department">Department Type:</label>
-          <!-- <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode"> -->
+          <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode">
           <select id="department" formControlName="departmentType" class="form-control">
             <option value="" >Select</option>
             <option *ngFor="let department of departmentTypeList" [value]="department.Desp">{{department.Desp}}</option>
       </select>
-        </div>
+        </div> -->
         <!-- <div class="col-md-6 form-group">
             <label for="departmentMail">E-Mail:</label>
           <input type="email" formControlName="email" class="form-control" required>
@@ -110,14 +110,14 @@
           <label for="deptName">Department Description:</label>
           <input type="text" formControlName="departmentName" class="form-control" >
         </div>
-        <div class="col-md-6 form-group">
+        <!-- <div class="col-md-6 form-group">
           <label for="department">Department Type:</label>
-          <!-- <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode"> -->
+          <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode">
           <select id="department" formControlName="departmentType" class="form-control">
             <option value="" >Select</option>
             <option *ngFor="let department of departmentTypeList" [value]="department.Desp">{{department.Desp}}</option>
       </select>
-        </div>
+        </div> -->
         <!-- <div class="col-md-6 form-group">
             <label for="departmentMail">E-Mail:</label>
           <input type="email" formControlName="email" class="form-control">

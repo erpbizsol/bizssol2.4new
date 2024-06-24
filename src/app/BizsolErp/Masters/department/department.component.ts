@@ -43,12 +43,12 @@ export class DepartmentComponent implements OnInit {
 
   ngOnInit() {
     this.departmentList();
-    this.departmentType();
+    // this.departmentType();
     this.newDepartmentForm = this.fb.group({
       Code: ['', Validators.required],
       departmentName: ['', Validators.required],
       departmentCode: ['', Validators.required],
-      departmentType: ['', Validators.required],
+      // departmentType: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
   }
@@ -59,19 +59,19 @@ export class DepartmentComponent implements OnInit {
       console.log(this.department);
     });
   }
-  departmentType() {
-    const obj = {
-      tableName: "F_CommonValues",
-      fieldName: "Description",
-      fieldNameOrderBy: "Description",
-      distinct: "",
-      filterCondition: "And Type='DepartmentType'"
-    };
-    this._DepartmentService.getDepartmentType(obj).subscribe(res => {
-      this.departmentTypeList = res;
-      // console.log(this.departmentType);
-    });
-  }
+  // departmentType() {
+  //   const obj = {
+  //     tableName: "F_CommonValues",
+  //     fieldName: "Description",
+  //     fieldNameOrderBy: "Description",
+  //     distinct: "",
+  //     filterCondition: "And Type='DepartmentType'"
+  //   };
+  //   this._DepartmentService.getDepartmentType(obj).subscribe(res => {
+  //     this.departmentTypeList = res;
+  //     // console.log(this.departmentType);
+  //   });
+  // }
   saveDepartment() {
     let obj = {
       "departmentMaster": [
@@ -79,8 +79,8 @@ export class DepartmentComponent implements OnInit {
           code: this.newDepartmentForm.get('Code').value == "" ? '0' : this.newDepartmentForm.get('Code').value,
           departmentName: this.newDepartmentForm.value.departmentName,
           initials: this.newDepartmentForm.value.departmentCode,
-          departmentType: this.newDepartmentForm.value.departmentType,
-          departmentEmailId: this.newDepartmentForm.value.email,
+          // departmentType: this.newDepartmentForm.value.departmentType,
+          // departmentEmailId: this.newDepartmentForm.value.email,
           "UserMaster_Code": "141",
         }
       ]
@@ -111,8 +111,8 @@ export class DepartmentComponent implements OnInit {
         Code: res.Code,
         departmentName: res.DepartmentName,
         departmentCode: res.Initials,
-        departmentType: res.DepartmentType,
-        email: res.DepartmentEmailId,
+        // departmentType: res.DepartmentType,
+        // email: res.DepartmentEmailId,
       })
     })
   }
@@ -144,8 +144,8 @@ export class DepartmentComponent implements OnInit {
       Code: '0',
       departmentName: "",
       departmentCode: "",
-      departmentType: "",
-      email: "",
+      // departmentType: "",
+      // email: "",
     })
   }
 }
