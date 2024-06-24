@@ -14,6 +14,7 @@ export class CategoryService {
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
+    this.userCode = this.authService.getUserMasterCode();
 
   
     return new HttpHeaders({
@@ -22,13 +23,13 @@ export class CategoryService {
   }
 
   getCategorylist(): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_CATEGORY + "/GetCountryMasterList";
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/GetCategoryMasterList?FormType=s";
     return this._http.get(url, { headers: this.headers() });
   }
 
   saveCategory(obj: any) {
     // let data = JSON.stringify(obj)
-    let url = this._urlService.API_ENDPOINT_CATEGORY + "/SaveCountryMaster";
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/SaveCategoryMaster";
     return this._http.post(url, obj, { headers: this.headers() });
   }
   updateCategory(code: any) {
@@ -36,7 +37,7 @@ export class CategoryService {
     return this._http.get(url, { headers: this.headers() });
   }
   deleteCategory(code: any, reason: any) {
-    let url = this._urlService.API_ENDPOINT_CATEGORY + "/DeleteCountryMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}`;
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/DeleteCategoryMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason} + &IPAddress=1&Location=1`;
     return this._http.post(url, { headers: this.headers });
   }
 
