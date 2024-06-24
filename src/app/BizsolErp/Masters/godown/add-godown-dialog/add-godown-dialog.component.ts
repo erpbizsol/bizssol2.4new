@@ -132,7 +132,53 @@ saveBankDetailsData(){
 }
 
   
+
  
+ saveGodownDetails() {
+  let  data = [
+    
+      {
+        "code": 0,
+        "godownName": "string",
+        "isDefault": "string",
+        "forStore": "string",
+        "initialGoDownDesp": "string",
+        "accountDesp": "string",
+        "department": "string",
+        "address1": "string",
+        "city": "string",
+        "pinCode": "string",
+        "godownTINNo": "string",
+        "godownCSTNo": "string",
+        "godownCINNo": "string",
+        "godownMobileNo": "string",
+        "godownEmail": "string",
+        "godownFor": "string",
+        "godownGSTNo": "string",
+        "godownSortOrder": 0,
+        "gateEntryMandatory": "string",
+        "showOnWeb": "string",
+        "companyAliasName": "string",
+        "forRejectedMaterial": "string",
+        "warehouseGroup": "string",
+        "inTransitWarehouse": "string",
+        "applicableInDispatch": "string",
+        "userName": "string",
+        "userMaster_Code": 0
+      }
+    ]
+  
+  this.godown.savewareHouses(data).subscribe({
+    next: (res: any) => {
+  
+    },
+    error: (err: any) => {
+      console.log(err.error.message);
+    }
+  });
+}
+
+
 
   
   pinPoppulate() {
