@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  
-  private userDetails: any = {};
+  private userDetails = new BehaviorSubject<any>(this.getUserDetailsFromSession());
 
   setUserDetails(details: any): void {
-    this.userDetails = details;
-    console.log("yggyg8uy",  this.userDetails)
-
+    sessionStorage.setItem('userDetails', JSON.stringify(details));
+    this.userDetails.next(details);
   }
 
-  getUserDetails(): any {
-    return this.userDetails;
+  getUserDetailsFromSession(): any {
+    const userDetails = sessionStorage.getItem('userDetails');
+    return userDetails ? JSON.parse(userDetails) : null;
+  }
+
+  getUserDetail(): any {
+    return this.userDetails.asObservable();
   }
 }

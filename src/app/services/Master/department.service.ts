@@ -19,8 +19,7 @@ export class DepartmentService {
 
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': JSON.stringify(authKey)
-    });
+      'Auth-Key': ` ${authKey}`    });
   }
   getDepartment(): Observable<any> {
     let url = this._urlService.API_ENDPOINT_DEPARTMENT + "/GetDepartmentMasterList";
