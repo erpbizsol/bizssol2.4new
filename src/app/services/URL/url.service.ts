@@ -29,7 +29,6 @@ API_ENDPOINT_WARE_HOUSE: string = `${this.BASE_URL}/WarehouseMaster`; // shobha
 
  
   API_ENDPOINT_DROPDOWND = `${this.BASE_URL}/Dropdown/GetDropdownList`;
-  
   API_ENDPOINT_HEATTREATMENT: string;
   API_ENDPOINT_Dropdown:String= `${this.BASE_URL}/Dropdown`;
   API_ENDPOINT_TankConfiguration:String= `${this.BASE_URL}/TankConfiguration`;
@@ -38,6 +37,7 @@ API_ENDPOINT_WARE_HOUSE: string = `${this.BASE_URL}/WarehouseMaster`; // shobha
   API_ENDPOINT_TankDailyStock:String= `${this.BASE_URL}/DailyTankStock`;
 
   API_ENDPOINT_ROUTE_PLAN: string = `${this.BASE_URL}/RoutePlan`;
+  API_ENDPOINT_VISIT_MASTER: string = `${this.BASE_URL}/Visit`;
 
   API_ENDPOINT_ACCOUNT_MASTER: string = `${this.BASE_URL}/AccountMaster`;
   
@@ -45,65 +45,6 @@ API_ENDPOINT_WARE_HOUSE: string = `${this.BASE_URL}/WarehouseMaster`; // shobha
 
 
   constructor() { }
-  // BASE_URL: string = environment.BASE_URL;
 
-  // constructor(private authService: AuthService) { }
-
-  // private withAuthKey(endpoint: string): string {
-  //   const authKey = this.authService.getAuthKey();
-  //   return authKey ? `${endpoint}?Auth-Key=${authKey}` : endpoint;
-  // }
-
-  // get API_ENDPOINT_ENQUIRY(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/Enquiry`);
-  // }
-
-  // get API_ENDPOINT_COUNTRY(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/Country`);
-  // }
-
-  // get API_ENDPOINT_STATE(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/State`);
-  // }
-
-  // get API_ENDPOINT_CITY(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/City`);
-  // }
-
-  // get API_ENDPOINT_LEADSOURCE(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/LeadSource`);
-  // }
-
-  // get API_ENDPOINT_INDUSTRYTYPE(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/IndustryType`);
-  // }
-
-  // get API_ENDPOINT_DEPARTMENT(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/Department`);
-  // }
-
-  // get API_ENDPOINT_DESIGNATION(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/Designation`);
-  // }
-
-  // get API_ENDPOINT_SALESPERSON(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/MarketingMan`);
-  // }
-
-  // get API_ENDPOINT_ENQUIRYFOLLOWUP(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/EnquiryFollowUp`);
-  // }
-
-  // get API_ENDPOINT_UOM(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/UOM`);
-  // }
-
-  // get API_ENDPOINT_PRODUCT(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/Item`);
-  // }
-
-  // get API_ENDPOINT_SPECIFICATION(): string {
-  //   return this.withAuthKey(`${this.BASE_URL}/ItemSize`);
-  // }
 }
 

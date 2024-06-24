@@ -1,0 +1,244 @@
+<div class="container">
+    <div class="card-body">
+    <form [formGroup]="userForm">
+      <!-- Panel One -->
+      <h3 class="text-center">Panel One</h3>
+      <div class="panel mb-4 p-4 border">
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label>User Name</label>
+            <input formControlName="userName" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Date</label>
+            <input formControlName="date" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Check In Time</label>
+            <input formControlName="checkInTime" type="text" class="form-control" >
+          </div>
+          <div class="form-group col-md-3">
+            <label>Location</label>
+            <input formControlName="location" type="text" class="form-control">
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label>Altitude</label>
+              <input formControlName="altitude" type="number" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label>Longitude</label>
+              <input formControlName="longitude" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label>Dealer</label>
+            <input formControlName="dealer" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-4">
+            <label>Attachment Upload</label>
+            <input type="file" class="form-control-file" (change)="onFileChange($event)">
+          </div>
+        </div>
+      </div>
+  
+      <!-- Panel Two -->
+      <h3 class="text-center">Panel Two</h3>
+      <div class="panel mb-4 p-4 border">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                    data-bs-target="#home-tab-pane" type="button" role="tab"
+                    aria-controls="home-tab-pane" aria-selected="true">Dashboard</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                    data-bs-target="#contact-tab-pane" type="button" role="tab"
+                    aria-controls="contact-tab-pane" aria-selected="false"
+                    >Pending Order</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Size Wise Sales</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Payment History</button>
+            </li>
+        </ul>
+        <!-- <div class="form-row mb-3">
+          <button type="button" class="btn btn-primary mr-2">Dashboard</button>
+          <button type="button" class="btn btn-warning mr-2">Pending Order</button>
+          <button type="button" class="btn btn-danger mr-2">Size Wise Sales</button>
+          <button type="button" class="btn btn-info">Payment History</button>
+        </div> -->
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label>Credit Limits</label>
+            <input formControlName="creditLimits" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Credit Days</label>
+            <input formControlName="creditDays" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Over Due Amount</label>
+            <input formControlName="overDueAmount" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Outstanding</label>
+            <input formControlName="outstanding" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Target Amount</label>
+            <input formControlName="targetAmount" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Target Shortfall</label>
+            <input formControlName="targetShortfall" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Last Month Sale</label>
+            <input formControlName="lastMonthSale" type="text" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label>Current Month Sale</label>
+            <input formControlName="currentMonthSale" type="text" class="form-control" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="table-responsive">
+          <table mat-table class="mat-elevation-z8">
+            <!-- Columns definitions -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID </th>
+              <td mat-cell *matCellDef="let order"> {{order.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prodname">
+              <th mat-header-cell *matHeaderCellDef> Product Name </th>
+              <td mat-cell *matCellDef="let order"> {{order.prodname}} </td>
+            </ng-container>
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef> Address </th>
+              <td mat-cell *matCellDef="let order"> {{order.address}} </td>
+            </ng-container>
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef> Location </th>
+              <td mat-cell *matCellDef="let order"> {{order.location}} </td>
+            </ng-container>
+            <ng-container matColumnDef="items">
+              <th mat-header-cell *matHeaderCellDef> Items </th>
+              <td mat-cell *matCellDef="let order"> {{order.items}} </td>
+            </ng-container>
+            <ng-container matColumnDef="size">
+              <th mat-header-cell *matHeaderCellDef> Size </th>
+              <td mat-cell *matCellDef="let order"> {{order.size}} </td>
+            </ng-container>
+
+            <!-- Header and Row Declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Panel Three -->
+      <h3 class="text-center">Panel Three</h3>
+      <div class="panel mb-4 p-4 border">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                    data-bs-target="#home-tab-pane" type="button" role="tab"
+                    aria-controls="home-tab-pane" aria-selected="true">Order Booking</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                    data-bs-target="#contact-tab-pane" type="button" role="tab"
+                    aria-controls="contact-tab-pane" aria-selected="false"
+                    >Marketing</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Branding</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Dealer Feedback</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Other Party Stock</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                    aria-controls="profile-tab-pane" aria-selected="false"
+                    >Executive Feedback</button>
+            </li>
+        </ul>
+        <!-- <div class="form-row mb-3">
+          <button type="button" class="btn btn-secondary mr-2">Order Booking</button>
+          <button type="button" class="btn btn-secondary mr-2">Marketing</button>
+          <button type="button" class="btn btn-secondary mr-2">Branding</button>
+          <button type="button" class="btn btn-secondary mr-2">Dealer Feedback</button>
+          <button type="button" class="btn btn-warning mr-2">Other Party Stock</button>
+          <button type="button" class="btn btn-secondary">Executive Feedback</button>
+        </div> -->
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Party Name</th>
+                <th>Stock Qty</th>
+                <th>Sale Qty</th>
+                <th>Price</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input formControlName="partyName" type="text" class="form-control"></td>
+                <td><input formControlName="stockQty" type="number" class="form-control"></td>
+                <td><input formControlName="saleQty" type="number" class="form-control"></td>
+                <td><input formControlName="price" type="number" class="form-control"></td>
+                <td><input formControlName="remarks" type="text" class="form-control"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel mb-4 p-4 border">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Remarks</label>
+          <input formControlName="additionalRemarks" type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+          <label>Next Visit Date</label>
+          <input formControlName="nextVisitDate" type="date" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <button type="submit" class="btn btn-success mr-2">Save</button>
+          <button type="button" class="btn btn-info mr-2">Check Out</button>
+          <button type="button" class="btn btn-danger" (click)="Cancel()">Cancel</button>
+        </div>
+      </div>
+      </div>
+    </form>
+    </div>
+  </div>
+  

@@ -33,20 +33,7 @@ export const routes: Routes = [
                     title: 'Edit FollowUp'
                 }
             },
-            // {
-            //     path: ':Code/edit',
-            //     loadComponent: () => import('../Transactions/enquiry-master/edit-lead/edit-lead.component').then(m => m.EditLeadComponent),
-            //     data: {
-            //         title: 'New Enquiry'
-            //     }
-            // },
-            // {
-            //     path: 'table',
-            //     loadComponent: () => import('../Transactions/enquiry-master/table/table.component').then(m => m.TableComponent),
-            //     data: {
-            //         title: 'Leads'
-            //     }
-            // },
+           
             {
                 path: 'followup/:code',
                 loadComponent: () => import('../Transactions/follow-up/follow-up-table/follow-up-table.component').then(m => m.FollowUpTableComponent),
@@ -76,7 +63,20 @@ export const routes: Routes = [
                     title: 'verify-route-plan'
                 }
             },
-            
+            {
+                path: 'Visit-Master',
+                loadComponent: () => import('./visit-master/visit-master/visit-master.component').then(m => m.VisitMasterComponent),
+                data: {
+                    title: 'Visit-master'
+                }
+            },
+            {
+                path: 'Edit-Visit-Master',
+                loadComponent: () => import('./visit-master/edit-visit-master/edit-visit-master.component').then(m => m.EditVisitMasterComponent),
+                data: {
+                    title: 'edit-Visit-master'
+                }
+            }
         ]
     },
 ]

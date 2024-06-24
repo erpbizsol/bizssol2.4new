@@ -14,16 +14,9 @@ export class FollowUpService {
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    const abhi = JSON.parse(authKey);
-    const userMasterCode = this.authService.getUserMasterCode();
-    const obj = { ...abhi, userMasterCode };
-    this.userCode = obj.UserMaster_Code;
-    console.log("this.userCode--->", this.userCode);
-    // console.log(JSON.stringify(obj));
-
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${obj}`
+      'Auth-Key': JSON.stringify(authKey) // Properly converting object to JSON string
     });
   }
 
@@ -36,26 +29,28 @@ export class FollowUpService {
     const data = {
       enquiryFollowUpList: [payload]
     };
-   
-  
+
     let url = `${this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP}/SaveEnquiryFollowUp?UserId=2`;
     return this._http.post(url, data, { headers: this.headers() });
   }
 
-  deleteFollowup(code: number, reason: any){
-    let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP + "/DeleteEnquiryFollowUp" + `?Code=${code}&UserId=13&ReasonForDelete=${reason}`;
+  deleteFollowup(code: number, reason: any): Observable<any> {
+    const userMasterCode = this.authService.getUserMasterCode();
+    let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP + "/DeleteEnquiryFollowUp" + `?Code=${code}&UserId=${userMasterCode}&ReasonForDelete=${reason}`;
     return this._http.post(url, '', { headers: this.headers() });
   }
 
-  followupDetailsByCode(code: number){
+  followupDetailsByCode(code: number): Observable<any> {
     let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP + "/" + `${code}`;
     return this._http.get(url, { headers: this.headers() });
   }
-  getCustomerContactPersionName(enquiryMasterCode: number){
-    let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP +  "/GetEnquiryContactPersonDetailList" + `?EnquiryMaster_Code=${enquiryMasterCode}`;
+
+  getCustomerContactPersionName(enquiryMasterCode: number): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP + "/GetEnquiryContactPersonDetailList" + `?EnquiryMaster_Code=${enquiryMasterCode}`;
     return this._http.get(url, { headers: this.headers() });
   }
-  getCustomerNameAndFollowUpMode(enquiryMasterCode: number){
+
+  getCustomerNameAndFollowUpMode(enquiryMasterCode: number): Observable<any> {
     let url = this._urlService.API_ENDPOINT_ENQUIRYFOLLOWUP + "/GetEnquiryFollowUpMaxRecord" + `?EnquiryMaster_Code=${enquiryMasterCode}`;
     return this._http.get(url, { headers: this.headers() });
   }

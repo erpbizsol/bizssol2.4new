@@ -17,7 +17,7 @@ export class RoutePlanService {
     const userMasterCode = this.authService.getUserMasterCode();
     const headersConfig: { [key: string]: string } = {
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': authKey || ''
+      'Auth-Key': JSON.stringify(authKey) || ''
     };
     if (userMasterCode) {
       headersConfig['UserMaster-Code'] = userMasterCode;

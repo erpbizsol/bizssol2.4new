@@ -16,20 +16,15 @@ export class MenuService {
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    const userMasterCode = this.authService.getUserMasterCode();
-    const headersConfig: { [key: string]: string } = {
+    return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': authKey || ''
-    };
-    if (userMasterCode) {
-      headersConfig['UserMaster-Code'] = userMasterCode;
-    }
-    return new HttpHeaders(headersConfig);
+      'Auth-Key': JSON.stringify(authKey) // Properly converting object to JSON string
+    });
   }
 
   getMenuItems(): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();
-    const url = `${this._urlService.ERP_SIDE_MENU}/GetUserModuleMasterByUserID?UserID=${145}`;
+    const url = `${this._urlService.ERP_SIDE_MENU}/GetUserModuleMasterByUserID?UserID=${userMasterCode}`;
     return this._http.get(url, { headers: this.headers() });
   }
 }

@@ -19,11 +19,9 @@ export class EnquiryService {
   userMasterCode: string;
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
-    this.userMasterCode = this.authService.getUserMasterCode();
-    console.log("this.userMasterCode--->", this.userMasterCode);
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${authKey}`
+      'Auth-Key': JSON.stringify(authKey)
     });
   }
 

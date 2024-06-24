@@ -50,7 +50,7 @@ export class NewFollowUpComponent {
     const today = new Date().toISOString().split('T')[0];
 
     // Set default values or values from pastSelectedModeAndContactPersonName
-    const defaultFollowupMode = this.pastSelectedModeAndContactPersonName?.FollowupMode || 'call';
+    const defaultFollowupMode = this.pastSelectedModeAndContactPersonName?.NextFollowupMode || 'call';
     const defaultCustomerContactPersonName = this.pastSelectedModeAndContactPersonName?.CustomerContactPersonName || '';
 
     this.newFollowUpForm = this.fb.group({

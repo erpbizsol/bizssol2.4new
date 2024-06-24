@@ -17,7 +17,7 @@ export class CityService {
     this.userMaster_Code=this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': ` ${authKey}`
+      'Auth-Key': JSON.stringify(authKey)
     });
   }
 
