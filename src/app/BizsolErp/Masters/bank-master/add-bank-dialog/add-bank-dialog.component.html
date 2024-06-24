@@ -258,11 +258,11 @@
           </div>
 
           <div class="col-md-6 form-group">
-            <label><b> prifix </b></label> 
+            <label><b> prefix </b></label> 
              <div>
               <input type="text" class="form-control"   maxlength="10"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
               <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
-                <div *ngIf="f['prifix'].hasError('required')">Prifix  is Required</div>
+                <div *ngIf="f['prifix'].hasError('required')">Prefix  is Required</div>
               </div>
                 
              </div>
