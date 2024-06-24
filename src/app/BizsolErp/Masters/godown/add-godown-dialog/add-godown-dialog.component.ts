@@ -80,29 +80,32 @@ export class AddGodownDialogComponent {
   addgodownForm = new FormGroup({
     ware_house_type: new FormControl('', Validators.required),
     sort_order: new FormControl('',Validators.required),
-   ware_house_account_name: new FormControl('', Validators.required),
+   ware_house_account_no: new FormControl('', Validators.required),
     ware_house_name: new FormControl('',Validators.required),
     short_description: new FormControl('',Validators.required),
     compony_alias_name:new FormControl('',Validators.required),
-    address: new FormControl('',Validators.required),
-
     pin: new FormControl('',Validators.required),
+    address: new FormControl('',Validators.required),
     city: new FormControl('',Validators.required),
-
     gst_no: new FormControl('',Validators.required),
     tin_no: new FormControl('',Validators.required),
     cst_no: new FormControl('',Validators.required),
     cin_no: new FormControl(''),//optinal
-    service_tax: new FormControl('',Validators.required),
     mobile_no: new FormControl('',Validators.required),
     email:new FormControl('',[Validators.required,Validators.email]),
 
-    default: new FormControl(false),
     // cms_applicable: new FormControl(false),
     ware_house_group: new FormControl(''),
+
 is_default_ware_house: new FormControl(false),
  
 store_ware_house: new FormControl(false),
+in_transit_ware_house:new FormControl(false),
+
+qaulity_ware_house:new FormControl(''),
+gate_entry:new FormControl(false),
+
+
 
 })
 

@@ -28,7 +28,7 @@ export class PaymetntTermService {
 
   getPaymentList(code: any) {
     let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + `/${code}`
-    return this._http.get(url, { headers: this.headers() });
+    return this._http.get(url);
   }
 
 

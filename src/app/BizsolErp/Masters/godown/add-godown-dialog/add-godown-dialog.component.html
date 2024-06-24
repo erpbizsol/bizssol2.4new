@@ -12,7 +12,7 @@
             <div>
                 <select class="select2 form-control"  formControlName = "ware_house_type">
                     <option value="" selected hidden>Select Ware House Type</option>
-                    <option  value ="">option1</option>
+                    <option  value ="">In Holde</option>
                     <option  value ="">option</option>
 
                 </select>             
@@ -23,9 +23,9 @@
           <div class="col-md-6 form-group">
             <label><b>Sort  order Name</b></label>
             <div>
-              <input type="text" class="form-control"  maxlength="50" placeholder="Enter Alias Name"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
-              <div *ngIf="submitted && f['aliasName'].errors" class="text-danger">
-                <div *ngIf="f['aliasName'].hasError('required')">Alias Name is Required</div>
+              <input type="text" class="form-control"  maxlength="50" placeholder="Enter sort  order"  formControlName="sort_order" (keypress)="allowAlphabetsOnly($event)">
+              <div *ngIf="submitted && f['sort_order'].errors" class="text-danger">
+                <div *ngIf="f['sort_order'].hasError('required')">sort order is Required</div>
               </div>
             </div>
           </div>
@@ -35,9 +35,9 @@
               <label><b>  Ware House Account  No.</b></label>    
               <div>
                 <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
-  " formControlName=""  maxlength="20" placeholder="Enter Account No." >
-                <div *ngIf="submitted && f['accountNo'].errors" class="text-danger">
-                  <div *ngIf="f['accountNo'].hasError('required')">Account No is Required</div>
+  " formControlName="ware_house_account_no"  maxlength="20" placeholder="Enter Account No." >
+                <div *ngIf="submitted && f['ware_house_account_no'].errors" class="text-danger">
+                  <div *ngIf="f['ware_house_account_no'].hasError('required')"> Ware House Account No is Required</div>
                 </div>
               </div>
             </div>
@@ -48,10 +48,10 @@
                   <option value="" selected hidden>Select Currency</option>
                   <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
               </select> -->
-                <input type="text" class="form-control" formControlName="" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
+                <input type="text" class="form-control" formControlName="ware_house_name" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
               </div>
-              <div *ngIf="submitted && f['currency'].errors" class="text-danger">
-                <div *ngIf="f['currency'].hasError('required')">Ware House Account  No.</div>
+              <div *ngIf="submitted && f['ware_house_name'].errors" class="text-danger">
+                <div *ngIf="f['ware_house_name'].hasError('required')">Ware House  name is required</div>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
             <div class="col-md-6 form-group">
               <label><b>Short Description </b></label>
               <div>
-                <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+                <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "short_description"  maxlength="10" placeholder="Enter Short  Description" >
                 <!-- <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
                   <div *ngIf="f['ifscCode'].hasError('required')">Ifsc Code is Required</div>
                 </div> -->
@@ -68,10 +68,10 @@
             <div class="col-md-6 form-group">
               <label><b>Company Alias Name </b></label>
               <div>
-                <input type="text" class="form-control" formControlName = ""   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'swiftCode')">
-                <!-- <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
-                  <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
-                </div> -->
+                <input type="text" class="form-control" formControlName = "compony_alias_name"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'compony_alias_name')">
+                <div *ngIf="submitted && f['compony_alias_name'].errors" class="text-danger">
+                  <div *ngIf="f['compony_alias_name'].hasError('required')"> Compony Alias Name Required</div>
+                </div>
               </div>
             </div>
           </div>
@@ -105,39 +105,42 @@
             <div class="col-md-6 form-group">
               <label><b>City</b></label>
               <div>
-                <select class="select2 form-control"   formControlName="">
+                <select class="select2 form-control"   formControlName="city">
                   <option  selected hidden value="">Select City</option>
-                   <option>jj</option>
+                   <option>delhi</option>
               
               </select>
                           </div>
-                          <!-- <div *ngIf="submitted && f['country'].errors" class="text-danger">
-                            <div *ngIf="f['country'].hasError('required')">Country Name is Required</div>
-                          </div> -->
+                          <div *ngIf="submitted && f['city'].errors" class="text-danger">
+                            <div *ngIf="f['city'].hasError('required')">City is Required</div>
+                          </div>
             </div>
             <div class="col-md-6 form-group">
               <label><b>GST No.</b></label>
               <div>
               
-              <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="" >
-                </div>
+              <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="gst_no" >
+              <div *ngIf="submitted && f['gst_no'].errors" class="text-danger">
+                <div *ngIf="f['gst_no'].hasError('required')">Gst no is Required</div>
+              </div>    
+            </div>
             </div>
           </div>
           <div class="row" mat-dialog-content>
             <div class="col-md-6 form-group">
               <label><b>TIN No.</b></label>
               <div>
-                <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="" >
+                <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="tin_no" >
          
-                <!-- <div *ngIf="submitted && f['city'].errors" class="text-danger">
-                    <div *ngIf="f['city'].hasError('required')">City is Required</div>
-                </div>      --> 
+                <div *ngIf="submitted && f['city'].errors" class="text-danger">
+                    <div *ngIf="f['city'].hasError('required')">Tin no. is Required</div>
+                </div>      
             </div>
             </div>
             <div class="col-md-6 form-group">
               <label><b>CST No</b></label>
               <div>
-                <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15" placeholder="Enter Phone No." >
+                <input type="text" class="form-control"  formControlName="cst_no"  maxlength="15" placeholder="Enter Phone No." >
                 <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
                   <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
                 </div>
@@ -156,18 +159,18 @@
             <div class="col-md-6 form-group">
               <label><b>CIN No.</b></label>
               <div>
-                <input type="text" class="form-control"  formControlName="fax_no"  (input)="transformToUpperCase($event, 'fax_no')" maxlength="14" placeholder="Enter Fax No." >
-                <div *ngIf="submitted && f['fax_no'].errors" class="text-danger">
-                  <div *ngIf="f['fax_no'].hasError('required')">Fax No. is Required</div>
+                <input type="text" class="form-control"  formControlName="cin_no"  (input)="transformToUpperCase($event, 'fax_no')" maxlength="14" placeholder="Enter Fax No." >
+                <div *ngIf="submitted && f['cin_no'].errors" class="text-danger">
+                  <div *ngIf="f['cin_no'].hasError('required')">Cin No. is Required</div>
                 </div>
               </div>
             </div>
             <div class="col-md-6 form-group">
               <label><b>Mobile No.</b></label>
               <div>
-                <input type="text" class="form-control" formControlName="service_tax"  (input)="transformToUpperCase($event, 'service_tax')"  maxlength="15" placeholder="Enter Tervice Tax" >
-                <div *ngIf="submitted && f['service_tax'].errors" class="text-danger">
-                  <div *ngIf="f['service_tax'].hasError('required')">Service Tax is Required</div>
+                <input type="text" class="form-control" formControlName="mobile_no"  (input)="transformToUpperCase($event, 'mobile_no')"  maxlength="15" placeholder="Enter mobile no" >
+                <div *ngIf="submitted && f['mobile_no'].errors" class="text-danger">
+                  <div *ngIf="f['mobile_no'].hasError('required')">Mobile No is Required</div>
                 </div>
               </div>
             </div>
@@ -216,14 +219,20 @@
            <div class="col-md-6 form-group">
               <label><b> Ware house group </b></label>
               <div>
-                <input type="text" class="form-control" formControlName=""  placeholder="Enter " >
+                <input type="text" class="form-control" formControlName="ware_house_group"  placeholder="Enter " >
 
                 <section class="example-section">
-                    <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
+                    <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
                   </section>  
                   <section class="example-section">
-                    <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
+                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
                   </section>  
+                  <section class="example-section">
+                    <mat-checkbox class="example-margin"  formControlName="in_transit_ware_house" ></mat-checkbox>
+                  </section> 
+                  <section class="example-section">
+                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
+                  </section> 
                   </div>
             </div>
   
