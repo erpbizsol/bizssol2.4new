@@ -25,17 +25,13 @@ export class VisitMasterService {
   }
 
   getVisitMasterList(fromDate: any, toDate: any): Observable<any> {
-    debugger
-    const userDetails = this.userService.getUserDetails();
-    console.log("dffdgfdgfffs",this.userService.getUserDetails())
-
-    if (!userDetails || !userDetails.usrID) {
-      throw new Error('User details or usrID is missing');
-    }
-    const userId = userDetails[0].usrID;
-
-    const url = `${this._urlService.API_ENDPOINT_VISIT_MASTER}/GetVerifiedRoutePlanUserAndDateWise?User_ID=${userId}&MarketingMan_Name=ALL&FromDate=${fromDate}&ToDate=${toDate}`;
-    return this._http.get(url, { headers: this.headers() });
+    return this.userService.getUserDetail().pipe(
+      switchMap(userDetails => {
+        const userId = userDetails[0].UserID;
+        const url = `${this._urlService.API_ENDPOINT_VISIT_MASTER}/GetVerifiedRoutePlanUserAndDateWise?User_ID=${userId}&MarketingMan_Name=ALL&FromDate=${fromDate}&ToDate=${toDate}`;
+        return this._http.get(url, { headers: this.headers() });
+      })
+    );
   }
 
 

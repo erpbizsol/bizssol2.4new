@@ -15,8 +15,7 @@ export class ContactPersonService {
     const authKey = this.authService.getAuthKey(); 
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': JSON.stringify(authKey) 
-    });
+      'Auth-Key': ` ${authKey}`     });
   }
 
   getPersonList(): Observable<any> {

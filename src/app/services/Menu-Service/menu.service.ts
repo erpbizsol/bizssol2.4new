@@ -18,8 +18,7 @@ export class MenuService {
     const authKey = this.authService.getAuthKey();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': JSON.stringify(authKey) // Properly converting object to JSON string
-    });
+      'Auth-Key': `${authKey}` || ''    });
   }
 
   getMenuItems(): Observable<any> {

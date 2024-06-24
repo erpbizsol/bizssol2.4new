@@ -32,7 +32,8 @@ export class AppComponent implements OnInit {
     private iconSetService: IconSetService,
     private authService: AuthService,
     private userDetailsService: UserDetailsService,
-    private userService: UserService
+    private userService: UserService,
+    private toasterService: ToasterService
   ) {
     this.titleService.setTitle(this.title);
     // iconSet singleton
@@ -64,6 +65,7 @@ export class AppComponent implements OnInit {
     this.userDetailsService.getUserDetails().subscribe({
       next: (data) => {
         this.userService.setUserDetails(data); 
+        this.toasterService.showSuccess('userDetails get successfully')
       },
       error: (error) => {
         console.error('Error fetching user details', error);
