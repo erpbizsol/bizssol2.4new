@@ -16,8 +16,7 @@ export class FollowUpService {
     const authKey = this.authService.getAuthKey();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': JSON.stringify(authKey) // Properly converting object to JSON string
-    });
+      'Auth-Key': ` ${authKey}`    });
   }
 
   getEnquiryFollowUpList(masterCode: any): Observable<any> {
