@@ -72,6 +72,13 @@ export const routes: Routes = [
                 }
             },
             {
+                path: 'category',
+                loadComponent: () => import('./category-master/category-master.component').then(m => m.CategoryMasterComponent),
+                data: {
+                    title: 'category master'
+                }
+            },
+            {
                 path: 'uom',
                 loadComponent: () => import('./uom/uom.component').then(m => m.UomComponent),
                 data: {
@@ -192,7 +199,7 @@ export const routes: Routes = [
                 data: {
                     title: 'HSN-Code-Master'
                 }
-              },
+            },
 
         ]
     },
