@@ -9,7 +9,11 @@
     }}
   </h5>
   <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
-
+  
+  <mat-radio-group  [(ngModel)]="selectedOption" name="options">
+    <mat-radio-button  value="S">S</mat-radio-button>
+    <mat-radio-button  value="RF" >RF</mat-radio-button>
+  </mat-radio-group>
   <form [formGroup]="categoryForm">
     <div mat-dialog-content>
       <div>
@@ -67,6 +71,8 @@
           <mat-checkbox class="example-margin">Stock Applicable</mat-checkbox>
           <mat-checkbox class="example-margin">Rejected</mat-checkbox>
         </section>
+       
+        
       </div>
     </div>
     <div mat-dialog-actions class="content-end">

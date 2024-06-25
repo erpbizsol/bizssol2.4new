@@ -76,8 +76,8 @@ export class CategoryMasterComponent {
 
   addDialog(value: any) {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
-      width: '400px',
-      height: '390px',
+      width: '410px',
+      height: '425px',
       disableClose: true,
       data: { element: value }
     });

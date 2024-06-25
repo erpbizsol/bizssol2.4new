@@ -65,7 +65,7 @@ export class StateTableComponent implements OnInit {
   action: string = 'Edit';
   status: string = 'Incomplete';
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['SN', 'StateName', 'StateShortName', 'StateCode','CountryName', 'Action'];
+  displayedColumns: string[] = ['SN', 'StateName', 'StateShortName', 'StateCode', 'CountryName', 'Action'];
   columnDisplayNames: { [key: string]: string } = {
     'SN': 'SN',
     'CountryName': 'Country Name',
@@ -80,7 +80,7 @@ export class StateTableComponent implements OnInit {
   @ViewChild(MatPaginator) _paging!: MatPaginator;
   countrylist: any = [];
   statelist: any = [];
-  selectedcountry:any;
+  selectedcountry: any;
   public createvisible = false;
   public updatevisible = false;
   item: any;
@@ -95,14 +95,14 @@ export class StateTableComponent implements OnInit {
   }
   Updatetoggle() {
     this.updatevisible = !this.updatevisible;
-    
+
   }
   handleLiveDemoChange(event: boolean) {
-   this.createvisible=event;
+    this.createvisible = event;
 
-  } 
-  handleLiveupdateChange(event:any){
-    this.updatevisible=event;
+  }
+  handleLiveupdateChange(event: any) {
+    this.updatevisible = event;
   }
 
   constructor(private _countryService: CountryService, private _stateService: StateService, private fb: FormBuilder, private dialog: MatDialog) { }
@@ -117,65 +117,73 @@ export class StateTableComponent implements OnInit {
     this.stateForm = this.fb.group({
       countryName: ['', [Validators.required]],
       stateName: ['', [Validators.required]],
-      stateInitial: ['', [Validators.required]],
+      stateInitial: ['', Validators.required],
       stateCode: ['', [Validators.required]],
     })
   }
-//////////////////////////////////////////////////////Validation for create modal in state///////////////////////////////////////////
-/////////////////////////////////State Name////////////////////////////////////
-specialCharacternumberValidator(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-  const pattern = /[a-zA-Z ]/;
+  //////////////////////////////////////////////////////Validation for create modal in state///////////////////////////////////////////
+  /////////////////////////////////State Name////////////////////////////////////
+  specialCharacternumberValidator(event: KeyboardEvent) {
+    const inputChar = String.fromCharCode(event.charCode);
+    const pattern = /[a-zA-Z ]/;
 
-  if (!pattern.test(inputChar)) {
-    // If the input character is not an alphabet, prevent it from being entered into the input field
-    event.preventDefault();
-  }
-}
-
- stateinitialvalidation(event: KeyboardEvent) {
-  const inputChar = String.fromCharCode(event.charCode);
-
-  // Only allow alphabetic characters (both uppercase and lowercase)
-  const pattern = /[a-zA-Z.]/;
-
-  if (!pattern.test(inputChar)) {
-    // If the input character is not alphabetic, prevent it from being entered
-    event.preventDefault();
-    return;
+    if (!pattern.test(inputChar)) {
+      // If the input character is not an alphabet, prevent it from being entered into the input field
+      event.preventDefault();
+    }
   }
 
-  // Convert lowercase letter to uppercase
-  const input = inputChar.toUpperCase();
+  stateinitialvalidation(event: KeyboardEvent) {
+    // Ensure the input is alphabetic characters (both uppercase and lowercase)
+    const inputChar = String.fromCharCode(event.charCode);
+    const pattern = /[a-zA-Z]/;
+    
+    if (!pattern.test(inputChar)) {
+      // If the input character is not alphabetic, prevent it from being entered
+      event.preventDefault();
+      return;
+    }
+  
+    // Convert lowercase letter to uppercase
+    const input = inputChar.toUpperCase();
+  
+    // Get current input value and selection information
+    const inputElement = event.target as HTMLInputElement;
+    let currentValue = inputElement.value || '';
+    const selectionStart = inputElement.selectionStart || 0;
+    const selectionEnd = inputElement.selectionEnd || 0;
+  
+    // Calculate new value based on current selection
+    let newValue =
+      currentValue.slice(0, selectionStart) +
+      input +
+      currentValue.slice(selectionEnd);
+  
+    // Limit the input to 10 characters
+    if (newValue.length > 10) {
+      // Adjust newValue to fit within the limit
+      newValue = newValue.slice(0, 10);
+    }
+  
+    // Update the input field value with the modified input
+    inputElement.value = newValue;
+  
+    // Prevent default behavior
+    event.preventDefault();
+  }
+  
 
-  // Update the input field value with the modified input
-  const inputElement = event.target as HTMLInputElement;
-  const currentValue = inputElement.value || '';
-  const selectionStart = inputElement.selectionStart || 0;
-  const selectionEnd = inputElement.selectionEnd || 0;
-  const newValue =
-    currentValue.slice(0, selectionStart) +
-    input +
-    currentValue.slice(selectionEnd);
 
-  inputElement.value = newValue;
-
-  // Prevent default behavior
-  event.preventDefault();
-}
-
-
-statecodevalidation(event:KeyboardEvent){
-const inputChar=String.fromCharCode(event.charCode);
-const pattern=/[0-9]/;
-if(!pattern.test(inputChar)){
-  event.preventDefault()
-}
-}
-
+  statecodevalidation(event: KeyboardEvent) {
+    const inputChar = String.fromCharCode(event.charCode);
+    const pattern = /[0-9]/;
+    if (!pattern.test(inputChar)) {
+      event.preventDefault()
+    }
+  }
   getStateList(country: string) {
 
-    this.selectedcountry=country;
+    this.selectedcountry = country;
     console.log(this.selectedcountry);
 
     this._stateService.getStatesList(country).subscribe((res: any[]) => {
@@ -197,7 +205,6 @@ if(!pattern.test(inputChar)){
       StateShortName: this.stateForm.value.stateInitial,
       userMaster_Code: 13,
     }
-    // console.log("state", obj);
 
     if (obj.StateName === this.statelist.stateName) {
       alert(`Please Check ! Country Name already exists ${obj.StateName}`)
@@ -211,7 +218,7 @@ if(!pattern.test(inputChar)){
             this.toggleLiveDemo();
           }
           alert(responseObj.Msg)
-          this.getStateList( this.countryName);
+          this.getStateList(this.countryName);
         },
         error: console.log,
       })
@@ -219,7 +226,7 @@ if(!pattern.test(inputChar)){
     this.stateForm.reset();
 
     this.getStateList(this.selectedcountry);
-    
+
 
   }
   getCountryList() {
@@ -246,7 +253,7 @@ if(!pattern.test(inputChar)){
         this._stateService.deleteState(Code, reason).subscribe((res) => {
           console.log(`${Code} has been deleted`);
 
-          const responseObj =JSON.parse(JSON.stringify(res));
+          const responseObj = JSON.parse(JSON.stringify(res));
           alert(responseObj.Msg);
           this.getStateList(this.selectedcountry);
         });
@@ -293,7 +300,7 @@ if(!pattern.test(inputChar)){
 
     if (!updatedInitial) {
       alert("State Initial is required.");
-     return       
+      return
     }
     if (!updatedCode) {
       alert("State Code is required.");
@@ -318,7 +325,7 @@ if(!pattern.test(inputChar)){
           this.getStateList(this.selectedcountry);
           this.stateForm.reset();
         }
-       
+
         this.updatevisible = false;
 
       },

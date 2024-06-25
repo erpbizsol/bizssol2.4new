@@ -21,7 +21,7 @@ export class CategoryDialogComponent {
 
   elementData: any;
   categoryForm !: FormGroup;
-
+  selectedOption:string;
   submitted: boolean = false
   isMechanical: boolean;
   name: any;
@@ -52,14 +52,14 @@ export class CategoryDialogComponent {
     //   this.snackBarService.showErrorMessage("Please Fill All the Field");
     //   return;
     // }
-
-
+   
+    console.log(this.selectedOption);
     let data = [{
       code: this.elementData.code ? this.elementData.code : 0,
       categoryName: this.categoryForm.value.category,
       categoryDesc: this.categoryForm.value.categorydescription,
       componentCostPercentage: this.categoryForm.value.componentcost,
-      FormType: 'S',
+      FormType: this.selectedOption,
       StockApplicable: 'N',
       RejectedItem: 'N'
     }]
