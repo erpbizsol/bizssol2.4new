@@ -63,7 +63,6 @@ export class AppComponent implements OnInit {
   }
 
   getUserDetails() {
-    debugger
     this.userDetailsService.getUserDetails().subscribe({
       next: (data) => {
         this.userService.setUserDetails(data); 

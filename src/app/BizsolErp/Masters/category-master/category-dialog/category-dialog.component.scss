@@ -44,5 +44,10 @@ ul {
   list-style-type: none;
   margin-top: 4px;
 }
+.mat-radio-button ~ .mat-radio-button {
+  padding-right: 16px;
+  margin-right: 10px;
+}
+
 
 
