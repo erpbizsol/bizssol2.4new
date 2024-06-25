@@ -177,9 +177,6 @@ export class TableComponent implements OnInit {
   }
   applyFilter(filterValue: string) {
     if (this.selectedStatus == 'ALL') {
-      //this.selectedStatus = null; // or set to a default value if needed
-      //this.applyFilter(''); // Clear current filter
-      //this.dataSource.filter = this.selectedStatus;
       this.dataSource.filter = '';
     }
     else {

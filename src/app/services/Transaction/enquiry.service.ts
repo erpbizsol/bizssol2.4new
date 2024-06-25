@@ -11,14 +11,10 @@ export class EnquiryService {
 
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
-  // private headers = new HttpHeaders({
-  //   'Content-Type': 'application/json; charset=utf-8',
-  //   'Authorization': this.authService.getAuthKey()
-  // });
-
   userMasterCode: string;
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
+    this.userMasterCode = this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
       'Auth-Key': JSON.stringify(authKey)

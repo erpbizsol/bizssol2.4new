@@ -115,6 +115,11 @@ export class NewCustomerComponent implements OnInit {
       this.editCode = params['Code'];
       this.getEnquirByCode()
     });
+    this._http.get(this._urlService.API_ENDPOINT_COUNTRY + '/GetCountryMasterList').subscribe((res: any) => {
+      this.countryList = res;
+    })
+    this.state('India');
+
   }
 
   showexisting() {
@@ -193,6 +198,17 @@ export class NewCustomerComponent implements OnInit {
     if (tabPane) tabPane.classList.add('show', 'active');
   }
 
+  state(val) {
+    this._state.getStates(val).subscribe(res => {
+      this.stateList = res;
+    })
+  }
+  city(val) {
+    this._city.getCity(val).subscribe(res => {
+      this.cityList = res;
+    });
+  }
+
   getEnquirByCode(): void {
     const enquiryCode = this.newCode == undefined ? this.editCode : this.newCode;
     this._enquiryService.GetEnquiryDetailsByCode(enquiryCode).subscribe((res: any) => {
@@ -227,11 +243,6 @@ export class NewCustomerComponent implements OnInit {
     }
     this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, customerType).subscribe((res: any) => {
       this.customerTypeList = res;
-
-      this._http.get(this._urlService.API_ENDPOINT_COUNTRY + '/GetCountryMasterList').subscribe((res: any) => {
-        this.countryList = res;
-        // this.state('India');
-      })
     })
 
     const EnquiryType = {
@@ -252,7 +263,7 @@ export class NewCustomerComponent implements OnInit {
     this._enquiryService.GetAccountDetails(selectedCompany).subscribe((res: any) => {
       this.companyDetails = res.AccountMaster[0];
       this.existingPersonNameList = res.AccountContactPersonDetail;
-      this.state(this.companyDetails.Nation);
+      // this.state(this.companyDetails.Nation);
       this.city(this.companyDetails.State);
 
       this.companyDetailsPopulates();
@@ -507,7 +518,7 @@ export class NewCustomerComponent implements OnInit {
     this.newCustomerForm.get('pin').setValue(val); // Set the value in the form control
     this._enquiryService.pincode(val).subscribe(res => {
       this.getPincode = res;
-      this.state(this.getPincode.CountryName);
+      // this.state(this.getPincode.CountryName);
       this.city(this.getPincode.StateName)
       // Call pinPoppulate() after getPincode data is available
       this.pinPoppulate();
@@ -525,7 +536,7 @@ export class NewCustomerComponent implements OnInit {
 
   getState(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    this.newCustomerForm.get('country').setValue(selectedValue); // Set the value in the form control
+    // this.newCustomerForm.get('country').setValue(selectedValue); // Set the value in the form control
 
     this._state.getStates(selectedValue).subscribe((res: any) => {
       this.stateList = res;
@@ -534,19 +545,9 @@ export class NewCustomerComponent implements OnInit {
   getCityList(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     // set state input value of form control named 'state' in form group
-    this.newCustomerForm.get('state').setValue(selectedValue); // Set the value in the form control
+    // this.newCustomerForm.get('state').setValue(selectedValue); // Set the value in the form control
 
     this._city.getCity(selectedValue).subscribe((res: any) => {
-      this.cityList = res;
-    });
-  }
-  state(val) {
-    this._state.getStates(val).subscribe(res => {
-      this.stateList = res;
-    })
-  }
-  city(val) {
-    this._city.getCity(val).subscribe(res => {
       this.cityList = res;
     });
   }

@@ -166,10 +166,9 @@
                                                         </div>
 
                                                         <div class="col-md-6 form-group">
-                                                            <label for="extCustomer" class="required">Country</label>
-                                                            <select id="abc" formControlName="country"
-                                                                placeholder="select country" name="extCustomer"
-                                                                class="form-control" (change)="getState($event)">
+                                                            <label class="required">Country</label>
+                                                            <select formControlName="country" class="form-control"
+                                                                (change)="getState($event)">
                                                                 <option selected hidden value="">Select</option>
                                                                 <option *ngFor="let country of countryList"
                                                                     [value]="country.CountryName">{{
@@ -185,9 +184,8 @@
                                                         </div>
 
                                                         <div class="col-md-6 form-group">
-                                                            <label for="extCustomer" class="required">State</label>
-                                                            <select id="abc" class="form-control"
-                                                                formControlName="state" placeholder="select state"
+                                                            <label class="required">State</label>
+                                                            <select class="form-control" formControlName="state"
                                                                 (change)="getCityList($event)">
                                                                 <option selected hidden value="">Select</option>
                                                                 <option *ngFor="let state of stateList"
@@ -204,9 +202,8 @@
                                                         </div>
 
                                                         <div class="col-md-6 form-group">
-                                                            <label for="extCustomer" class="required">City/Town</label>
-                                                            <select id="abc" formControlName="city"
-                                                                class="form-control">
+                                                            <label class="required">City/Town</label>
+                                                            <select formControlName="city" class="form-control">
                                                                 <option selected hidden value="">Select</option>
                                                                 <option *ngFor="let city of cityList"
                                                                     [value]="city.CityName">{{
