@@ -2,6 +2,8 @@
   <h5 class="header-bg" mat-dialog-title>
 
     {{ this.elementData.Code === undefined ? 'Add Bank' : 'Update  Bank' }}
+    <i class="bi bi-x-circle" style="float: right;" (click)="onNoClick()">X</i>
+
   </h5>
   <div class="row">
     <form [formGroup]="paymentTermsForm">
