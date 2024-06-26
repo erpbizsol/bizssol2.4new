@@ -2,24 +2,24 @@
     <div class="card">
         <div class="card-body">
             <!-- <form #routeDailog="ngForm" (ngSubmit)="register(routeDailog)"> -->
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Plan Date</label>
-                            <input type="date" class="form-control" [(ngModel)]="todayDate"
-                                (change)="onDateInputChange($event)">
-                        </div>
-                    </div>
-                    <div class="col-md-7"></div>
-                    <div class="col-md-3 mt-4 text-end">
-                        <button type="button" class="btn btn-primary" (click)="addDialog('')">Create new <i
-                                class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Plan Date</label>
+                        <input type="date" class="form-control" [(ngModel)]="todayDate"
+                            (change)="onDateInputChange($event)">
                     </div>
                 </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-3 mt-4 text-end">
+                    <button type="button" class="btn btn-primary" (click)="addDialog('')">Create new <i
+                            class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                </div>
+            </div>
             <!-- </form> -->
             <div class="row">
                 <div class="col-md-12">
-                    <table border="1" class="table">
+                    <!-- <table border="1" class="table">
                         <thead>
                             <tr>
                                 <th>Visit type</th>
@@ -27,7 +27,6 @@
                                 <th>City Name</th>
                                 <th>State Name</th>
                                 <th>Description</th>
-                                <!-- <th>Status</th> -->
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -37,18 +36,67 @@
                                 <td>{{data?.DealerName}}</td>
                                 <td>{{data?.CityName}}</td>
                                 <td>{{data?.StateName}}</td>
-<td>{{data?.Description}}</td>
-                                <td>{{data?.Code}}</td>
+                                <td>{{data?.Description}}</td>
                                 <td>
                                     <button class=" btn btn-primary" (click)="addDialog(data)"><i class="fa fa-pencil"
                                             aria-hidden="true" title="Edit"></i></button>
                                     &nbsp;&nbsp;
-                                    <button class="btn btn-danger" (click)="deleteRoutePlan(data.Code)"><i class="fa fa-trash-o" aria-hidden="true"
-                                            title="Delete"></i></button>
+                                    <button class="btn btn-danger" (click)="deleteRoutePlan(data.Code)"><i
+                                            class="fa fa-trash-o" aria-hidden="true" title="Delete"></i></button>
                                 </td>
                             </tr>
                         </tbody>
+                    </table> -->
+
+                    <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+                        <!-- class="mat-elevation-z8"  -->
+                        <ng-container matColumnDef="sNo">
+                            <th mat-header-cell *matHeaderCellDef> S.No </th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="visitType">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header="VisitType">Visit Type</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.VisitType}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="dealerName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header="DealerName">Dealer Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element?.DealerName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cityName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header="CityName">City Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element?.CityName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="stateName">
+                            <th mat-header-cell *matHeaderCellDef ma t-sort-header="StateName">State Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.StateName}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header="Description">Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button class=" btn btn-primary" (click)="addDialog(element)"><i class="fa fa-pencil"
+                                        aria-hidden="true" title="Edit"></i></button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-danger" (click)="deleteRoutePlan(element.Code)"><i
+                                        class="fa fa-trash-o" aria-hidden="true" title="Delete"></i></button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]" #MatPaginator1></mat-paginator>
                 </div>
             </div>
 

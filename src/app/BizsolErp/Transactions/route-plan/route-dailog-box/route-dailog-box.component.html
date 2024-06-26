@@ -81,7 +81,7 @@
             <div class="col-md-4 form-group">
                 <label for="description">Description</label>
                 <input type="text" formControlName="description" class="form-control" maxlength="">
-                <div *ngIf="routePlanForm.controls['description'].touched && !routePlanForm.controls['description'].valid" class="text-danger validation-msg">
+                <div *ngIf="submitted && routePlanForm.controls['description'].touched && !routePlanForm.controls['description'].valid" class="text-danger validation-msg">
                     Dealer name is required 
                 </div>
             </div>
@@ -95,5 +95,5 @@
 
 <div mat-dialog-actions align="end">
     <button class="btn btn-primary" mat-dialog-close>Cancel</button>&nbsp;
-    <button class="btn btn-success" type="submit" (click)="saveData()">Save</button>
+    <button class="btn btn-success" type="submit" (click)="saveData()">   {{editData?.Code == undefined || ''||0 ? 'Save':'Update'}}</button>
 </div>

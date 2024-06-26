@@ -104,6 +104,8 @@ export class DefaultLayoutComponent implements OnInit {
       const menuItem: INavData = { 
         name: item.ModuleDesp,
         iconComponent: { name: 'cil-notes' },
+        // iconComponent: { name: item.icon },
+        
         children: [],
         expanded: false,
         url: urlMapping[item.ModuleDesp], 
@@ -147,7 +149,10 @@ export class DefaultLayoutComponent implements OnInit {
   // Update selected item on click
   onNavItemClicked(event: Event) {
     const clickedElement = event.target as HTMLElement;
+    const noOFChildElement=clickedElement.childElementCount;
+    if(noOFChildElement==0){
     const itemName = clickedElement.innerText.trim();
     this.headerService.setSelectedItem(itemName);
+    }
   }
 }

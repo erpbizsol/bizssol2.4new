@@ -5,9 +5,8 @@
     <div class="row mb-1">
         <div class="col-md-1"></div>
 
-        <div class="col-md-5">
-            <label>Country</label>
-
+        <div class="col-md-5 mobRowAngularMaterial">
+            <mat-label>Country</mat-label>
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
                 <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
                     <mat-option value="All">All</mat-option>
@@ -15,10 +14,8 @@
                         }}</mat-option>
                 </mat-select>
             </mat-form-field>
-
         </div>
-        <div class="col-md-5 text-end">
-            
+        <div class="col-md-5 text-end mtBtn12">
             <button class="btn btn-primary" (click)="toggleLiveDemo()">Create new <i class="fa fa-plus-circle"
                     aria-hidden="true"></i></button>
         </div>
@@ -134,7 +131,7 @@
             
                 </div>
                 <div class="col-md-5 form-group">
-                    <label for="statecode">State Code</label>
+                    <mat-label for="statecode">State Code</mat-label>
                     <input class="form-control" type="text" formControlName="stateCode" maxlength="2" (keypress)="statecodevalidation($event)">
                     <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
                     <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
