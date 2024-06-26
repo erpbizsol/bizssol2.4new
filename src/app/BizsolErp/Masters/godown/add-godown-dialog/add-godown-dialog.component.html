@@ -1,8 +1,7 @@
 <div class="delete-confirmation-dialog">
     <h5 class="header-bg" mat-dialog-title>
-        kkk
-  
-      <!-- {{ this.elementData.Code === undefined ? 'Add Ware House' : 'Update  Ware House' }} -->
+      Add Godown
+        <!-- {{ this.editData.Code === undefined ? 'Add Ware House' : 'Update  Ware House' }} -->
     </h5>
     <div class="row">
       <form [formGroup]="addgodownForm">
@@ -222,17 +221,40 @@
                 <input type="text" class="form-control" formControlName="ware_house_group"  placeholder="Enter " >
 
                 <section class="example-section">
+                  <label>Default Ware house</label>
                     <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
                   </section>  
+                  <label>Store Warehouse</label>
+
                   <section class="example-section">
                     <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
                   </section>  
                   <section class="example-section">
+                    <label>In transit Warehouse</label>
+
                     <mat-checkbox class="example-margin"  formControlName="in_transit_ware_house" ></mat-checkbox>
                   </section> 
                   <section class="example-section">
+                    <label>Qaulity  WareHouse</label>
+
                     <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
                   </section> 
+                  <section class="example-section">
+                    <label>Gate Entry  Mandotry</label>
+
+                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
+                  </section>
+
+                  <section class="example-section">
+                    <label>Show stock on web </label>
+
+                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
+                  </section>
+                  <section class="example-section">
+                    <label>Application in dispatch  </label>
+
+                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
+                  </section>
                   </div>
             </div>
   
@@ -243,7 +265,7 @@
         <div mat-dialog-actions class="content-end">
           <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
           <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >
-             {{ this.elementData.Code === undefined ? 'Save' : 'Update ' }}
+             <!-- {{ this.editData.Code === undefined ? 'Save' : 'Update ' }} --> Save
   
           </button>
         </div>
