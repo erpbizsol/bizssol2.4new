@@ -13,6 +13,7 @@ API_ENDPOINT_STATE: string = `${this.BASE_URL}/State`;//priyabrath
 API_ENDPOINT_CITY: string = `${this.BASE_URL}/City`;//priyabrath
 API_ENDPOINT_CHEMICAL: string = `${this.BASE_URL}/Chemical`; //priyabrath
 API_ENDPOINT_CATEGORY: string = `${this.BASE_URL}/Category`; //priyabrath
+API_ENDPOINT_SUBCATEGORY: string = `${this.BASE_URL}/SubCategory`; //priyabrath
 API_ENDPOINT_LEADSOURCE: string = `${this.BASE_URL}/LeadSource`;
 API_ENDPOINT_INDUSTRYTYPE: string = `${this.BASE_URL}/IndustryType`;
 API_ENDPOINT_DEPARTMENT: string = `${this.BASE_URL}/Department`;
