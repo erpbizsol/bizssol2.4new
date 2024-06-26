@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import {CategoryService} from '../../../../services/Master/category.service'
+import { CategoryService } from '../../../../services/Master/category.service'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
@@ -13,17 +13,17 @@ import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.serv
   selector: 'app-category-dialog',
   standalone: true,
   providers: [CategoryService],
-  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,FormsModule],
+  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   templateUrl: './category-dialog.component.html',
   styleUrl: './category-dialog.component.scss'
 })
 export class CategoryDialogComponent {
-  
-  elementData:any;
-  categoryForm !:FormGroup;
 
+  elementData: any;
+  categoryForm !: FormGroup;
+  selectedOption:string;
   submitted: boolean = false
-  isMechanical:boolean;
+  isMechanical: boolean;
   name: any;
 
   constructor(
@@ -33,6 +33,7 @@ export class CategoryDialogComponent {
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
     private fb: FormBuilder) {
     this.elementData = data.element
+    this.setForm()
   }
 
 
@@ -41,54 +42,53 @@ export class CategoryDialogComponent {
       category: ['', [Validators.required,]],
       categorydescription: ['', [Validators.required,]],
       componentcost: ['', [Validators.required,]],
-      stockapplicable: ['N'] ,
-      rejected:['N']
     })
   }
 
-  savechemicaldata() {
+  savecategorydata() {
     this.submitted = true;
 
-    if(this.categoryForm.invalid){
-      this.snackBarService.showErrorMessage("Please Fill All the Field");
-      return
-    }
-    
-
+    // if(this.categoryForm.invalid){
+    //   this.snackBarService.showErrorMessage("Please Fill All the Field");
+    //   return;
+    // }
+   
+    console.log(this.selectedOption);
     let data = [{
-      Code: this.elementData.Code ? this.elementData.Code : 0,
-      ChemicalName: this.categoryForm.value.chemical,
-      SortOrder: this.categoryForm.value.sortorder,
-      InspectionMethod: this.categoryForm.value.inspectionmethod,
-      isChemicalProperty:this.categoryForm.value.status,
-      UserMaster_Code: 0,
+      code: this.elementData.code ? this.elementData.code : 0,
+      categoryName: this.categoryForm.value.category,
+      categoryDesc: this.categoryForm.value.categorydescription,
+      componentCostPercentage: this.categoryForm.value.componentcost,
+      FormType: this.selectedOption,
+      StockApplicable: 'N',
+      RejectedItem: 'N'
     }]
-    if (this.elementData.Code === undefined || 0) {
+    if (this.elementData.code === undefined || 0) {
       this._categoryService.saveCategory(data).subscribe({
-        next:((res:any)=>{
+        next: ((res: any) => {
           this.categoryForm.reset()
           this.dialogRef.close();
           this.snackBarService.showSuccessMessage(res.Msg);
         }),
-        error:(err:any)=>{
+        error: (err: any) => {
           console.log(err.error.message);
           this.snackBarService.showErrorMessage(err?.error?.Msg);
         }
       })
 
     }
-    else{
+    else {
       this._categoryService.saveCategory(data).subscribe({
-        next:((res:any)=>{
+        next: ((res: any) => {
           this.categoryForm.reset()
           this.dialogRef.close();
           this.snackBarService.showSuccessMessage(res.Msg);
         }),
-        error:(err:any)=>{
+        error: (err: any) => {
           console.log(err.error.message);
           this.snackBarService.showErrorMessage(err?.error?.Msg);
         }
-      }) 
+      })
     }
   }
 

@@ -146,7 +146,7 @@ citypincodevalidation(event:KeyboardEvent){
       error: console.log,
     })
     this.cityForm.reset();
-    this.updatevisible = false;
+    this.createvisible = false;
   }
   /////////////////////////////////////////////////////////////Update City////////////////////////////////////////////////////////////////////
   editState(item: any) {

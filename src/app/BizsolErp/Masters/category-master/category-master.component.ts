@@ -44,11 +44,12 @@ export class CategoryMasterComponent {
         this.dataSource.data = res.reverse();
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        // console.log(res);
       },
       error: (err: any) => {
         // console.log(err.error.Msg);
       }
-    });
+    }); 
   }
 
 //////////////////////////////////////////////Delete function for the category//////////////////////////////////////////////
@@ -75,8 +76,8 @@ export class CategoryMasterComponent {
 
   addDialog(value: any) {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
-      width: '400px',
-      height: '380px',
+      width: '410px',
+      height: '425px',
       disableClose: true,
       data: { element: value }
     });

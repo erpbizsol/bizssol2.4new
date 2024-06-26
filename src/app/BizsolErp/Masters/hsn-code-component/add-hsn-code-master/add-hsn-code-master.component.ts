@@ -1,7 +1,7 @@
-import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -34,66 +34,116 @@ interface DataElement2 {
   styleUrls: ['./add-hsn-code-master.component.scss'],
   providers: [HSNCodeMasterService]
 })
-export class AddHSNCodeMasterComponent implements AfterViewInit {
+export class AddHSNCodeMasterComponent implements OnInit {
   displayedColumns1: string[] = ['sNo', 'ApplicableDate1', 'MEISRate', 'DBKRate'];
   displayedColumns2: string[] = ['sNo', 'ApplicableDate2', 'Rate', 'SpecialRate', 'CessRate'];
 
-  elementData: any;
-  submitted: boolean = false;
-
-  dataSource1 = new MatTableDataSource<DataElement>([
-    { ApplicableDate1: '2024-01-01', MEISRate: 5, DBKRate: 2 },
-  ]);
-  dataSource2 = new MatTableDataSource<DataElement2>([
-    { ApplicableDate2: '2024-01-01', Rate: 5, SpecialRate: 2, CessRate: 1 },
-  ]);
+  // dataSource1 = new MatTableDataSource<DataElement>([]);
+  // dataSource2 = new MatTableDataSource<DataElement2>([]);
 
   newHSNCodeForm: FormGroup;
+  tabIndex: number = 0;
 
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('paginator2') paginator2!: MatPaginator;
-
+  elementData: any;
+  i: string | number;
 
   constructor(
     private dialogRef: MatDialogRef<AddHSNCodeMasterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _HSNCodeMasterService: HSNCodeMasterService, private fb: FormBuilder) 
-    {
+    private fb: FormBuilder,
+    private _HSNCodeMasterService: HSNCodeMasterService
+  ) {
     this.elementData = data.element;
-    this.newHSNCodeForm = new FormGroup({
-      Code: new FormControl('0'),
-      HSNCode: new FormControl('', [Validators.required]),
-      ProductionDescription: new FormControl('', [Validators.required]),
-      ApplicableDate1: new FormControl('', [Validators.required]),
-      MEISRate: new FormControl('', [Validators.required]),
-      DBKRate: new FormControl('', [Validators.required]),
-      ApplicableDate2: new FormControl('', [Validators.required]),
-      Rate: new FormControl('', [Validators.required]),
-      SpecialRate: new FormControl('', [Validators.required]),
-      CessRate: new FormControl('', [Validators.required])
+
+    this.newHSNCodeForm = this.fb.group({
+      Code: ['0'],
+      HSNCode: ['', Validators.required],
+      ProductionDescription: ['', Validators.required],
+      dataSource1: this.fb.array([]),
+      dataSource2: this.fb.array([])
     });
+
+    // this.addDataSource1Item();
+    // this.addDataSource2Item();
+  }
+  ngOnInit(): void {
+    this.addRow();
+    this.addRow2();
   }
 
-  NgOnInIt() {
-    this.getTabIndex({});
-  }
-  ngAfterViewInit() {
-    this.dataSource1.paginator = this.paginator1;
-    this.dataSource2.paginator = this.paginator2;
+  // ngAfterViewInit() {
+  //   this.dataSource1.paginator = this.paginator1;
+  //   this.dataSource2.paginator = this.paginator2;
+  // }
+
+  get dataSource1(): FormArray {
+    return this.newHSNCodeForm.get('dataSource1') as FormArray;
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  get dataSource2(): FormArray {
+    return this.newHSNCodeForm.get('dataSource2') as FormArray;
   }
 
-  tabIndex: number = 0
+  // createDataSource1Item(): FormGroup {
+  //   return this.fb.group({
+  //     ApplicableDate1: ['', Validators.required],
+  //     MEISRate: ['', Validators.required],
+  //     DBKRate: ['', Validators.required]
+  //   });
+  // }
+
+  // createDataSource2Item(): FormGroup {
+  //   return this.fb.group({
+  //     ApplicableDate2: ['', Validators.required],
+  //     Rate: ['', Validators.required],
+  //     SpecialRate: ['', Validators.required],
+  //     CessRate: ['', Validators.required]
+  //   });
+  // }
+  addRow() {
+    this.dataSource1.push(this.fb.group({
+      ApplicableDate1: ['', Validators.required],
+      MEISRate: ['', Validators.required],
+      DBKRate: ['', Validators.required]
+    }));
+  }
+  addRow2() {
+    this.dataSource2.push(this.fb.group({
+      ApplicableDate2: ['', Validators.required],
+      Rate: ['', Validators.required],
+      SpecialRate: ['', Validators.required],
+      CessRate: ['', Validators.required]
+    }));
+  }
+  // addDataSource1Item(): void {
+  //   this.dataSource1Array.push(this.createDataSource1Item());
+  //   ApplicableDate2: ['', Validators.required],
+  //   Rate: ['', Validators.required],
+  //   SpecialRate: ['', Validators.required],
+  //   CessRate: ['', Validators.required]
+  //   this.dataSource1.data = this.dataSource1Array.controls.map(control => control.value);
+  // }
+
+  // addDataSource2Item(): void {
+  //   this.dataSource2Array.push(this.createDataSource2Item());
+  //   this.dataSource2.data = this.dataSource2Array.controls.map(control => control.value);
+  // }
+
+  // removeDataSource1Item(index: number): void {
+  //   this.dataSource1Array.removeAt(index);
+  //   this.dataSource1.data = this.dataSource1Array.controls.map(control => control.value);
+  // }
+
+  // removeDataSource2Item(index: number): void {
+  //   this.dataSource2Array.removeAt(index);
+  //   this.dataSource2.data = this.dataSource2Array.controls.map(control => control.value);
+  // }
+
   getTabIndex(event: any) {
     this.tabIndex = event;
     console.log('Selected tab index:', this.tabIndex);
-    if (this.tabIndex == 0) {
-    }
-    else if (this.tabIndex == 1) {
-    }
   }
 
   allowAlphabetsOnly(event: KeyboardEvent): boolean {
@@ -126,40 +176,37 @@ export class AddHSNCodeMasterComponent implements AfterViewInit {
   }
 
   saveHSNCode() {
-    // this.submitted = true
     // if (this.newHSNCodeForm.invalid) {
-    //   return
+    //   console.error('Form is invalid');
+    //   return;
     // }
     const formValues = this.newHSNCodeForm.getRawValue();
     const Obj = {
-      hsnCodeDetails: formValues.tableRows2.map((row: any) => ({
-        code: formValues.Code === "" ? '0' : formValues.Code,
+      hsnCodeMaster: 
+        {
+        code: formValues.Code === '' ? '0' : formValues.Code,
+        hsnCode: formValues.HSNCode,
+        productDesp: formValues.ProductionDescription,
+        userMaster_Code: 0
+      }
+    ,
+      hsnCodeDetails: formValues.dataSource2.map((row: any) => ({
+        code: formValues.Code === '' ? '0' : formValues.Code,
         hsnCodeMaster_Code: 0,
         applicableDate: row.ApplicableDate2,
         rates: row.Rate,
         specialRate: row.SpecialRate,
         rates2: row.CessRate,
-        // amountForRate: row.amountForRate,
       })),
-      hsnCodeExportRateBenefitDetail: formValues.tableRows1.map((row: any) => (
-        {
-          code: formValues.Code === "" ? '0' : formValues.Code,
-          hsnCodeMaster_Code: 0,
-          applicableDate: row.ApplicableDate1,
-          meisRate: row.MEISRate,
-          dbkRate: row.DBKRate,
-          UserMaster_Code: 141
-        }
-      )),
-      hsnCodeMaster: [
-        {
-          code: formValues.Code === "" ? '0' : formValues.Code,
-          hsnCode: formValues.HSNCode,
-          productDesp: formValues.ProductionDescription,
-          userMaster_Code: 0
-        }
-      ]
+      hsnCodeExportRateBenefitDetail: formValues.dataSource1.map((row: any) => ({
+        code: formValues.Code === '' ? '0' : formValues.Code,
+        hsnCodeMaster_Code: 0,
+        applicableDate: row.ApplicableDate1,
+        meisRate: row.MEISRate,
+        dbkRate: row.DBKRate,
+      }))
     };
+    console.log(Obj);
 
     this._HSNCodeMasterService.saveHSNCode(Obj).subscribe({
       next: (res: any) => {
@@ -167,12 +214,15 @@ export class AddHSNCodeMasterComponent implements AfterViewInit {
         let responseObject = JSON.parse(obj);
         alert(responseObject.Msg);
         console.log(res);
-
       },
       error: (err: any) => {
-        console.error('Error saving tank daily stock:', err);
-        alert('Failed to save tank daily stock.');
+        console.error('Error saving HSN Code:', err);
+        alert('Failed to save HSN Code.');
       }
     });
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

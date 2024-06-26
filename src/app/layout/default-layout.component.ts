@@ -73,10 +73,11 @@ export class DefaultLayoutComponent implements OnInit {
   transformMenuData(data: any): INavData[] { 
     const urlMapping: { [key: string]: string } = { 
       'Enquiry': '/transactions/table',
-      'Country Master': '/leads/country',
-      'State Master': '/leads/state',
-      'City Master': '/leads/city',
-      'Chemical / Mechanical Properties':'/leads/chemical',
+      'Country Master': '/leads/country',//priyabrath
+      'State Master': '/leads/state',//priyabrath
+      'City Master': '/leads/city',//priyabrath
+      'Chemical / Mechanical Properties':'/leads/chemical',//priyabrath
+      'Group Master':'/leads/category',//priyabrath
       'UOM Master': '/leads/uom',
       'Payment Terms Master': '/leads/PaymentTermsMaster',
       'Tank Configuration': '/leads/tank-Configuration',

@@ -1,15 +1,14 @@
 <div class="delete-confirmation-dialog">
   <h5 class="header-bg" mat-dialog-title>
-    {{ this.elementData.Code === undefined ? 'Add HSN Code Master' : 'Update HSN Code Master' }}
+    {{ elementData?.Code === undefined ? 'Add HSN Code Master' : 'Update HSN Code Master' }}
   </h5>
   <div class="row">
     <form [formGroup]="newHSNCodeForm" (ngSubmit)="saveHSNCode()">
       <div class="row" mat-dialog-content>
-        <!-- <input type="hidden" formControlName="Code" class="form-control" value="0"/> -->
         <div class="col-md-6 form-group">
           <label><b>HSN Code </b></label>
           <div>
-            <input type="text" class="form-control" maxlength="8" placeholder="Enter HSN Code"
+            <input type="text" class="form-control" minlength="4" maxlength="8" placeholder="Enter HSN Code"
               (keypress)="allowNumberOnly($event)" formControlName="HSNCode">
           </div>
         </div>
@@ -25,7 +24,10 @@
       <mat-tab-group (selectedIndexChange)="getTabIndex($event)">
         <mat-tab label="Tab 1">
           <div class="col-md-12 form-group">
-            <table mat-table [dataSource]="dataSource1" matSort class="table table-striped nowrap">
+            <table mat-table [dataSource]="dataSource1.controls" formArrayName="dataSource1" matSort
+              class="table table-striped nowrap">
+              <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns1;" [formGroupName]="i"></tr>
               <ng-container matColumnDef="sNo">
                 <th mat-header-cell *matHeaderCellDef> S.No </th>
                 <td mat-cell *matCellDef="let element; let i = index">
@@ -34,28 +36,29 @@
               </ng-container>
               <ng-container matColumnDef="ApplicableDate1">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header="ApplicableDate1">Applicable Date </th>
-                <td mat-cell *matCellDef="let element"> <input type="date" formControlName="ApplicableDate1"
-                    class="form-control" /> </td>
+                <td mat-cell *matCellDef="let element" [formGroupName]="i">
+                  <input type="date" formControlName="ApplicableDate1" class="form-control" />
+                </td>
               </ng-container>
               <ng-container matColumnDef="MEISRate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header="MEISRate">MEIS Rate(%) </th>
-                <td mat-cell *matCellDef="let element"> <input type="text" formControlName="MEISRate"
-                    class="form-control" (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
+                <td mat-cell *matCellDef="let element" [formGroupName]="i"> <input type="text"
+                    formControlName="MEISRate" class="form-control" (keypress)="allowNumberOnly($event)"
+                    (input)="validateInput($event)" /> </td>
               </ng-container>
               <ng-container matColumnDef="DBKRate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header="DBKRate">DBK Rate(%) </th>
-                <td mat-cell *matCellDef="let element"> <input type="text" formControlName="DBKRate"
+                <td mat-cell *matCellDef="let element" [formGroupName]="i"> <input type="text" formControlName="DBKRate"
                     class="form-control" (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
             </table>
           </div>
         </mat-tab>
 
         <mat-tab label="Tab 2">
           <div class="col-md-12 form-group">
-            <table mat-table [dataSource]="dataSource2" matSort class="table table-striped nowrap">
+            <table mat-table [dataSource]="dataSource1.controls" formArrayName="dataSource2" matSort
+              class="table table-striped nowrap">
               <ng-container matColumnDef="sNo">
                 <th mat-header-cell *matHeaderCellDef> S.No. </th>
                 <td mat-cell *matCellDef="let element; let i = index">
@@ -96,7 +99,7 @@
       <div mat-dialog-actions class="content-end">
         <button type="cancel" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
         <button type="submit" class="btn btn-success me-1">
-          {{ this.elementData.Code === undefined ? 'Save' : 'Update' }}
+          {{ elementData?.Code === undefined ? 'Save' : 'Update' }}
         </button>
       </div>
     </form>
