@@ -94,7 +94,7 @@ export class AddBankDialogComponent {
     bankName: new FormControl('', Validators.required),
     aliasName: new FormControl('',Validators.required),
     account_No: new FormControl('', Validators.required),
-    currency: new FormControl('',Validators.required),
+    // currency: new FormControl('',Validators.required),
     ifscCode: new FormControl('',Validators.required),
     swiftCode:new FormControl('',Validators.required),
     pin: new FormControl('',Validators.required),
@@ -103,15 +103,16 @@ export class AddBankDialogComponent {
     state: new FormControl('',Validators.required),
     city: new FormControl('',Validators.required),
     phone_no: new FormControl('',Validators.required),
-    fax_no: new FormControl(''),//optinal
-    service_tax: new FormControl('',Validators.required),
+    // fax_no: new FormControl(''),//optinal
+    // service_tax: new FormControl('',Validators.required),
     Pan_No: new FormControl('',Validators.required),
     email:new FormControl('',[Validators.required,Validators.email]),
-    default: new FormControl(false),
+    // default: new FormControl(false),
     cms_applicable: new FormControl(false),
     selectBank: new FormControl(''),
     debitBankAccount: new FormControl (''),
-    prifix: new FormControl('')
+    prifix: new FormControl(''),
+    gst : new FormControl('',Validators.required)
 
 })
 
@@ -120,7 +121,7 @@ patchBankData(){
     bankName: this.elementData?.BankName,
     aliasName: this.elementData.AliasName,
     account_No: this.elementData.AccountNo,
-    currency: this.elementData?.CurrencyName,
+    // currency: this.elementData?.CurrencyName,
     ifscCode: this.elementData.IFSC_Code,
     swiftCode:this.elementData?.SwiftCode,
     pin:this.elementData?.PinCode,
@@ -129,11 +130,12 @@ patchBankData(){
     state: this.elementData?.State,
     city: this.elementData?.City,
     phone_no: this.elementData?.PhoneNo,
-    fax_no: this.elementData.FaxNo,
-    service_tax: this.elementData?.ServiceTaxNo,
+    // fax_no: this.elementData.FaxNo,
+    // service_tax: this.elementData?.ServiceTaxNo,
     Pan_No: this.elementData?.PANNo,
     email:this.elementData?.EMail,
-    default:this.elementData?.IsDefault,
+    // default:this.elementData?.IsDefault,
+    gst: this.paymentTermsForm.value.gst,
     cms_applicable: this.elementData.eCMSBank != ""? true: false ,
   })
 if(this.elementData.eCMSBank!=""){
@@ -271,7 +273,7 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         code: this.elementData.Code ? this.elementData.Code:0,
         bankName: this.paymentTermsForm.value.bankName,
         accountNo:this.paymentTermsForm.value.account_No,
-        currencyName:this.paymentTermsForm.value.currency,
+        currencyName:'',
         address: this.paymentTermsForm.value.address,
         Nation: this.paymentTermsForm.value.country,
         pinCode:this.paymentTermsForm.value.pin,
@@ -279,12 +281,14 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         state:this.paymentTermsForm.value.state,
         eMail: this.paymentTermsForm.value.email,
         phoneNo:this.paymentTermsForm.value.phone_no,
-        faxNo: this.paymentTermsForm.value.fax_no,
-        serviceTaxNo: this.paymentTermsForm.value.service_tax,
+        faxNo: "",
+        serviceTaxNo: "",
         panNo:this.paymentTermsForm.value.phone_no,
         databaseLocation_Code: 0,
         ifsC_Code: this.paymentTermsForm.value.ifscCode,
-        isDefault: this.paymentTermsForm.value.default == true ? "Y" :'N',
+        // isDefault: this.paymentTermsForm.value.default == true ? "Y" :'N',
+        isDefault: 'N',
+
         micrCode: "string",
         aliasName: this.paymentTermsForm.value.aliasName,
         swiftCode:this.paymentTermsForm.value.swiftCode,
@@ -294,6 +298,8 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         vartualAccountAutoGenerate:'Y',
         eCMSDebitAccountName: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.debitBankAccount :"",
         userMaster_Code: 0,
+        // gst: this.paymentTermsForm.value.gst,
+
 
       }
     ]

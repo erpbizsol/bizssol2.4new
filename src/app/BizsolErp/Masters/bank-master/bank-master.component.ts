@@ -81,8 +81,8 @@
 
     addDialog(value: any) {
       const dialogRef = this.dialog.open(AddBankDialogComponent, {
-        width: '700px',
-        height: '380px',
+        width: '800px',
+        height: '530px',
         disableClose: true,
         data :{element:value}
         });

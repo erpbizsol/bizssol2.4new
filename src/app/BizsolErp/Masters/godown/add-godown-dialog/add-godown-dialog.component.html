@@ -6,7 +6,7 @@
     <div class="row">
       <form [formGroup]="addgodownForm">
         <div class="row" mat-dialog-content>
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label><b>Ware House Type </b></label>
             <div>
                 <select class="select2 form-control"  formControlName = "ware_house_type">
@@ -19,7 +19,7 @@
           </div>
          
         </div>
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label><b>Sort  order Name</b></label>
             <div>
               <input type="text" class="form-control"  maxlength="50" placeholder="Enter sort  order"  formControlName="sort_order" (keypress)="allowAlphabetsOnly($event)">
@@ -28,19 +28,20 @@
               </div>
             </div>
           </div>
-        </div> 
-        <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
-              <label><b>  Ware House Account  No.</b></label>    
-              <div>
-                <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
-  " formControlName="ware_house_account_no"  maxlength="20" placeholder="Enter Account No." >
-                <div *ngIf="submitted && f['ware_house_account_no'].errors" class="text-danger">
-                  <div *ngIf="f['ware_house_account_no'].hasError('required')"> Ware House Account No is Required</div>
-                </div>
+          <div class="col-md-4 form-group">
+            <label><b>  Ware House Account  No.</b></label>    
+            <div>
+              <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
+" formControlName="ware_house_account_no"  maxlength="20" placeholder="Enter Account No." >
+              <div *ngIf="submitted && f['ware_house_account_no'].errors" class="text-danger">
+                <div *ngIf="f['ware_house_account_no'].hasError('required')"> Ware House Account No is Required</div>
               </div>
             </div>
-            <div class="col-md-6 form-group">
+          </div>
+        </div>
+          <div class="row" mat-dialog-content>
+           
+            <div class="col-md-4 form-group">
               <label><b>Ware House  Name</b></label>
               <div>
                 <!-- <select class="select2 form-control"  formControlName = "currency">
@@ -53,9 +54,7 @@
                 <div *ngIf="f['ware_house_name'].hasError('required')">Ware House  name is required</div>
               </div>
             </div>
-          </div>
-          <div class="row" mat-dialog-content>      
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
               <label><b>Short Description </b></label>
               <div>
                 <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "short_description"  maxlength="10" placeholder="Enter Short  Description" >
@@ -64,7 +63,7 @@
                 </div> -->
               </div>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
               <label><b>Company Alias Name </b></label>
               <div>
                 <input type="text" class="form-control" formControlName = "compony_alias_name"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'compony_alias_name')">
@@ -74,8 +73,11 @@
               </div>
             </div>
           </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-12 form-group">
+        
+     
+          <div class="row" mat-dialog-content>      
+          
+            <div class="col-md-4 form-group">
               <label><b> Pin Code</b></label>
               <div>
                 <input type="text" class="form-control"   formControlName="pin"   maxlength="6" placeholder="Enter Pin Code">
@@ -85,10 +87,7 @@
                 </div>
                   </div>
             </div>
-           
-          </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-12 form-group">
+            <div class="col-md-4 form-group">
               <label><b> Address</b></label>
               <div>
       
@@ -98,10 +97,7 @@
       </div>         
     </div>
             </div>
-           
-          </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
               <label><b>City</b></label>
               <div>
                 <select class="select2 form-control"   formControlName="city">
@@ -114,19 +110,20 @@
                             <div *ngIf="f['city'].hasError('required')">City is Required</div>
                           </div>
             </div>
-            <div class="col-md-6 form-group">
+          </div>
+        
+          <div class="row" mat-dialog-content>
+          
+          <div class="col-md-4 form-group">
               <label><b>GST No.</b></label>
-              <div>
-              
+              <div>     
               <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="gst_no" >
               <div *ngIf="submitted && f['gst_no'].errors" class="text-danger">
                 <div *ngIf="f['gst_no'].hasError('required')">Gst no is Required</div>
               </div>    
             </div>
             </div>
-          </div>
-          <div class="row" mat-dialog-content>
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
               <label><b>TIN No.</b></label>
               <div>
                 <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="tin_no" >
@@ -136,7 +133,7 @@
                 </div>      
             </div>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
               <label><b>CST No</b></label>
               <div>
                 <input type="text" class="form-control"  formControlName="cst_no"  maxlength="15" placeholder="Enter Phone No." >
@@ -145,6 +142,11 @@
                 </div>
               </div>
             </div>
+           
+          </div>
+          
+          <div class="row" mat-dialog-content>
+            
             <!-- <div class="col-md-6 form-group">
               <label><b>Pin Code</b></label>
               <div>
@@ -263,11 +265,12 @@
          
           
         <div mat-dialog-actions class="content-end">
-          <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
           <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >
-             <!-- {{ this.editData.Code === undefined ? 'Save' : 'Update ' }} --> Save
-  
           </button>
+             <!-- {{ this.editData.Code === undefined ? 'Save' : 'Update ' }} --> Save
+             <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
+
+  
         </div>
       </form>
     </div>
