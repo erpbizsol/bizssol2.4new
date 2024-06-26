@@ -70,11 +70,50 @@ export class AddGodownDialogComponent {
   bankNameList:any
   debitList:any
   controlValue:boolean = false
+  editData:any
 
 
  constructor(
-  private  godown : GodownService 
- ){}
+  private  godown : GodownService ,
+  @Inject(MAT_DIALOG_DATA) public data: any,
+ ){
+  console.log(this.editData)
+ }
+
+ patchWareHouseData(){
+  this.addgodownForm.patchValue({
+    ware_house_type:this.editData.war,
+    sort_order: this.editData.GodownSortOrder,
+   ware_house_account_no:this.editData.c,
+    ware_house_name: this.editData?.GodownName,
+    short_description:this.editData?.short_description,
+    compony_alias_name:this.editData.CompanyAliasName,
+    pin:this.editData.PINCode,
+    address: this.editData.Address1,
+    city: this.editData.City,
+    gst_no: this.editData?.GodownGSTNo,
+    tin_no: this.editData.GodownTINNo,
+    cst_no: this.editData.GodownCSTNo,
+    cin_no:this.editData?.GodownCINNo,//optinal
+    mobile_no: this.editData.GodownMobileNo,
+    email:this.editData.GodownEmail,
+
+    // cms_applicable: new FormControl(false),
+    ware_house_group:this.editData.WarehouseGroup,
+
+is_default_ware_house: this.editData.IsDefault,
+ 
+// store_ware_house:this.editData.,
+// in_transit_ware_house:this.editData.InTransitWarehouse,
+
+// qaulity_ware_house:this.editData.,
+// gate_entry:new FormControl(false),
+
+
+  })
+ }
+
+
 
   ngOnInit() {}
   addgodownForm = new FormGroup({

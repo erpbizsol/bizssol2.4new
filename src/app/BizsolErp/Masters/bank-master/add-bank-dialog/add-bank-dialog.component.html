@@ -9,7 +9,7 @@
         <div class="col-md-6 form-group">
           <label><b >Bank Name </b></label>
           <div>
-            <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnly($event)" formControlName="bankName">
+            <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnlyDot($event)" formControlName="bankName">
             <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
               <div *ngIf="f['bankName'].hasError('required')">Bank Name is Required</div>
             </div>
@@ -89,7 +89,7 @@
             <label><b> Address</b></label>
             <div>
     
-    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address" (keypress)="allowAlphabetsOnly($event)"  formControlName="address" >
+    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address" (keypress)="allowAlphabetsOnlyAddress($event)"  formControlName="address" >
     <div *ngIf="submitted && f['address'].errors" class="text-danger">
       <div *ngIf="f['address'].hasError('required')">Address is Required</div>
     </div>         
@@ -262,7 +262,7 @@
           <div class="col-md-6 form-group">
             <label><b> prefix </b></label> 
              <div>
-              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Debit Amount details"  required>
+              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Prifix details"  required>
               <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
                 <div *ngIf="f['prifix'].hasError('required')">Prefix  is Required</div>
               </div>
