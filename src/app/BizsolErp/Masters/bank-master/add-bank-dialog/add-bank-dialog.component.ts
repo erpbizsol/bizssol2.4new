@@ -190,6 +190,26 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
       event.preventDefault();
     }
   }
+ allowAlphabetsOnlyDot(event: KeyboardEvent): void {
+  const charCode = event.which ? event.which : event.keyCode;
+  const charStr = String.fromCharCode(charCode);
+
+  // Allow alphabets, dot, and white space
+  if (!/^[a-zA-Z.\s]*$/.test(charStr)) {
+    event.preventDefault();
+  }
+}
+
+allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
+  const charCode = event.which ? event.which : event.keyCode;
+  const charStr = String.fromCharCode(charCode);
+
+  // Allow alphabets, dot, and white space
+  if (!/^[a-zA-Z.,-\s]*$/.test(charStr)) {
+    event.preventDefault();
+  }
+}
+
 
 
   allowNumberOnly(event: KeyboardEvent): void {
@@ -206,6 +226,38 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
  onNoClick(): void {
     this.dialogRef.close();
   }
+
+   validatePAN(event:any) {
+    const panInput = event.target;
+    const panValue = panInput.value.toUpperCase();
+    const key = String.fromCharCode(event.which);
+
+    // Allow only letters and numbers
+    if (!/^[A-Z0-9]$/.test(key)) {
+        event.preventDefault();
+        return;
+    }
+
+    // Validate each character position
+    const length = panValue.length;
+
+    if (length < 5) {
+        // First 5 characters must be letters
+        if (!/[A-Z]/.test(key)) {
+            event.preventDefault();
+        }
+    } else if (length < 9) {
+        // Next 4 characters must be numbers
+        if (!/[0-9]/.test(key)) {
+            event.preventDefault();
+        }
+    } else if (length === 9) {
+        // Last character must be a letter
+        if (!/[A-Z]/.test(key)) {
+            event.preventDefault();
+        }
+    }
+}
   eCMSDebitData:any
   saveBankDetailsData() {
     debugger
