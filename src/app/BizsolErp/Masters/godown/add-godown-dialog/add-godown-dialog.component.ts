@@ -58,7 +58,9 @@ selector: 'app-add-godown-dialog',
 
 })
 
+
 export class AddGodownDialogComponent {
+  GetWarehouseAccountNameList:any
   elementData: any
   currencies:any
   getPincode: any = [];
@@ -163,8 +165,9 @@ saveBankDetailsData(){
  }
 
  getGodownData() {
-  this.godown.getwarehouse('GetWarehouseMasterList').subscribe({
+  this.godown.getwarehouse('GetWarehouseAccountNameList').subscribe({
     next: (res: any) => {
+      this.GetWarehouseAccountNameList=res
   
     },
     error: (err: any) => {
@@ -225,7 +228,7 @@ saveBankDetailsData(){
   
   pinPoppulate() {
     const formValues = {
-      country: this.getPincode?.CountryName ? this.getPincode?.CountryName :this.elementData.Nation ? this.elementData?.Nation :'',
+      country: this.getPincode?.CountryName ? this.getPincode?.CountryName :this.editData.Nation ? this.editData?.Nation :'',
       state: this.getPincode?.StateName,
       city: this.getPincode?.CityName,
     };
