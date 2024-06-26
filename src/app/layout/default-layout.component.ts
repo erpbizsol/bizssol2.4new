@@ -78,6 +78,7 @@ export class DefaultLayoutComponent implements OnInit {
       'City Master': '/leads/city',//priyabrath
       'Chemical / Mechanical Properties':'/leads/chemical',//priyabrath
       'Group Master':'/leads/category',//priyabrath
+      'Sub Group':'/leads/subcategory',//priyabrath
       'UOM Master': '/leads/uom',
       'Payment Terms Master': '/leads/PaymentTermsMaster',
       'Tank Configuration': '/leads/tank-Configuration',

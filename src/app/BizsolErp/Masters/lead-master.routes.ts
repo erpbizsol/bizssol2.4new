@@ -79,6 +79,13 @@ export const routes: Routes = [
                 }
             },
             {
+                path: 'subcategory',
+                loadComponent: () => import('./subcategory-master/subcategory-master.component').then(m => m.SubcategoryMasterComponent),
+                data: {
+                    title: 'category master'
+                }
+            },
+            {
                 path: 'uom',
                 loadComponent: () => import('./uom/uom.component').then(m => m.UomComponent),
                 data: {
