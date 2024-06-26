@@ -17,7 +17,8 @@ export class RoutePlanService {
     const userMasterCode = this.authService.getUserMasterCode();
     const headersConfig: { [key: string]: string } = {
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': JSON.stringify(authKey) || ''
+      //'Auth-Key': JSON.stringify(authKey) || ''
+      'Auth-Key': authKey
     };
     if (userMasterCode) {
       headersConfig['UserMaster-Code'] = userMasterCode;
@@ -54,7 +55,7 @@ export class RoutePlanService {
     return this._http.post(url, { reason }, { headers: this.headers() });
   }
 
-  // Route Plan integrate service
+  // Route Plan integrate service (table data)
   getRoutePlanList(PlanDate: any): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();
     let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/GetRoutePlanListByPlanDate" + `?Date=${PlanDate}&UserMaster_Code=${userMasterCode}`;
@@ -86,10 +87,16 @@ export class RoutePlanService {
 
   // UPDATE ROUTE PLAN
 
-  getRoutePlanByCode(RoutePlanMaster_Code): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/GetRoutePlanByCode?Code="+RoutePlanMaster_Code;
+  getRoutePlanByCode(RoutePlanMaster_Code: any): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/GetRoutePlanByCode?Code=" + RoutePlanMaster_Code;
     return this._http.get(url, { headers: this.headers() });
   }
 
+  // DELETE ROUTE PLAN
 
+
+  postDeleteRoutePlan(): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_ROUTE_PLAN + "/DeleteRoutePlan";
+    return this._http.post(url, '');
+  }
 }

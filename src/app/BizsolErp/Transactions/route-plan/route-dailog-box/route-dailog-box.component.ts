@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { StateService } from 'src/app/services/Master/state.service';
 import { CityService } from 'src/app/services/Master/city.service';
 import { RoutePlanService } from 'src/app/services/Transaction/route-plan.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 @Component({
   selector: 'app-route-dailog-box',
@@ -18,9 +19,9 @@ import { RoutePlanService } from 'src/app/services/Transaction/route-plan.servic
 export class RouteDailogBoxComponent {
   [x: string]: any;
   // routePlanForm: FormGroup;
-  stateList: any;
-  cityList: any;
-  editData:any
+  stateList: any = [];
+  cityList: any = [];
+  editData: any
   visittypehide: boolean = false;
   getRoutePlanVTDropDownList1: any = [];
   showDealerNameList: boolean = false;
@@ -36,38 +37,29 @@ export class RouteDailogBoxComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<RouteDailogBoxComponent>, private state: StateService, private city: CityService, private rPVTDList: RoutePlanService, private accountMaster: RoutePlanService, private saveRP: RoutePlanService, private fb: FormBuilder, private routePBCode: RoutePlanService) {
-     this.editData= data.data
-     console.log(this.editData,"uuuuuuu")
+    private toasrer:ToasterService,
+    private dialogRef: MatDialogRef<RouteDailogBoxComponent>, private state: StateService, private city: CityService, private _routePlanService: RoutePlanService, private fb: FormBuilder) {
+    this.editData = data.data
+    // console.log(this.editData, "uuuuuuu")
 
 
-     }
+
+  }
 
   ngOnInit() {
-    
     this.getState();
     this.getRoutePlanVTDropDownList();
     this.getAccountMDetails()
     this.RoutePlanMaster_Code = this.data.routePlanMaster_Code;
     this.EntryDate = new Date().toISOString().split('T')[0];
-    if(this.editData.Code!== undefined||''){
+    if (this.editData.Code !== undefined || '') {
       this.populateData()
-      
-    }
-    // this.getRoutePBycode();
+      this.city.getCity(this.editData.StateName).subscribe(res => {
+        this.cityList = res;
+      });
+    } 
 
-    // this.routePlanForm = new FormGroup({
-    //   visitType: new FormControl(''),
-    //   dealerName: new FormControl(),
-    //   city: new FormControl(),
-    //   state: new FormControl(),
-    //   description: new FormControl(),
-    // })
-   
-   
-     
-    
-
+    this._routePlanService.getRoutePlanList(new Date().toISOString().split('T')[0]).subscribe(res => { })
   }
 
   routePlanForm = this.fb.group({
@@ -77,16 +69,14 @@ export class RouteDailogBoxComponent {
     state: ['', [Validators.required]],
     description: ['', [Validators.required]],
   })
-  populateData(){
-    console.log(this.editData.Description,"kkkk")
+  populateData() {
+    console.log(this.editData.Description, "kkkk")
     this.routePlanForm.patchValue({
-      visitType:this.editData?.VisitType,
-      description:this.editData?.Description,
-      dealerName:this.editData?.DealerName,
-    city:this.editData?.CityName,
-    state:this.editData?.StateName
-
-      
+      visitType: this.editData?.VisitType,
+      description: this.editData?.Description,
+      dealerName: this.editData?.DealerName,
+      city: this.editData?.CityName,
+      state: this.editData?.StateName,
     })
   }
   // Form
@@ -162,14 +152,13 @@ export class RouteDailogBoxComponent {
   getCityList(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.city.getCity(selectedValue).subscribe((res: any) => {
-      this['cityList'] = res;
+      this.cityList = res;
       console.log(this.getCityList);
     });
   }
-
   // Visit type dropdown list
   getRoutePlanVTDropDownList() {
-    this.rPVTDList.getRoutePlanVistTypeDropDownList().subscribe(res => {
+    this._routePlanService.getRoutePlanVistTypeDropDownList().subscribe(res => {
       this.getRoutePlanVTDropDownList1 = res;
     })
   }
@@ -185,32 +174,34 @@ export class RouteDailogBoxComponent {
   }
   //Dealer Name
   getAccountMDetails() {
-    this.accountMaster.getAccountMasterDetails().subscribe(res => {
+    this._routePlanService.getAccountMasterDetails().subscribe(res => {
       this.dealerList = res;
       console.log("dealer List", this.dealerList);
     })
   }
 
   //SAVE ROUTE PLAN  
-  // postSaveRPlan(){
+ // postSaveRPlan(){
   //   this.saveRP.postSaveRoutePlan().subscribe(res => {
   //     this.saveRplan = res;
   //     console.log("saveRplan", this.saveRplan);
-  //   }) 
+  //   })  
   // }
 
   // postSaveRoutePlan
 
+  submitted:boolean = false
   saveData() {
+    this.submitted= true
     debugger
 
-    // if (this.routePlanForm.invalid) {
-    //   return
-    // }
+    if (this.routePlanForm.invalid) {
+      return
+    }
 
     let data = [
       {
-        code: this.RoutePlanMaster_Code,
+        code: this.editData.Code ? this.editData.Code :this.RoutePlanMaster_Code , 
         date: this.EntryDate,
         visitType: this.routePlanForm.value.visitType,
         cityName: this.routePlanForm.value.city,
@@ -230,27 +221,47 @@ export class RouteDailogBoxComponent {
     // const formData = this.routePlanForm.value;
 
 
-    this.rPVTDList.postSaveRoutePlan(data).subscribe(
-      response => {
-        console.log("hiihhhh")
-        console.log('Data saved successfully:', response);
-
-        this.dialogRef.close();
-      },
-      error => {
-        // Handle error during save
-        console.error('Error saving data:', error);
+    
+    if (this.editData?.Code == undefined || ''||0 ){
+      
+      this._routePlanService.postSaveRoutePlan(data).subscribe(
+        response => {
+          console.log("hiihhhh")
+          console.log('Data saved successfully:', response);
+  
+          this.dialogRef.close();
+        },
+        error => {
+          // Handle error during save
+          console.error('Error saving data:', error);
+        }
+  
+  
+      );}
+      else{
+        this._routePlanService.postSaveRoutePlan(data).subscribe(
+          response => {
+            console.log('Data saved successfully:', response);
+            this.toasrer.showSuccess(response.Msg)
+    
+            this.dialogRef.close();
+          },
+          error => {
+            // Handle error during save
+            console.error('Error saving data:', error);
+          }
+    
+    
+        );
       }
-    );
-
 
   }
-
+  
 
   // UPDATE ROUTE PLAN
-  getRoutePBycode(RoutePlanMaster_Code:number) {
-    this.routePBCode.getRoutePlanByCode(RoutePlanMaster_Code).subscribe(res => {
-      this.routePBycode = res;
+  getRoutePBycode(RoutePlanMaster_Code: number) {
+    this._routePlanService.getRoutePlanByCode(RoutePlanMaster_Code).subscribe(res => {
+      this.routePBycode = res.reverse();
       console.log("routePBycode", this.routePBycode);
     })
   }

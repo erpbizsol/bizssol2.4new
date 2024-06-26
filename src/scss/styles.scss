@@ -137,6 +137,15 @@ body {
   color: #eee8f6;
 }
 
+.sidebar-nav .nav-link {
+  font-size: 8.8pt !important;
+}
+
+.mat-mdc-paginator-range-label {
+  margin: 0 !important;
+}
+
+
 @media (hover: hover),
 (-ms-high-contrast: none) {
   .sidebar-nav .nav-link:hover {
@@ -351,6 +360,10 @@ textarea.form-control {
   font-size: 8pt;
 }
 
+.mdc-text-field {
+  padding: 2px 16px !important;
+}
+ 
 .success-snackbar {
   background-color: green !important;
   color: white !important;
@@ -431,3 +444,12 @@ mat-label {
 // // Bootstrap style toast for version 4 or 5 (use only one based on your project)
 // // @import 'ngx-toastr/toastr-bs4-alert'; // For Bootstrap 4
 // @import 'ngx-toastr/toastr-bs5-alert'; // For Bootstrap 5
+
+.mat-mdc-select-value {
+  font-size: 9pt;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  font-size: 9pt !important;
+}
+
