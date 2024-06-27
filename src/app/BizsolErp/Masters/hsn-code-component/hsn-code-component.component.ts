@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AddHSNCodeMasterComponent } from 'src/app/BizsolErp/Masters/hsn-code-component/add-hsn-code-master/add-hsn-code-master.component';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { HSNCodeMasterService } from 'src/app/services/Master/hsn-code-master.service';
 import { CommonModule } from '@angular/common';
@@ -26,22 +26,28 @@ export class HSNCodeMasterComponent implements OnInit {
   newHSNCodeForm: FormGroup;
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = ['sNo', 'HSNCode', 'ProductDescription', 'action'];
+  _AddHSNCodeMaster: any;
 
-  constructor(private hsnCodeService: HSNCodeMasterService, private fb: FormBuilder, public dialog: MatDialog) { }
+  constructor(private hsnCodeService: HSNCodeMasterService, private fb: FormBuilder, public dialog: MatDialog) {
+
+  }
 
 
   ngOnInit() {
     this.loadHSNCodeData();
   }
 
-
+  loadLsn:any
   loadHSNCodeData() {
     this.hsnCodeService.getHSNCodeMaterList().subscribe(res => {
-      this.dataSource = res.HSNCodeMaster;
-      console.log(this.dataSource);
+      this.loadLsn = res.HSNCodeMaster;
+      this.dataSource = new MatTableDataSource(this.loadLsn)
+      this.dataSource.paginator = this.paginator; 
 
     });
   }
+
+
 
   deleteHSNCodeMaster(code: number) {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
@@ -67,13 +73,41 @@ export class HSNCodeMasterComponent implements OnInit {
       }
     });
   }
+  editHSnCode: any
+  editId: any
+
+  editHSNCodeMaster(value: any) {
+    this.editId = value
+    console.log(this.editId, "hh")
+    this.hsnCodeService.editHSNCodeMasters(this.editId).subscribe(res => {
+      this.editHSnCode = res
+      console.log(this.editHSnCode, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
+
+
+      this.addDialog(this.editHSnCode)
+      // this._AddHSNCodeMaster.populateHSNCodeMaster(res.HSNCodeMaster);
+      // this._AddHSNCodeMaster.HSNCodeDetailspopulateTableRows(res.HSNCodeDetails);
+      // this._AddHSNCodeMaster.HSNCodeExportRateBenefitDetailpopulateRows(res.HSNCodeExportRateBenefitDetail);
+    })
+  }
+
+  editCode: any
 
   addDialog(value: any) {
+    console.log("value", value)
+    // if(value !=''){
+    //   this.editCode=value?.Code
+    //   this.editHSNCodeMaster(this.editCode)
+    // }
     const dialogRef = this.dialog.open(AddHSNCodeMasterComponent, {
-      width: '700px',
+      width: '750px',
       height: '420px',
       disableClose: true,
-      data: { element: value }
+      data: {
+        element: value,
+
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {

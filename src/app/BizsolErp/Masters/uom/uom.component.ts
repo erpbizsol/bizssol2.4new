@@ -1,12 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UomService } from 'src/app/services/Master/uom.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalFooterComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective } from '@coreui/angular';
 import { DeleteConfermationPopUpComponent } from '../../../pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator,MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -14,18 +16,26 @@ import { MatTableDataSource } from '@angular/material/table';
   standalone: true,
   imports: [HttpClientModule, ReactiveFormsModule, CommonModule, ButtonDirective, ModalComponent,
     ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent,
-    ModalFooterComponent, DeleteConfermationPopUpComponent],
+    ModalFooterComponent, DeleteConfermationPopUpComponent,MatPaginatorModule,MatTableModule],
   templateUrl: './uom.component.html',
   styleUrls: ['./uom.component.scss'],
   providers: [UomService]
 })
 export class UomComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   UOM: any = [];
   newUOMForm: FormGroup;
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   getGSTUOMList: any = [];
+  displayedColumns: string[] = ['S.No.', 'UOM', 'GST UOM', 'Decimal Digits', 'Action'];
 
-  constructor(private _UomService: UomService, private fb: FormBuilder, private dialog: MatDialog) { }
+  constructor(
+    private _UomService: UomService, 
+    private fb: FormBuilder, 
+    private dialog: MatDialog
+  ) {}
 
   public visible = false;
   public visible1 = false;
@@ -37,6 +47,7 @@ export class UomComponent implements OnInit {
     }
     this.ClearData();
   }
+
   editDemoModal() {
     this.visible1 = !this.visible1;
     this.newUOMForm.reset();
@@ -45,9 +56,6 @@ export class UomComponent implements OnInit {
   handleLiveDemoChange(event: any) {
     this.visible = event;
   }
-  // handleEditDemoChange(event: any) {
-  //   this.visible1 = event;
-  // }
 
   ngOnInit() {
     this.UOMList();
@@ -63,9 +71,13 @@ export class UomComponent implements OnInit {
   UOMList() {
     this._UomService.getUOM().subscribe(res => {
       this.UOM = res.sort((a, b) => a.UOM.localeCompare(b.UOM));
-      console.log(this.UOM);
+      this.dataSource.data = this.UOM;
+      this.dataSource = new MatTableDataSource(this.UOM);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
+
   gstuomDesp() {
     const obj = {
       tableName: "GSTUOMMaster",
@@ -87,20 +99,15 @@ export class UomComponent implements OnInit {
       decimalPoints: this.newUOMForm.value.DigitsAfterDecimal,
       UserMaster_Code: 141,
     };
-    console.log(obj);
 
     this._UomService.postUOM(obj).subscribe({
       next: (res: any) => {
-        let obj = JSON.stringify(res);
-        let responseObject = JSON.parse(obj);
+        let responseObject = res;
         if (responseObject.Msg == 'Data updated successfully.') {
           this.editDemoModal();
-          // this.ClearData();
           alert(responseObject.Msg);
-        }
-        else {
+        } else {
           this.toggleLiveDemo();
-          // this.ClearData();
           alert(responseObject.Msg);
         }
         this.UOMList();
@@ -108,20 +115,18 @@ export class UomComponent implements OnInit {
     });
   }
 
-  //  Special Character Validation 
   onInputChange(event: any) {
     const inputValue: string = event.target.value;
-    const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-    this.newUOMForm.get('DigitsAfterDecimal').setValue(newValue.slice(0, 1)); // Limit input to 3 characters
+    const newValue = inputValue.replace(/[^0-9]/g, '');
+    this.newUOMForm.get('DigitsAfterDecimal').setValue(newValue.slice(0, 1));
   }
 
   onInputCharacterChange(event: any) {
     const characterInputValue: string = event.target.value;
-    const newValue = characterInputValue.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetical characters
+    const newValue = characterInputValue.replace(/[^a-zA-Z]/g, '');
     this.newUOMForm.get('uomdesp').setValue(newValue);
   }
 
-  // Update Data
   editData(Code: number) {
     this.editDemoModal();
     this._UomService.editUOM(Code).subscribe(res => {
@@ -130,9 +135,8 @@ export class UomComponent implements OnInit {
         uomdesp: res.UOM,
         gstuomDesp: res.GSTUOM,
         DigitsAfterDecimal: res.DecimalPoints,
-      })
-
-    })
+      });
+    });
   }
 
   deleteData(code: any): void {
@@ -145,7 +149,7 @@ export class UomComponent implements OnInit {
         let reason = result.reason;
         this._UomService.deleteUOM(code, reason).subscribe({
           next: (result) => {
-            let responseObject = result; // No need to JSON.stringify and then JSON.parse
+            let responseObject = result;
             alert(responseObject.Msg);
             this.UOMList();
           },
@@ -155,15 +159,15 @@ export class UomComponent implements OnInit {
           }
         });
       }
-    }
-    )
+    });
   }
+
   ClearData() {
     this.newUOMForm.patchValue({
       Code: '0',
       uomdesp: '',
       gstuomDesp: '',
       DigitsAfterDecimal: '',
-    })
+    });
   }
 }

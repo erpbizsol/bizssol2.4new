@@ -2,106 +2,92 @@
   <h5 class="header-bg" mat-dialog-title>
     {{ elementData?.Code === undefined ? 'Add HSN Code Master' : 'Update HSN Code Master' }}
   </h5>
-  <div class="row">
-    <form [formGroup]="newHSNCodeForm" (ngSubmit)="saveHSNCode()">
-      <div class="row" mat-dialog-content>
-        <div class="col-md-6 form-group">
-          <label><b>HSN Code </b></label>
-          <div>
-            <input type="text" class="form-control" minlength="4" maxlength="8" placeholder="Enter HSN Code"
-              (keypress)="allowNumberOnly($event)" formControlName="HSNCode">
-          </div>
-        </div>
-        <div class="col-md-6 form-group">
-          <label><b>Production/Description</b></label>
-          <div>
-            <input type="text" class="form-control" maxlength="100" placeholder="Enter Production/Description"
-              formControlName="ProductionDescription" (keypress)="allowAlphabetsOnly($event)">
-          </div>
-        </div>
+  <form [formGroup]="newHSNCodeForm" (ngSubmit)="saveHSNCode()">
+    <div class="row" mat-dialog-content>
+      <div class="col-md-6 form-group">
+        <label><b>HSN Code</b></label>
+        <input type="text" class="form-control" minlength="4" maxlength="8" placeholder="Enter HSN Code"
+          (keypress)="allowNumberOnly($event)" formControlName="HSNCode">
+      </div>
+      <div class="col-md-6 form-group">
+        <label><b>Production/Description</b></label>
+        <input type="text" class="form-control" maxlength="100" placeholder="Enter Production/Description"
+          formControlName="ProductionDescription" (keypress)="allowAlphabetsOnly($event)">
+      </div>
+    </div>
+
+    <div class="row mt-4 mb-2">
+      <div class="col-md-12">
+        <table border="1" class="table">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Applicable Date</th>
+              <th>MEIS Rate (%)</th>
+              <th>DBK Rate (%)</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="tableRows1">
+            <tr *ngFor="let row of tableRows1.controls; let i = index" [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <input type="date" formControlName="ApplicableDate" class="form-control"
+                  (keydown)="focusNext($event, 'MEISRate', i, 'tableRows1')" />
+              </td>
+              <td>
+                <input type="text" formControlName="MEISRate" class="form-control" (keypress)="allowNumberOnly($event)"
+                   (keydown)="focusNext($event, 'DBKRate', i, 'tableRows1')" />
+              </td>
+              <td>
+                <input type="text" formControlName="DBKRate" class="form-control" (keypress)="allowNumberOnly($event)"
+                   (keydown)="focusNext($event, 'addRow', i, 'tableRows1')" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      <div class="col-md-12">
+        <table border="1" class="table">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Applicable Date</th>
+              <th>Rate (%)</th>
+              <th>Special Rate (%)</th>
+              <th>Cess Rate (%)</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="tableRows2">
+            <tr *ngFor="let row of tableRows2.controls; let i = index" [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <input type="date" formControlName="ApplicableDate" class="form-control"
+                  (keydown)="focusNext($event, 'Rate', i, 'tableRows2')" />
+              </td>
+              <td>
+                <input type="text" formControlName="Rate" class="form-control" (keypress)="allowNumberOnly($event)"
+                   (keydown)="focusNext($event, 'SpecialRate', i, 'tableRows2')" />
+              </td>
+              <td>
+                <input type="text" formControlName="SpecialRate" class="form-control"
+                  (keypress)="allowNumberOnly($event)" 
+                  (keydown)="focusNext($event, 'CessRate', i, 'tableRows2')" />
+              </td>
+              <td>
+                <input type="text" formControlName="CessRate" class="form-control" (keypress)="allowNumberOnly($event)"
+                  (keydown)="focusNext($event, 'addRow', i, 'tableRows2')" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <mat-tab-group (selectedIndexChange)="getTabIndex($event)">
-        <mat-tab label="Tab 1">
-          <div class="col-md-12 form-group">
-            <table mat-table [dataSource]="dataSource1.controls" formArrayName="dataSource1" matSort
-              class="table table-striped nowrap">
-              <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns1;" [formGroupName]="i"></tr>
-              <ng-container matColumnDef="sNo">
-                <th mat-header-cell *matHeaderCellDef> S.No </th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                  {{i + 1 }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="ApplicableDate1">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="ApplicableDate1">Applicable Date </th>
-                <td mat-cell *matCellDef="let element" [formGroupName]="i">
-                  <input type="date" formControlName="ApplicableDate1" class="form-control" />
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="MEISRate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="MEISRate">MEIS Rate(%) </th>
-                <td mat-cell *matCellDef="let element" [formGroupName]="i"> <input type="text"
-                    formControlName="MEISRate" class="form-control" (keypress)="allowNumberOnly($event)"
-                    (input)="validateInput($event)" /> </td>
-              </ng-container>
-              <ng-container matColumnDef="DBKRate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="DBKRate">DBK Rate(%) </th>
-                <td mat-cell *matCellDef="let element" [formGroupName]="i"> <input type="text" formControlName="DBKRate"
-                    class="form-control" (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
-              </ng-container>
-            </table>
-          </div>
-        </mat-tab>
-
-        <mat-tab label="Tab 2">
-          <div class="col-md-12 form-group">
-            <table mat-table [dataSource]="dataSource1.controls" formArrayName="dataSource2" matSort
-              class="table table-striped nowrap">
-              <ng-container matColumnDef="sNo">
-                <th mat-header-cell *matHeaderCellDef> S.No. </th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                  {{i + 1 }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="ApplicableDate2">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="ApplicableDate2">Applicable Date </th>
-                <td mat-cell *matCellDef="let element"> <input type="date" formControlName="ApplicableDate2"
-                    class="form-control" /> </td>
-              </ng-container>
-
-              <ng-container matColumnDef="Rate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="Rate">Rate(%) </th>
-                <td mat-cell *matCellDef="let element"> <input type="text" formControlName="Rate" class="form-control"
-                    (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
-              </ng-container>
-
-              <ng-container matColumnDef="SpecialRate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="SpecialRate">Special Rate(%) </th>
-                <td mat-cell *matCellDef="let element"> <input type="text" formControlName="SpecialRate"
-                    class="form-control" (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
-              </ng-container>
-
-              <ng-container matColumnDef="CessRate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="CessRate">Cess Rate(%) </th>
-                <td mat-cell *matCellDef="let element"> <input type="text" formControlName="CessRate"
-                    class="form-control" (keypress)="allowNumberOnly($event)" (input)="validateInput($event)" /> </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-            </table>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-
-      <div mat-dialog-actions class="content-end">
-        <button type="cancel" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
-        <button type="submit" class="btn btn-success me-1">
-          {{ elementData?.Code === undefined ? 'Save' : 'Update' }}
-        </button>
-      </div>
-    </form>
-  </div>
+    <div mat-dialog-actions class="content-end">
+      <button type="submit" class="btn btn-success me-1">
+        {{ elementData?.Code === undefined ? 'Save' : 'Update' }}
+      </button>
+      <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
+    </div>
+  </form>
 </div>

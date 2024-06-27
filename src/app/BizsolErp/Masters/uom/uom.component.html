@@ -9,39 +9,54 @@
     <div class="col-md-3">
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <table border="1" class="table">
-        <thead>
-          <tr>
-            <th>S.No.</th>
-            <th>UOM</th>
-            <th>GST UOM</th>
-            <th>Decimal Digits</th>
-            <th style="width: 100px;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- @for(data of response; track data) { -->
-          <tr *ngFor="let UOM of UOM; let i = index">
-            <td>{{i+1}}</td>
-            <td> {{ UOM.UOM }} </td>
-            <td> {{ UOM.GSTUOM }}</td>
-            <td>{{ UOM.DecimalPoints }}</td>
-            <td class="buttonSet">
-              <button class=" btn btn-primary" (click)="editData(UOM.Code)"><i class="fa fa-pencil" aria-hidden="true"
-                  title="Edit"></i></button>&nbsp;
-              <button class="btn btn-danger" (click)="deleteData(UOM.Code)"><i class="fa fa-trash-o" aria-hidden="true"
-                  title="Delete"></i></button>
-            </td>
-          </tr>
-          <!-- } -->
-        </tbody>
+      <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+        <ng-container matColumnDef="S.No.">
+          <th mat-header-cell *matHeaderCellDef> S.No. </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ paginator.pageIndex * paginator.pageSize + (i + 1) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UOM">
+          <th mat-header-cell *matHeaderCellDef>UOM</th>
+          <td mat-cell *matCellDef="let element">{{ element.UOM }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="GST UOM">
+          <th mat-header-cell *matHeaderCellDef>GST UOM</th>
+          <td mat-cell *matCellDef="let element">{{ element.GSTUOM }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Decimal Digits">
+          <th mat-header-cell *matHeaderCellDef>Decimal Digits</th>
+          <td mat-cell *matCellDef="let element">{{ element.DecimalPoints }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-primary" (click)="editData(element.Code)">
+              <i class="fa fa-pencil" aria-hidden="true" title="Edit"></i>
+            </button>
+            &nbsp;
+            <button class="btn btn-danger" (click)="deleteData(element.Code)">
+              <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" #paginator></mat-paginator>
     </div>
     <div class="col-md-3"></div>
   </div>
+
   <!-- /////////////////////////UOM Modal///////////////////////// -->
 
   <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
