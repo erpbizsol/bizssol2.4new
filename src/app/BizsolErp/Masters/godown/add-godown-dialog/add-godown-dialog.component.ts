@@ -20,6 +20,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel } from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -35,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { GodownService } from '../../../../services/Master/godown.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 
 
@@ -47,6 +49,7 @@ selector: 'app-add-godown-dialog',
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatTabsModule,
     MatIconModule,
     MatToolbarModule,
     MatCardModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,CommonModule],
@@ -66,8 +69,8 @@ export class AddGodownDialogComponent {
   getPincode: any = [];
   cityList:any
   stateList:any
+  submitted:any
   countryList:any
-  submitted: boolean = false
   dropListData:any
   bankNameList:any
   debitList:any
@@ -77,6 +80,7 @@ export class AddGodownDialogComponent {
 
  constructor(
   private  godown : GodownService ,
+  private toaser:ToasterService,
   @Inject(MAT_DIALOG_DATA) public data: any,
  ){
   console.log(this.editData)
@@ -137,8 +141,7 @@ is_default_ware_house: this.editData.IsDefault,
 
     // cms_applicable: new FormControl(false),
     ware_house_group: new FormControl(''),
-
-is_default_ware_house: new FormControl(false),
+    is_default_ware_house: new FormControl(false),
  
 store_ware_house: new FormControl(false),
 in_transit_ware_house:new FormControl(false),
@@ -152,6 +155,50 @@ gate_entry:new FormControl(false),
 
 
 saveBankDetailsData(){
+  let  data = [
+    {
+      "code": 0,
+      "godownName": this.addgodownForm.value.ware_house_name,
+      "isDefault": "string",
+      "forStore": "string",
+      "initialGoDownDesp": "string",
+      "accountDesp": this.addgodownForm.value.ware_house_account_no,
+      "department": "string",
+      "address1": this.addgodownForm.value.address,
+      "city": this.addgodownForm.value.city,
+      "pinCode": this.addgodownForm.value.pin,
+      "godownTINNo": this.addgodownForm.value.tin_no,
+      "godownCSTNo": this.addgodownForm.value.cst_no,
+      "godownCINNo": this.addgodownForm.value.cin_no,
+      "godownMobileNo": this.addgodownForm.value.mobile_no,
+      "godownEmail": this.addgodownForm.value.email,
+      "godownFor": "string",
+      "godownGSTNo": this.addgodownForm.value.gst_no,
+      "godownSortOrder": 0,
+      "gateEntryMandatory": "string",
+      "showOnWeb": "string",
+      "companyAliasName": this.addgodownForm.value.compony_alias_name,
+      "forRejectedMaterial": "string",
+      "warehouseGroup": this.addgodownForm.value.ware_house_group,
+      "inTransitWarehouse": "y",
+      "applicableInDispatch": "N",
+      "userName": "string",
+      "userMaster_Code": 0
+    }
+  ]
+ 
+    this.godown.savewareHouses(data).subscribe({
+      next: (res: any) => {
+        this.toaser.showSuccess(res.Msg)
+        
+      },
+      error: (err: any) => {
+        this.toaser.showError(err.error.message)
+
+        // console.log(err.error.message);
+      }
+    });
+  
 
 }
  checkEcms(value:any){

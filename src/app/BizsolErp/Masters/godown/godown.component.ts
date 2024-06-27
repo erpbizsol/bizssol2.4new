@@ -82,8 +82,8 @@ export class GodownComponent implements OnInit {
 
   addDialog(value: any) {
     const dialogRef = this.dialog.open(AddGodownDialogComponent, {
-      width: '700px',
-      height: '380px',
+      width: '900px',
+      height: '580px',
       disableClose: true,
       data :{element:value}
       });

@@ -18,15 +18,17 @@
         </div>
        
       </div>
-        <div class="col-md-4 form-group">
-          <label><b>Alias Name</b></label>
-          <div>
-            <input type="text" class="form-control"  maxlength="50" placeholder="Enter Alias Name"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
-            <div *ngIf="submitted && f['aliasName'].errors" class="text-danger">
-              <div *ngIf="f['aliasName'].hasError('required')">Alias Name is Required</div>
-            </div>
+
+      <div class="col-md-4 form-group">
+        <label><b>Alias Name</b></label>
+        <div>
+          <input type="text" class="form-control"  maxlength="50" placeholder="Enter Alias Name"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
+          <div *ngIf="submitted && f['aliasName'].errors" class="text-danger">
+            <div *ngIf="f['aliasName'].hasError('required')">Alias Name is Required</div>
           </div>
         </div>
+      </div>
+      
         <div class="col-md-4 form-group">
           <label><b>Account No.</b></label>
           <div>
