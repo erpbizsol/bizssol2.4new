@@ -1,25 +1,27 @@
 <div class="delete-confirmation-dialog">
   <h5 class="header-bg" mat-dialog-title>
-
-    {{ this.elementData.Code === undefined ? 'Add Bank' : 'Update  Bank' }}
-    <i class="bi bi-x-circle" style="float: right;" (click)="onNoClick()">X</i>
+Bank Master
+    <!-- {{ this.elementData.Code === undefined ? 'Add Bank' : 'Update  Bank' }} -->
+    <!-- <i class="bi bi-x-circle">X</i> -->
+     
+    <i class="fa fa-times-circle-o" aria-hidden="true"  style="float: right;" (click)="onNoClick()"></i>
 
   </h5>
   <div class="row">
     <form [formGroup]="paymentTermsForm">
       <div class="row" mat-dialog-content>
-        <div class="col-md-4 form-group">
-          <label><b >Bank Name </b></label>
+        <div class="col-md-3 form-group">
+          <label><b >Bank Branch Name </b></label>
           <div>
-            <input type="text" class="form-control"   maxlength="100" placeholder="Enter BanK Name"  (keypress)="allowAlphabetsOnlyDot($event)" formControlName="bankName">
+            <input type="text" class="form-control"   maxlength="100" placeholder="Enter Bank Name"  (keypress)="allowAlphabetsOnlyDot($event)" formControlName="bankName">
             <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
-              <div *ngIf="f['bankName'].hasError('required')">Bank Name is Required</div>
+              <div *ngIf="f['bankName'].hasError('required')">Bank  Branch Name is Required</div>
             </div>
         </div>
        
       </div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label><b>Alias Name</b></label>
         <div>
           <input type="text" class="form-control"  maxlength="50" placeholder="Enter Alias Name"  formControlName="aliasName" (keypress)="allowAlphabetsOnly($event)">
@@ -29,13 +31,22 @@
         </div>
       </div>
       
-        <div class="col-md-4 form-group">
-          <label><b>Account No.</b></label>
+      
+        <div class="col-md-3 form-group">
+          <label><b>IFSC Code</b></label>
           <div>
-            <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
-" formControlName="account_No"  maxlength="20" placeholder="Enter Account No." >
-            <div *ngIf="submitted && f['account_No'].errors" class="text-danger">
-              <div *ngIf="f['account_No'].hasError('required')">Account No is Required</div>
+            <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+            <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
+              <div *ngIf="f['ifscCode'].hasError('required')">IFSC Code is Required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <label><b>Swift Code</b></label>
+          <div>
+            <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'swiftCode')">
+            <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
+              <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
             </div>
           </div>
         </div>
@@ -44,26 +55,10 @@
       <div class="row" mat-dialog-content>
          
 
-          <div class="col-md-4 form-group">
-            <label><b>IFSC Code</b></label>
-            <div>
-              <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
-              <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
-                <div *ngIf="f['ifscCode'].hasError('required')">Ifsc Code is Required</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 form-group">
-            <label><b>Swift Code</b></label>
-            <div>
-              <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'swiftCode')">
-              <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
-                <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
-              </div>
-            </div>
-          </div>
+          
+          
 
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b> Pin Code</b></label>
             <div>
               <input type="text" class="form-control"   formControlName="pin"  (input)="pinAcceptOnlyNumber($event)" maxlength="6" placeholder="Enter Pin Code">
@@ -73,39 +68,8 @@
               </div>
                 </div>
           </div>
-          <!-- <div class="col-md-6 form-group">
-            <label><b>Currency</b></label>
-            <div>
-              <select class="select2 form-control"  formControlName = "currency">
-                <option value="" selected hidden>Select Currency</option>
-                <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
-            </select>
-            </div>
-            <div *ngIf="submitted && f['currency'].errors" class="text-danger">
-              <div *ngIf="f['currency'].hasError('required')">Currency is Required</div>
-            </div>
-          </div> -->
-        </div>
-        <div class="row" mat-dialog-content>  
-         
-         
-        </div>
-        <div class="row" mat-dialog-content>
-        
-         
-        </div>
-        <div class="row" mat-dialog-content>
-          <div class="col-md-4 form-group">
-            <label><b> Address</b></label>
-            <div>
-    
-    <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address" (keypress)="allowAlphabetsOnlyAddress($event)"  formControlName="address" >
-    <div *ngIf="submitted && f['address'].errors" class="text-danger">
-      <div *ngIf="f['address'].hasError('required')">Address is Required</div>
-    </div>         
-  </div>
-          </div>
-          <div class="col-md-4 form-group">
+
+          <div class="col-md-3 form-group">
             <label><b>Nation</b></label>
             <div>
               <select class="select2 form-control"   formControlName="country"  (change)="getState($event)" >
@@ -120,7 +84,7 @@
                           <div *ngIf="f['country'].hasError('required')">Country Name is Required</div>
                         </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b>State</b></label>
             <div>
               <select class="select2 form-control"   (change)="getCityList($event)" formControlName="state">
@@ -135,15 +99,11 @@
             </div>
                    </div>
           </div>
-         
-        </div>
-      
-        <div class="row" mat-dialog-content>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b>City</b></label>
             <div>
               <select class="select2 form-control"   formControlName="city">
-                <option  selected hidden value="">Select</option>
+                <option  selected hidden value="">Select City</option>
                 <option *ngFor="let city of cityList"
                     [value]="city.CityName">{{
                     city.CityName }}
@@ -154,7 +114,28 @@
             </div>     
           </div>
           </div>
-          <div class="col-md-4 form-group">
+       
+        </div>
+       
+        
+        <div class="row" mat-dialog-content>
+          <div class="col-md-9 form-group">
+            <label><b> Address</b></label>
+            <div>
+    
+    <input type="text" class="form-control"  maxlength="80" placeholder="Enter Address" (keypress)="allowAlphabetsOnlyAddress($event)"  formControlName="address" >
+    <div *ngIf="submitted && f['address'].errors" class="text-danger">
+      <div *ngIf="f['address'].hasError('required')">Address is Required</div>
+    </div>         
+  </div>
+          </div>
+
+       
+
+       
+
+          
+          <div class="col-md-3 form-group">
             <label><b>Phone No</b></label>
             <div>
               <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15"   minlength="10" placeholder="Enter Phone No." >
@@ -165,36 +146,25 @@
               </div>
             </div>
           </div>
-
-          <div class="col-md-4 form-group">
-            <label><b>Pan No.</b></label>
-            <div>
-              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter Pan No." >
-              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
-                <div *ngIf="f['Pan_No'].hasError('required')">Pan No .is Required</div>
-              </div>
-            </div>
-          </div>
-          
+         
         </div>
+      
+        
 
        
         <div class="row" mat-dialog-content>
-        
-          <!-- <div class="col-md-6 form-group">
-            <label><b>Pan No.</b></label>
-            <div>
-              <input type="text" class="form-control" formControlName="Pan_No"  (input)="transformToUpperCase($event, 'Pan_No')"  maxlength="10" placeholder="Enter Pan No." >
            
-              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
-                <div *ngIf="f['Pan_No'].hasError('required')">Pan No. is Required</div>
-              </div> </div>
-          </div> -->
-
-
-
          
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
+            <label><b>PAN </b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter PAN Card Details" >
+              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
+                <div *ngIf="f['Pan_No'].hasError('required')">PAN Card  Details is Required</div>
+              </div>
+            </div>
+          </div>
+       <div class="col-md-3 form-group">
             <label><b>Email</b></label>
             <div>
               <input type="text" class="form-control" formControlName="email"  maxlength="50"   placeholder="Enter Email Id" >
@@ -205,18 +175,18 @@
               </div>
             </div>
           </div>
-
-          <div class="col-md-4 form-group">
-            <label><b>Gst No</b></label>
+          <div class="col-md-3 form-group">
+            <label><b>GST No</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="gst"  maxlength="50"   placeholder="Enter Email Id" >
+              <input type="text" class="form-control" formControlName="gst"  maxlength="15"   placeholder="Enter GST NO." >
               <div *ngIf="submitted && f['email'].errors" class="text-danger">
-                <div *ngIf="f['gst'].hasError('required')">Gst No.is Required</div>
+                <div *ngIf="f['gst'].hasError('required')">GST No. is Required</div>
 
               </div>
             </div>
           </div>
-          <div class="col-md-4 form-group">
+          
+          <div class="col-md-3 form-group">
             <label><b> e -CMS Application </b></label> 
              <div>
               <!-- <section class="example-section"> -->
@@ -234,7 +204,7 @@
         
         
           <div class="col-md-4 form-group">
-            <label><b> e cms   vendor</b></label>
+            <label><b> e CMS   Vendor</b></label>
             <div>
               <select class="select2 form-control"    formControlName="selectBank" required>
                 <option  value="" selected hidden>  Select Bank</option>
@@ -248,7 +218,7 @@
           <div class="col-md-4 form-group">
             <label><b> prefix </b></label> 
              <div>
-              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Prifix details"  required>
+              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Prefix details"  required>
               <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
                 <div *ngIf="f['prifix'].hasError('required')">Prefix  is Required</div>
               </div>
@@ -262,7 +232,7 @@
 
             <select class="select2 form-control"    formControlName="debitBankAccount" required>
 
-              <option   selected hidden value="">  Select debit amount</option>
+              <option   selected hidden value="">  Select Debit Account</option>
               <option *ngFor="let  item of debitList" [value]="item.AccountDesp"> {{item.AccountDesp}}</option>
               </select>
               <div *ngIf="submitted && controlValue && f['debitBankAccount'].errors" class="text-danger">
