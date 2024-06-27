@@ -46,7 +46,7 @@
  
   <!-- /////////////////*************************Create Modal*****************************////////////////////////// -->
   
-  <c-modal id="createModal" [visible]="visible" alignment="center" size="sm" (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
+  <c-modal id="createModal" [visible]="visible" alignment="center"  (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
   <form class="row" [formGroup]="countryForm" (ngSubmit)="submit()">
     <c-modal-header class="text-center">
       <h5 cModalTitle>Create Country</h5>
@@ -96,7 +96,7 @@
 
   <!-- /////////////////*************************Update Modal*****************************////////////////////////// -->
 
-  <c-modal id="updateModal" [visible]="updatevisible" alignment="center" size="sm"  (visibleChange)="handleLiveupdateChange($event)" backdrop="static">
+  <c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleLiveupdateChange($event)" backdrop="static">
     <c-modal-header>
       <h5 cModalTitle>Update Country</h5>
       <button (click)="Updatetoggle()" cButtonClose></button>
