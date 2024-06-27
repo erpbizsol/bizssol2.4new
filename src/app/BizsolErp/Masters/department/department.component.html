@@ -3,7 +3,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-6 mt-4 mb-2 text-end">
       <button type="button" data-toggle="myModalAssign" class="btn btn-primary" (click)="toggleLiveDemo()">
-        Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        CREATE NEW <i class="fa fa-plus-circle" aria-hidden="true"></i>
       </button>
     </div>
     <div class="col-md-3"></div>
@@ -57,37 +57,25 @@
   <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <form [formGroup]="newDepartmentForm" (ngSubmit)="saveDepartment()">
       <c-modal-header>
-        <h5 cModalTitle>Department Master (New)</h5>
+        <h5 cModalTitle>Department Master </h5>
         <button (click)="toggleLiveDemo()" cButtonClose></button>
       </c-modal-header>
       <c-modal-body>
         <div class="row mb-2">
           <input type="hidden" formControlName="Code" class="form-control" value="0">
           <div class="col-md-6 form-group">
-            <label for="deptCode">Department Code:</label>
+            <label for="deptCode">Department Code </label>
             <input type="text" formControlName="departmentCode" class="form-control" maxlength="40">
           </div>
           <div class="col-md-6 form-group">
-            <label for="deptName">Department Description:</label>
+            <label for="deptName">Department Name </label>
             <input type="text" formControlName="departmentName" class="form-control" maxlength="50">
           </div>
-          <!-- <div class="col-md-6 form-group">
-          <label for="department">Department Type:</label>
-          <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode">
-          <select id="department" formControlName="departmentType" class="form-control">
-            <option value="" >Select</option>
-            <option *ngFor="let department of departmentTypeList" [value]="department.Desp">{{department.Desp}}</option>
-      </select>
-        </div> -->
-          <!-- <div class="col-md-6 form-group">
-            <label for="departmentMail">E-Mail:</label>
-          <input type="email" formControlName="email" class="form-control" required>
-        </div> -->
         </div>
       </c-modal-body>
       <c-modal-footer>
-        <button cButton color="success" type="submit">Save</button>
-        <button (click)="toggleLiveDemo()" cButton color="secondary">Close</button>
+        <button cButton color="success" type="submit">SAVE</button>
+        <button (click)="toggleLiveDemo()" cButton color="danger">CLOSE</button>
       </c-modal-footer>
     </form>
   </c-modal>
@@ -97,37 +85,25 @@
   <c-modal id="editDemoModal" [visible]="visible1" (visibleChange)="handleLiveDemoChange($event)">
     <form [formGroup]="newDepartmentForm" (ngSubmit)="saveDepartment()">
       <c-modal-header>
-        <h5 cModalTitle>Department Master (Update)</h5>
+        <h5 cModalTitle>Department Master </h5>
         <button (click)="editDemoModal()" cButtonClose></button>
       </c-modal-header>
       <c-modal-body>
         <div class="row mb-2">
           <input type="hidden" formControlName="Code" class="form-control" value="0">
           <div class="col-md-6 form-group">
-            <label for="deptCode">Department Code:</label>
+            <label for="deptCode">Department Code </label>
             <input type="text" formControlName="departmentCode" class="form-control">
           </div>
           <div class="col-md-6 form-group">
-            <label for="deptName">Department Description:</label>
+            <label for="deptName">Department Name </label>
             <input type="text" formControlName="departmentName" class="form-control">
           </div>
-          <!-- <div class="col-md-6 form-group">
-          <label for="department">Department Type:</label>
-          <input type="text" formControlName="departmentType" id="departmentType" class="form-control" name="departmentCode">
-          <select id="department" formControlName="departmentType" class="form-control">
-            <option value="" >Select</option>
-            <option *ngFor="let department of departmentTypeList" [value]="department.Desp">{{department.Desp}}</option>
-      </select>
-        </div> -->
-          <!-- <div class="col-md-6 form-group">
-            <label for="departmentMail">E-Mail:</label>
-          <input type="email" formControlName="email" class="form-control">
-        </div> -->
         </div>
       </c-modal-body>
       <c-modal-footer>
-        <button cButton color="success" type="submit">Update </button>
-        <button (click)="editDemoModal()" cButton color="secondary">Close</button>
+        <button cButton color="success" type="submit">UPDATE </button>
+        <button (click)="editDemoModal()" cButton color="danger">CLOSE</button>
       </c-modal-footer>
     </form>
   </c-modal>
