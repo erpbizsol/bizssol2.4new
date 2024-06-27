@@ -51,7 +51,7 @@ export class SubcategoryDialogComponent {
       
 
     })
-  }
+  } 
 
   savecategorydata() {
     this.submitted = true;

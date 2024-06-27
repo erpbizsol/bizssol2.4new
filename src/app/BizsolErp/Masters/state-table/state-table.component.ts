@@ -184,7 +184,7 @@ export class StateTableComponent implements OnInit {
   getStateList(country: string) {
 
     this.selectedcountry = country;
-    console.log(this.selectedcountry);
+    // console.log(this.selectedcountry);
 
     this._stateService.getStatesList(country).subscribe((res: any[]) => {
       this.statelist = res.map((item, index) => ({ SN: index + 1, ...item }));
