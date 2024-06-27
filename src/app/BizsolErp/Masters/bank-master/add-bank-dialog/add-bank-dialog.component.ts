@@ -93,7 +93,7 @@ export class AddBankDialogComponent {
   paymentTermsForm = new FormGroup({
     bankName: new FormControl('', Validators.required),
     aliasName: new FormControl('',Validators.required),
-    account_No: new FormControl('', Validators.required),
+    account_No: new FormControl(''),
     // currency: new FormControl('',Validators.required),
     ifscCode: new FormControl('',Validators.required),
     swiftCode:new FormControl('',Validators.required),
@@ -274,7 +274,7 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         bankName: this.paymentTermsForm.value.bankName,
         accountNo:this.paymentTermsForm.value.account_No,
         currencyName:'',
-        address: this.paymentTermsForm.value.address,
+        address:'',
         Nation: this.paymentTermsForm.value.country,
         pinCode:this.paymentTermsForm.value.pin,
         city:this.paymentTermsForm.value.city,
@@ -298,7 +298,7 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         vartualAccountAutoGenerate:'Y',
         eCMSDebitAccountName: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.debitBankAccount :"",
         userMaster_Code: 0,
-        // gst: this.paymentTermsForm.value.gst,
+        GSTNO: this.paymentTermsForm.value.gst,
 
 
       }

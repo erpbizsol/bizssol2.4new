@@ -14,7 +14,10 @@
                     <option  value ="">In House</option>
                     <option  value ="">out  house</option>
 
-                </select>             
+                </select>  
+                <div *ngIf="submitted && f['ware_house_type'].errors" class="text-danger">
+                  <div *ngIf="f['ware_house_type'].hasError('required')">ware_house_type is Required</div>
+                </div>           
                
           </div>
          
@@ -161,12 +164,7 @@
             <div class="col-md-6 form-group">
               <label><b>Address</b></label>
               <div>
-
-                
-<!-- <textarea   cols="3">
-  At w3schools.co
-  </textarea> -->
-                <input type="text" class="form-control" formControlName="address"  maxlength="50"   placeholder="Enter Address" >
+ <input type="text" class="form-control" formControlName="address"  maxlength="50"   placeholder="Enter Address" >
                 <div *ngIf="submitted && f['address'].errors" class="text-danger">
                   <div *ngIf="f['address'].hasError('required')">address is Required</div>
   
@@ -177,25 +175,28 @@
               <label><b> Ware house group </b></label>
               <div>
                 <input type="text" class="form-control" formControlName="ware_house_group"  placeholder="Enter " >
-               </div>
+                <div *ngIf="submitted && f['ware_house_group'].errors" class="text-danger">
+                  <div *ngIf="f['ware_house_group'].hasError('required')">ware_house_group is Required</div>
+  
+                </div> 
+              </div>
           </div>
 
         
   
- <div class="col-md-6 form-group">
-              <div>
-                <section class="example-section">
-                  <label>Default Ware house</label>
-                    <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
-                  </section>  
-                </div>
-            </div>
+           
             
           </div>
-        <!-- ================check============= -->
         <div class="row" mat-dialog-content>
-
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
+            <div>
+              <section class="example-section">
+                <label>Default Ware house</label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+          <div class="col-md-3 form-group">
             <div>
               <section class="example-section">
                 <label>Store Ware house</label>
@@ -203,7 +204,7 @@
                 </section>  
               </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <div>
               <section class="example-section">
                 <label>In Transit Ware house</label>
@@ -211,7 +212,7 @@
                 </section>  
               </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <div>
               <section class="example-section">
                 <label>Qaulity WareHouse</label>
@@ -219,7 +220,7 @@
                 </section>  
               </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <div>
               <section class="example-section">
                 <label>Get Entry Mandatry</label>
@@ -227,7 +228,7 @@
                 </section>  
               </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <div>
               <section class="example-section">
                 <label>Show stock in web </label>
@@ -236,7 +237,7 @@
               </div>
           </div>
  
-<div class="col-md-4 form-group">
+<div class="col-md-3 form-group">
              <div>
                <section class="example-section">
                  <label>Application In Dispatch</label>

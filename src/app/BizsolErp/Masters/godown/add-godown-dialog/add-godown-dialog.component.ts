@@ -140,7 +140,7 @@ is_default_ware_house: this.editData.IsDefault,
     email:new FormControl('',[Validators.required,Validators.email]),
 
     // cms_applicable: new FormControl(false),
-    ware_house_group: new FormControl(''),
+    ware_house_group: new FormControl('',Validators.required),
     is_default_ware_house: new FormControl(false),
  
 store_ware_house: new FormControl(false),
@@ -193,7 +193,7 @@ saveBankDetailsData(){
         
       },
       error: (err: any) => {
-        this.toaser.showError(err.error.message)
+        this.toaser.showError("some thing went wrong")
 
         // console.log(err.error.message);
       }
