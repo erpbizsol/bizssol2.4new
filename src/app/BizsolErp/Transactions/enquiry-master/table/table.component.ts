@@ -50,8 +50,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule,MatSelectModule,NgxMatSelectSearchModule, MatTooltipModule, HttpClientModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
-    MatFormFieldModule,MatAutocompleteModule,MatInputModule,  FormsModule, ReactiveFormsModule, RouterModule, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent],
+  imports: [CommonModule, MatSelectModule, NgxMatSelectSearchModule, MatTooltipModule, HttpClientModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule,
+    MatFormFieldModule, MatAutocompleteModule, MatInputModule, FormsModule, ReactiveFormsModule, RouterModule, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent],
 
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -164,7 +164,6 @@ export class TableComponent implements OnInit {
       // Clear or reset selectedStatus
       this.selectedStatus = null; // or set to a default value if needed
       this.applyFilter(''); // Clear current filter
-      this.remarksControl.reset();
     },
       err => {
         this.snackBarService.showErrorMessage('Failed to fetch Enquiry-List');

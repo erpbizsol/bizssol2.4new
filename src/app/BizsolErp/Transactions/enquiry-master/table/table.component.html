@@ -96,8 +96,8 @@
                         data-bs-target="#myModalVerify">Verify</button></a>
                   </li>
                   <li><a class="dropdown-item">
-                      <button class="btn btn-primary modalbtn" data-bs-toggle="modal"
-                        data-bs-target="#myModalAssign">Assign</button></a>
+                      <button class="btn btn-primary modalbtn" data-bs-toggle="modal" data-bs-target="#myModalAssign">
+                        {{ row.PersonName.length ? "Reassign" : "Assign" }}</button></a>
                   </li>
                   <li><a class="dropdown-item"><button class="btn btn-primary modalbtn" (click)="openFollowUp(row.Code)"
                         [disabled]="row.Verified !== 'Y'">Follow Up</button></a>
@@ -138,27 +138,21 @@
                     <div class="container-fluid">
                       <div class="row">
                         <div class="col-md-6 form-group">
-                          <!-- <label for="">Sales Person</label> -->
-                          <!-- <select class="form-control" [value]="assignPerson" (hange)="onPersonChange($event)">
-                            <option disabled [ngValue]="null">Sales Person</option>
-                            <option *ngFor="let person of salesPersonList" [ngValue]="person">
-                              {{ person.PersonName }}
-                            </option>
-                          </select> -->
-
                           <select class="form-control" [(ngModel)]="assignPerson" (change)="onPersonChange($event)">
                             <option disabled value="">Sales Person</option>
                             <option *ngFor="let person of salesPersonList" [value]="person.PersonName">
                               {{ person.PersonName }}</option>
                           </select>
                         </div>
-
-                        <div class="col-md-6">
-                          <!-- <button class="btn btn-success">Assign</button> &nbsp;&nbsp;&nbsp; -->
-                          <!-- <button class="btn btn-danger">Cancel</button> -->
+                      </div>&nbsp;&nbsp;&nbsp;
+                      <!-- <div class="row">
+                        <div class="col-md-2">
+                          <label>Remarks</label>
                         </div>
-
-                      </div>
+                        <div class="col-md-10">
+                          <input type="text" class="form-control" [formControl]="assignRemarks" maxLength="100">
+                        </div>
+                      </div> -->
                     </div>
                   </div>
 
