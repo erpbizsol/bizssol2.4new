@@ -3,7 +3,7 @@
     <div class="col-md-3">
     </div>
     <div class="col-md-6 mt-4 mb-2 text-end">
-      <button type="button" data-toggle="myModalAssign" class="btn btn-primary" (click)="toggleLiveDemo()">Create new <i
+      <button type="button" data-toggle="myModalAssign" class="btn btn-primary" (click)="toggleLiveDemo()">CREATE NEW <i
           class="fa fa-plus-circle" aria-hidden="true"></i></button>
     </div>
     <div class="col-md-3">
@@ -62,14 +62,14 @@
   <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <form [formGroup]="newUOMForm" (ngSubmit)="saveUOM()">
       <c-modal-header>
-        <h5 cModalTitle>UOM Master (New)</h5>
+        <h5 cModalTitle>UOM Master </h5>
         <button (click)="toggleLiveDemo()" cButtonClose></button>
       </c-modal-header>
       <c-modal-body>
         <div class="row mb-2">
           <input type="hidden" formControlName="Code" class="form-control" value="0">
           <div class="col-md-4 form-group">
-            <label for="uomname">UOM Description:</label>
+            <label for="uomname">UOM </label>
             <input type="text" formControlName="uomdesp" class="form-control" maxlength="100"
               (input)="onInputCharacterChange($event)">
             <div
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="col-md-4 form-group">
-            <label for="gstuomDesp">GST UOM Description:</label>
+            <label for="gstuomDesp">GST UOM </label>
             <!-- <input type="text" formControlName="gstuomDesp" class="form-control" maxlength="50"> -->
             <select id="gstUom" formControlName="gstuomDesp" class="form-control" maxlength="50">
               <option value="">Select</option>
@@ -88,7 +88,7 @@
             </select>
           </div>
           <div class="col-md-4 form-group">
-            <label for="DigitsAfterDecimal">Digits After Decimal:</label>
+            <label for="DigitsAfterDecimal">Decimal Digits </label>
             <input type="text" formControlName="DigitsAfterDecimal" class="form-control"
               (input)="onInputChange($event)">
             <div
@@ -101,8 +101,8 @@
         </div>
       </c-modal-body>
       <c-modal-footer>
-        <button cButton color="success" type="submit">Save</button>
-        <button (click)="toggleLiveDemo()" cButton color="secondary">Close</button>
+        <button cButton color="success" type="submit">SAVE</button>
+        <button (click)="toggleLiveDemo()" cButton color="danger">CLOSE</button>
       </c-modal-footer>
     </form>
   </c-modal>
@@ -111,14 +111,14 @@
   <c-modal id="editDemoModal" [visible]="visible1" (visibleChange)="handleLiveDemoChange($event)">
     <form [formGroup]="newUOMForm" (ngSubmit)="saveUOM()">
       <c-modal-header>
-        <h5 cModalTitle>UOM Master (Update) </h5>
+        <h5 cModalTitle>UOM Master </h5>
         <button (click)="editDemoModal()" cButtonClose></button>
       </c-modal-header>
       <c-modal-body>
         <div class="row mb-2">
           <input type="hidden" formControlName="Code" class="form-control" value="0">
           <div class="col-md-4 form-group">
-            <label for="uomname">UOM Description:</label>
+            <label for="uomname">UOM </label>
             <input type="text" formControlName="uomdesp" class="form-control" maxlength="100"
               (input)="onInputCharacterChange($event)">
             <div
@@ -129,14 +129,14 @@
             </div>
           </div>
           <div class="col-md-4 form-group">
-            <label for="gstuomDesp">GST UOM Description:</label>
+            <label for="gstuomDesp">GST UOM </label>
             <select id="gstUom" formControlName="gstuomDesp" class="form-control" maxlength="50">
               <option value="">Select</option>
               <option *ngFor="let gstUom of getGSTUOMList" [value]="gstUom.Desp">{{gstUom.Desp}}</option>
             </select>
           </div>
           <div class="col-md-4 form-group">
-            <label for="DigitsAfterDecimal">Digits After Decimal:</label>
+            <label for="DigitsAfterDecimal">Decimal Digits </label>
             <input type="text" formControlName="DigitsAfterDecimal" class="form-control"
               (input)="onInputChange($event)">
             <div
@@ -149,8 +149,8 @@
         </div>
       </c-modal-body>
       <c-modal-footer>
-        <button cButton color="success" type="submit">Update </button>
-        <button (click)="editDemoModal()" cButton color="secondary">Close</button>
+        <button cButton color="success" type="submit">UPDATE </button>
+        <button (click)="editDemoModal()" cButton color="danger">CLOSE </button>
       </c-modal-footer>
     </form>
   </c-modal>

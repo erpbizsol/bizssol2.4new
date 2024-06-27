@@ -4,14 +4,14 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-4 form-group">
-                    <label for="tank" class="required">Tank Name</label>
+                    <label for="tank" class="required"><b>Tank Name </b></label>
                     <select id="tank" formControlName="tankName" class="form-control">
                         <option value="">Select</option>
                         <option *ngFor="let tank of Tank" [value]="tank.Desp">{{tank.Desp}}</option>
                     </select>
                 </div>
-                <div class="col-md-2 mt-4 mb-2 text-start">
-                    <button type="button" class="btn btn-primary" (click)="onFillGo()">Fill/Go</button>
+                <div class="col-md-2 mt-4 text-start">
+                    <button type="button" class="btn btn-primary" (click)="onFillGo()">FILL/GO</button>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -33,7 +33,7 @@
                                 <td><input type="text" formControlName="stockValue" (keypress)="validateFloat($event)" (keydown.enter)="onStockValueEnter($event, i)" /></td>
                             </tr>
                             <tr>
-                                <td colspan="2" class="text-end"><button type="submit" class="btn btn-success">Save</button></td>
+                                <td colspan="2" class="text-end"><button type="submit" class="btn btn-success">SAVE</button></td>
                             </tr>
                         </tbody>
                     </table>
