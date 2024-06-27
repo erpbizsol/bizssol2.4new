@@ -489,20 +489,6 @@ export class NewCustomerComponent implements OnInit {
     }
   }
 
-  getCompanyList(event) {
-    const selectedCustomerType = (event.target as HTMLSelectElement).value;
-    const customerType = {
-      tableName: "AccountMaster",
-      fieldName: "AccountDesp",
-      fieldNameOrderBy: "",
-      distinct: "Y",
-      filterCondition: " AND Code in (Select Code From [Dbo].[UDF_GetNestedDealerList](0,0))"
-    }
-    this._http.post(this._urlService.API_ENDPOINT_DROPDOWND, customerType).subscribe((res: any) => {
-      this.companyList = res;
-    })
-  }
-
   onInputChange2(event: any) {
     const inputValue: string = event.target.value;
     const formattedValue = this.capitalizeWords(inputValue);
