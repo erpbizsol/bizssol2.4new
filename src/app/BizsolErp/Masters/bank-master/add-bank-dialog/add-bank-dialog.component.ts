@@ -337,8 +337,6 @@ delete this.paymentTermsForm.value.cms_applicable
   
   checkEcms(event: any, controlName: string): void {
     this.controlValue = this.paymentTermsForm.get(controlName)?.value;
-    console.log(this.controlValue);
-    // this.getBankDropDown()
     this.getDebit()
     this.getBankDropDown()
   }

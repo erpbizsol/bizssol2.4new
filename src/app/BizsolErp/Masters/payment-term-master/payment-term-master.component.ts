@@ -25,7 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 
 })
 export class PaymentTermMasterComponent implements OnInit {
-  displayedColumns: string[] = ['sNo', 'description', 'status', 'advancePaymentStatus', 'advancePaymentAmount', 'action'];
+  displayedColumns: string[] = ['sNo', 'description',  'advancePaymentStatus', 'advancePaymentAmount','status', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
