@@ -6,20 +6,20 @@
     <div class="row">
       <form [formGroup]="addgodownForm">
         <div class="row" mat-dialog-content>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b>Ware House Type </b></label>
             <div>
                 <select class="select2 form-control"  formControlName = "ware_house_type">
-                    <option value="" selected hidden>Select Ware House Type</option>
-                    <option  value ="">In Holde</option>
-                    <option  value ="">option</option>
+                    <option value="" selected hidden> Ware House Type</option>
+                    <option  value ="">In House</option>
+                    <option  value ="">out  house</option>
 
                 </select>             
                
           </div>
          
         </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b>Sort  order Name</b></label>
             <div>
               <input type="text" class="form-control"  maxlength="50" placeholder="Enter sort  order"  formControlName="sort_order" (keypress)="allowAlphabetsOnly($event)">
@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 form-group">
+          <div class="col-md-3 form-group">
             <label><b>  Ware House Account  No.</b></label>    
             <div>
               <input type="text" class="form-control"  onkeypress="return event.charCode > 47 && event.charCode < 58;
@@ -38,23 +38,24 @@
               </div>
             </div>
           </div>
+          <div class="col-md-3 form-group">
+            <label><b>Ware House  Name</b></label>
+            <div>
+              <!-- <select class="select2 form-control"  formControlName = "currency">
+                <option value="" selected hidden>Select Currency</option>
+                <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
+            </select> -->
+              <input type="text" class="form-control" formControlName="ware_house_name" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
+            </div>
+            <div *ngIf="submitted && f['ware_house_name'].errors" class="text-danger">
+              <div *ngIf="f['ware_house_name'].hasError('required')">Ware House  name is required</div>
+            </div>
+          </div>
         </div>
           <div class="row" mat-dialog-content>
            
-            <div class="col-md-4 form-group">
-              <label><b>Ware House  Name</b></label>
-              <div>
-                <!-- <select class="select2 form-control"  formControlName = "currency">
-                  <option value="" selected hidden>Select Currency</option>
-                  <option  *ngFor=" let  data of dropListData" [value]="data?.Desp">{{data?.Desp}}</option>
-              </select> -->
-                <input type="text" class="form-control" formControlName="ware_house_name" maxlength="50" placeholder="Enter Description" (keypress)="allowAlphabetsOnly($event)">
-              </div>
-              <div *ngIf="submitted && f['ware_house_name'].errors" class="text-danger">
-                <div *ngIf="f['ware_house_name'].hasError('required')">Ware House  name is required</div>
-              </div>
-            </div>
-            <div class="col-md-4 form-group">
+           
+            <div class="col-md-3 form-group">
               <label><b>Short Description </b></label>
               <div>
                 <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "short_description"  maxlength="10" placeholder="Enter Short  Description" >
@@ -63,7 +64,7 @@
                 </div> -->
               </div>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-3 form-group">
               <label><b>Company Alias Name </b></label>
               <div>
                 <input type="text" class="form-control" formControlName = "compony_alias_name"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'compony_alias_name')">
@@ -72,12 +73,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        
-     
-          <div class="row" mat-dialog-content>      
-          
-            <div class="col-md-4 form-group">
+            <div class="col-md-3 form-group">
               <label><b> Pin Code</b></label>
               <div>
                 <input type="text" class="form-control"   formControlName="pin"   maxlength="6" placeholder="Enter Pin Code">
@@ -87,43 +83,8 @@
                 </div>
                   </div>
             </div>
-            <div class="col-md-4 form-group">
-              <label><b> Address</b></label>
-              <div>
-      
-      <input type="text" class="form-control"  maxlength="50" placeholder="Enter Address" (keypress)="allowAlphabetsOnly($event)"  formControlName="address" >
-      <div *ngIf="submitted && f['address'].errors" class="text-danger">
-        <div *ngIf="f['address'].hasError('required')">Address is Required</div>
-      </div>         
-    </div>
-            </div>
-            <div class="col-md-4 form-group">
-              <label><b>City</b></label>
-              <div>
-                <select class="select2 form-control"   formControlName="city">
-                  <option  selected hidden value="">Select City</option>
-                   <option>delhi</option>
-              
-              </select>
-                          </div>
-                          <div *ngIf="submitted && f['city'].errors" class="text-danger">
-                            <div *ngIf="f['city'].hasError('required')">City is Required</div>
-                          </div>
-            </div>
-          </div>
-        
-          <div class="row" mat-dialog-content>
-          
-          <div class="col-md-4 form-group">
-              <label><b>GST No.</b></label>
-              <div>     
-              <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="gst_no" >
-              <div *ngIf="submitted && f['gst_no'].errors" class="text-danger">
-                <div *ngIf="f['gst_no'].hasError('required')">Gst no is Required</div>
-              </div>    
-            </div>
-            </div>
-            <div class="col-md-4 form-group">
+
+            <div class="col-md-3 form-group">
               <label><b>TIN No.</b></label>
               <div>
                 <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="tin_no" >
@@ -133,31 +94,23 @@
                 </div>      
             </div>
             </div>
-            <div class="col-md-4 form-group">
-              <label><b>CST No</b></label>
-              <div>
-                <input type="text" class="form-control"  formControlName="cst_no"  maxlength="15" placeholder="Enter Phone No." >
-                <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
-                  <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
-                </div>
-              </div>
-            </div>
+          </div>
+        
+     
+          <div class="row" mat-dialog-content>      
+          
            
-          </div>
-          
-          <div class="row" mat-dialog-content>
-            
-            <!-- <div class="col-md-6 form-group">
-              <label><b>Pin Code</b></label>
-              <div>
-                <input type="text" class="form-control"   fomConTrolName="FormControlName"  (input)="pinAcceptOnlyNumber($event)" maxlength="50" placeholder="Enter Description">
-              </div>
-            </div> -->
-          </div>
-  
-          <div class="row" mat-dialog-content>
-          
-            <div class="col-md-6 form-group">
+         
+            <div class="col-md-3 form-group">
+              <label><b>GST No.</b></label>
+              <div>     
+              <input type="text" class="form-control"  maxlength="13" placeholder="Enter GstNo"   formControlName="gst_no" >
+              <div *ngIf="submitted && f['gst_no'].errors" class="text-danger">
+                <div *ngIf="f['gst_no'].hasError('required')">Gst no is Required</div>
+              </div>    
+            </div>
+            </div>
+            <div class="col-md-3 form-group">
               <label><b>CIN No.</b></label>
               <div>
                 <input type="text" class="form-control"  formControlName="cin_no"  (input)="transformToUpperCase($event, 'fax_no')" maxlength="14" placeholder="Enter Fax No." >
@@ -166,7 +119,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-3 form-group">
               <label><b>Mobile No.</b></label>
               <div>
                 <input type="text" class="form-control" formControlName="mobile_no"  (input)="transformToUpperCase($event, 'mobile_no')"  maxlength="15" placeholder="Enter mobile no" >
@@ -175,99 +128,129 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row" mat-dialog-content>
-          
-            <div class="col-md-6 form-group">
-                <label><b>Email</b></label>
-                <div>
-                  <input type="text" class="form-control" formControlName="email"  maxlength="50"   placeholder="Enter Email Id" >
-                  <div *ngIf="submitted && f['email'].errors" class="text-danger">
-                    <div *ngIf="f['email'].hasError('required')">Email Id is Required</div>
-                    <div *ngIf="f['email'].hasError('email')"> Enter Valid  email id</div>
-    
-                  </div>
+            <div class="col-md-3 form-group">
+              <label><b>Email</b></label>
+              <div>
+                <input type="text" class="form-control" formControlName="email"  maxlength="50"   placeholder="Enter Email Id" >
+                <div *ngIf="submitted && f['email'].errors" class="text-danger">
+                  <div *ngIf="f['email'].hasError('required')">Email Id is Required</div>
+                  <div *ngIf="f['email'].hasError('email')"> Enter Valid  email id</div>
+  
                 </div>
               </div>
+            </div>
          
           </div>
+        
+          <div class="row" mat-dialog-content>
+          
+          
+            
+        
+         
+          </div>
+          
+        
   
           
-          <!-- <div class="row" mat-dialog-content >
-           
+        
+  
+        
+  <!-- ================================checkbo===================================== -->
+          <div class="row" mat-dialog-content>
             <div class="col-md-6 form-group">
-              <label><b>Default</b></label> 
+              <label><b>Address</b></label>
               <div>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin" formControlName="default" ></mat-checkbox>
-                </section>
+
                 
+<!-- <textarea   cols="3">
+  At w3schools.co
+  </textarea> -->
+                <input type="text" class="form-control" formControlName="address"  maxlength="50"   placeholder="Enter Address" >
+                <div *ngIf="submitted && f['address'].errors" class="text-danger">
+                  <div *ngIf="f['address'].hasError('required')">address is Required</div>
+  
+                </div>
               </div>
             </div>
             <div class="col-md-6 form-group">
-              <label><b> e -CMS Application </b></label> 
-               <div>
-                <section class="example-section">
-                  <mat-checkbox class="example-margin"  formControlName="cms_applicable" ></mat-checkbox>
-                </section>   
-                  
-               </div>
-            </div>
-          </div> -->
-  <!-- ================================checkbo===================================== -->
-          <div class="row" mat-dialog-content>
-            
-           <div class="col-md-6 form-group">
               <label><b> Ware house group </b></label>
               <div>
                 <input type="text" class="form-control" formControlName="ware_house_group"  placeholder="Enter " >
+               </div>
+          </div>
 
+        
+  
+ <div class="col-md-6 form-group">
+              <div>
                 <section class="example-section">
                   <label>Default Ware house</label>
                     <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
                   </section>  
-                  <label>Store Warehouse</label>
-
-                  <section class="example-section">
-                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
-                  </section>  
-                  <section class="example-section">
-                    <label>In transit Warehouse</label>
-
-                    <mat-checkbox class="example-margin"  formControlName="in_transit_ware_house" ></mat-checkbox>
-                  </section> 
-                  <section class="example-section">
-                    <label>Qaulity  WareHouse</label>
-
-                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
-                  </section> 
-                  <section class="example-section">
-                    <label>Gate Entry  Mandotry</label>
-
-                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
-                  </section>
-
-                  <section class="example-section">
-                    <label>Show stock on web </label>
-
-                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
-                  </section>
-                  <section class="example-section">
-                    <label>Application in dispatch  </label>
-
-                    <mat-checkbox class="example-margin"  formControlName="store_ware_house" ></mat-checkbox>
-                  </section>
-                  </div>
+                </div>
             </div>
-  
             
           </div>
-         
+        <!-- ================check============= -->
+        <div class="row" mat-dialog-content>
+
+          <div class="col-md-4 form-group">
+            <div>
+              <section class="example-section">
+                <label>Store Ware house</label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div>
+              <section class="example-section">
+                <label>In Transit Ware house</label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div>
+              <section class="example-section">
+                <label>Qaulity WareHouse</label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div>
+              <section class="example-section">
+                <label>Get Entry Mandatry</label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div>
+              <section class="example-section">
+                <label>Show stock in web </label>
+                  <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                </section>  
+              </div>
+          </div>
+ 
+<div class="col-md-4 form-group">
+             <div>
+               <section class="example-section">
+                 <label>Application In Dispatch</label>
+                   <mat-checkbox class="example-margin"  formControlName="is_default_ware_house" ></mat-checkbox>
+                 </section>  
+               </div>
+           </div>
+           
+         </div>
           
         <div mat-dialog-actions class="content-end">
-          <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >
+          <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()" >Save
           </button>
-             <!-- {{ this.editData.Code === undefined ? 'Save' : 'Update ' }} --> Save
+             <!-- {{ this.editData.Code === undefined ? 'Save' : 'Update ' }} --> 
              <button type="button" class="btn btn-danger me-1" mat-dialog-close (click)="onNoClick()">Close</button>
 
   
