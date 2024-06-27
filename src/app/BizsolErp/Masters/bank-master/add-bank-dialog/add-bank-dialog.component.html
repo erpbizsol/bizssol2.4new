@@ -131,10 +131,27 @@ Bank Master
           </div>
 
        
+          <div class="col-md-3 form-group">
+            <label><b>GST No</b></label>
+            <div>
+              <input type="text" class="form-control" formControlName="gst"  maxlength="15"   placeholder="Enter GST NO." >
+              <div *ngIf="submitted && f['email'].errors" class="text-danger">
+                <div *ngIf="f['gst'].hasError('required')">GST No. is Required</div>
 
+              </div>
+            </div>
+          </div>
        
 
           
+        
+         
+        </div>
+      
+        
+
+       
+        <div class="row" mat-dialog-content>
           <div class="col-md-3 form-group">
             <label><b>Phone No</b></label>
             <div>
@@ -146,24 +163,7 @@ Bank Master
               </div>
             </div>
           </div>
-         
-        </div>
-      
-        
-
-       
-        <div class="row" mat-dialog-content>
-           
-         
-          <div class="col-md-3 form-group">
-            <label><b>PAN </b></label>
-            <div>
-              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter PAN Card Details" >
-              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
-                <div *ngIf="f['Pan_No'].hasError('required')">PAN Card  Details is Required</div>
-              </div>
-            </div>
-          </div>
+     
        <div class="col-md-3 form-group">
             <label><b>Email</b></label>
             <div>
@@ -175,13 +175,14 @@ Bank Master
               </div>
             </div>
           </div>
+          
+              
           <div class="col-md-3 form-group">
-            <label><b>GST No</b></label>
+            <label><b>PAN </b></label>
             <div>
-              <input type="text" class="form-control" formControlName="gst"  maxlength="15"   placeholder="Enter GST NO." >
-              <div *ngIf="submitted && f['email'].errors" class="text-danger">
-                <div *ngIf="f['gst'].hasError('required')">GST No. is Required</div>
-
+              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter PAN Card Details" >
+              <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
+                <div *ngIf="f['Pan_No'].hasError('required')">PAN Card  Details is Required</div>
               </div>
             </div>
           </div>
