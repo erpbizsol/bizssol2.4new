@@ -20,7 +20,7 @@ export class HistoryComponent implements OnInit {
 
   enquiryCode: string;
   enquiryDate: string;
-  constructor(private location: Location, private _enquiryService: EnquiryService, private route: ActivatedRoute, private datePipe: DatePipe) { }
+  constructor(private _location: Location, private _enquiryService: EnquiryService, private route: ActivatedRoute, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.enquiryCode = this.route.snapshot.paramMap.get('Code');
@@ -39,8 +39,8 @@ export class HistoryComponent implements OnInit {
     })
   }
 
-  Cancel() {
-    this.location.back();
+  back2table() {
+    this._location.back();
   }
 
 
