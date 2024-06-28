@@ -7,14 +7,15 @@
     <i class="fa fa-times-circle-o" aria-hidden="true" style="float: right;" (click)="onNoClick()"></i>
 
   </h5>
+  <!-- (keypress)="allowAlphabetsOnlyDot($event)" -->
   <div class="row">
     <form [formGroup]="paymentTermsForm">
       <div class="row" mat-dialog-content>
         <div class="col-md-3 form-group">
           <label><b>Bank Branch Name </b></label>
           <div>
-            <input type="text" class="form-control" maxlength="100" placeholder="Enter Bank Name"
-              (keypress)="allowAlphabetsOnlyDot($event)" formControlName="bankName">
+            <input type="text" class="form-control" maxlength="100" placeholder="Enter Bank Name" (input)="onInputChange2($event)"
+               formControlName="bankName">
             <div *ngIf="submitted && f['bankName'].errors" class="text-danger">
               <div *ngIf="f['bankName'].hasError('required')">Bank Branch Name is Required</div>
             </div>
@@ -134,7 +135,7 @@
 
 
         <div class="col-md-3 form-group">
-          <label><b>GST No</b></label>
+          <label><b>GST No.</b></label>
           <div>
             <input type="text" class="form-control" formControlName="gst" (input)="allowAlphabetsAndNumbersOnly($event)"
               maxlength="15" placeholder="Enter GST NO.">
@@ -243,7 +244,7 @@
 
 
 
-      <div mat-dialog-actions class="content-end">
+      <div mat-dialog-actions class="content-end" *ngIf="!view">
         <button type="button" class="btn btn-success me-1" (click)="saveBankDetailsData()">
           {{ this.elementData.Code === undefined ? 'SAVE' : 'UPDATE ' }}
 

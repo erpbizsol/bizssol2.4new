@@ -28,7 +28,7 @@
   })
   export class BankMasterComponent implements OnInit {
     bankList:any
-    displayedColumns: string[] = ['sNo', 'bankName','aliasName','state','city','pin','ifsc','address','action','view'];
+    displayedColumns: string[] = ['sNo', 'bankName','aliasName','state','city','pin','ifsc','address','action'];
 
     // displayedColumns: string[] = ['sNo', 'bankName','aliasName','account','currency','nation','state','city','pin','ifsc','swift','address','taxNo','pan','fax','email','action'];
     dataSource = new MatTableDataSource<any>([]);

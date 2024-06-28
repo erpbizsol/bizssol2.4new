@@ -65,6 +65,7 @@ export class AddBankDialogComponent {
   controlValue: boolean = false
   readonly:boolean = false
   disabled:boolean = false
+  view:boolean=false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -78,8 +79,14 @@ export class AddBankDialogComponent {
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
     this.elementData = data.element
      console.log(this.elementData,"hhh")
+     this.view=data.view
      console.log(data.view,"kkkkpppp")
      this.readonly= this.elementData.Code !== undefined
+     if(data.view!= undefined){
+      this.disableFormControls(this.paymentTermsForm);
+
+
+     }
      if (this.readonly) {
       debugger
       this.disableFormControls(this.ecmsForm);
@@ -246,6 +253,21 @@ export class AddBankDialogComponent {
   }
 
 
+
+  capitalizeWords(inputValue: string) {
+    throw new Error('Method not implemented.');
+  }
+  onInputChange2(event: any) {
+    const inputValue: string = event.target.value;
+    const formattedValue = this.capitalizeWordss(inputValue);
+    this.paymentTermsForm.get('bankName').setValue(formattedValue);
+    
+  }
+
+  capitalizeWordss(str: string): string {
+    return str.replace(/(?:^|\s|\.)\S/g, (char) => char.toUpperCase());
+  }
+
   allowNumberOnly(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
     const charStr = String.fromCharCode(charCode);
@@ -293,12 +315,11 @@ export class AddBankDialogComponent {
     }
   }
   saveBankDetailsData() {
-    debugger
+    // debugger
     this.submitted = true
     if (this.paymentTermsForm.invalid) {
       return
     }
-    console.log(this.paymentTermsForm.value, "jjjj")
     let data = [
       {
         code: this.elementData.Code ? this.elementData.Code : 0,
