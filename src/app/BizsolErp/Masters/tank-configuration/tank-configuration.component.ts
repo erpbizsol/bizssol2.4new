@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormArray, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TankConfigurationService } from 'src/app/services/Master/tank-configuration.service';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 @Component({
   selector: 'app-tank-configuration',
@@ -21,7 +22,7 @@ export class TankConfigurationComponent implements OnInit {
   TankConfigurationData: any[] = [];
   dataExist: boolean = false;
 
-  constructor(private tankConfigurationService: TankConfigurationService, private fb: FormBuilder) { }
+  constructor(private tankConfigurationService: TankConfigurationService, private fb: FormBuilder, private snackBarService:SnackBarService) { }
 
   ngOnInit() {
     this.TankList();
@@ -254,7 +255,8 @@ export class TankConfigurationComponent implements OnInit {
         next: (res: any) => {
           let obj=JSON.stringify(res);  
           let responseObject = JSON.parse(obj);
-          alert(responseObject.Msg);
+          this.snackBarService.showSuccessMessage(responseObject.Msg);
+
         },
         error: (err: any) => {
           console.error('Error saving tank configuration:', err);

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator,MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class UomComponent implements OnInit {
 
   constructor(
     private _UomService: UomService, 
+    private snackBarService:SnackBarService,
     private fb: FormBuilder, 
     private dialog: MatDialog
   ) {}
@@ -105,10 +107,11 @@ export class UomComponent implements OnInit {
         let responseObject = res;
         if (responseObject.Msg == 'Data updated successfully.') {
           this.editDemoModal();
-          alert(responseObject.Msg);
+          this.snackBarService.showSuccessMessage(res.Msg);
         } else {
           this.toggleLiveDemo();
-          alert(responseObject.Msg);
+          this.snackBarService.showSuccessMessage(res.Msg);
+          
         }
         this.UOMList();
       },

@@ -17,77 +17,100 @@
       <input type="text" class="form-control reference-header" [value]="CompanyName" disabled>
     </div>
   </div>
-  <div class="col-md-4 text-end" *ngIf="showFollowUpTable && !showEditFollowUp">
-    <button (click)="openNewFollowUp()" class="btn btn-primary btn-height">Create new
-      <i class="fa fa-plus-circle" aria-hidden="true"></i>
-    </button>
+  <div class="col-md-4 text-end d-flex">
+    <div *ngIf="showFollowUpTable && !showEditFollowUp">
+      <button  class="btn btn-primary btn-height">Create new
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </button>
+    </div>&nbsp;
+    <div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-height">Export/Import</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="col-md-12 mobileview" *ngIf="showFollowUpTable">
-  <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
-    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-      <ng-container *ngIf="column !== 'SN' && column !== 'Action'">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <div class="header-wrapper">
-            <span class="header-label" [matTooltip]="columnDisplayNames[column]" matTooltipPosition="above">
-              {{ columnDisplayNames[column] || column }}
-            </span>
-          </div>
-        </th>
-        <td mat-cell *matCellDef="let element" class="ellipsis">
-          <ng-container *ngIf="column === 'FollowupDate' || column === 'NextFollowupDate'; else otherColumn">
-            <span [matTooltip]="element[column]" matTooltipPosition="left">{{ element[column] | date: 'dd/MM/yyyy' }}</span>
-          </ng-container>
-          <ng-template #otherColumn>
+<div class="row mt-3">
+  <div class="col-md-12 mobileview" *ngIf="showFollowUpTable">
+    <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <ng-container *ngIf="column !== 'SN' && column !== 'Action'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div class="header-wrapper d-flex align-items-center">
+              <div class="dropdown me-2">
+                <button class="btn btn-link p-0" type="button" id="{{column}}Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+                <ul class="dropdown-menu" [attr.aria-labelledby]="column + 'Dropdown'">
+                  <li>
+                    <label class="dropdown-item">
+                      <input type="checkbox" (change)="applyFilter(column, 'All')" >
+                      All
+                    </label>
+                  </li>
+                  <li *ngFor="let option of getColumnValues(column)">
+                    <label class="dropdown-item">
+                      <input type="checkbox" (change)="applyFilter(column, option)" [checked]="filters[column][option]">
+                      {{ option }}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="ellipsis">
+            <ng-container *ngIf="column === 'FollowupDate' || column === 'NextFollowupDate'; else otherColumn">
+              <span [matTooltip]="element[column]" matTooltipPosition="left">{{ element[column] | date: 'dd/MM/yyyy' }}</span>
+            </ng-container>
+            <ng-template #otherColumn>
+              <span [matTooltip]="element[column]" matTooltipPosition="above">{{ element[column] }}</span>
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container *ngIf="column === 'SN'">
+          <th mat-header-cell *matHeaderCellDef>
+            <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element[column] }}
+          </td>
+        </ng-container>
+
+        <ng-container *ngIf="column === 'OurRemarks' || column === 'CustomerRemarks'">
+          <th mat-header-cell *matHeaderCellDef>
+            <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
             <span [matTooltip]="element[column]" matTooltipPosition="above">{{ element[column] }}</span>
-          </ng-template>
-        </td>
+          </td>
+        </ng-container>
+
+        <ng-container *ngIf="column === 'Action'">
+          <th mat-header-cell *matHeaderCellDef>
+            <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="content-center">
+              <button class="btn btn-primary me-1" (click)="editFollowUp(element.Code)" matTooltip="Edit" matTooltipPosition="above">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-danger me-1" (click)="deleteFollowUp(element.Code)" matTooltip="Delete" matTooltipPosition="above">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-info me-1" (click)="viewFollowUp(element.Code)" matTooltip="View" matTooltipPosition="above">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </td>
+        </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="column === 'SN'">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element[column] }}
-        </td>
-      </ng-container>
-
-      <ng-container *ngIf="column === 'OurRemarks' || column === 'CustomerRemarks'">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <span [matTooltip]="element[column]" matTooltipPosition="above">{{ element[column] }}</span>
-        </td>
-      </ng-container>
-
-      <ng-container *ngIf="column === 'Action'">
-        <th mat-header-cell *matHeaderCellDef>
-          <span class="header-label">{{ columnDisplayNames[column] || column }}</span>
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div class="content-center">
-            <button class="btn btn-primary me-1" (click)="editFollowUp(element.Code)" matTooltip="Edit"
-              matTooltipPosition="above">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-danger me-1" (click)="deleteFollowUp(element.Code)" matTooltip="Delete"
-              matTooltipPosition="above">
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-info me-1" (click)="viewFollowUp(element.Code)" matTooltip="View"
-              matTooltipPosition="above">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

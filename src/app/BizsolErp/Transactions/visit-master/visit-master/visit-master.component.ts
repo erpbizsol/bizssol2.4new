@@ -63,10 +63,10 @@ export class VisitMasterComponent implements OnInit {
     private _enquiryService: EnquiryService,
     private toasterService: ToasterService
   ) {
-    const currentDate = new Date();
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
     this.visitForm = this.fb.group({
-      fromDate: [currentDate],
-      toDate: [currentDate],
+      fromDate: [today],
+      toDate: [today],
       salesPerson: ['all']
     });
   }
@@ -91,6 +91,7 @@ export class VisitMasterComponent implements OnInit {
       }
     });
   }
+
 
   filterVisits() {
     const formValues = this.visitForm.value;
@@ -147,7 +148,7 @@ export class VisitMasterComponent implements OnInit {
       return true; // checkIn
     } else if (buttonType === 'edit') {
       if (VisitMaster_Code > 0 && CheckOut === 0) return true; // Checked-in
-      if (VisitMaster_Code > 0 && CheckOut !== 0) return false; // Checked-out
+      if (VisitMaster_Code > 0 && CheckOut !== 0) return true; // Checked-out
       if (Closed === "Y") return false; // Closed
       return false; // checkIn
     } else if (buttonType === 'view') {
