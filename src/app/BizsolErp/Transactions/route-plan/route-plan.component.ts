@@ -30,6 +30,7 @@ import {
 } from '@coreui/angular';
 import { RoutePlanService } from 'src/app/services/Transaction/route-plan.service';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
+import { MatSort } from '@angular/material/sort';
 // import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
@@ -41,7 +42,8 @@ import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-conferma
   styleUrl: './route-plan.component.scss'
 })
 export class RoutePlanComponent implements AfterViewInit {
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   // public visible = false;
   todayDate: any;
   routePlanList: any;
@@ -49,10 +51,6 @@ export class RoutePlanComponent implements AfterViewInit {
   routemastercode: any;
   deltRoutePlan: any;
   dataSource = new MatTableDataSource<any>([]);
-
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
 
   displayedColumns: string[] = ['sNo', 'visitType', 'dealerName', 'cityName', 'stateName', 'description', 'action'];
@@ -148,11 +146,12 @@ export class RoutePlanComponent implements AfterViewInit {
   getRoutePlan(PlanDate: any) {
     this._routePlanService.getRoutePlanList(PlanDate).subscribe(res => {
       this.dataSource = res
-
       // this.routePlanList = res;
       console.log("abc", this.dataSource);
     });
   }
+
+
 
   // Route Plan Dailog Form
   register(routeDailog: NgForm) {
