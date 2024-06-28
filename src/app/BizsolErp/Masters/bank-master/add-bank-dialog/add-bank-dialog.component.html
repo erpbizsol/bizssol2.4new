@@ -35,7 +35,7 @@ Bank Master
         <div class="col-md-3 form-group">
           <label><b>IFSC Code</b></label>
           <div>
-            <input type="text" class="form-control"   (keydown)="allowAlphabetsAndNumbersOnly($event)" formControlName = "ifscCode"  maxlength="11" placeholder="Enter IFSC Code" >
+            <input type="text" class="form-control"    (input)="allowAlphabetsAndNumbersOnly($event)" formControlName = "ifscCode"  maxlength="11" placeholder="Enter IFSC Code" >
             <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
               <div *ngIf="f['ifscCode'].hasError('required')">IFSC Code is Required</div>
             </div>
@@ -44,7 +44,7 @@ Bank Master
         <div class="col-md-3 form-group">
           <label><b>Swift Code</b></label>
           <div>
-            <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"  (keydown)="allowAlphabetsAndNumbersOnly($event)">
+            <input type="text" class="form-control" formControlName = "swiftCode"  (input)="allowAlphabetsAndNumbersOnly($event)"  maxlength="11" placeholder="Enter Swift Code"  (keydown)="allowAlphabetsAndNumbersOnly($event)">
             <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
               <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
             </div>
@@ -131,7 +131,7 @@ Bank Master
           <div class="col-md-3 form-group">
             <label><b>GST No</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="gst"  maxlength="15"   placeholder="Enter GST NO." >
+              <input type="text" class="form-control" formControlName="gst" (input)="allowAlphabetsAndNumbersOnly($event)"  maxlength="15"   placeholder="Enter GST NO." >
               <div *ngIf="submitted && f['email'].errors" class="text-danger">
                 <div *ngIf="f['gst'].hasError('required')">GST No. is Required</div>
 
@@ -143,11 +143,10 @@ Bank Master
           <div class="col-md-3 form-group">
             <label><b>Phone No</b></label>
             <div>
-              <input type="text" class="form-control"  formControlName="phone_no"  maxlength="15"   minlength="10" placeholder="Enter Phone No." >
+              <input type="text" class="form-control"  (input)="onInputChange($event)" formControlName="phone_no"  maxlength="10"   minlength="10" placeholder="Enter Phone No." >
               <div *ngIf="submitted && f['phone_no'].errors" class="text-danger">
                 <div *ngIf="f['phone_no'].hasError('required')">Phone no is Required</div>
                 <div *ngIf="f['phone_no'].hasError('minlength') ||f['phone_no'].hasError('minlength')"> Enter Phone No. between  10  to  15 digit only </div>
-
               </div>
             </div>
           </div>
@@ -155,7 +154,7 @@ Bank Master
        <div class="col-md-3 form-group">
             <label><b>Email</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="email"  maxlength="100"   placeholder="Enter Email Id" >
+              <input type="text" class="form-control" formControlName="email" (input)="onEmailInputEmail($event)" maxlength="100"   placeholder="Enter Email Id" >
               <div *ngIf="submitted && f['email'].errors" class="text-danger">
                 <div *ngIf="f['email'].hasError('required')">Email Id is Required</div>
                 <div *ngIf="f['email'].hasError('email')"> Enter Valid  email id</div>
@@ -168,7 +167,7 @@ Bank Master
           <div class="col-md-3 form-group">
             <label><b>PAN </b></label>
             <div>
-              <input type="text" class="form-control" formControlName="Pan_No"   (input)="transformToUpperCase($event, 'Pan_No')"  appPanValidator  maxlength="10" placeholder="Enter PAN Card Details" >
+              <input type="text" class="form-control" formControlName="Pan_No"   (input)="allowAlphabetsAndNumbersOnly($event)"  appPanValidator  maxlength="10" placeholder="Enter PAN Card Details" >
               <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
                 <div *ngIf="f['Pan_No'].hasError('required')">PAN Card  Details is Required</div>
               </div>
@@ -197,7 +196,7 @@ Bank Master
                 <option  value="" selected hidden>  Select Bank</option>
                 <option  *ngFor=" let   bank of  bankNameList" [value]="bank.eCMSBank"> {{bank?.eCMSBank}}</option>
                 </select>
-                <div *ngIf="submitted && controlValue && f['selectBank'].errors" class="text-danger">
+                <div *ngIf="(submitted && controlValue) && f['selectBank'].errors" class="text-danger">
                   <div *ngIf="f['selectBank'].hasError('required')">Select bank   is Required</div>
                 </div>
                 </div>
@@ -205,8 +204,8 @@ Bank Master
           <div class="col-md-4 form-group">
             <label><b> prefix </b></label> 
              <div>
-              <input type="text" class="form-control"   maxlength="20"  (input)="transformToUpperCase($event, 'prifix')"  formControlName="prifix"  placeholder="Enter Prefix details"  required>
-              <div *ngIf="submitted && controlValue && f['prifix'].errors" class="text-danger">
+              <input type="text" class="form-control"   maxlength="20"  (input)="allowAlphabetsAndNumbersOnly($event)"  formControlName="prifix"  placeholder="Enter Prefix details"  required>
+              <div *ngIf="(submitted && controlValue) && f['prifix'].errors" class="text-danger">
                 <div *ngIf="f['prifix'].hasError('required')">Prefix  is Required</div>
               </div>
                 
@@ -222,7 +221,7 @@ Bank Master
               <option   selected hidden value="">  Select Debit Account</option>
               <option *ngFor="let  item of debitList" [value]="item.AccountDesp"> {{item.AccountDesp}}</option>
               </select>
-              <div *ngIf="submitted && controlValue && f['debitBankAccount'].errors" class="text-danger">
+              <div *ngIf="(submitted && controlValue) && f['debitBankAccount'].errors" class="text-danger">
                 <div *ngIf="f['debitBankAccount'].hasError('required')">Debit Bank Account  is Required</div>
               </div>
           
