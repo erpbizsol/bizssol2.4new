@@ -10,7 +10,7 @@
       <mat-form-field class="mat-form-field-fluid" appearance="outline">
         <mat-select placeholder="ALL" required (selectionChange)='enquiryList($event.value)'>
           <mat-option value="ALL" selected>ALL</mat-option>
-        <mat-option *ngFor="let person of salesPersonList" [value]="person.PersonName">
+          <mat-option *ngFor="let person of salesPersonList" [value]="person.PersonName">
             {{ person.PersonName }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -93,7 +93,9 @@
               <ul class="dropdown-menu">
                 <div *ngIf="closeAppear">
                   <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
-                        data-bs-target="#myModalVerify">Verify</button></a>
+                        data-bs-target="#myModalVerify">
+                        {{ row.Verified == 'Y' ? "Verified" : "Verify" }}
+                      </button></a>
                   </li>
                   <li><a class="dropdown-item">
                       <button class="btn btn-primary modalbtn" data-bs-toggle="modal" data-bs-target="#myModalAssign">

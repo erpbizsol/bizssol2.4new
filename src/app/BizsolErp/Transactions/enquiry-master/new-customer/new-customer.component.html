@@ -360,7 +360,7 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label>Assign To salesman</label>
+                                                                <label>Assign To Salesperson</label>
                                                                 <select formControlName="salesman" class="form-control">
                                                                     <option selected hidden value="">Select</option>
                                                                     <option *ngFor="let data of salePersonList"
@@ -465,10 +465,10 @@
                                             <div class="col-md-2">
                                                 <div class="form-group d-flex">
                                                     <button type="submit" class="btn btn-success" mat-stroked-button
-                                                        aria-label=" ">Save</button>
+                                                        aria-label=" ">SAVE</button>
                                                     &nbsp;
                                                     <button class="btn btn-success"
-                                                        (click)="backtotable1()">Cancel</button>
+                                                        (click)="backtotable1()">CANCEL</button>
 
                                                 </div>
                                             </div>
@@ -584,7 +584,7 @@
 
                                             <div class="col-md-2 mt-4 text-center ">
                                                 <button class="btn btn-primary" type="submit"
-                                                    [disabled]="!contactPerson.valid"> Save
+                                                    [disabled]="!contactPerson.valid"> SAVE
                                                     <!-- <i class="fa fa-floppy-o" aria-hidden="true"></i> -->
                                                 </button>
                                             </div>
@@ -626,6 +626,10 @@
 
                                             </tbody>
                                         </table>
+                                    </div>&nbsp;
+                                    <div class="col-md-2 mt-4">
+                                        <button class="btn btn-primary" (click)="backtotable()"> Back To Enquiry List
+                                        </button> &nbsp;
                                     </div>
                                 </div>
 
@@ -716,7 +720,7 @@
 
                                             <div class="col-md-2 mt-4">
                                                 <button class="btn btn-primary" type="submit"
-                                                    [disabled]="!productDetails.valid"> Save
+                                                    [disabled]="!productDetails.valid"> SAVE
                                                 </button>
                                             </div>
 
