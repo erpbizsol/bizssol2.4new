@@ -274,7 +274,7 @@ allowAlphabetsOnlyAddress(event: KeyboardEvent): void {
         bankName: this.paymentTermsForm.value.bankName,
         accountNo:this.paymentTermsForm.value.account_No,
         currencyName:'',
-        address:'',
+        address: this.paymentTermsForm.value.address,
         Nation: this.paymentTermsForm.value.country,
         pinCode:this.paymentTermsForm.value.pin,
         city:this.paymentTermsForm.value.city,
@@ -403,6 +403,17 @@ delete this.paymentTermsForm.value.cms_applicable
     this.paymentTermsForm.controls[controlName].setValue(value.toUpperCase(), { emitEvent: false });
   }
 
+
+  allowAlphabetsAndNumbersOnly(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    const charStr = String.fromCharCode(charCode);
+  
+    // Allow alphabets and numbers only
+    if (!/^[a-zA-Z0-9]*$/.test(charStr)) {
+      event.preventDefault();
+    }
+  }
+  
 
    onKeyPress(event: KeyboardEvent) {
     const allowedChars = /^[a-zA-Z0-9@.]*$/;
