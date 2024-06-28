@@ -35,7 +35,7 @@ Bank Master
         <div class="col-md-3 form-group">
           <label><b>IFSC Code</b></label>
           <div>
-            <input type="text" class="form-control"  (input)="transformToUpperCase($event, 'ifscCode')" formControlName = "ifscCode"  maxlength="10" placeholder="Enter IFSC Code" >
+            <input type="text" class="form-control"   (keydown)="allowAlphabetsAndNumbersOnly($event)" formControlName = "ifscCode"  maxlength="11" placeholder="Enter IFSC Code" >
             <div *ngIf="submitted && f['ifscCode'].errors" class="text-danger">
               <div *ngIf="f['ifscCode'].hasError('required')">IFSC Code is Required</div>
             </div>
@@ -44,7 +44,7 @@ Bank Master
         <div class="col-md-3 form-group">
           <label><b>Swift Code</b></label>
           <div>
-            <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"   (input)="transformToUpperCase($event,'swiftCode')">
+            <input type="text" class="form-control" formControlName = "swiftCode"   maxlength="11" placeholder="Enter Swift Code"  (keydown)="allowAlphabetsAndNumbersOnly($event)">
             <div *ngIf="submitted && f['swiftCode'].errors" class="text-danger">
               <div *ngIf="f['swiftCode'].hasError('required')">Swift Code is Required</div>
             </div>
@@ -53,18 +53,15 @@ Bank Master
 
       </div> 
       <div class="row" mat-dialog-content>
-         
-
-          
-          
-
-          <div class="col-md-3 form-group">
+         <div class="col-md-3 form-group">
             <label><b> Pin Code</b></label>
             <div>
-              <input type="text" class="form-control"   formControlName="pin"  (input)="pinAcceptOnlyNumber($event)" maxlength="6" placeholder="Enter Pin Code">
+              <input type="text" class="form-control"  minlength="6"  formControlName="pin"  (input)="pinAcceptOnlyNumber($event)" maxlength="6" placeholder="Enter Pin Code">
 
               <div *ngIf="submitted && f['pin'].errors" class="text-danger">
                 <div *ngIf="f['pin'].hasError('required')">Pin is Required</div>
+                <div *ngIf="f['pin'].hasError('maxlength')||f['pin'].hasError('minlength')">Pin Code is  6 digit only </div>
+
               </div>
                 </div>
           </div>
@@ -123,7 +120,7 @@ Bank Master
             <label><b> Address</b></label>
             <div>
     
-    <input type="text" class="form-control"  maxlength="80" placeholder="Enter Address" (keypress)="allowAlphabetsOnlyAddress($event)"  formControlName="address" >
+    <input type="text" class="form-control"  maxlength="100" placeholder="Enter Address"   formControlName="address" >
     <div *ngIf="submitted && f['address'].errors" class="text-danger">
       <div *ngIf="f['address'].hasError('required')">Address is Required</div>
     </div>         
@@ -141,17 +138,8 @@ Bank Master
               </div>
             </div>
           </div>
-       
-
-          
-        
-         
-        </div>
-      
-        
-
-       
-        <div class="row" mat-dialog-content>
+       </div>
+       <div class="row" mat-dialog-content>
           <div class="col-md-3 form-group">
             <label><b>Phone No</b></label>
             <div>
@@ -167,7 +155,7 @@ Bank Master
        <div class="col-md-3 form-group">
             <label><b>Email</b></label>
             <div>
-              <input type="text" class="form-control" formControlName="email"  maxlength="50"   placeholder="Enter Email Id" >
+              <input type="text" class="form-control" formControlName="email"  maxlength="100"   placeholder="Enter Email Id" >
               <div *ngIf="submitted && f['email'].errors" class="text-danger">
                 <div *ngIf="f['email'].hasError('required')">Email Id is Required</div>
                 <div *ngIf="f['email'].hasError('email')"> Enter Valid  email id</div>
@@ -190,15 +178,13 @@ Bank Master
           <div class="col-md-3 form-group">
             <label><b> e -CMS Application </b></label> 
              <div>
-              <!-- <section class="example-section"> -->
                 <mat-checkbox class="example-margin" (change)="checkEcms($event,'cms_applicable')" formControlName="cms_applicable" ></mat-checkbox>
-              <!-- </section>    -->
                 
              </div>
           </div>
         </div>  
         
-
+<hr *ngIf="controlValue">
         
         <div class="row" mat-dialog-content  *ngIf="controlValue">
          
@@ -229,7 +215,7 @@ Bank Master
 
 
           <div  class="col-md-4 form-group">
-            <label><b> Select debit Account</b></label> 
+            <label><b> Select Debit Account</b></label> 
 
             <select class="select2 form-control"    formControlName="debitBankAccount" required>
 
@@ -239,15 +225,13 @@ Bank Master
               <div *ngIf="submitted && controlValue && f['debitBankAccount'].errors" class="text-danger">
                 <div *ngIf="f['debitBankAccount'].hasError('required')">Debit Bank Account  is Required</div>
               </div>
-              <!-- </div> -->
+          
         
-          <!-- <input type="text" class="form-control" formControlName=""  maxlength="50"   placeholder="Enter Debit Amount" > -->
          </div>
 
         </div>
-<!-- ================================checkbo===================================== -->
        
-        <!-- <div class="row" mat-dialog-content *ngIf="controlValue"> -->
+     
         
         
       <div mat-dialog-actions class="content-end">

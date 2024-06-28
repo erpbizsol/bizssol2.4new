@@ -1,15 +1,18 @@
 <!-- app.component.html -->
  
 <div class="delete-confirmation-dialog">
-  <h5 class="header-bg" mat-dialog-title> {{this.elementData.Code === undefined  ? 'Add Payment Terms':'Update Payment Terms'}}</h5>
+  <h5 class="header-bg" mat-dialog-title> {{this.elementData.Code === undefined  ? 'Payment Terms':' Payment Terms'}}
+    <i class="fa fa-times-circle-o" aria-hidden="true"  style="float: right;" (click)="onNoClick()"></i>
+
+  </h5>
   <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
-  
+
  <form [formGroup]="paymentTermsForm">
     <div mat-dialog-content>
       <div>
         <label><b>Description</b></label>
         <div>
-          <input type="text" class="form-control" formControlName="description"  maxlength="50" placeholder=" Enter Description"  (keypress)="allowAlphabetsOnly($event)">
+          <input type="text" class="form-control" formControlName="description"  maxlength="100" placeholder=" Enter Description"  (keypress)="allowAlphabetsOnly($event)">
           <div *ngIf="submitted && f['description'].errors" class="text-danger">
             <div *ngIf="f['description'].hasError('required')">Description is Required</div>
           </div>
@@ -45,12 +48,10 @@
       </div>
     </div>
     <div mat-dialog-actions class="content-end">
-      <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">Close</button>
-   
-
-     
-      <button type="button" class="btn btn-success"  (click)="savePaymentTerms()" >{{this.elementData.Code === undefined  ?'Save':'Update'}}</button>
-    </div>
+   <button type="button" class="btn btn-success"  (click)="savePaymentTerms()" >{{this.elementData.Code === undefined  ?'Save':'Update'}}</button>
+   <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">Close</button>
+  
+  </div>
   </form>
 </div>
 
