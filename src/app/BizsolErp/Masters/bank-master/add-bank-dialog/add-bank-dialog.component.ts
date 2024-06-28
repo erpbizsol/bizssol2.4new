@@ -66,6 +66,7 @@ export class AddBankDialogComponent {
   readonly:boolean = false
   disabled:boolean = false
   view:boolean=false
+  isCheckBoxDisabled:boolean=false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -78,21 +79,13 @@ export class AddBankDialogComponent {
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
     this.elementData = data.element
-     console.log(this.elementData,"hhh")
      this.view=data.view
-     console.log(data.view,"kkkkpppp")
      this.readonly= this.elementData.Code !== undefined
-     if(data.view!= undefined){
+    if(data.view!= undefined){
       this.disableFormControls(this.paymentTermsForm);
-
-
-     }
+      }
      if (this.readonly) {
-      debugger
       this.disableFormControls(this.ecmsForm);
-
-      
-
     } else {
       this.enableFormControls(this.ecmsForm);
     }
@@ -112,7 +105,11 @@ export class AddBankDialogComponent {
       this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
       this.sendBankNameToService(value);
     });
+    this.updateCmsApplicableControl(); // Set the initial state
+
   }
+
+  
   disableFormControls(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
@@ -139,7 +136,7 @@ export class AddBankDialogComponent {
     phone_no: new FormControl('', Validators.required),
     Pan_No: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    cms_applicable: new FormControl(false),
+    cms_applicable: new FormControl({value:false,disabled:false}),
 
     // selectBank: new FormControl(''),
     // debitBankAccount: new FormControl(''),
@@ -148,11 +145,12 @@ export class AddBankDialogComponent {
 
   })
 
+  
+
   ecmsForm=new FormGroup({
     selectBank: new FormControl(''),
     debitBankAccount: new FormControl(''),
     prifix: new FormControl(''),
-    gst: new FormControl('', Validators.required)
 
   })
   patchBankData() {
@@ -186,7 +184,16 @@ export class AddBankDialogComponent {
       this.cityList = res;
     })
   }
-
+  updateCmsApplicableControl() {
+    if (this.readonly || this.paymentTermsForm.get('cms_applicable').value === true) {
+      this.paymentTermsForm.get('cms_applicable').setValue(true);
+      this.paymentTermsForm.get('cms_applicable').disable();
+    } else {
+      this.paymentTermsForm.get('cms_applicable').setValue(false);
+      this.paymentTermsForm.get('cms_applicable').enable();
+    }
+  }
+  
   pinAcceptOnlyNumber(event: any) {
     const inputValue: string = event.target.value;
     const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
@@ -386,7 +393,6 @@ export class AddBankDialogComponent {
 
   checkEcms(event: any, controlName: string): void {
     this.controlValue = this.paymentTermsForm.get(controlName)?.value;
-     console.log(this.controlValue,"valu")
     if( this.controlValue ){
       this.getDebit()
       this.getBankDropDown()
