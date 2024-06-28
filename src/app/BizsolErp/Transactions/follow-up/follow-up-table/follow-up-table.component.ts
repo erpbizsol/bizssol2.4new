@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ViewChild } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-follow-up-table',
@@ -31,11 +32,13 @@ import { ToasterService } from 'src/app/services/toaster-message/toaster.service
     MatFormFieldModule, 
     MatSelectModule, 
     FormsModule, 
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   providers: [FollowUpService, DatePipe, ToasterService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './follow-up-table.component.html',
-  styleUrl: './follow-up-table.component.scss'
+  styleUrls: ['./follow-up-table.component.scss']
 })
 export class FollowUpTableComponent {
   isDataAvailable: boolean = false;
@@ -78,6 +81,7 @@ export class FollowUpTableComponent {
   EnquiryDate: any;
   CompanyName: any;
   previousSelectedData: any;
+  filters: { [key: string]: any } = {};
 
   constructor(
     private followUpService: FollowUpService, 
@@ -108,32 +112,70 @@ export class FollowUpTableComponent {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
 
-     // Check if no data is returned and open the new follow-up page
-     if (this.isDataAvailable = this.dataSource.data && this.dataSource.data.length === 0) {
-      this.openNewFollowUp();
-    }
+      this.initializeFilters();
     },
     err => {
       this.toasterService.showError(err.Msg);
     });
   }
 
-  addNewRow(): void {
-    const newRow = {
-      SN: this.dataSource.data.length + 1,
-    };
-    this.dataSource.data.push(newRow);
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
+  initializeFilters() {
+    this.displayedColumns.forEach(column => {
+      if (column !== 'SN' && column !== 'Action') {
+        this.filters[column] = this.getColumnValues(column).reduce((acc, value) => {
+          acc[value] = false;
+          return acc;
+        }, {});
+      }
+    });
   }
 
-  deleteRow(row: any): void {
-    const index = this.dataSource.data.indexOf(row);
-    if (index > -1) {
-      this.dataSource.data.splice(index, 1);
-      this.dataSource = new MatTableDataSource(this.dataSource.data);
+  applyFilter(column: string, value: string) {
+    if (value === 'All') {
+      // Select all options for this column
+      Object.keys(this.filters[column]).forEach(option => {
+        this.filters[column][option] = true;
+      });
+    } else {
+      // Clear previous filters
+      Object.keys(this.filters).forEach(key => {
+        if (key !== column) {
+          Object.keys(this.filters[key]).forEach(option => {
+            this.filters[key][option] = false;
+          });
+        }
+      });
+  
+      // Apply current filter
+      this.filters[column][value] = !this.filters[column][value];
     }
+    this.applyFilters();
+  }
+  
+  areAllOptionsSelected(column: string): boolean {
+    const columnFilters = this.filters[column];
+    return Object.keys(columnFilters).every(option => columnFilters[option]);
   }
 
+  applyFilters() {
+    this.dataSource.filterPredicate = (data, filter) => {
+      const searchTerms = JSON.parse(filter);
+      return Object.keys(searchTerms).every(key => {
+        const selectedFilters = searchTerms[key];
+        if (Object.values(selectedFilters).every(val => !val)) {
+          return true;
+        }
+        return selectedFilters[data[key]];
+      });
+    };
+    this.dataSource.filter = JSON.stringify(this.filters);
+  }
+
+  getColumnValues(column: string): any[] {
+    const values = this.followUpEnquryList.map(item => item[column]);
+    const uniqueValues = [...new Set(values)];
+    return [ ...uniqueValues]; // Add 'All' option at the beginning
+  }
 
   deleteFollowUp(Code: any): void {
     const dialogRef = this.dialog.open(DeleteConfermationPopUpComponent, {
@@ -145,27 +187,23 @@ export class FollowUpTableComponent {
         const reason = result.reason;
         this.followUpService.deleteFollowup(Code, reason).subscribe((res: any) => {
           this.toasterService.showSuccess(res.Msg);
-          },
-          err => {
-            this.toasterService.showError('Failed to delete Follow Up');
-          }
-        );
-      
-                const index = this.dataSource.data.findIndex(item => item.Code === Code);
-          if (index > -1) {
-            this.dataSource.data.splice(index, 1);
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
-          }
-        }    
+          this.dataSource.data = this.dataSource.data.filter(item => item.Code !== Code);
+        },
+        err => {
+          this.toasterService.showError('Failed to delete Follow Up');
+        });
+      }
     });
   }
-  
+
   editFollowUp(code: any) {
     this.router.navigate(['/transactions/editfollowup', code]);
   }
+
   viewFollowUp(code: string) {
-    this.router.navigate(['/transactions/followup-view', code])
+    this.router.navigate(['/transactions/followup-view', code]);
   }
+
   openNewFollowUp() {
     this.getCustomerNameAndNextFollowupCode().subscribe(data => {
       this.previousSelectedData = data;
