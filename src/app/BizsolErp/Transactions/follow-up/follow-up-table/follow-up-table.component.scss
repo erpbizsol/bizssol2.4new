@@ -26,3 +26,17 @@
     letter-spacing: normal;
     outline: 0;
 }
+.filter-width{
+  max-width: 105px;
+}
+::ng-deep .mat-select-value-text {
+  display: none;
+}
+.empty-space{
+  width: 12px;
+}
+.text-end{
+  justify-content: end;
+    margin-top: 24px;
+    align-items: center;
+}

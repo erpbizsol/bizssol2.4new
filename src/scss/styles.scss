@@ -201,10 +201,12 @@ th {
 
 input[type=search]:not(.browser-default) {
   border: 1px solid #8b8484;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: 10pt;
 }
-
+input, button, select, optgroup, textarea{
+  font-size: 9pt !important;
+}
 .btn-primary {
   --bs-btn-bg: #165899 !important;
 }
@@ -451,6 +453,10 @@ mat-label {
 
 .mat-mdc-option .mdc-list-item__primary-text {
   font-size: 9pt !important;
+}
+.not-allowed {
+  cursor: not-allowed !important;
+  opacity: 0.5;
 }
 
 hr {

@@ -88,10 +88,10 @@
             (click)="checkInVisit(visit)" >
             {{ getButtonLabel(visit, 'CheckIn') }}
           </button>
-
           <button 
             class="btn btn-primary me-1" 
-            [disabled]="!checkButtonStatus(visit, 'edit')" 
+            [disabled]="!checkButtonStatus(visit, 'edit')"
+
             (click)="openEditVisitMaster()"
           >
             Edit

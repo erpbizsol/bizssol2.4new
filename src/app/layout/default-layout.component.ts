@@ -84,7 +84,7 @@ export class DefaultLayoutComponent implements OnInit {
       'Tank Configuration': '/leads/tank-Configuration',
       'Stock Location Master': '/leads/tank-daily-stock',
       'Route Plan': '/transactions/Route-Plan',
-      // 'Verify Route Plan': '/transactions/Verify-Route-Plan',
+      'Verify Route Plan': '/transactions/Verify-Route-Plan',
       'Department': '/leads/department',
       'Bank': '/leads/Bank-Master',
       'Warehouse Master': '/leads/Godown-Master',
@@ -94,7 +94,7 @@ export class DefaultLayoutComponent implements OnInit {
       'Tank Daily Stock': '/leads/tank-daily-stock',
       'HSN Code Master': '/leads/HSN-Code-Master',
       
-      'Verify Route Plan': '/transactions/Visit-Master',
+      'Visit': '/transactions/Visit-Master',
     };
 
     const menuMap: { [key: string]: INavData } = {}; 
