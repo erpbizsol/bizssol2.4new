@@ -30,6 +30,12 @@ export class TankDailyStockService {
     let url = this._urlService.API_ENDPOINT_TankDailyStock+ "/GetDailyTankStockMasterByDate?Date="+`${date}`;
     return this._http.get(url);
   }
+
+getDailyTankTotalDispatch():Observable<any>{
+  let url = this._urlService.API_ENDPOINT_TankDailyStock+ "/GetTotalDispatch="+``;
+  return this._http.get(url);
+}
+
   postTankDailyStock(Obj: any): Observable<any> {
     const data = JSON.stringify(Obj)
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

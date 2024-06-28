@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { FormBuilder, ReactiveFormsModule, FormGroup, FormArray, Validators } from '@angular/forms';
 import { TankDailyStockService } from 'src/app/services/Master/tank-daily-stock.service';
 import { CommonModule } from '@angular/common';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 @Component({
   selector: 'app-tank-daily-stock',
@@ -24,7 +25,7 @@ export class TankDailyStockComponent implements OnInit {
   DailyTankStockTransaction: any[] = [];
   todayDate: string = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
 
-  constructor(private tankDailyStockService: TankDailyStockService, private fb: FormBuilder) {
+  constructor(private tankDailyStockService: TankDailyStockService, private fb: FormBuilder, private snackBarService:SnackBarService) {
     this.newTankDailyStockForm = this.fb.group({
       date: ['', Validators.required],
       Code: ['0'],
@@ -179,6 +180,10 @@ export class TankDailyStockComponent implements OnInit {
     }
   }
 
+  calculateTotalDispatch(){
+
+  }
+
   saveTankDailyStock() {
     const formValues = this.newTankDailyStockForm.getRawValue();
     const Obj = {
@@ -208,8 +213,8 @@ export class TankDailyStockComponent implements OnInit {
       next: (res: any) => {
         let obj = JSON.stringify(res);
         let responseObject = JSON.parse(obj);
-        alert(responseObject.Msg);
-        console.log(res);
+        this.snackBarService.showSuccessMessage(responseObject.Msg);
+
 
       },
       error: (err: any) => {
