@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatError } from '@angular/material/form-field';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
+import { UploadFileComponent } from 'src/app/pop-up/upload-file/upload-file.component';
 
 
 @Component({
@@ -253,7 +254,16 @@ export class CountryTableComponent {
 
 
 
+  openUploadPopup(): void {
+    const dialogRef = this.dialog.open(UploadFileComponent, {
+      width: '50%',
+      disableClose: true, // Prevent closing by clicking outside
+    });
 
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Upload popup closed'); // Handle close event if needed
+    });
+  }
 
 
 }
