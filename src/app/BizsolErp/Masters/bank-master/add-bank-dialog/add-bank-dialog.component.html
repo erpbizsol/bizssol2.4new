@@ -138,7 +138,7 @@
           <label><b>GST No.</b></label>
           <div>
             <input type="text" class="form-control" formControlName="gst" (input)="allowAlphabetsAndNumbersOnly($event)"
-              maxlength="15" placeholder="Enter GST NO.">
+              maxlength="15" placeholder="Enter GST No.">
             <div *ngIf="submitted && f['email'].errors" class="text-danger">
               <div *ngIf="f['gst'].hasError('required')">GST No. is Required</div>
 
@@ -201,7 +201,7 @@
 
 
           <div class="col-md-4 form-group">
-            <label><b> e CMS Vendor</b></label>
+            <label><b> e - CMS Vendor</b></label>
             <div>
               <select class="select2 form-control" formControlName="selectBank" required>
                 <option value="" selected hidden> Select Bank</option>
@@ -213,7 +213,7 @@
             </div>
           </div>
           <div class="col-md-4 form-group">
-            <label><b> prefix </b></label>
+            <label><b> Prefix </b></label>
             <div>
               <input type="text" class="form-control" maxlength="20" (input)="allowAlphabetsAndNumbersOnly($event)"
                 formControlName="prifix" placeholder="Enter Prefix details" required>

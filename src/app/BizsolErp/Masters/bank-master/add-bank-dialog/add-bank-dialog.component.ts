@@ -186,10 +186,10 @@ export class AddBankDialogComponent {
   }
   updateCmsApplicableControl() {
     if (this.readonly || this.paymentTermsForm.get('cms_applicable').value === true) {
-      this.paymentTermsForm.get('cms_applicable').setValue(true);
+      // this.paymentTermsForm.get('cms_applicable').setValue(true);
       this.paymentTermsForm.get('cms_applicable').disable();
     } else {
-      this.paymentTermsForm.get('cms_applicable').setValue(false);
+      // this.paymentTermsForm.get('cms_applicable').setValue(false);
       this.paymentTermsForm.get('cms_applicable').enable();
     }
   }
@@ -367,7 +367,7 @@ export class AddBankDialogComponent {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
           this.snackBarService.showSuccessMessage(res.Msg);
-          //  this.toaster.showSuccess(res.Msg)
+           this.toaster.showSuccess(res.Msg)
         },
         error: (err: any) => {
           console.log(err.error.message);
@@ -379,9 +379,9 @@ export class AddBankDialogComponent {
         next: (res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          //  this.toaster.showSuccess(res.Msg)
+           this.toaster.showSuccess(res.Msg)
 
-          this.snackBarService.showSuccessMessage(res.Msg);
+          // this.snackBarService.showSuccessMessage(res.Msg);
         },
         error: (err: any) => {
           console.log(err.error.message)
