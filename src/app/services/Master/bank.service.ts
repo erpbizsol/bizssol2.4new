@@ -9,21 +9,13 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class BankService{
-
-  constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
-
-  // private headers = new HttpHeaders({
-  //   'Content-Type': 'application/json; charset=utf-8',
-  //   // 'Authorization': this.authservice.getAccessTokenNew()
-  // });
-
-
-
   userCode:any
   obj:any
-  abhi:any
+
   authKey:any
-  private headers(): HttpHeaders {
+
+  constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
+    private headers(): HttpHeaders {
     this.authKey = this.authService.getAuthKey();
     this.obj = JSON.parse(this.authKey);
     this.userCode = this.obj.UserMaster_Code;
@@ -59,8 +51,8 @@ export class BankService{
    return this._http.post(url, '', { headers: this.headers() });
   }
 
-  GetDebitAccountData(code: any) {
-    let url = this._urlService.API_ENDPOINT_BANK_MASTER + `/${code}`
+  GetDebitAccountData():Observable<any> {
+    let url = this._urlService.API_ENDPOINT_BANK_MASTER + '/GetDebitAccountDetails';
     return this._http.get(url, { headers: this.headers() });
   }
 

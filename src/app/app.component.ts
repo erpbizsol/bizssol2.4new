@@ -20,7 +20,7 @@ import { UserService } from './services/Shared/user.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  
+
   title = 'ERP 2.4';
   authKey: any;
   userDetails: any;
@@ -53,20 +53,20 @@ export class AppComponent implements OnInit {
   }
 
   authToken() {
-    // this.authKey = '{"ERPDBConStr": "Data Source=220.158.165.98,65446;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPDBBizTest;User ID=sa;pwd=biz1981;Packet Size=32000","ERPMainDBConStr": "Data Source=192.168.1.10;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPMainDB_GLENG;User ID=sa;pwd=biz1981;Packet Size=32000","ERPDMSDBConStr": "Data Source=192.168.1.10;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPDMSDB_GLENG;User ID=sa;pwd=biz1981;Packet Size=32000","ERPDB_Name":"BizSolERPDBGLENG_Temp","ERPMainDB_Name":"BizSolERPMainDB_GLENG","ERPDMSDB_Name":"BizSolERPDMSDB_GLENG","AuthToken": "xyz","UserMaster_Code":"13"}';
-    // this.authService.setAuthKey(this.authKey);
-    this.route.queryParamMap.subscribe(params => {
-      this.authKey = params.get('Auth-Key');
-      if (this.authKey) {
-        this.authService.setAuthKey(this.authKey);
-      } 
-    });
+    this.authKey = '{"ERPDBConStr": "Data Source=220.158.165.98,65446;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPDBBizLive;User ID=sa;pwd=biz1981;Packet Size=32000","ERPMainDBConStr": "Data Source=192.168.1.10;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPMainDB_GLENG;User ID=sa;pwd=biz1981;Packet Size=32000","ERPDMSDBConStr": "Data Source=192.168.1.10;Connection Timeout=0;Persist Security Info=true;Initial Catalog=BizSolERPDMSDB_GLENG;User ID=sa;pwd=biz1981;Packet Size=32000","ERPDB_Name":"BizSolERPDBGLENG_Temp","ERPMainDB_Name":"BizSolERPMainDB_GLENG","ERPDMSDB_Name":"BizSolERPDMSDB_GLENG","AuthToken": "xyz","UserMaster_Code":"145"}';
+    this.authService.setAuthKey(this.authKey);
+    //   this.route.queryParamMap.subscribe(params => {
+    //     this.authKey = params.get('Auth-Key');
+    //     if (this.authKey) {
+    //       this.authService.setAuthKey(this.authKey);
+    //     } 
+    //   });
   }
 
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe({
       next: (data) => {
-        this.userService.setUserDetails(data); 
+        this.userService.setUserDetails(data);
       },
       error: (error) => {
         console.error('Error fetching user details', error);

@@ -118,6 +118,7 @@ export class TableComponent implements OnInit {
     //   this.StatusList = res;
     // })  
     console.log('for testing');
+    console.log('console. log 2');
     this.getStatusList();
     this.getSalePerson();
     this.enquiryList("ALL");

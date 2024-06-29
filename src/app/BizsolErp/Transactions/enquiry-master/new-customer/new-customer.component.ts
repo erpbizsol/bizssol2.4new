@@ -87,7 +87,6 @@ export class NewCustomerComponent implements OnInit {
   documentType: string;
   existingPersonNameList: any = [];
   userMasterCode: string;
-  selectedPinCode: number;
 
   constructor(private fb: FormBuilder, private _enquiryService: EnquiryService, private _state: StateService, private _city: CityService, private renderer: Renderer2, private el: ElementRef, private datePipe: DatePipe,
     private _http: HttpClient, private _urlService: UrlService, private _changeDetect: ChangeDetectorRef, private elementRef: ElementRef, private dialog: MatDialog,
@@ -101,13 +100,6 @@ export class NewCustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.userMasterCode = this._authService.getUserMasterCode();
-
-    // this.newCustomerForm.get('city').valueChanges.subscribe(cityResponse => {
-    //   if (cityResponse) {
-    //     console.log('Selected City Name:', cityResponse.CityName);
-    //     console.log('Selected City Code:', cityResponse.Pin);
-    //   }
-    // });
 
     this.dropdown();
     this.UOMList()
@@ -128,23 +120,6 @@ export class NewCustomerComponent implements OnInit {
     })
     this.state('India');
 
-    // // Subscribe to city name changes to update city code
-    // this.newCustomerForm.get('city').valueChanges.subscribe(selectedCityName => {
-    //   console.log("City list:", this.cityList); // Debug statement
-    //   const selectedCity = this.cityList.find(city => city.CityName === selectedCityName);
-    //   if (selectedCity) {
-    //     this.selectedCityCode = selectedCity.CityCode;
-    //     console.log('Selected City Code:', this.selectedCityCode);
-    //   } else {
-    //     this.selectedCityCode = null;
-    //   }
-    // });
-
-    // // Patch value example (only CityName)
-    // const patchCityName = 'Los Angeles';
-    // this.newCustomerForm.patchValue({ city: patchCityName });
-
-
   }
 
   showexisting() {
@@ -155,18 +130,17 @@ export class NewCustomerComponent implements OnInit {
     this.selected = 'existing';
     this._changeDetect.detectChanges;
 
-    this.newCustomerForm.get('customername')?.reset('');
-    this.newCustomerForm.get('customerType')?.reset('');
-    this.newCustomerForm.get('enquirytype')?.reset('');
-    this.newCustomerForm.get('pin')?.reset('');
-    // this.newCustomerForm.get('country')?.reset('');
-    this.newCustomerForm.get('state')?.reset('');
-    this.newCustomerForm.get('city')?.reset('');
-    this.newCustomerForm.get('email')?.reset('');
-    this.newCustomerForm.get('pno')?.reset('');
-    this.newCustomerForm.get('website')?.reset('');
-    this.newCustomerForm.get('address1')?.reset('');
-    this.newCustomerForm.get('address2')?.reset('');
+    this.newCustomerForm.get('customername')?.reset();
+    this.newCustomerForm.get('customerType')?.reset();
+    this.newCustomerForm.get('pin')?.reset();
+    this.newCustomerForm.get('country')?.reset();
+    this.newCustomerForm.get('state')?.reset();
+    this.newCustomerForm.get('city')?.reset();
+    this.newCustomerForm.get('email')?.reset();
+    this.newCustomerForm.get('pno')?.reset();
+    this.newCustomerForm.get('website')?.reset();
+    this.newCustomerForm.get('address1')?.reset();
+    this.newCustomerForm.get('address2')?.reset();
     this.contactPerson.reset();
 
     this.customerType = {
@@ -188,18 +162,17 @@ export class NewCustomerComponent implements OnInit {
     this.selected = 'new';
     this._changeDetect.detectChanges();
 
-    this.newCustomerForm.get('customername')?.reset('');
-    this.newCustomerForm.get('customerType')?.reset('');
-    this.newCustomerForm.get('enquirytype')?.reset('');
-    this.newCustomerForm.get('pin')?.reset('');
-    // this.newCustomerForm.get('country')?.reset('');
-    this.newCustomerForm.get('state')?.reset('');
-    this.newCustomerForm.get('city')?.reset('');
-    this.newCustomerForm.get('email')?.reset('');
-    this.newCustomerForm.get('pno')?.reset('');
-    this.newCustomerForm.get('website')?.reset('');
-    this.newCustomerForm.get('address1')?.reset('');
-    this.newCustomerForm.get('address2')?.reset('');
+    this.newCustomerForm.get('customername')?.reset();
+    this.newCustomerForm.get('customerType')?.reset();
+    this.newCustomerForm.get('pin')?.reset();
+    this.newCustomerForm.get('country')?.reset();
+    this.newCustomerForm.get('state')?.reset();
+    this.newCustomerForm.get('city')?.reset();
+    this.newCustomerForm.get('email')?.reset();
+    this.newCustomerForm.get('pno')?.reset();
+    this.newCustomerForm.get('website')?.reset();
+    this.newCustomerForm.get('address1')?.reset();
+    this.newCustomerForm.get('address2')?.reset();
     this.contactPerson.reset();
   }
 
@@ -310,25 +283,6 @@ export class NewCustomerComponent implements OnInit {
       address2: this.companyDetails.Address2
     }
     this.newCustomerForm.patchValue(data);
-
-    // // Subscribe to cityName changes to update CityCode
-    // console.log(this.newCustomerForm.value.city);
-    // this._city.getCity(this.newCustomerForm.value.state).subscribe(res => {
-    //   this.cityList = res;
-    //   console.log(this.cityList);
-
-    // });
-
-    // this.newCustomerForm.get('city').valueChanges.subscribe(selectedCityName => {
-    //   console.log("ewrerytrterw", this.cityList);
-    //   const selectedCity = this.cityList.find(city => city.CityName === selectedCityName);
-    //   if (selectedCity) {
-    //     this.selectedCityCode = selectedCity.CityCode;
-    //     console.log('Selected City Code:', this.selectedCityCode);
-    //   } else {
-    //     this.selectedCityCode = null;
-    //   }
-    // });
   }
 
   // Function to handle input change and filter non-numeric characters
@@ -425,7 +379,7 @@ export class NewCustomerComponent implements OnInit {
       customerType: ['', Validators.required],
       customername: ['', Validators.required],
       enquirytype: ['', Validators.required],
-      pin: ['', [Validators.pattern("^[0-9]*$"), Validators.minLength(6)]],
+      pin: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(6)]],
       country: ['India', Validators.required],
       state: ['', Validators.required],
       city: ['', Validators.required],
@@ -456,8 +410,8 @@ export class NewCustomerComponent implements OnInit {
   personForm() {
     this.contactPerson = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9\\s]+$')]],
-      department: ['', Validators.required],
-      designation: ['', Validators.required],
+      department: ['select', Validators.required],
+      designation: ['select', Validators.required],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')]],
       contactNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10)]],
     })
@@ -565,11 +519,6 @@ export class NewCustomerComponent implements OnInit {
     // Patch only the specified form fields
     this.newCustomerForm.patchValue(formValues);
   }
-  setPinOfCity(event) {
-    const cityname = event.target.value
-    const selectedCity = this.cityList.find(data => data.CityName === cityname);
-      this.newCustomerForm.get('pin').setValue(selectedCity.Pin)
-  }
 
   getState(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
@@ -578,8 +527,6 @@ export class NewCustomerComponent implements OnInit {
     this._state.getStates(selectedValue).subscribe((res: any) => {
       this.stateList = res;
     })
-
-    // this.city(selectedValue)
   }
   getCityList(event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
@@ -662,7 +609,7 @@ export class NewCustomerComponent implements OnInit {
             pinCode: this.newCustomerForm.value.pin,
             nation: this.newCustomerForm.value.country,
             state: this.newCustomerForm.value.state,
-            city: this.newCustomerForm.value.city.CityName,
+            city: this.newCustomerForm.value.city,
             eMail: this.newCustomerForm.value.email,
             mobileNo: this.newCustomerForm.value.pno,
             website: this.newCustomerForm.value.website,
@@ -758,7 +705,7 @@ export class NewCustomerComponent implements OnInit {
           pinCode: this.newCustomerForm.value.pin,
           nation: this.newCustomerForm.value.country,
           state: this.newCustomerForm.value.state,
-          city: this.newCustomerForm.value.city.CityName,
+          city: this.newCustomerForm.value.city,
           eMail: this.newCustomerForm.value.email,
           mobileNo: this.newCustomerForm.value.pno,
           website: this.newCustomerForm.value.website,
@@ -901,7 +848,7 @@ export class NewCustomerComponent implements OnInit {
           pinCode: this.newCustomerForm.value.pin,
           nation: this.newCustomerForm.value.country,
           state: this.newCustomerForm.value.state,
-          city: this.newCustomerForm.value.city.CityName,
+          city: this.newCustomerForm.value.city,
           eMail: this.newCustomerForm.value.email,
           mobileNo: this.newCustomerForm.value.pno,
           website: this.newCustomerForm.value.website,
