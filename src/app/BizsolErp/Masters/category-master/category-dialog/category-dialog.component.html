@@ -4,15 +4,15 @@
   <h5 class="header-bg" mat-dialog-title>
     {{
       this.elementData.Code === undefined || ""
-        ? "Add Category "
-        : "Update Category"
+        ? "Group Master "
+        : "Group Master"
     }}
   </h5>
   <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
   
   <mat-radio-group  [(ngModel)]="selectedOption" name="options">
-    <mat-radio-button  value="S">S</mat-radio-button>
-    <mat-radio-button  value="RF" >RF</mat-radio-button>
+    <mat-radio-button  value="S">Store Inventory</mat-radio-button>
+    <mat-radio-button  value="RF" >Finish Inventory</mat-radio-button>
   </mat-radio-group>
   <form [formGroup]="categoryForm">
     <div mat-dialog-content>
@@ -82,14 +82,14 @@
         mat-dialog-close
         (click)="onNoClick()"
       >
-        Close
+        CLOSE
       </button>
       <button
         type="button"
         class="btn btn-success"
         (click)="savecategorydata()"
       >
-        {{ this.elementData.code === undefined ? "Save" : "Update" }}
+        {{ this.elementData.Code === undefined ? "SAVE" : "UPDATE" }}
       </button>
     </div>
   </form>
