@@ -137,10 +137,6 @@ export class AddBankDialogComponent {
     Pan_No: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     cms_applicable: new FormControl({value:false,disabled:false}),
-
-    // selectBank: new FormControl(''),
-    // debitBankAccount: new FormControl(''),
-    // prifix: new FormControl(''),
     gst: new FormControl('', Validators.required)
 
   })

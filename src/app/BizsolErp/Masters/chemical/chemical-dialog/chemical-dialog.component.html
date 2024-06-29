@@ -1,11 +1,11 @@
 <!-- app.component.html -->
 
 <div class="delete-confirmation-dialog">
-  <h5 class="header-bg" mat-dialog-title>
+  <h5 class="header-bg" mat-dialog-title style="text-align: center;">
     {{
       this.elementData.Code === undefined || ""
-        ? "Add Chemical "
-        : "Update Chemical"
+        ? "Quality Parameter Master "
+        : "Quality Parameter Master "
     }}
   </h5>
   <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
@@ -14,63 +14,7 @@
     <div mat-dialog-content>
       <div>
         <div>
-          <mat-radio-group
-            aria-label="Select an option"
-            formControlName="status"
-          >
-            <mat-radio-button
-              value="Y"
-              [checked]="!isMechanical"
-              (change)="toggleDiv($event.source.value)"
-              >Chemical Property</mat-radio-button
-            >
-            <mat-radio-button
-              value="N"
-              [checked]="isMechanical"
-              (change)="toggleDiv($event.source.value)"
-              >Mechanical Property</mat-radio-button
-            >
-          </mat-radio-group>
-        </div>
-        <div *ngIf="!isMechanical">
-          <label><b>Chemical Name</b></label>
-          <div>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="chemical"
-              maxlength="50"
-              placeholder=" Enter Chemical Name"
-              (keypress)="Charactervalidation($event)"
-            />
-            <div *ngIf="submitted && f['chemical'].errors" class="text-danger">
-              <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
-            </div>
-          </div>
-        </div>
-        <div *ngIf="isMechanical">
-          <div>
-            <label><b>Mechanical Name</b></label>
-            <div>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="chemical"
-                maxlength="50"
-                placeholder=" Enter Mechanical Name"
-                (keypress)="Charactervalidation($event)"
-              />
-              <div
-                *ngIf="submitted && f['chemical'].errors"
-                class="text-danger"
-              >
-                <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <label><b>SortOrder</b></label>
+          <label><b>Parameter Name</b></label>
           <input
             type="text"
             class="form-control"
@@ -81,6 +25,16 @@
           />
           <div *ngIf="submitted && f['sortorder'].errors" class="text-danger">
             <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
+          </div>
+        </div>
+        <div>
+          <div>
+            <label><b>Parameter Type</b></label>
+            <mat-radio-group class="example-radio-group" [(ngModel)]="formType">
+              <mat-radio-button class="example-radio-button" *ngFor="let formtype of parameter" [value]="formtype">
+                {{formtype}}
+              </mat-radio-button>
+            </mat-radio-group>
           </div>
         </div>
         <div>
@@ -96,23 +50,66 @@
             <!-- <div *ngIf="f['description'].hasError('required')">Description is Required</div> -->
           </div>
         </div>
+<!-- ///////////////////////////////////////////////////////////////////Dialog Grid/////////////////////////////////////////////////// -->
+        <div class="row">
+          <div class="col-md-4">
+            <mat-table  [dataSource]="dataSource" class="mat-elevation-z8">          
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <mat-header-cell *matHeaderCellDef> S.NO. </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 1. </mat-cell>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> Testing Method </mat-cell>
+              </ng-container>
+            </mat-table>
+           
+          </div>
+          <div class="col-md-8">
+            <mat-table [dataSource]="dataSource" >
+              <ng-container matColumnDef=" ">
+                 <mat-header-cell *matHeaderCellDef="">S.NO. </mat-header-cell>
+                 <mat-cell *matCellDef=" let element"> Value</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef=" ">
+                 <mat-header-cell *matHeaderCellDef="">Item/Grade </mat-header-cell>
+                 <mat-cell *matCellDef=" let element"> Value</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef=" ">
+                 <mat-header-cell *matHeaderCellDef="">Standerd Value </mat-header-cell>
+                 <mat-cell *matCellDef=" let element"> Value</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef=" ">
+                 <mat-header-cell *matHeaderCellDef="">Minimun </mat-header-cell>
+                 <mat-cell *matCellDef=" let element"> Value</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef=" ">
+                 <mat-header-cell *matHeaderCellDef="">Maximum </mat-header-cell>
+                 <mat-cell *matCellDef=" let element"> Value</mat-cell>
+              </ng-container>
+            </mat-table>
+            
+          </div>
+        </div>
       </div>
     </div>
     <div mat-dialog-actions class="content-end">
+      <button
+      type="button"
+      class="btn btn-success"
+      (click)="savechemicaldata()"
+    >
+      {{ this.elementData.Code === undefined ? "SAVE" : "UPDATE" }}
+    </button>
       <button
         type="button"
         class="btn btn-danger me-1"
         mat-dialog-close
         (click)="onNoClick()"
       >
-        Close
-      </button>
-      <button
-        type="button"
-        class="btn btn-success"
-        (click)="savechemicaldata()"
-      >
-        {{ this.elementData.Code === undefined ? "Save" : "Update" }}
+        CLOSE
       </button>
     </div>
   </form>

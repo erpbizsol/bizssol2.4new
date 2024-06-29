@@ -32,4 +32,17 @@
   .text-danger{
     font-size: 13px;
   }
+  .example-radio-group {
+    display: inline-flex;
+    flex-direction: row;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+  
+  .example-selected-value {
+    margin: 15px 0;
+  }
+  
   

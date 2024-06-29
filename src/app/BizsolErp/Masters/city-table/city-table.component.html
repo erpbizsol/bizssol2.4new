@@ -1,6 +1,10 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-4 mobRowAngularMaterial">
+        <div class="col m12"></div>
+    </div>
+    <div class="row mb-1">
+        <div class="col-md-1"></div>
+        <div class="col-md-3 mobRowAngularMaterial">
             <mat-label><b>Country</b></mat-label>
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
                 <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
@@ -11,7 +15,7 @@
             </mat-form-field>
 
         </div>
-        <div class="col-md-4 mobRowAngularMaterial">
+        <div class="col-md-3 mobRowAngularMaterial">
             <mat-label><b>State</b></mat-label>
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
                 <mat-select placeholder="All" required (selectionChange)="getCityList($event.value)">
@@ -22,13 +26,12 @@
             </mat-form-field>
         </div>
         <div class="col-md-4 text-end mtBtn12">
-            <button (click)="createtoggle()" class="btn btn-primary" style="font-size: 12pt;">Create new <i
+            <button (click)="createtoggle()" class="btn btn-primary" style="font-size: 12pt;">CREATE NEW <i
                     class="fa fa-plus-circle" aria-hidden="true"></i></button>
         </div>
-
-    </div>
-
-    <div class="col-md-12 mobileview">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+    <div class="col-md-10 mobileview">
         <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
             <!-- Serial Number Column -->
             <ng-container matColumnDef="SN">
@@ -74,7 +77,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
+    </div>
+    <div class="col-md-1"></div>
+    </div>
     </div>
 
     <!-- /////////////////////////////////////////////////////////////Create City///////////////////////////////////////////////////////////////////// -->
@@ -145,9 +150,9 @@
 
             </c-modal-body>
             <c-modal-footer>
-                <button cButton color="primary" type="submit">Save</button>
+                <button cButton color="primary" type="submit">SAVE</button>
                 <button (click)="createtoggle()" cButton color="danger">
-                    Cancel
+                    CANCEL
                 </button>
             </c-modal-footer>
         </form>
@@ -185,9 +190,9 @@
 
             </c-modal-body>
             <c-modal-footer>
-                <button cButton color="primary" type="submit">Update</button>
+                <button cButton color="primary" type="submit">UPDATE</button>
                 <button (click)="updatetoggle()" cButton color="danger">
-                    Cancel
+                    CANCEL
                 </button>
             </c-modal-footer>
         </form>

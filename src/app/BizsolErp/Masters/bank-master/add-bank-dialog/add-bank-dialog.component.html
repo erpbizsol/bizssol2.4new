@@ -173,12 +173,11 @@
           </div>
         </div>
 
-
         <div class="col-md-3 form-group">
           <label><b>PAN </b></label>
           <div>
             <input type="text" class="form-control" formControlName="Pan_No"
-              (input)="allowAlphabetsAndNumbersOnly($event)" appPanValidator maxlength="10"
+               appPanValidator maxlength="10"
               placeholder="Enter PAN Card Details">
             <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
               <div *ngIf="f['Pan_No'].hasError('required')">PAN Card Details is Required</div>
@@ -189,8 +188,10 @@
         <div class="col-md-3 form-group">
           <label><b> e -CMS Application </b></label>
 
-          <mat-checkbox class="example-margin" [disabled]="isCheckBoxDisabled"  (change)="checkEcms($event,'cms_applicable')"  formControlName="cms_applicable"></mat-checkbox>
-
+          <!-- <mat-checkbox class="example-margin" [disabled]="isCheckBoxDisabled"  (change)="checkEcms($event,'cms_applicable')"  formControlName="cms_applicable"></mat-checkbox> -->
+          <mat-checkbox  class="example-margin" (change)="checkEcms($event,'cms_applicable')" formControlName="cms_applicable">
+            CMS Applicable
+          </mat-checkbox>
 
         </div>
       </div>
