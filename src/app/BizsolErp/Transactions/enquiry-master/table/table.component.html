@@ -28,7 +28,7 @@
     </div>
 
     <div class="col-md-4 text-end mtBtn12">
-      <button routerLink="/leads/undefined/new" class="btn btn-primary">CREATE NEW <i class="fa fa-plus-circle"
+      <button routerLink="/leads/undefined/new" class="btn btn-primary">Create new <i class="fa fa-plus-circle"
           aria-hidden="true"></i></button>
     </div>
 
@@ -91,12 +91,12 @@
               <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                 (click)="openAssignModal(row)" [disabled]="row.Status=='Draft'"> ...</button>
               <ul class="dropdown-menu">
-                <div *ngIf="row.Verified == 'Y' ? false : true">
-                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
-                        data-bs-target="#myModalVerify">Verify</button></a>
-                  </li>
-                </div>
                 <div *ngIf="closeAppear">
+                  <li><a class="dropdown-item"><button class="btn btn-success modalbtn" data-bs-toggle="modal"
+                        data-bs-target="#myModalVerify">
+                        {{ row.Verified == 'Y' ? "Verified" : "Verify" }}
+                      </button></a>
+                  </li>
                   <li><a class="dropdown-item">
                       <button class="btn btn-primary modalbtn" data-bs-toggle="modal" data-bs-target="#myModalAssign">
                         {{ row.PersonName.length ? "Reassign" : "Assign" }}</button></a>

@@ -1,7 +1,7 @@
 <!-- app.component.html -->
  
 <div class="delete-confirmation-dialog">
-  <h5 class="header-bg" mat-dialog-title> {{this.elementData.Code === undefined  ? 'Payment Terms':' Payment Terms'}}
+  <h5 class="header-bg" mat-dialog-title> {{this.elementData.Code === undefined  ? 'Payment Terms Master':' Payment Terms Master'}}
     <i class="fa fa-times-circle-o" aria-hidden="true"  style="float: right;" (click)="onNoClick()"></i>
 
   </h5>
@@ -47,12 +47,17 @@
         </div>
       </div>
     </div>
-    <div mat-dialog-actions class="content-end">
-   <button type="button" class="btn btn-success"  (click)="savePaymentTerms()" >{{this.elementData.Code === undefined  ?'Save':'Update'}}</button>
-   <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">Close</button>
+    <!-- <div mat-dialog-actions class="content-end">
+   <button type="button" class="btn btn-success"  (click)="savePaymentTerms()" >{{this.elementData.Code === undefined  ?'SAVE':'UPDATE'}}</button>
+   <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">CLOSE</button>
   
-  </div>
+  </div> -->
   </form>
+  <div mat-dialog-actions class="content-end" *ngIf="!view">
+    <button type="button" class="btn btn-success"  (click)="savePaymentTerms()" >{{this.elementData.Code === undefined  ?'SAVE':'UPDATE'}}</button>
+    <button  type="button"class="btn btn-danger me-1" mat-dialog-close   (click)="onNoClick()">CLOSE</button>
+   
+   </div>
 </div>
 
 
