@@ -51,8 +51,8 @@ export class BankService{
    return this._http.post(url, '', { headers: this.headers() });
   }
 
-  GetDebitAccountData(code: any) {
-    let url = this._urlService.API_ENDPOINT_BANK_MASTER + `/${code}`
+  GetDebitAccountData():Observable<any> {
+    let url = this._urlService.API_ENDPOINT_BANK_MASTER + '/GetDebitAccountDetails';
     return this._http.get(url, { headers: this.headers() });
   }
 
