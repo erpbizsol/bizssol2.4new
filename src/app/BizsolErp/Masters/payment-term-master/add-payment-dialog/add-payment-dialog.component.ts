@@ -2,7 +2,7 @@
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,21 +22,25 @@ import { ToastrService } from 'ngx-toastr';
   providers: [PaymetntTermService,]
 
 })
-export class AddPaymentDialogComponent {
+export class AddPaymentDialogComponent implements AfterViewInit, OnInit {
   elementData: any
-  view:any
+  view: any
+  isDisable: boolean = false
   submitted: boolean = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private payment: PaymetntTermService,
-    private toaster:ToastrService,
+    private toaster: ToastrService,
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddPaymentDialogComponent>) {
     this.elementData = data.element
-    this.view  = data.view
-    if(this.view!= undefined){
+    this.view = data.view
+    }
+
+  ngAfterViewInit() {
+    if (this.view != undefined) {
       this.disableFormControls(this.paymentTermsForm);
-      }
+    }
   }
 
   ngOnInit() {
@@ -44,7 +48,6 @@ export class AddPaymentDialogComponent {
     this.paymentTermsForm.get('advancePayment').valueChanges.subscribe(value => {
       this.onAdvancePaymentChange(value);
     });
-
   }
   paymentTermsForm = new FormGroup({
     description: new FormControl('', Validators.required),
@@ -56,7 +59,7 @@ export class AddPaymentDialogComponent {
 
   onAdvancePaymentChange(isAdvancePayment: boolean) {
     const advancePaymentPercentageControl = this.paymentTermsForm.get('advancePaymentPercentage');
-    if (isAdvancePayment ||this.view ==undefined) {
+    if (isAdvancePayment) {
       advancePaymentPercentageControl.setValidators(Validators.required);
       advancePaymentPercentageControl.enable();
     } else {
@@ -65,8 +68,8 @@ export class AddPaymentDialogComponent {
     }
     advancePaymentPercentageControl.updateValueAndValidity();
   }
+  
   savePaymentTerms() {
-    // debugger
     this.submitted = true
     if (this.paymentTermsForm.invalid) {
       this.toaster.error("Please Fill All the Field");
@@ -84,7 +87,7 @@ export class AddPaymentDialogComponent {
       "databaseLocation_Code": 0,
       "advPaymentApplicable": this.paymentTermsForm.value.advancePayment == true ? 'Y' : 'N',
       "advancePayment": this.paymentTermsForm.value.advancePaymentPercentage !== '' ? this.paymentTermsForm.value.advancePaymentPercentage : 0,
-      "defaultForOrder":'Y',
+      "defaultForOrder": 'Y',
       "isActive": this.paymentTermsForm.value.status !== undefined ? 'Y' : 'N',
       "userMaster_Code": 2
     }]
@@ -129,7 +132,7 @@ export class AddPaymentDialogComponent {
     this.onAdvancePaymentChange(this.elementData?.AdvPaymentApplicable === 'Y');
   }
 
-allowAlphabetsOnly(event: KeyboardEvent): void {
+  allowAlphabetsOnly(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
     const charStr = String.fromCharCode(charCode);
 
@@ -174,10 +177,15 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   get f() {
     return this.paymentTermsForm.controls
   }
-  disableFormControls(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.disable();
+  disableFormControls(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      if (control instanceof FormGroup) {
+        this.disableFormControls(control);
+      } else {
+        control.disable();
+      }
     });
   }
+
 }

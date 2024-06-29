@@ -512,8 +512,9 @@ export class AddBankDialogComponent {
 
 
   getDebit() {
-    this.bank.GetDebitAccountData('GetDebitAccountDetails').subscribe({
+    this.bank.GetDebitAccountData().subscribe({
       next: (res: any) => {
+        console.log(res);
         this.debitList = res
 
       },
