@@ -177,7 +177,7 @@
           <label><b>PAN </b></label>
           <div>
             <input type="text" class="form-control" formControlName="Pan_No"
-               appPanValidator maxlength="10"
+            (input)="allowAlphabetsAndNumbersOnly($event)" maxlength="10"
               placeholder="Enter PAN Card Details">
             <div *ngIf="submitted && f['Pan_No'].errors" class="text-danger">
               <div *ngIf="f['Pan_No'].hasError('required')">PAN Card Details is Required</div>
