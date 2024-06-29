@@ -1,244 +1,664 @@
 <div class="container">
-    <div class="card-body">
-    <form [formGroup]="userForm">
-      <!-- Panel One -->
-      <h3 class="text-center">Panel One</h3>
-      <div class="panel mb-4 p-4 border">
-        <div class="row">
-          <div class="form-group col-md-3">
-            <label>User Name</label>
-            <input formControlName="userName" type="text" class="form-control">
+  <div class="card-body">
+      <form [formGroup]="userForm">
+          <!-- Panel One -->
+          <h3 class="text-center">Panel One</h3>
+          <div class="panel mb-4 p-4 border">
+              <div class="row">
+                  <div class="form-group col-md-3">
+                      <label>User Name</label>
+                      <input formControlName="userName" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label>Date</label>
+                      <input formControlName="date" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label>Check In Time</label>
+                      <input formControlName="checkInTime" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label>Location</label>
+                      <input formControlName="location" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label>Dealer</label>
+                      <input formControlName="dealer" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label>Attachment Upload</label>
+                      <input type="file" class="form-control-file" (change)="onFileChange($event)">
+                  </div>
+              </div>
           </div>
-          <div class="form-group col-md-3">
-            <label>Date</label>
-            <input formControlName="date" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Check In Time</label>
-            <input formControlName="checkInTime" type="text" class="form-control" >
-          </div>
-          <div class="form-group col-md-3">
-            <label>Location</label>
-            <input formControlName="location" type="text" class="form-control">
-          </div>
-          <div class="row mt-2">
-            <div class="col-md-6">
-              <label>Altitude</label>
-              <input formControlName="altitude" type="number" class="form-control">
-            </div>
-            <div class="col-md-6">
-              <label>Longitude</label>
-              <input formControlName="longitude" type="number" class="form-control">
-            </div>
-          </div>
-          <div class="form-group col-md-3">
-            <label>Dealer</label>
-            <input formControlName="dealer" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-4">
-            <label>Attachment Upload</label>
-            <input type="file" class="form-control-file" (change)="onFileChange($event)">
-          </div>
-        </div>
-      </div>
-  
-      <!-- Panel Two -->
-      <h3 class="text-center">Panel Two</h3>
-      <div class="panel mb-4 p-4 border">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                    data-bs-target="#home-tab-pane" type="button" role="tab"
-                    aria-controls="home-tab-pane" aria-selected="true">Dashboard</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                    data-bs-target="#contact-tab-pane" type="button" role="tab"
-                    aria-controls="contact-tab-pane" aria-selected="false"
-                    >Pending Order</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Size Wise Sales</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Payment History</button>
-            </li>
-        </ul>
-        <!-- <div class="form-row mb-3">
-          <button type="button" class="btn btn-primary mr-2">Dashboard</button>
-          <button type="button" class="btn btn-warning mr-2">Pending Order</button>
-          <button type="button" class="btn btn-danger mr-2">Size Wise Sales</button>
-          <button type="button" class="btn btn-info">Payment History</button>
-        </div> -->
-        <div class="row">
-          <div class="form-group col-md-3">
-            <label>Credit Limits</label>
-            <input formControlName="creditLimits" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Credit Days</label>
-            <input formControlName="creditDays" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Over Due Amount</label>
-            <input formControlName="overDueAmount" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Outstanding</label>
-            <input formControlName="outstanding" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Target Amount</label>
-            <input formControlName="targetAmount" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Target Shortfall</label>
-            <input formControlName="targetShortfall" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Last Month Sale</label>
-            <input formControlName="lastMonthSale" type="text" class="form-control">
-          </div>
-          <div class="form-group col-md-3">
-            <label>Current Month Sale</label>
-            <input formControlName="currentMonthSale" type="text" class="form-control" readonly>
-          </div>
-        </div>
-      </div>
 
-      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="table-responsive">
-          <table mat-table class="mat-elevation-z8">
-            <!-- Columns definitions -->
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef> ID </th>
-              <td mat-cell *matCellDef="let order"> {{order.id}} </td>
-            </ng-container>
-            <ng-container matColumnDef="prodname">
-              <th mat-header-cell *matHeaderCellDef> Product Name </th>
-              <td mat-cell *matCellDef="let order"> {{order.prodname}} </td>
-            </ng-container>
-            <ng-container matColumnDef="address">
-              <th mat-header-cell *matHeaderCellDef> Address </th>
-              <td mat-cell *matCellDef="let order"> {{order.address}} </td>
-            </ng-container>
-            <ng-container matColumnDef="location">
-              <th mat-header-cell *matHeaderCellDef> Location </th>
-              <td mat-cell *matCellDef="let order"> {{order.location}} </td>
-            </ng-container>
-            <ng-container matColumnDef="items">
-              <th mat-header-cell *matHeaderCellDef> Items </th>
-              <td mat-cell *matCellDef="let order"> {{order.items}} </td>
-            </ng-container>
-            <ng-container matColumnDef="size">
-              <th mat-header-cell *matHeaderCellDef> Size </th>
-              <td mat-cell *matCellDef="let order"> {{order.size}} </td>
-            </ng-container>
+          <!-- Panel Two -->
+          <h3 class="text-center">Panel Two</h3>
+          <div class="panel mb-4 p-4 border">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                          data-bs-target="#dashboard-tab-pane" type="button" role="tab"
+                          aria-controls="dashboard-tab-pane" aria-selected="true">Dashboard</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="pending-order-tab" data-bs-toggle="tab"
+                          data-bs-target="#pending-order-tab-pane" type="button" role="tab"
+                          aria-controls="pending-order-tab-pane" aria-selected="false">Pending Order</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="size-wise-sales-tab" data-bs-toggle="tab"
+                          data-bs-target="#size-wise-sales-tab-pane" type="button" role="tab"
+                          aria-controls="size-wise-sales-tab-pane" aria-selected="false">Size Wise Sales</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="payment-history-tab" data-bs-toggle="tab"
+                          data-bs-target="#payment-history-tab-pane" type="button" role="tab"
+                          aria-controls="payment-history-tab-pane" aria-selected="false">Payment History</button>
+                  </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="dashboard-tab-pane" role="tabpanel" aria-labelledby="dashboard-tab">
+                      <div class="row">
+                          <div class="form-group col-md-3">
+                              <label>Credit Limits</label>
+                              <input formControlName="creditLimits" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Credit Days</label>
+                              <input formControlName="creditDays" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Over Due Amount</label>
+                              <input formControlName="overDueAmount" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Outstanding</label>
+                              <input formControlName="outstanding" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Target Amount</label>
+                              <input formControlName="targetAmount" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Target Shortfall</label>
+                              <input formControlName="targetShortfall" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Last Month Sale</label>
+                              <input formControlName="lastMonthSale" type="text" class="form-control">
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label>Current Month Sale</label>
+                              <input formControlName="currentMonthSale" type="text" class="form-control" readonly>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="pending-order-tab-pane" role="tabpanel" aria-labelledby="pending-order-tab">
+                      <div class="search-container">
+                        <mat-form-field>
+                          <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-12 mobileview">
+                        <table mat-table [dataSource]="dataSource" matSort>
+                    
+                          <!-- Party Name Column -->
+                          <ng-container matColumnDef="partyName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Party Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.partyName}} </td>
+                          </ng-container>
+                    
+                          <!-- Order No Column -->
+                          <ng-container matColumnDef="orderNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Order No </th>
+                            <td mat-cell *matCellDef="let element"> {{element.orderNo}} </td>
+                          </ng-container>
+                    
+                          <!-- Item Name Column -->
+                          <ng-container matColumnDef="itemName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+                          </ng-container>
+                    
+                          <!-- Size Desp Column -->
+                          <ng-container matColumnDef="sizeDesp">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Size Desp </th>
+                            <td mat-cell *matCellDef="let element"> {{element.sizeDesp}} </td>
+                          </ng-container>
+                    
+                          <!-- Bal Qty PC Column -->
+                          <ng-container matColumnDef="balQtyPC">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bal Qty PC </th>
+                            <td mat-cell *matCellDef="let element"> {{element.balQtyPC}} </td>
+                          </ng-container>
+                    
+                          <!-- Bal Qty MT Column -->
+                          <ng-container matColumnDef="balQtyMT">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bal Qty MT </th>
+                            <td mat-cell *matCellDef="let element"> {{element.balQtyMT}} </td>
+                          </ng-container>
+                    
+                          <!-- Bal Qty MTRS Column -->
+                          <ng-container matColumnDef="balQtyMTRS">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bal Qty MTRS </th>
+                            <td mat-cell *matCellDef="let element"> {{element.balQtyMTRS}} </td>
+                          </ng-container>
+                    
+                          <tr mat-header-row *matHeaderRowDef="displayedPendingOrderColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedPendingOrderColumns;"></tr>
+                    
+                          <!-- No Data Row -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="7">No data available in table</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                      </div>
+                    </div>
+                    
+                  <div class="tab-pane fade" id="size-wise-sales-tab-pane" role="tabpanel" aria-labelledby="size-wise-sales-tab">
+                      <div class="search-container">
+                        <mat-form-field>
+                          <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-12 mobileview">
+                        <table mat-table  matSort>
+                    
+                          <!-- Party Name Column -->
+                          <ng-container matColumnDef="itemName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                          </ng-container>
+                    
+                          <!-- Order No Column -->
+                          <ng-container matColumnDef="size">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Size </th>
+                          </ng-container>
+                    
+                          <!-- Item Name Column -->
+                          <ng-container matColumnDef="thickness">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Thickness </th>
+                          </ng-container>
+                    
+                          <!-- Size Desp Column -->
+                          <ng-container matColumnDef="qty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Qty MT </th>
+                          </ng-container>
+                    
+                          <!-- Bal Qty PC Column -->
+                          <ng-container matColumnDef="pcs">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Pcs </th>
+                          </ng-container>
+                  
+                    
+                          <tr mat-header-row *matHeaderRowDef="displayedSizeWiseColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedSizeWiseColumns;"></tr>
+                    
+                          <!-- No Data Row -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="7">No data available in table</td>
+                          </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="tab-pane fade" id="payment-history-tab-pane" role="tabpanel" aria-labelledby="payment-history-tab">
+                   
+                      <div class="col-md-12 mobileview">
+                        <table mat-table [dataSource]="paymentHistoryDataSource">
+                  
+                          <!-- Order No Column -->
+                          <ng-container matColumnDef="orderNo">
+                            <th mat-header-cell *matHeaderCellDef>Order No</th>
+                            <td mat-cell *matCellDef="let element">{{ element.orderNo }}</td>
+                          </ng-container>
+                  
+                          <!-- Order Date Column -->
+                          <ng-container matColumnDef="orderDate">
+                            <th mat-header-cell *matHeaderCellDef>Order Date</th>
+                            <td mat-cell *matCellDef="let element">{{ element.orderDate }}</td>
+                          </ng-container>
+                  
+                          <!-- Delivery Date Column -->
+                          <ng-container matColumnDef="deliveryDate">
+                            <th mat-header-cell *matHeaderCellDef>Delivery Date</th>
+                            <td mat-cell *matCellDef="let element">{{ element.deliveryDate }}</td>
+                          </ng-container>
+                  
+                          <!-- Invoice No Column -->
+                          <ng-container matColumnDef="invoiceNo">
+                            <th mat-header-cell *matHeaderCellDef>Invoice No</th>
+                            <td mat-cell *matCellDef="let element">{{ element.invoiceNo }}</td>
+                          </ng-container>
+                  
+                          <!-- Dispatch Qty Column -->
+                          <ng-container matColumnDef="dispatchQty">
+                            <th mat-header-cell *matHeaderCellDef>Dispatch Qty</th>
+                            <td mat-cell *matCellDef="let element">{{ element.dispatchQty }}</td>
+                          </ng-container>
+                  
+                          <!-- Dispatch Date Column -->
+                          <ng-container matColumnDef="dispatchDate">
+                            <th mat-header-cell *matHeaderCellDef>Dispatch Date</th>
+                            <td mat-cell *matCellDef="let element">{{ element.dispatchDate }}</td>
+                          </ng-container>
+                  
+                          <!-- Credit Days Column -->
+                          <ng-container matColumnDef="credeitDays">
+                            <th mat-header-cell *matHeaderCellDef>Credit Days</th>
+                            <td mat-cell *matCellDef="let element">{{ element.credeitDays }}</td>
+                          </ng-container>
+                  
+                          <!-- Payment Date Column -->
+                          <ng-container matColumnDef="paymentDate">
+                            <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+                            <td mat-cell *matCellDef="let element">{{ element.paymentDate }}</td>
+                          </ng-container>
+                  
+                          <!-- Bill Amount Column -->
+                          <ng-container matColumnDef="billAmmount">
+                            <th mat-header-cell *matHeaderCellDef>Bill Amount</th>
+                            <td mat-cell *matCellDef="let element">{{ element.billAmmount }}</td>
+                          </ng-container>
+                  
+                          <!-- Receipt Payment Column -->
+                          <ng-container matColumnDef="recieptPayemnt">
+                            <th mat-header-cell *matHeaderCellDef>Receipt Payment</th>
+                            <td mat-cell *matCellDef="let element">{{ element.recieptPayemnt }}</td>
+                          </ng-container>
+                  
+                          <!-- Other Receipt Column -->
+                          <ng-container matColumnDef="otherReciept">
+                            <th mat-header-cell *matHeaderCellDef>Other Receipt</th>
+                            <td mat-cell *matCellDef="let element">{{ element.otherReciept }}</td>
+                          </ng-container>
+                  
+                          <!-- Old Payment Column -->
+                          <ng-container matColumnDef="oldPayment">
+                            <th mat-header-cell *matHeaderCellDef>Old Payment</th>
+                            <td mat-cell *matCellDef="let element">{{ element.oldPayment }}</td>
+                          </ng-container>
+                  
+                          <!-- Balance Column -->
+                          <ng-container matColumnDef="balance">
+                            <th mat-header-cell *matHeaderCellDef>Balance</th>
+                            <td mat-cell *matCellDef="let element">{{ element.balance }}</td>
+                          </ng-container>
+                  
+                          <!-- Delay Days Column -->
+                          <ng-container matColumnDef="delayDays">
+                            <th mat-header-cell *matHeaderCellDef>Delay Days</th>
+                            <td mat-cell *matCellDef="let element">{{ element.delayDays }}</td>
+                          </ng-container>
+                  
+                          <!-- Table Header Row -->
+                          <tr mat-header-row *matHeaderRowDef="displayedPaymentHistoryColumns"></tr>
+                          <!-- Table Data Row -->
+                          <tr mat-row *matRowDef="let row; columns: displayedPaymentHistoryColumns;"></tr>
+                          <!-- No Data Row -->
+                          <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="14">No data available in table</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+     
 
-            <!-- Header and Row Declarations -->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </div>
+          <!-- Panel Three -->
+          <h3 class="text-center">Panel Three</h3>
+          <div class="panel mb-4 p-4 border">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="order-booking-tab" data-bs-toggle="tab"
+                          data-bs-target="#order-booking-tab-pane" type="button" role="tab"
+                          aria-controls="order-booking-tab-pane" aria-selected="true">Order Booking</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="marketing-tab" data-bs-toggle="tab"
+                          data-bs-target="#marketing-tab-pane" type="button" role="tab"
+                          aria-controls="marketing-tab-pane" aria-selected="false">Marketing</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="branding-tab" data-bs-toggle="tab"
+                          data-bs-target="#branding-tab-pane" type="button" role="tab"
+                          aria-controls="branding-tab-pane" aria-selected="false">Branding</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="dealer-feedback-tab" data-bs-toggle="tab"
+                          data-bs-target="#dealer-feedback-tab-pane" type="button" role="tab"
+                          aria-controls="dealer-feedback-tab-pane" aria-selected="false">Dealer Feedback</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="other-party-stock-tab" data-bs-toggle="tab"
+                          data-bs-target="#other-party-stock-tab-pane" type="button" role="tab"
+                          aria-controls="other-party-stock-tab-pane" aria-selected="false">Other Party Stock</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="executive-feedback-tab" data-bs-toggle="tab"
+                          data-bs-target="#executive-feedback-tab-pane" type="button" role="tab"
+                          aria-controls="executive-feedback-tab-pane" aria-selected="false">Executive Feedback</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payment-details-tab" data-bs-toggle="tab"
+                        data-bs-target="#payment-details-tab-pane" type="button" role="tab"
+                        aria-controls="payment-details-tab-pane" aria-selected="false">Payment Details</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="order-booking-tab-pane" role="tabpanel" aria-labelledby="order-booking-tab">
+                      <div class="table-responsive">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>Party Name</th>
+                                      <th>Stock Qty</th>
+                                      <th>Sale Qty</th>
+                                      <th>Price</th>
+                                      <th>Remarks</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td><input formControlName="partyName" type="text" class="form-control"></td>
+                                      <td><input formControlName="stockQty" type="number" class="form-control"></td>
+                                      <td><input formControlName="saleQty" type="number" class="form-control"></td>
+                                      <td><input formControlName="price" type="number" class="form-control"></td>
+                                      <td><input formControlName="remarks" type="text" class="form-control"></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="marketing-tab-pane" role="tabpanel" aria-labelledby="marketing-tab">
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <label for="estimatePad">Estimate Pad</label>
+                        <input id="estimatePad" type="number" formControlName="estimatePad" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="brochures3Fold">Brochures 3 Fold</label>
+                        <input id="brochures3Fold" type="number" formControlName="brochures3Fold" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="tShirt">T-Shirt</label>
+                        <input id="tShirt" type="number" formControlName="tShirt" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="posters">Posters</label>
+                        <input id="posters" type="number" formControlName="posters" class="form-control" min="0">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <label for="paperWeight">Paper Weight</label>
+                        <input id="paperWeight" type="number" formControlName="paperWeight" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="tanglers">Tanglers</label>
+                        <input id="tanglers" type="number" formControlName="tanglers" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="flyersStand">Flyers Stand</label>
+                        <input id="flyersStand" type="number" formControlName="flyersStand" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="dairy">Dairy</label>
+                        <input id="dairy" type="number" formControlName="dairy" class="form-control" min="0">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <label for="keyChain">Key Chain</label>
+                        <input id="keyChain" type="number" formControlName="keyChain" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="anySuggestions">Any Suggestions</label>
+                        <input id="anySuggestions" type="number" formControlName="anySuggestions" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="brochures2Fold">Brochures 2 Fold</label>
+                        <input id="brochures2Fold" type="number" formControlName="brochures2Fold" class="form-control" min="0">
+                      </div>
+                      <div class="col-md-3">
+                        <label for="scribblePad">Scribble Pad</label>
+                        <input id="scribblePad" type="number" formControlName="scribblePad" class="form-control" min="0">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="tab-pane fade" id="branding-tab-pane" role="tabpanel" aria-labelledby="branding-tab">
+                    <div class="row mb-3">
+                      <div class="form-group col-md-3">
+                        <label >IN SHOP BRANDING</label>
+                        <select  class="form-control" formControlName="sampleDropdown">
+                          <option value="" disabled selected>Select</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                    
+                      <div class="form-group col-md-3">
+                        <label>IN SHOP BRANDING</label>
+                        <input type="file" class="form-control-file" (change)="onFileChange($event)">
+                    </div>
+                    
+                    
+                    <div class="form-group col-md-3">
+                      <label >SINAGE</label>
+                      <select  class="form-control" formControlName="sampleDropdown">
+                        <option value="" disabled selected>Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                      <div class="form-group col-md-3">
+                        <label>SINAGE</label>
+                        <input type="file" class="form-control-file" (change)="onFileChange($event)">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label >SAMPLE STAND</label>
+                      <select  class="form-control" formControlName="sampleDropdown">
+                        <option value="" disabled selected>Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                      <div class="form-group col-md-3">
+                        <label>SAMPLE STAND</label>
+                        <input type="file" class="form-control-file" (change)="onFileChange($event)">
+                    </div>
+                  
+                  </div>
+                </div>
+                  <div class="tab-pane fade" id="dealer-feedback-tab-pane" role="tabpanel" aria-labelledby="dealer-feedback-tab">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="availability">AVAILABILITY</label>
+                          <input id="availability" type="number" class="form-control" formControlName="availability" min="0">
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="quality">QUALITY</label>
+                          <textarea id="quality" class="form-control" formControlName="quality"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="services">SERVICES</label>
+                          <input id="services" type="number" class="form-control" formControlName="services" min="0">
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="teamSupport">TEAM SUPPORT</label>
+                          <input id="teamSupport" type="number" class="form-control" formControlName="teamSupport" min="0">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="anyImprovement">ANY IMPROVEMENT</label>
+                          <textarea id="anyImprovement" class="form-control" formControlName="anyImprovement"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="executiveRating">EXECUTIVE RATING</label>
+                          <select id="executiveRating" class="form-control" formControlName="executiveRating">
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="other-party-stock-tab-pane" role="tabpanel" aria-labelledby="other-party-stock-tab">
+                      <div class="row bg-primary text-white p-2 rounded-top">
+      <div class="col-md-2">
+        <label class="font-weight-bold">Party Name <span class="text-danger">*</span></label>
       </div>
-  
-      <!-- Panel Three -->
-      <h3 class="text-center">Panel Three</h3>
-      <div class="panel mb-4 p-4 border">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                    data-bs-target="#home-tab-pane" type="button" role="tab"
-                    aria-controls="home-tab-pane" aria-selected="true">Order Booking</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                    data-bs-target="#contact-tab-pane" type="button" role="tab"
-                    aria-controls="contact-tab-pane" aria-selected="false"
-                    >Marketing</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Branding</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Dealer Feedback</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Other Party Stock</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                    data-bs-target="#profile-tab-pane" type="button" role="tab"
-                    aria-controls="profile-tab-pane" aria-selected="false"
-                    >Executive Feedback</button>
-            </li>
-        </ul>
-        <!-- <div class="form-row mb-3">
-          <button type="button" class="btn btn-secondary mr-2">Order Booking</button>
-          <button type="button" class="btn btn-secondary mr-2">Marketing</button>
-          <button type="button" class="btn btn-secondary mr-2">Branding</button>
-          <button type="button" class="btn btn-secondary mr-2">Dealer Feedback</button>
-          <button type="button" class="btn btn-warning mr-2">Other Party Stock</button>
-          <button type="button" class="btn btn-secondary">Executive Feedback</button>
-        </div> -->
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Party Name</th>
-                <th>Stock Qty</th>
-                <th>Sale Qty</th>
-                <th>Price</th>
-                <th>Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><input formControlName="partyName" type="text" class="form-control"></td>
-                <td><input formControlName="stockQty" type="number" class="form-control"></td>
-                <td><input formControlName="saleQty" type="number" class="form-control"></td>
-                <td><input formControlName="price" type="number" class="form-control"></td>
-                <td><input formControlName="remarks" type="text" class="form-control"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="col-md-2">
+        <label class="font-weight-bold">Stock Qty <span class="text-danger">*</span></label>
       </div>
-      <div class="panel mb-4 p-4 border">
-      <div class="row">
-        <div class="form-group col-md-12">
-          <label>Remarks</label>
-          <input formControlName="additionalRemarks" type="text" class="form-control">
-        </div>
-        <div class="form-group col-md-3">
-          <label>Next Visit Date</label>
-          <input formControlName="nextVisitDate" type="date" class="form-control">
-        </div>
+      <div class="col-md-2">
+        <label class="font-weight-bold">Sale Qty <span class="text-danger">*</span></label>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <button type="submit" class="btn btn-success mr-2">Save</button>
-          <button type="button" class="btn btn-info mr-2">Check Out</button>
-          <button type="button" class="btn btn-danger" (click)="Cancel()">Cancel</button>
-        </div>
+      <div class="col-md-2">
+        <label class="font-weight-bold">Price <span class="text-danger">*</span></label>
       </div>
+      <div class="col-md-4">
+        <label class="font-weight-bold">Remarks</label>
       </div>
-    </form>
     </div>
+    <div class="row bg-light p-3 rounded-bottom">
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Party Name" required>
+      </div>
+      <div class="col-md-2">
+        <input type="number" class="form-control" placeholder="0" required>
+      </div>
+      <div class="col-md-2">
+        <input type="number" class="form-control" placeholder="0" required>
+      </div>
+      <div class="col-md-2">
+        <input type="number" step="0.01" class="form-control" placeholder="0.00" required>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Remarks">
+      </div>
+    </div>
+                  </div>
+                  <div class="tab-pane fade" id="executive-feedback-tab-pane" role="tabpanel" aria-labelledby="executive-feedback-tab">
+                    <div class="row bg-primary text-white p-2 rounded-top">
+                      <div class="col-md-3">
+                        <label class="font-weight-bold">OUR STOCK(MT) <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="font-weight-bold">BRANDING <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="font-weight-bold">CREDIT LIMIT SUGGESTION(AMT) <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="font-weight-bold">CUSTOMER RATING<span class="text-danger">*</span></label>
+                      </div>
+                    </div>
+                    <div class="row bg-light p-3 rounded-bottom">
+                      <div class="col-md-3">
+                        <input type="text" class="form-control" formControlName="partyName" placeholder="Party Name">
+                      </div>
+                      <div class="col-md-3">
+                        <input type="number" class="form-control" formControlName="stockQty" placeholder="0">
+                      </div>
+                      <div class="col-md-3">  
+                        <input type="number" class="form-control" formControlName="creditLimit" placeholder="0">
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <select id="executiveRating" class="form-control" formControlName="executiveRating">
+                            <option value="" disabled selected>Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="payment-details-tab-pane" role="tabpanel" aria-labelledby="payment-details-tab">
+                    <div class="row bg-primary text-white p-2 rounded-top">
+                      <div class="col-md-2">
+                        <label class="font-weight-bold">Party Name <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="font-weight-bold">Stock Qty <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="font-weight-bold">Sale Date <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="font-weight-bold">Price <span class="text-danger">*</span></label>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="font-weight-bold">Remarks</label>
+                      </div>
+                    </div>
+                    <div class="row bg-light p-3 rounded-bottom">
+                      <div class="col-md-2">
+                        <input type="text" class="form-control" formControlName="partyName" placeholder="Party Name">
+                      </div>
+                      <div class="col-md-2">
+                        <input type="number" class="form-control" formControlName="stockQty" placeholder="0">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <input formControlName="saleDate" type="date" class="form-control">
+
+                      </div>
+                      <div class="col-md-2">
+                        <input type="number" step="0.01" class="form-control" formControlName="price" placeholder="0.00">
+                      </div>
+                      <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="remarks" placeholder="Remarks">
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="panel mb-4 p-4 border">
+              <div class="row">
+                  <div class="form-group col-md-12">
+                      <label>Remarks</label>
+                      <input formControlName="additionalRemarks" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-md-3">
+                      <label>Next Visit Date</label>
+                      <input formControlName="nextVisitDate" type="date" class="form-control">
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+                      <button type="submit" class="btn btn-success mr-2">Save</button>
+                      <button type="button" class="btn btn-info mr-2">Check Out</button>
+                      <button type="button" class="btn btn-danger" (click)="Cancel()">Cancel</button>
+                  </div>
+              </div>
+          </div>
+      </form>
   </div>
-  
+</div>

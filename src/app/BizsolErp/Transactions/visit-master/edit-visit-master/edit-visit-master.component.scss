@@ -1,6 +1,4 @@
-.container {
-    margin: 20px;
-  }
+
   
   .panel {
     border: 1px solid #ccc;
@@ -28,4 +26,12 @@
   .table-responsive {
     margin-bottom: 20px;
   }
-  
+  .search-container {
+    text-align: right;
+    margin-top: 18px;
+  }
+  .tab-pane{
+    padding: 12px;
+    border-radius: 0px 0px 8px 8px;
+    border: 1px solid #ccc;
+  }

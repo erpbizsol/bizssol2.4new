@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';  // Add MatTableModule
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 
 @Component({
   selector: 'app-department',
@@ -42,7 +43,7 @@ export class DepartmentComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['S.No.', 'Department Code', 'Department Name', 'Action'];
 
-  constructor(private _DepartmentService: DepartmentService, private fb: FormBuilder, private dialog: MatDialog) {}
+  constructor(private _DepartmentService: DepartmentService, private fb: FormBuilder, private dialog: MatDialog, private snackBarService: SnackBarService) { }
 
   public visible = false;
   public visible1 = false;
@@ -94,7 +95,7 @@ export class DepartmentComponent implements OnInit {
       next: (res: any) => {
         let obj = JSON.stringify(res);
         let responseObject = JSON.parse(obj);
-        alert(responseObject.Msg);
+        this.snackBarService.showSuccessMessage(responseObject.Msg);
         if (responseObject.Msg == 'Data updated successfully.') {
           this.editDemoModal();
           this.ClearData();
