@@ -11,6 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
 import { MatIconModule } from '@angular/material/icon';
 import { PaymetntTermService } from 'src/app/services/master/paymetnt-term.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-payment-dialog',
@@ -23,13 +24,19 @@ import { PaymetntTermService } from 'src/app/services/master/paymetnt-term.servi
 })
 export class AddPaymentDialogComponent {
   elementData: any
+  view:any
   submitted: boolean = false
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private payment: PaymetntTermService,
+    private toaster:ToastrService,
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddPaymentDialogComponent>) {
     this.elementData = data.element
+    this.view  = data.view
+    if(this.view!= undefined){
+      this.disableFormControls(this.paymentTermsForm);
+      }
   }
 
   ngOnInit() {
@@ -49,7 +56,7 @@ export class AddPaymentDialogComponent {
 
   onAdvancePaymentChange(isAdvancePayment: boolean) {
     const advancePaymentPercentageControl = this.paymentTermsForm.get('advancePaymentPercentage');
-    if (isAdvancePayment) {
+    if (isAdvancePayment ||this.view ==undefined) {
       advancePaymentPercentageControl.setValidators(Validators.required);
       advancePaymentPercentageControl.enable();
     } else {
@@ -62,12 +69,12 @@ export class AddPaymentDialogComponent {
     // debugger
     this.submitted = true
     if (this.paymentTermsForm.invalid) {
-      this.snackBarService.showErrorMessage("Please Fill All the Field");
+      this.toaster.error("Please Fill All the Field");
       return
 
     }
     if (Number(this.paymentTermsForm.value.advancePaymentPercentage) === 0) {
-      this.snackBarService.showErrorMessage("Advance Payment Amount  should be greater then 0 ")
+      this.toaster.warning("Advance Payment Amount  should be greater then 0 ")
       return
     }
 
@@ -81,18 +88,17 @@ export class AddPaymentDialogComponent {
       "isActive": this.paymentTermsForm.value.status !== undefined ? 'Y' : 'N',
       "userMaster_Code": 2
     }]
-console.log(data,"hii shubh")
 
     if (this.elementData.Code === undefined || 0) {
       this.payment.savePayment(data).subscribe({
         next: ((res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.success(res.Msg)
         }),
         error: (err: any) => {
           console.log(err.error.message)
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.error(err?.error?.Msg)
         }
       })
 
@@ -101,11 +107,12 @@ console.log(data,"hii shubh")
         next: ((res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.success(res.Msg)
         }),
         error: (err: any) => {
           console.log(err.error.message)
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.error(err?.error?.Msg)
+
         }
       })
     }
@@ -167,5 +174,10 @@ allowAlphabetsOnly(event: KeyboardEvent): void {
   get f() {
     return this.paymentTermsForm.controls
   }
-
+  disableFormControls(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.disable();
+    });
+  }
 }

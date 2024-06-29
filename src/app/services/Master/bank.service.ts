@@ -9,21 +9,13 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class BankService{
-
-  constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
-
-  // private headers = new HttpHeaders({
-  //   'Content-Type': 'application/json; charset=utf-8',
-  //   // 'Authorization': this.authservice.getAccessTokenNew()
-  // });
-
-
-
   userCode:any
   obj:any
-  abhi:any
+
   authKey:any
-  private headers(): HttpHeaders {
+
+  constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
+    private headers(): HttpHeaders {
     this.authKey = this.authService.getAuthKey();
     this.obj = JSON.parse(this.authKey);
     this.userCode = this.obj.UserMaster_Code;

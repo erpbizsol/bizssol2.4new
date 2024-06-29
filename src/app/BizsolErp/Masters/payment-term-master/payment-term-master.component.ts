@@ -84,4 +84,21 @@ export class PaymentTermMasterComponent implements OnInit {
       this.getPaymentTermsData();
     });
   }
+ 
+
+  openDialog(value: any,type:any) {
+    const dialogRef = this.dialog.open(AddPaymentDialogComponent, {
+      width: '400px',
+      height: '380px',
+      disableClose: true,
+      data: { element: value ,
+        view:type
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+      this.getPaymentTermsData();
+    });
+  }
 }
