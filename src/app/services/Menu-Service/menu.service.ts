@@ -24,7 +24,7 @@ export class MenuService {
 
   getMenuItems(): Observable<any> {
     const userMasterCode = this.authService.getUserMasterCode();
-    const url = `${this._urlService.ERP_SIDE_MENU}/GetUserModuleMasterByUserID?UserID=${145}`;
+    const url = `${this._urlService.ERP_SIDE_MENU}/GetUserModuleMasterByUserID?UserID=${userMasterCode}`;
     return this._http.get(url, { headers: this.headers() });
   }
 }
