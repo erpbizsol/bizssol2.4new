@@ -26,6 +26,8 @@ export class ChemicalDialogComponent {
   name: any;
   dataSource = new MatTableDataSource<any>([]);
   parameter: string[] = ['Chemical', 'Mechanical', 'Physical', 'Other'];
+  displayedColumns: string[] = ['sNo', 'bankName','aliasName','state','city','pin','ifsc','address','action'];
+
 
 
   constructor(

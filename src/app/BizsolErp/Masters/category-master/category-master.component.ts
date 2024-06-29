@@ -12,13 +12,14 @@ import {CategoryService} from '../../../services/Master/category.service';
 import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
 import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
   selector: 'app-category-master',
   standalone: true,
   providers: [CategoryService],
-  imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent,MatInputModule],
+  imports: [HttpClientModule,MatTableModule,MatPaginatorModule,MatSortModule, ReactiveFormsModule,MatIconModule, CommonModule,ButtonDirective, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent,MatInputModule,MatTableModule,MatSelectModule],
   templateUrl: './category-master.component.html',
   styleUrl: './category-master.component.scss'
 })
@@ -27,6 +28,7 @@ export class CategoryMasterComponent {
   displayedColumns: string[] = ['sNo', 'categoryname', 'categorydescription','componentcost','formtype', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   categorylist: any = [];
+  selectedFormType:string;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -34,14 +36,14 @@ export class CategoryMasterComponent {
   constructor(private _categoryService:CategoryService ,public dialog:MatDialog){}
 
   ngOnInit(){
-    this.getCategoryData('All');
-    
-    
+    this.getCategoryData("S");
+
   }
 
   getCategoryData(formtype:string) {
-
-    this._categoryService.getCategorylist().subscribe({
+      this.selectedFormType=formtype;
+      // console.log(this.selectedFormType,"formtype");
+    this._categoryService.getCategorylist(this.selectedFormType).subscribe({
 
       next: (res: any) => {
         res.sort((a: any, b: any) => a.Code - b.Code);
@@ -49,7 +51,7 @@ export class CategoryMasterComponent {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.categorylist=res;
-        console.log(this.categorylist);
+        console.log(this.categorylist,"Hial");
       },
       error: (err: any) => {
         // console.log(err.error.Msg);
@@ -70,7 +72,7 @@ export class CategoryMasterComponent {
         this._categoryService.deleteCategory(code, reason).subscribe((res) => {
           console.log(`${code} has been deleted`);
           const responseObj = JSON.parse(JSON.stringify(res));
-          // this.getCategoryData();
+          this.getCategoryData(this.selectedFormType);
           alert(responseObj.Msg);
         });
       }
@@ -89,7 +91,7 @@ export class CategoryMasterComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      // this.getCategoryData();
+      this.getCategoryData(this.selectedFormType);
     });
   }
 

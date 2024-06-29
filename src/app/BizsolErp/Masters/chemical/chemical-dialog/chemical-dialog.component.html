@@ -56,14 +56,19 @@
             <mat-table  [dataSource]="dataSource" class="mat-elevation-z8">          
               <!-- Position Column -->
               <ng-container matColumnDef="position">
-                <mat-header-cell *matHeaderCellDef> S.NO. </mat-header-cell>
-                <mat-cell *matCellDef="let element"> 1. </mat-cell>
+                <mat-header-cell *matHeaderRowDef> S.NO. </mat-header-cell>
+                <mat-cell *matRowDef="let element"> 1. </mat-cell>
               </ng-container>
               <!-- Name Column -->
               <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell *matCellDef="let element"> Testing Method </mat-cell>
+                <mat-header-cell *matHeaderRowDef> Name </mat-header-cell>
+                <mat-cell *matRowDef="let element"> Testing Method </mat-cell>
               </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
             </mat-table>
            
           </div>
