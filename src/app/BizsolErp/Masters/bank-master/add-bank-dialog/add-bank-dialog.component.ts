@@ -63,7 +63,10 @@ export class AddBankDialogComponent {
   bankNameList: any
   debitList: any
   controlValue: boolean = false
-
+  readonly:boolean = false
+  disabled:boolean = false
+  view:boolean=false
+  isCheckBoxDisabled:boolean=false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -76,7 +79,19 @@ export class AddBankDialogComponent {
     private snackBarService: SnackBarService,
     public dialogRef: MatDialogRef<AddBankDialogComponent>) {
     this.elementData = data.element
-     console.log(this.eCMSDebitData,"kkkkpppp")
+     this.view=data.view
+     this.readonly= this.elementData.Code !== undefined
+    if(data.view!= undefined){
+      this.disableFormControls(this.paymentTermsForm);
+      }
+     if (this.readonly) {
+      this.disableFormControls(this.ecmsForm);
+    } else {
+      this.enableFormControls(this.ecmsForm);
+    }
+  }
+  formGroup(formGroup: any) {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit() {
@@ -89,6 +104,23 @@ export class AddBankDialogComponent {
     this.paymentTermsForm.controls['bankName'].valueChanges.subscribe(value => {
       this.paymentTermsForm.controls['aliasName'].setValue(value, { emitEvent: false });
       this.sendBankNameToService(value);
+    });
+    this.updateCmsApplicableControl(); // Set the initial state
+
+  }
+
+  
+  disableFormControls(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.disable();
+    });
+  }
+
+  enableFormControls(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.enable();
     });
   }
   paymentTermsForm = new FormGroup({
@@ -104,14 +136,19 @@ export class AddBankDialogComponent {
     phone_no: new FormControl('', Validators.required),
     Pan_No: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    cms_applicable: new FormControl(false),
-    selectBank: new FormControl(''),
-    debitBankAccount: new FormControl(''),
-    prifix: new FormControl(''),
+    cms_applicable: new FormControl({value:false,disabled:false}),
     gst: new FormControl('', Validators.required)
 
   })
 
+  
+
+  ecmsForm=new FormGroup({
+    selectBank: new FormControl(''),
+    debitBankAccount: new FormControl(''),
+    prifix: new FormControl(''),
+
+  })
   patchBankData() {
     this.paymentTermsForm.patchValue({
       bankName: this.elementData?.BankName,
@@ -133,7 +170,7 @@ export class AddBankDialogComponent {
       this.controlValue = true
       this.getDebit()
       this.getBankDropDown()
-      this.paymentTermsForm.patchValue({
+      this.ecmsForm.patchValue({
         selectBank: this.elementData?.eCMSBank,
         debitBankAccount: this.elementData?.eCMSDebitAccount,
         prifix: this.elementData?.VartualAccountPrefix
@@ -143,7 +180,16 @@ export class AddBankDialogComponent {
       this.cityList = res;
     })
   }
-
+  updateCmsApplicableControl() {
+    if (this.readonly || this.paymentTermsForm.get('cms_applicable').value === true) {
+      // this.paymentTermsForm.get('cms_applicable').setValue(true);
+      this.paymentTermsForm.get('cms_applicable').disable();
+    } else {
+      // this.paymentTermsForm.get('cms_applicable').setValue(false);
+      this.paymentTermsForm.get('cms_applicable').enable();
+    }
+  }
+  
   pinAcceptOnlyNumber(event: any) {
     const inputValue: string = event.target.value;
     const newValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
@@ -210,6 +256,21 @@ export class AddBankDialogComponent {
   }
 
 
+
+  capitalizeWords(inputValue: string) {
+    throw new Error('Method not implemented.');
+  }
+  onInputChange2(event: any) {
+    const inputValue: string = event.target.value;
+    const formattedValue = this.capitalizeWordss(inputValue);
+    this.paymentTermsForm.get('bankName').setValue(formattedValue);
+    
+  }
+
+  capitalizeWordss(str: string): string {
+    return str.replace(/(?:^|\s|\.)\S/g, (char) => char.toUpperCase());
+  }
+
   allowNumberOnly(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
     const charStr = String.fromCharCode(charCode);
@@ -257,12 +318,11 @@ export class AddBankDialogComponent {
     }
   }
   saveBankDetailsData() {
-    debugger
+    // debugger
     this.submitted = true
     if (this.paymentTermsForm.invalid) {
       return
     }
-    console.log(this.paymentTermsForm.value, "jjjj")
     let data = [
       {
         code: this.elementData.Code ? this.elementData.Code : 0,
@@ -285,11 +345,11 @@ export class AddBankDialogComponent {
         micrCode: "string",
         aliasName: this.paymentTermsForm.value.aliasName,
         swiftCode: this.paymentTermsForm.value.swiftCode,
-        ecmsBank: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.selectBank : "",
-        vartualAccountPrefix: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.prifix : "",
+        ecmsBank: this.paymentTermsForm.value.cms_applicable == true ? this.ecmsForm.value.selectBank : "",
+        vartualAccountPrefix: this.paymentTermsForm.value.cms_applicable == true ? this.ecmsForm.value.prifix : "",
         vartualAccountLength: 0,
         vartualAccountAutoGenerate: 'Y',
-        eCMSDebitAccountName: this.paymentTermsForm.value.cms_applicable == true ? this.paymentTermsForm.value.debitBankAccount : "",
+        eCMSDebitAccountName: this.ecmsForm.value.debitBankAccount,
         userMaster_Code: 0,
         GSTNO: this.paymentTermsForm.value.gst,
 
@@ -303,7 +363,7 @@ export class AddBankDialogComponent {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
           this.snackBarService.showSuccessMessage(res.Msg);
-          //  this.toaster.showSuccess(res.Msg)
+           this.toaster.showSuccess(res.Msg)
         },
         error: (err: any) => {
           console.log(err.error.message);
@@ -315,9 +375,9 @@ export class AddBankDialogComponent {
         next: (res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          //  this.toaster.showSuccess(res.Msg)
+           this.toaster.showSuccess(res.Msg)
 
-          this.snackBarService.showSuccessMessage(res.Msg);
+          // this.snackBarService.showSuccessMessage(res.Msg);
         },
         error: (err: any) => {
           console.log(err.error.message)
@@ -329,7 +389,6 @@ export class AddBankDialogComponent {
 
   checkEcms(event: any, controlName: string): void {
     this.controlValue = this.paymentTermsForm.get(controlName)?.value;
-     console.log(this.controlValue,"valu")
     if( this.controlValue ){
       this.getDebit()
       this.getBankDropDown()
@@ -395,7 +454,10 @@ export class AddBankDialogComponent {
   get f() {
     return this.paymentTermsForm.controls
   }
-
+  
+  get g() {
+    return this.ecmsForm.controls
+  }
 
   transformToUpperCase(event: any, controlName: string) {
     const value: string = event.target.value;
