@@ -1,37 +1,3 @@
-// import { Component, ViewChild } from '@angular/core';
-// import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-// import { CommonModule } from '@angular/common';
-// import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { CountryService } from "../../../services/Master/country.service";
-// import { HttpClientModule } from "@angular/common/http"
-// import { ButtonCloseDirective, ButtonDirective, FormModule, ModalBodyComponent, ModalComponent, ModalFooterComponent, ModalHeaderComponent, ModalTitleDirective, PageItemDirective, PageLinkDirective, PaginationComponent, ThemeDirective } from '@coreui/angular';
-// import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-// // import { NgxPaginationModule } from 'ngx-pagination';
-// import { RouterLink } from '@angular/router';
-// import { MatSort } from '@angular/material/sort';
-// import { MatError } from '@angular/material/form-field';
-// import { MatDialog } from '@angular/material/dialog';
-// import { DeleteConfermationPopUpComponent } from 'src/app/pop-up/delete-confermation/delete-confermation-pop-up/delete-confermation-pop-up.component';
-
-
-// @Component({
-//   selector: 'app-country-table',
-//   standalone: true,
-//   imports: [MatTableModule, HttpClientModule, MatPaginatorModule, ButtonDirective, FormModule, ReactiveFormsModule, MatPaginatorModule, CommonModule, ButtonDirective, ModalComponent,
-//     ModalHeaderComponent, ModalTitleDirective, ThemeDirective, ButtonCloseDirective, ModalBodyComponent, ModalFooterComponent, PaginationComponent,
-//     PageItemDirective,
-//     PageLinkDirective,
-//     RouterLink, MatError],
-//   providers: [CountryService],
-//   templateUrl: './country-table.component.html',
-//   styleUrl: './country-table.component.scss'
-// })
-// export class CountryTableComponent {
-
-
-
-  
-// }
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
