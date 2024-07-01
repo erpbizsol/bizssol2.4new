@@ -352,9 +352,7 @@ export class AddBankDialogComponent {
         eCMSDebitAccountName: this.ecmsForm.value.debitBankAccount,
         userMaster_Code: 0,
         GSTNO: this.paymentTermsForm.value.gst,
-
-
-      }
+         }
     ]
     delete this.paymentTermsForm.value.cms_applicable
     if (this.elementData.Code === undefined || 0) {
@@ -362,7 +360,6 @@ export class AddBankDialogComponent {
         next: (res: any) => {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
            this.toaster.showSuccess(res.Msg)
         },
         error: (err: any) => {
@@ -376,9 +373,7 @@ export class AddBankDialogComponent {
           this.paymentTermsForm.reset()
           this.dialogRef.close();
            this.toaster.showSuccess(res.Msg)
-
-          // this.snackBarService.showSuccessMessage(res.Msg);
-        },
+         },
         error: (err: any) => {
           console.log(err.error.message)
         }
@@ -395,9 +390,7 @@ export class AddBankDialogComponent {
 
     }else{
       this.controlValue =false
-    }
-
-  }
+    }}
 
 
   getDropList() {
@@ -472,10 +465,7 @@ export class AddBankDialogComponent {
     this.paymentTermsForm.get('phone_no').setValue(newValue.slice(0, 10)); // Limit input to 10 characters
   }
 
-
-
-
-  onKeyPress(event: KeyboardEvent) {
+onKeyPress(event: KeyboardEvent) {
     const allowedChars = /^[a-zA-Z0-9@.]*$/;
     const inputChar = String.fromCharCode(event.charCode);
 
@@ -484,26 +474,19 @@ export class AddBankDialogComponent {
     }
   }
 
-
-
-  allowAlphabetsAndNumbersOnly(event: Event): void {
+allowAlphabetsAndNumbersOnly(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value = input.value.toUpperCase();
-
-    // Remove any characters that are not alphabets or numbers
     value = value.replace(/[^A-Z0-9]/g, '');
-
     input.value = value;
   }
 
-
-  getBankDropDown() {
+getBankDropDown() {
     this.bank.getecmsDropDown('GetF_eCMSMasterList').subscribe({
       next: (res: any) => {
         this.bankNameList = res
         console.log(this.bankNameList)
-
-      },
+        },
       error: (err: any) => {
         console.log(err.error.message);
       }
@@ -516,7 +499,6 @@ export class AddBankDialogComponent {
       next: (res: any) => {
         console.log(res);
         this.debitList = res
-
       },
       error: (err: any) => {
         console.log(err.error.message);
