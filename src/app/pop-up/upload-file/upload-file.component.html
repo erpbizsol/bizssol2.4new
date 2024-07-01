@@ -1,20 +1,32 @@
-<div class="upload-wits-or-files-area" style="margin-top: 3rem;">
+<button class="close-button" (click)="closePopup()">
+    <mat-icon>close</mat-icon>
+  </button>
+<div class="upload-wits-or-files-area" style="margin-top: 3rem; position: relative;">
     <div class="card upload-file-area content-center border mb-3" style="border: 1px dashed #757575 !important; border-radius: 8px; margin: 0 22px 0 22px; height: 256px;">
       <div class="cardbody selectedFileBackground">
         <div class="file-upload m-3">
           <div class="content-center" style="width: 100%;">
-            <div class="content-center"></div>
-            <div>
+            <div class="content-center">{{ selectedFileName }}</div>
+            <div *ngIf="!selectedFile">
+              <div class="content-center">
+                <mat-icon>cloud_upload</mat-icon>
+              </div>
               <h6 class="font-text content-center">Choose your file to upload</h6>
-              <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
-              <div class="content-center"><button class="btn btn-primary" (click)="fileInput.click()">BROWSE</button></div>
+              <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept=".csv">
+              <div class="content-center">
+                <button class="btn btn-primary" (click)="fileInput.click()">BROWSE</button>
+              </div>
               <div class="font-12">(File extensions supported for upload are: csv)</div>
+            </div>
+            <div class="corner-button" *ngIf="selectedFile">
+              <mat-icon (click)="onClickOfRemoveFile()">close</mat-icon>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="text-center">
-      <button class="btn btn-primary btn-height" (click)="uploadFiles()">Upload</button>
+    <div class="text-center m-2">
+      <button class="btn btn-primary btn-height" (click)="uploadFiles()" [disabled]="!selectedFile">Upload</button>
     </div>
   </div>
+  
