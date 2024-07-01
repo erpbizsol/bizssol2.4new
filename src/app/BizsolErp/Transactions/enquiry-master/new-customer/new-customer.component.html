@@ -149,18 +149,20 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="required">PIN/ZIP Code</label>
+                                                                <label>PIN/ZIP Code</label>
                                                                 <input type="text" class="form-control"
                                                                     formControlName="pin" maxLength="6"
                                                                     (input)="pinAcceptOnlyNumber($event)">
                                                                 <div *ngIf="newCustomerForm.get('pin').invalid && (newCustomerForm.get('pin').dirty || newCustomerForm.get('pin').touched)"
                                                                     class="text-danger validation-msg">
-                                                                    <div
+                                                                    <!-- <div
                                                                         *ngIf="newCustomerForm.get('pin').errors['required']">
-                                                                        pincode is required</div>
+                                                                        pincode is required
+                                                                    </div> -->
                                                                     <small
                                                                         *ngIf="newCustomerForm.get('pin').errors['minlength']">
-                                                                        pincode at most be 6 digits</small>
+                                                                        pincode at most be 6 digits
+                                                                    </small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -203,7 +205,8 @@
 
                                                         <div class="col-md-6 form-group">
                                                             <label class="required">City/Town</label>
-                                                            <select formControlName="city" class="form-control">
+                                                            <select formControlName="city" class="form-control"
+                                                                (change)="setPinOfCity($event)">
                                                                 <option selected hidden value="">Select</option>
                                                                 <option *ngFor="let city of cityList"
                                                                     [value]="city.CityName">{{
@@ -220,7 +223,7 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="email">Email </label>
+                                                                <label>Email </label>
                                                                 <input type="email" formControlName="email"
                                                                     class="form-control" maxLength="100"
                                                                     (keypress)="onKeyPress($event)"
@@ -467,7 +470,7 @@
                                                     <button type="submit" class="btn btn-success" mat-stroked-button
                                                         aria-label=" ">SAVE</button>
                                                     &nbsp;
-                                                    <button class="btn btn-success"
+                                                    <button class="btn btn-danger"
                                                         (click)="backtotable1()">CANCEL</button>
 
                                                 </div>
@@ -516,13 +519,15 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="required">Department</label>
-                                                    <select id="abc" formControlName="department" class="form-control">
+                                                    <input type="text" formControlName="department"
+                                                        class="form-control">
+                                                    <!-- <select id="abc" formControlName="department" class="form-control">
                                                         <option selected hidden value="">Select</option>
                                                         <option *ngFor="let deparment of departments"
                                                             [value]="deparment.DepartmentName">{{
                                                             deparment.DepartmentName }}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <div *ngIf="contactPerson.get('department').invalid && (contactPerson.get('department').dirty || contactPerson.get('department').touched)"
                                                         class="text-danger validation-msg">
                                                         <div *ngIf="contactPerson.get('department').errors['required']">
@@ -534,13 +539,15 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label class="required">Designation</label>
-                                                    <select id="abc" formControlName="designation" class="form-control">
+                                                    <input type="text" formControlName="designation"
+                                                        class="form-control">
+                                                    <!-- <select id="abc" formControlName="designation" class="form-control">
                                                         <option selected hidden value="">Select</option>
                                                         <option *ngFor="let data of designation"
                                                             [value]="data.DesignationName">{{
                                                             data.DesignationName }}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <div *ngIf="contactPerson.get('designation').invalid && (contactPerson.get('designation').dirty || contactPerson.get('designation').touched)"
                                                         class="text-danger validation-msg">
                                                         <div
