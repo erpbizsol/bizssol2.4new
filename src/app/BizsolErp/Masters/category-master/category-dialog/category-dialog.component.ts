@@ -8,6 +8,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CategoryService } from '../../../../services/Master/category.service'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SnackBarService } from 'src/app/services/SnakBar-Service/snack-bar.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
 
 @Component({
   selector: 'app-category-dialog',
@@ -30,6 +31,7 @@ export class CategoryDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _categoryService: CategoryService,
     private snackBarService: SnackBarService,
+    private toaster:ToasterService,
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
     private fb: FormBuilder) {
     this.elementData = data.element
@@ -68,11 +70,11 @@ export class CategoryDialogComponent {
         next: ((res: any) => {
           this.categoryForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.showSuccess(res.Msg);
         }),
         error: (err: any) => {
           console.log(err.error.message);
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.showError(err?.error?.Msg);
         }
       })
 
@@ -82,11 +84,11 @@ export class CategoryDialogComponent {
         next: ((res: any) => {
           this.categoryForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.showSuccess(res.Msg);
         }),
         error: (err: any) => {
           console.log(err.error.message);
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.showError(err?.error?.Msg);
         }
       })
     }

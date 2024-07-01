@@ -1,207 +1,75 @@
+<!-- app.component.html -->
 <div class="container">
     <div class="row">
-        <div class="col m12"></div>
+      <div class="col m12"></div>
     </div>
     <div class="row mb-1">
-        <div class="col-md-1"></div>
-
-        <div class="col-md-5 mobRowAngularMaterial">
-            <mat-label>Country</mat-label>
+      <div class="col-md-1"></div>
+      <div class="col-md-10 mb-2 text-end">
+      <div class="col-md-3 form-group">
+        <div class="col-md-2 mobRowAngularMaterial">
+            <mat-label><b>Country</b></mat-label>
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
-                <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
+                <mat-select placeholder="All" required (selectionChange)="getStateData($event.value)">
                     <mat-option value="All">All</mat-option>
                     <mat-option *ngFor="let country of countrylist" [value]="country.CountryName">{{ country.CountryName
                         }}</mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
-        <div class="col-md-5 text-end mtBtn12">
-            <button class="btn btn-primary" (click)="toggleLiveDemo()">CREATE NEW <i class="fa fa-plus-circle"
-                    aria-hidden="true"></i></button>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-1"></div>
-        <div class="col-md-10 mobileview">
-            <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
-                <!-- Serial Number Column -->
-                <ng-container matColumnDef="SN">
-                    <th mat-header-cell *matHeaderCellDef matTooltip="S.No."> S.No.</th>
-                    <td mat-cell *matCellDef="let element"> {{element.SN}} </td>
-                </ng-container>
-
-                <!-- Country Name Column -->
-                <ng-container matColumnDef="CountryName">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="CountryName"> {{ columnDisplayNames['CountryName'] }} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.CountryName}} </td>
-                </ng-container>
-
-                <!-- State Name Column -->
-                <ng-container matColumnDef="StateName">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="StateName"> {{
-                        columnDisplayNames['StateName'] }} </th>
-                    <td mat-cell *matCellDef="let element" class="ellipsis" matTooltip={{element.StateName}}> {{element.StateName}} </td>
-                </ng-container>
-
-                <!-- State Short Name Column -->
-                <ng-container matColumnDef="StateShortName">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="StateInitial" > {{ columnDisplayNames['StateShortName'] }}
-                    </th>
-                    <td mat-cell *matCellDef="let element"> {{element.StateShortName}} </td>
-                </ng-container>
-
-                <!-- State Code Column -->
-                <ng-container matColumnDef="StateCode">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="StateCode"> {{ columnDisplayNames['StateCode'] }} </th>
-                    <td mat-cell *matCellDef="let element"> {{element.StateCode}} </td>
-                </ng-container>
-
-                <!-- Action Column -->
-                <ng-container matColumnDef="Action">
-                    <th mat-header-cell *matHeaderCellDef matTooltip="Action"> Action </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button class="btn btn-primary" title="Edit" (click)="editState(element)">
-
-                            <i class="fa fa-pencil" aria-hidden="true" title="Edit"></i>
-                        </button>
-                        &nbsp; &nbsp;
-                        <button class="btn btn-danger" title="Delete" (click)="deleteState(element.Code)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
         </div>
-        <div class="col-md-1"></div>
     </div>
-</div>
-
-<!-- //////////////////////////////////////////////////////////////Create Modal/////////////////////////////////////////////////////////////////////// -->
-
-<c-modal id="liveDemoModal" [visible]="createvisible" backdrop="static" (visibleChange)="handleLiveDemoChange($event)" alignment="center">
-    <c-modal-header>
-        <h5 cModalTitle style="text-align: center;">State</h5>
-        <button (click)="toggleLiveDemo()" cButtonClose></button>
-    </c-modal-header>
-    <form [formGroup]="stateForm" (ngSubmit)="submit()">
-        <c-modal-body>
-            <div class=" row justify-content-between">
-                <div class=" col-md-5 form-group">
-                    <label for="countryName">Country</label>
-                    <select class="form-control" formControlName="countryName" (selectionChange)="getStateList(this.countrylist.CountryName)">
-                        @for (item of countrylist; track item.id; let id= $index) {
-                            <option [value]='item.CountryName'>{{item.CountryName}}</option>
-                            <input value="{{item.CountryName}}" class="form-control" type="text" maxlength="20">
-                        }
-                    </select>
-
-                    <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
-                    <div *ngIf="stateForm.get('countryName')?.hasError('required') && stateForm.get('countryName')?.touched"
-                        class="error-message">
-                        Please select country!
-                    </div>
-
-                </div>
-                
-                <div class=" col-md-5 form-group">
-                    <label for=" statename">State Name</label>
-                    <input class="form-control" type="text" formControlName="stateName" maxlength="20" (keypress)="specialCharacternumberValidator($event)">
-                    <!-- Required field Validation -->
-                    <div *ngIf="stateForm.get('stateName')?.hasError('required') && stateForm.get('stateName')?.touched"
-                        class="error-message">
-                        State is required!
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-5 form-group">
-                    <label for=" stateinitial">State Initial</label>
-                    <input class="form-control" type="text" formControlName="stateInitial" maxlength="10" (keypress)="stateinitialvalidation($event)" >
-                    <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
-                    <!-- Required field Validation -->
-                    <div *ngIf="stateForm.get('stateInitial')?.hasError('required') && stateForm.get('stateInitial').touched"
-                        class="error-message">
-                        State Initial is required!
-                    </div>
-            
-                </div>
-                <div class="col-md-5 form-group">
-                    <mat-label for="statecode">State Code</mat-label>
-                    <input class="form-control" type="text" formControlName="stateCode" maxlength="2" (keypress)="statecodevalidation($event)">
-                    <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
-                    <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
-                        class="error-message">
-                        State Code is required!
-                    </div>
-
-                </div>
-            </div>
-
-
-
-        </c-modal-body>
-        <c-modal-footer>
-            <button cButton color="primary" type="submit">SAVE </button>
-            <button (click)="toggleLiveDemo()" cButton color="danger">
-                CANCEL
-            </button>
-        </c-modal-footer>
-    </form>
-</c-modal>
-<!-- //////////////////////////////////////////////////Update Modal////////////////////////////////////////// -->
-
-<c-modal id="updateModal" [visible]="updatevisible" backdrop="static" alignment="center" (visibleChange)="handleUpdateChange($event)">
-    <c-modal-header>
-        <h5 cModalTitle  style="text-align: center;">Update State</h5>
-        <button (click)="toggleUpdate()" cButtonClose></button>
-    </c-modal-header>
-    <form class="row" [formGroup]="stateForm" (ngSubmit)="updateSubmit(item.Code)">
-        <c-modal-body>
-            <div class="row justify-content-between">
-
-
-
-                <div class="col-md-5 form-group">
-                    <label for="countryName">Country</label>
-                    <input class="form-control" type="text" matInput formControlName="countryName" maxlength="20" readonly="true" >
-                </div>
-                <div class="col-md-5 form-group">
-                    <label for="stateName">State</label>
-                    <input class="form-control" type="text" matInput formControlName="stateName" maxlength="20" (keypress)="specialCharacternumberValidator($event)">
-                    <div *ngIf="stateForm.get('stateName')?.hasError('required') && stateForm.get('stateName')?.touched"
-                    class="error-message">
-                    State is required!
-                </div>
-                </div>
-                <div class="col-md-5 form-group">
-                    <label for="stateInitial">State Initial</label>
-                    <input class="form-control" type="text" matInput formControlName="stateInitial"  maxLength="10" (keypress)="stateinitialvalidation($event)">
-                    <div *ngIf="stateForm.get('stateInitial')?.hasError('required') && stateForm.get('stateInitial').touched"
-                    class="error-message">
-                    State Initial is required!
-                </div>
-                </div>
-                <div class="col-md-5 form-group">
-                    <label for="stateCode">State Code</label>
-                    <input class="form-control" type="text" matInput formControlName="stateCode" maxlength="2" (keypress)="statecodevalidation($event)">
-                    <div *ngIf="stateForm.get('stateCode')?.hasError('required') && stateForm.get('stateCode').touched"
-                    class="error-message">
-                    State Code is required!
-                </div>
-                </div>
-            </div>
-
-        </c-modal-body>
-        <c-modal-footer>
-            <button cButton color="primary" type="submit">UPDATE</button>
-            <button (click)="toggleUpdate()" cButton color="danger">
-                CANCEL
-            </button>
-        </c-modal-footer>
-    </form>
-</c-modal>
+        <button type="button" class="btn btn-primary" (click)="addDialog('')">
+          CREATE NEW <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+  <div class="col-md-1">  </div>
+  <div class="col-md-1">  </div>
+  <div class="col-md-10 mobileview">
+        <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
+          <!-- class="mat-elevation-z8"  -->
+          <ng-container matColumnDef="sNo">
+            <th mat-header-cell *matHeaderCellDef> S.No </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="statename">
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header="statename">State Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.StateName}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="stateshortname">
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header="stateshortname">State Initial</th>
+            <td mat-cell *matCellDef="let element"> {{element.StateShortName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="statecode">
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header="statecode">State Code</th>
+            <td mat-cell *matCellDef="let element"> {{element.StateCode}} </td>
+          </ng-container>
+          <ng-container matColumnDef="countryname">
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header="countryname">Country Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.CountryName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-stroked-button color="primary"   title="Edit" class="btn btn-primary me-1" (click)="addDialog(element)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deleteChemical(element.Code)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50]" #MatPaginator1></mat-paginator>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    

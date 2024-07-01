@@ -1,0 +1,71 @@
+<!-- app.component.html -->
+
+<div class="delete-confirmation-dialog">
+    <h5 class="header-bg" mat-dialog-title>
+      {{
+        this.elementData.Code === undefined || ""
+          ? "State Master "
+          : "State Master"
+      }}
+       <i type="button" class="fa fa-times-circle-o cursor" aria-hidden="true" style="float: right;" (click)="onNoClick()"></i>
+    </h5>    
+    <form [formGroup]="stateForm">
+      <div mat-dialog-content>
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="col-md-6 form-group">
+                    <mat-label><b>Country</b></mat-label>
+            <mat-form-field class="mat-form-field-fluid" appearance="outline">
+                <mat-select placeholder="select" required >
+                    <mat-option *ngFor="let country of countrylist" [value]="country.CountryName">{{ country.CountryName
+                        }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+                </div>
+            </div>
+          <div class="col-md-6">
+            <label><b>State Name</b></label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="countrycode"
+              maxlength="50"
+              placeholder=" Enter Country Code"
+              (keypress)="allowNumberOnly($event)"
+            />
+            <div *ngIf="submitted && f['countrycode'].errors" class="text-danger">
+              <div *ngIf="f['countrycode'].hasError('required')">Country Code is required</div>
+            </div>
+            <div
+              *ngIf="submitted && f['countrycode'].errors"
+              class="text-danger"
+            >
+            </div>
+          </div>
+
+          <div class="col-md-6">
+                 <label><b>State Code</b></label>
+          </div>
+          
+        </div>
+      </div>
+      <div mat-dialog-actions class="content-end mt-4">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="savecountrydata()"
+        >
+          {{ this.elementData.Code === undefined ? "SAVE" : "UPDATE" }}
+        </button>
+        <button
+        type="button"
+        class="btn btn-danger me-1"
+        mat-dialog-close
+        (click)="onNoClick()"
+      >
+        CLOSE
+      </button>
+      </div>
+    </form>
+  </div>
+  

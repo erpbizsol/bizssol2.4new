@@ -8,44 +8,61 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CountryService } from '../../../../services/Master/country.service'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
+import { StateService } from 'src/app/services/Master/state.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-country-dialog',
   standalone: true,
-  providers: [CountryService],
-  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule, FormsModule,HttpClientModule],
-  templateUrl: './country-dialog.component.html',
-  styleUrl: './country-dialog.component.scss'
+  providers: [CountryService,StateService],
+  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule, FormsModule,HttpClientModule,MatTableModule,MatSelectModule],
+  templateUrl: './state-dialog.component.html',
+  styleUrl: './state-dialog.component.scss'
 })
-export class CountryDialogComponent {
+export class StateDialogComponent {
 
   elementData: any;
-  countryForm !: FormGroup;
+  stateForm !: FormGroup;
   // selectedOption:string;
+  countrylist:any= [];
   submitted: boolean = false;
   name: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _countryService: CountryService,
+    // private _countryService: CountryService,
+    private _countryService:CountryService,
+    private _stateService:StateService,
     private toaster: ToasterService,
-    public dialogRef: MatDialogRef<CountryDialogComponent>,
+    public dialogRef: MatDialogRef<StateDialogComponent>,
     private fb: FormBuilder) {
     this.elementData = data.element
     this.setForm()
   }
   ngOnInit() {
+    this.getCountryList();
     this.patchCountryData()
     
   }
 
 
   setForm() {
-    this.countryForm = this.fb.group({
+    this.stateForm = this.fb.group({
       country: ['', [Validators.required]],
-      countrycode: ['', [Validators.required]],
+      stateName: ['', [Validators.required]],
+      stateInitial: ['', [Validators.required]],
+      stateCode: ['', [Validators.required]],
     })
   }
+
+  getCountryList() {
+    this._countryService.getCountry().subscribe(res => {
+      this.countrylist = res;
+
+    })
+  }
+
 
   savecountrydata() {
     this.submitted = true;
@@ -53,13 +70,15 @@ export class CountryDialogComponent {
     
     let data = {
       Code: this.elementData.Code ? this.elementData.Code : 0,
-      CountryName: this.countryForm.value.country,
-      CountryCode: this.countryForm.value.countrycode,      
+      CountryName: this.stateForm.value.country,
+      StateName: this.stateForm.value.stateName,      
+      StateShortName: this.stateForm.value.stateInitial,      
+      StateCode: this.stateForm.value.stateCode,      
     }
     if (this.elementData.Code === undefined || 0) {
-      this._countryService.saveCountry(data).subscribe({
+      this._stateService.saveState(data).subscribe({
         next: ((res: any) => {
-          this.countryForm.reset()
+          this.stateForm.reset()
           this.dialogRef.close();
           this.toaster.showSuccess(res.Msg);
         }),
@@ -72,9 +91,9 @@ export class CountryDialogComponent {
 
     }
     else {
-      this._countryService.saveCountry(data).subscribe({
+      this._stateService.saveState(data).subscribe({
         next: ((res: any) => {
-          this.countryForm.reset()
+          this.stateForm.reset()
           this.dialogRef.close();
           // this.toaster.showSuccess(res.Msg)
 
@@ -89,7 +108,7 @@ export class CountryDialogComponent {
   }
 
   patchCountryData() {
-    this.countryForm.patchValue({
+    this.stateForm.patchValue({
       country: this.elementData?.CountryName,
       countrycode: this.elementData?.CountryCode,
      
@@ -126,7 +145,7 @@ export class CountryDialogComponent {
   }
 
   get f() {
-    return this.countryForm.controls
+    return this.stateForm.controls
   }
 
 }

@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { ChemicalService } from '../../../../services/Master/chemical.service';
 import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
+import { ToasterService } from 'src/app/services/toaster-message/toaster.service';
+
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 @Component({
   selector: 'app-chemical-dialog',
@@ -34,6 +36,7 @@ export class ChemicalDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _chemicalService: ChemicalService,
     private snackBarService: SnackBarService,
+    private toaster: ToasterService,
     public dialogRef: MatDialogRef<ChemicalDialogComponent>,
     private fb: FormBuilder) {
     this.elementData = data.element
@@ -86,11 +89,11 @@ export class ChemicalDialogComponent {
         next:((res:any)=>{
           this.chemicalForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.showSuccess(res.Msg);
         }),
         error:(err:any)=>{
           console.log(err.error.message);
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.showError(err?.error?.Msg);
         }
       })
 
@@ -100,11 +103,11 @@ export class ChemicalDialogComponent {
         next:((res:any)=>{
           this.chemicalForm.reset()
           this.dialogRef.close();
-          this.snackBarService.showSuccessMessage(res.Msg);
+          this.toaster.showSuccess(res.Msg);
         }),
         error:(err:any)=>{
           console.log(err.error.message);
-          this.snackBarService.showErrorMessage(err?.error?.Msg);
+          this.toaster.showError(err?.error?.Msg);
         }
       }) 
     }
