@@ -7,9 +7,8 @@
           ? "Country Master "
           : "Country Master"
       }}
-    </h5>
-    <!-- <button class="close" mat-button  mat-dialog-close (click)="onNoClick()">X</button> -->
-    
+       <i type="button" class="fa fa-times-circle-o cursor" aria-hidden="true" style="float: right;" (click)="onNoClick()"></i>
+    </h5>    
     <form [formGroup]="countryForm">
       <div mat-dialog-content>
         <div>
