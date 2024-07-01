@@ -2,7 +2,7 @@
 <div class="container">
   <div class="col-md-12 mt-4 mb-2 text-end">
     <button type="button" class="btn btn-primary" (click)="addDialog('')">
-      CREATE NEW <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
     </button>
   </div>
   <div>
@@ -16,26 +16,23 @@
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header="Desp"  >Description</th>
-        <td mat-cell *matCellDef="let element" class="left-align"> {{element.Desp}} </td>
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header="Desp">Description</th>
+        <td mat-cell *matCellDef="let element"> {{element.Desp}} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="IsActive">Active/Inactive</th>
-        <td mat-cell *matCellDef="let element"  class="left-align" [ngClass]="{'active': element.IsActive === 'Y', 'inactive': element.IsActive !== 'Y'}">
-          {{ element.IsActive === 'Y' ? 'Active' : 'Inactive' }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.IsActive === 'Y' ? 'Active' : 'Inactive' }}</td>
       </ng-container>
-      
       
 
       <ng-container matColumnDef="advancePaymentStatus">
-        <th mat-header-cell *matHeaderCellDef   mat-sort-header="AdvPaymentApplicable" >Advance Applicable</th>
-        <td mat-cell *matCellDef="let element" class="left-align"> {{element.AdvPaymentApplicable  ==='Y' ?'Yes':'No'}}  </td>
+        <th mat-header-cell *matHeaderCellDef   mat-sort-header="AdvPaymentApplicable">Advance applicable</th>
+        <td mat-cell *matCellDef="let element"> {{element.AdvPaymentApplicable  ==='Y' ?'Yes':'No'}}  </td>
       </ng-container>
 
       <ng-container matColumnDef="advancePaymentAmount">
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header="AdvancePayment" class="left-right">Advance Payment %</th>
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header="AdvancePayment">Advance Payment  %</th>
         <td mat-cell *matCellDef="let element"> {{element.AdvancePayment}} </td>
       </ng-container>
 
@@ -48,10 +45,6 @@
           <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deletePayment(element.Code)">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
           </button>
-          <button mat-stroked-button color="warn" title="View" class="btn btn-success me-1" (click)="openDialog(element,1)">
-            <i class="fa fa-eye" aria-hidden="true"></i> 
-
-</button>
         </td>
       </ng-container>
 

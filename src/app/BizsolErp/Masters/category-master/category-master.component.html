@@ -1,28 +1,21 @@
 <!-- app.component.html -->
 <div class="container">
-  <div class="row">
-    <div class="col m12"></div>
-  </div>
-  <div class="row mb-1">
-    <div class="col-md-1"></div>
-    <div class="col-md-10 mb-2 text-end">
+    <div class="col-md-12 mt-4 mb-2 text-end">
       <div class="col-md-5 mobRowAngularMaterial">
-        <!-- <mat-label>Type</mat-label>
+        <mat-label>Type</mat-label>
         <mat-form-field class="mat-form-field-fluid" appearance="outline">
-            <mat-select placeholder="All" required (selectionChange)="getCategoryData($event.value)">
+            <!-- <mat-select placeholder="All" required (selectionChange)="getCategoryData($event.value)">
                 <mat-option value="All">All</mat-option>
-                <mat-option value="S">Store Inventory</mat-option>
-                <mat-option value="RF">Finish Inventory</mat-option>
-            </mat-select>
-        </mat-form-field> -->
+                <mat-option *ngFor="let category of categorylist" [value]="category.CountryName">{{ category.FormType
+                    }}</mat-option>
+            </mat-select> -->
+        </mat-form-field>
     </div>
       <button type="button" class="btn btn-primary" (click)="addDialog('')">
         Create new <i class="fa fa-plus-circle" aria-hidden="true"></i>
       </button>
     </div>
-<div class="col-md-1">  </div>
-<div class="col-md-1">  </div>
-<div class="col-md-10 mobileview">
+    <div>
       <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
         <!-- class="mat-elevation-z8"  -->
         <ng-container matColumnDef="sNo">
@@ -79,6 +72,5 @@
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" #MatPaginator1></mat-paginator>
     </div>
-    <div class="col-md-1"></div>
   </div>
   

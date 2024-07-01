@@ -8,12 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { ChemicalService } from '../../../../services/Master/chemical.service';
 import { SnackBarService } from '../../../../services/SnakBar-Service/snack-bar.service';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+
 @Component({
   selector: 'app-chemical-dialog',
   standalone: true,
   providers: [ChemicalService],
-  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,FormsModule,MatTableModule],
+  imports: [CommonModule, MatRadioModule, MatCheckboxModule, MatIconModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   templateUrl: './chemical-dialog.component.html',
   styleUrl: './chemical-dialog.component.scss'
 })
@@ -22,13 +22,8 @@ export class ChemicalDialogComponent {
   submitted: boolean = false
   isMechanical:boolean;
   chemicalForm !: FormGroup;
-  formType:string;
   name: any;
-  dataSource = new MatTableDataSource<any>([]);
-  parameter: string[] = ['Chemical', 'Mechanical', 'Physical', 'Other'];
-  displayedColumns: string[] = ['sNo', 'bankName','aliasName','state','city','pin','ifsc','address','action'];
-
-
+  // chemicallist: any = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

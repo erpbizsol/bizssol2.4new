@@ -1,57 +1,126 @@
-<!-- app.component.html -->
 <div class="container">
   <div class="row">
-    <div class="col m12"></div>
+    <div class="col m12">
+      <!-- <h4 class="mb-3">Country</h4> -->
+    </div>
   </div>
-  <div class="row mb-1">
+  <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10 mb-2 text-end">
-      <div class="col-md-5 mobRowAngularMaterial">
-    
+  <div class="col-md-10">
+  <div class="row mb-2">
+
+    <div class="col-md-12 mt-4 text-end">
+      <button class="btn btn-primary" type="submit" (click)="createcountrytoggle()">Create New <i
+          class="fa fa-plus-circle" aria-hidden="true"></i></button>
     </div>
-      <button type="button" class="btn btn-primary" (click)="addDialog('')">
-        CREATE NEW <i class="fa fa-plus-circle" aria-hidden="true"></i>
-      </button>
-    </div>
-<div class="col-md-1">  </div>
-<div class="col-md-1">  </div>
-<div class="col-md-10 mobileview">
-      <table mat-table [dataSource]="dataSource" matSort class="table table-striped nowrap">
-        <!-- class="mat-elevation-z8"  -->
-        <ng-container matColumnDef="sNo">
-          <th mat-header-cell *matHeaderCellDef> S.No </th>
-          <td mat-cell *matCellDef="let element; let i = index">
-            {{ MatPaginator1.pageIndex * MatPaginator1.pageSize + (i + 1) }}
-          </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="countryname">
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header="Country">Country Name</th>
-          <td mat-cell *matCellDef="let element"> {{element.CountryName}} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="countrycode">
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header="CountryCode">Country Code</th>
-          <td mat-cell *matCellDef="let element"> {{element.CountryCode}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef title="Action">Action</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-stroked-button color="primary"   title="Edit" class="btn btn-primary me-1" (click)="addDialog(element)">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-            <button mat-stroked-button color="warn" title="Delete" class="btn btn-danger me-1" (click)="deleteChemical(element.Code)">
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[10, 20, 50]" #MatPaginator1></mat-paginator>
-    </div>
-    <div class="col-md-1"></div>
+
   </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>S.No.</th>
+        <th>Country Code</th>
+        <th>Country</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container
+        *ngFor="let item of countrylist.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage); let i = index">
+        <tr>
+          <td >{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <td>{{item.CountryCode}}</td>
+          <td>{{ item.CountryName }}</td>
+          <td class="col-md-3 text-center">
+            <button class="me-3" title="Edit" cButton (click)="editCountry(item)"><i class="fa fa-pencil"></i></button>
+            <button cButton color="danger" title="Delete" (click)="deleteData(item.Code)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+</div>
+
+
+ 
+  <!-- /////////////////*************************Create Modal*****************************////////////////////////// -->
+  
+  <c-modal id="createModal" [visible]="visible" alignment="center"  (visibleChange)="handleLiveDemoChange($event)" backdrop="static">
+  <form class="row" [formGroup]="countryForm" (ngSubmit)="submit()">
+    <c-modal-header class="text-center">
+      <h5 cModalTitle>Create Country</h5>
+      <button (click)="createcountrytoggle()" cButtonClose></button>
+    </c-modal-header>
+      <c-modal-body>
+        <div class="col-md-12 form-group">
+          <label for="countryname">Country</label>
+          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="100" (keypress)="specialCharacternumberValidator($event)" >
+          <!-- <input class="form-control" type="hidden" formControlName="code" name="code" value="0"> -->
+          <!-- Required field Validation -->
+          <div *ngIf="countryForm.get('countryname')?.hasError('required') && countryForm.get('countryname').touched"
+            class="error-message ">
+            Country is required!
+          </div>
+          <!-- Only alphabet validation -->
+          <div *ngIf="countryForm.get('countryname').hasError('invalidInput') && countryForm.get('countryname').touched" 
+          class="error-message">
+            Only letters are allowed!
+          </div>
+        </div>
+        <div class="col-md-12 form-group">
+          <label for="countrycode">Country Code</label>
+          <input class="form-control" type="text" matInput formControlName="countrycode" maxlength="10"  (keypress)="onlynumberinput($event)">
+          
+          <!-- Required field Validation -->
+          <div *ngIf="countryForm.get('countrycode')?.hasError('required') && countryForm.get('countrycode').touched"
+            class="error-message ">
+            Country Code is required!
+          </div>
+        
+          
+
+      
+      </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button cButton color="primary" type="submit" (click)="createcountrytoggle()">Save </button>
+        <button (click)="createcountrytoggle()" cButton color="danger">
+          Cancel
+        </button>
+
+      </c-modal-footer>
+    </form>
+  </c-modal>
+
+
+  <!-- /////////////////*************************Update Modal*****************************////////////////////////// -->
+
+  <c-modal id="updateModal" [visible]="updatevisible" alignment="center" (visibleChange)="handleLiveupdateChange($event)" backdrop="static">
+    <c-modal-header>
+      <h5 cModalTitle>Update Country</h5>
+      <button (click)="Updatetoggle()" cButtonClose></button>
+    </c-modal-header>
+    <form class="row" [formGroup]="countryForm" (ngSubmit)="updateSubmit()">
+      <c-modal-body>
+        <div class="col-md-12 form-group">
+          <label for="countryname">Country</label>
+          <input class="form-control" type="text" matInput formControlName="countryname" maxlength="100" (keypress)="specialCharacternumberValidator($event)">
+        </div>
+        <div class="col-md-12 form-group">
+          <label for="countrycode">Country Code</label>
+          <input class="form-control" type="text" matInput formControlName="countrycode" maxlength="10" (keypress)="onlynumberinput($event)">
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button cButton color="primary" type="submit">Update</button>
+        <button (click)="Updatetoggle()" cButton color="danger">
+          Cancel
+        </button>
+      </c-modal-footer>
+    </form>
+  </c-modal>
+  
+  
+
   

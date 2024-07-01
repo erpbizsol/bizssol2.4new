@@ -192,6 +192,17 @@ th {
   text-align: center !important;
 }
 
+.mat-sort-header-container {
+  justify-content: center;
+}
+
+.left-align {
+  text-align: left !important;
+}
+
+.right-align {
+  text-align: left !important;
+}
 .btn {
   // height: 23px;
   line-height: 1 !important;
@@ -204,20 +215,65 @@ input[type=search]:not(.browser-default) {
   border-radius: 4px;
   font-size: 10pt;
 }
+
 input, button, select, optgroup, textarea{
   font-size: 9pt !important;
 }
+
+.btn-danger {
+  --bs-btn-bg: #be1929 !important;
+  text-transform: uppercase;
+}
+
+.btn-danger:hover {
+  background-image: linear-gradient(#be2a38, #dd5765, #be2a38);
+  border-radius: 7px !important;
+}
+
 .btn-primary {
-  --bs-btn-bg: #165899 !important;
+  --bs-btn-bg: #26557d !important;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background-image: linear-gradient(#26557d, #3878af, #175489);
+  border-radius: 7px !important;
+}
+
+.btn-success {
+  --bs-btn-bg: #216c4a !important;
+  text-transform: uppercase;
+}
+
+.btn-success:hover {
+  background-image: linear-gradient(#216c4a, #41ae7b, #216c4a);
+  border-radius: 7px !important;
 }
 
 .btn-info {
   --bs-btn-bg: #17aecc !important;
+  text-transform: uppercase;
+}
+
+// .save {
+//   width: 100px;
+// }
+
+.mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-mdc-text-field-wrapper {
+  height: 1.9rem !important;
+}
+
+.mat-mdc-option {
+  min-height: 30px !important;
+}
+
+div.mat-mdc-select-panel {
+  background-color: #f2f2f2 !important;
 }
 
 .form-control {
   line-height: 0.9 !important;
-  height: 2rem !important;
+  height: 1.9rem !important;
   font-size: 9pt !important;
   // padding-bottom: 8px !important;
   margin-bottom: 5px;
@@ -236,11 +292,6 @@ label {
   --bs-gutter-x: 1.rem;
 }
 
-// .form-control {
-
-//   // padding: 0.1rem 0.75rem;
-
-// }
 
 .form-control:focus {
   border-color: #216d8f !important;
@@ -462,3 +513,17 @@ mat-label {
 hr {
   border: 2px solid !important;
 }
+// .btn-success:before {
+//   display: inline-block;
+//   content: "";
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   z-index: -1;
+//   top: 3px;
+//   border-radius: 5px;
+//   height: 65px;
+//   background: linear-gradient(to top, #83255e 0%, #c5205e 6px);
+//   transition: all 0.078s ease-out;
+//   box-shadow: 0 1px 0 2px rgba(0, 0, 0, 0.3), 0 5px 2.4px rgba(0, 0, 0, 0.5), 0 10.8px 9px rgba(0, 0, 0, 0.2);
+// }

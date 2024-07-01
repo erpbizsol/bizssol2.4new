@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UrlService } from '../URL/url.service';
 import { AuthService } from '../Auth-Service/auth.service';
-
 // import { AuthService } from '../auth.service';
 
 
@@ -13,14 +12,16 @@ import { AuthService } from '../Auth-Service/auth.service';
   providedIn: 'root'
 })
 export class PaymetntTermService {
+  userMasterCode: string;
+
   constructor(private _http: HttpClient, private _urlService: UrlService, private authService: AuthService) { }
 
   private headers(): HttpHeaders {
     const authKey = this.authService.getAuthKey();
+    this.userMasterCode = this.authService.getUserMasterCode();
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key': `${authKey}`
-    });
+      'Auth-Key': `${authKey}`    });
   }
 
 
@@ -47,10 +48,9 @@ export class PaymetntTermService {
     return this._http.post(url, payload, { headers: this.headers() });
   }
 
-  deletePaymentList(code: number, reason: any): Observable<any> {
-    const userMasterCode = this.authService.getUserMasterCode();
-    let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${userMasterCode}&ReasonForDelete=${reason}`;
-    return this._http.post(url, { headers: this.headers() });
+  deletePaymentList(code: number, reason: any) {
+    let url = this._urlService.API_ENDPOINT_PAYMENT_TERMS_MASTER + "/DeletePaymentTermsMaster" + `?code=${code}&UserMaster_Code=${this.userMasterCode}&ReasonForDelete=${reason}`;
+    return this._http.post(url, '', { headers: this.headers() });
   }
 
 

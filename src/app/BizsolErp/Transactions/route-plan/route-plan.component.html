@@ -59,27 +59,27 @@
 
                         <ng-container matColumnDef="visitType">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header="VisitType">Visit Type</th>
-                            <td mat-cell *matCellDef="let element"> {{element?.VisitType}} </td>
+                            <td mat-cell *matCellDef="let element" class="left-align"> {{element?.VisitType}} </td>
                         </ng-container>
                         <ng-container matColumnDef="dealerName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header="DealerName">Dealer Name </th>
-                            <td mat-cell *matCellDef="let element"> {{element?.DealerName}} </td>
+                            <td mat-cell *matCellDef="let element" class="left-align"> {{element?.DealerName}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="cityName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header="CityName">City Name </th>
-                            <td mat-cell *matCellDef="let element"> {{element?.CityName}} </td>
+                            <td mat-cell *matCellDef="let element" class="left-align"> {{element?.CityName}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="stateName">
                             <th mat-header-cell *matHeaderCellDef ma t-sort-header="StateName">State Name </th>
-                            <td mat-cell *matCellDef="let element"> {{element.StateName}} </td>
+                            <td mat-cell *matCellDef="let element" class="left-align"> {{element.StateName}} </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="description">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header="Description">Description </th>
-                            <td mat-cell *matCellDef="let element"> {{element?.Description}} </td>
+                            <td mat-cell *matCellDef="let element" class="left-align"> {{element?.Description}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
@@ -97,6 +97,10 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                     <mat-paginator [pageSizeOptions]="[10, 15, 20]" #MatPaginator1></mat-paginator>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                    showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+     </mat-paginator> -->
                 </div>
             </div>
 

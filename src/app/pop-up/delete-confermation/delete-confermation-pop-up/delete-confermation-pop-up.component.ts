@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-delete-confermation-pop-up',
@@ -18,11 +17,9 @@ export class DeleteConfermationPopUpComponent {
   reason: string = '';
 
   constructor(
-    private toaster :ToastrService,
     public dialogRef: MatDialogRef<DeleteConfermationPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {reason: string, code: any }
-  ) {
-  }
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -30,6 +27,5 @@ export class DeleteConfermationPopUpComponent {
 
   onYesClick(): void {
     this.dialogRef.close({ reason: this.reason, confirmed: true });
-
   }
 }

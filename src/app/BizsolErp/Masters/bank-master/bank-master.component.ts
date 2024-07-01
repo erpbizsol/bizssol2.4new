@@ -92,21 +92,5 @@
         this.getBankData();
       });
     }
-
-    openDialog(value: any,type:any) {
-      const dialogRef = this.dialog.open(AddBankDialogComponent, {
-        width: '800px',
-        height: '530px',
-        disableClose: true,
-        data :{element:value,
-          view:type
-        }
-        });
-
-      dialogRef.afterClosed().subscribe((result: any) => {
-        console.log(`Dialog result: ${result}`);
-        this.getBankData();
-      });
-    }
   }
 

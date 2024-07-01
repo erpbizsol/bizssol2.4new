@@ -94,6 +94,6 @@
 </mat-dialog-actions> -->
 
 <div mat-dialog-actions align="end">
-    <button class="btn btn-primary" mat-dialog-close>Cancel</button>&nbsp;
-    <button class="btn btn-success" type="submit" (click)="saveData()">   {{editData?.Code == undefined || ''||0 ? 'Save':'Update'}}</button>
+    <button class="btn btn-success" type="submit" (click)="saveData()">   {{editData?.Code == undefined || ''||0 ? 'Save':'Update'}}</button>&nbsp;
+    <button class="btn btn-danger" mat-dialog-close>Cancel</button>
 </div>

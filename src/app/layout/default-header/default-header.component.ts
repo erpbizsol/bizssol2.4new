@@ -76,4 +76,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.router.navigate(['']).then(() => {
       window.location.href = 'https://web.bizsol.in/erp'; } );
   }
+
+  // set theme.
+  // setTheme(theme: string) {
+  //   StorageUtils.set('theme', theme);
+  //   this.navService.theme = theme;
+  //   this.themeIn = this.navService.theme;
+  // }
 }

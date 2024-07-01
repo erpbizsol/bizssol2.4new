@@ -71,7 +71,7 @@ export class ChemicalComponent implements OnInit {
 
   addDialog(value: any) {
     const dialogRef = this.dialog.open(ChemicalDialogComponent, {
-      width: '700px',
+      width: '400px',
       height: '380px',
       disableClose: true,
       data: { element: value }

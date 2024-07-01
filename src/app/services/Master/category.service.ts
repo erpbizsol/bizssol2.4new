@@ -19,12 +19,11 @@ export class CategoryService {
   
     return new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Auth-Key':`${authKey}`
     });
   }
 
-  getCategorylist(formtype:any): Observable<any> {
-    let url = this._urlService.API_ENDPOINT_CATEGORY + `/GetCategoryMasterList?FormType=${formtype}`;
+  getCategorylist(): Observable<any> {
+    let url = this._urlService.API_ENDPOINT_CATEGORY + "/GetCategoryMasterList?FormType=s";
     return this._http.get(url, { headers: this.headers() });
   }
 

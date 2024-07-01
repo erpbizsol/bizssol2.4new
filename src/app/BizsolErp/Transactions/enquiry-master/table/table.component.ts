@@ -100,7 +100,7 @@ export class TableComponent implements OnInit {
   selected: string = 'S';
   hideApproval: boolean = true;
   newSales: any;
-  
+
   closeRemark = new FormControl('');
   remarkApproval = new FormControl('');
   reopenRemark = new FormControl('');
@@ -117,8 +117,6 @@ export class TableComponent implements OnInit {
     // this.getStatus().subscribe((res: any) => {
     //   this.StatusList = res;
     // })  
-    console.log('for testing');
-    console.log('console. log 2');
     this.getStatusList();
     this.getSalePerson();
     this.enquiryList("ALL");
