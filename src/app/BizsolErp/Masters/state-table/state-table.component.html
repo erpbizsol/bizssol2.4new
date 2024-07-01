@@ -6,7 +6,7 @@
         <div class="col-md-1"></div>
 
         <div class="col-md-5 mobRowAngularMaterial">
-            <mat-label>Country</mat-label>
+            <mat-label><b>Country</b></mat-label>
             <mat-form-field class="mat-form-field-fluid" appearance="outline">
                 <mat-select placeholder="All" required (selectionChange)="getStateList($event.value)">
                     <mat-option value="All">All</mat-option>
@@ -16,7 +16,7 @@
             </mat-form-field>
         </div>
         <div class="col-md-5 text-end mtBtn12">
-            <button class="btn btn-primary" (click)="toggleLiveDemo()">Create new <i class="fa fa-plus-circle"
+            <button class="btn btn-primary" (click)="toggleLiveDemo()">CREATE NEW <i class="fa fa-plus-circle"
                     aria-hidden="true"></i></button>
         </div>
         <div class="col-md-1"></div>
@@ -146,9 +146,9 @@
 
         </c-modal-body>
         <c-modal-footer>
-            <button cButton color="primary" type="submit">Save </button>
+            <button cButton color="primary" type="submit">SAVE </button>
             <button (click)="toggleLiveDemo()" cButton color="danger">
-                Cancel
+                CANCEL
             </button>
         </c-modal-footer>
     </form>
@@ -198,9 +198,9 @@
 
         </c-modal-body>
         <c-modal-footer>
-            <button cButton color="primary" type="submit">Update</button>
+            <button cButton color="primary" type="submit">UPDATE</button>
             <button (click)="toggleUpdate()" cButton color="danger">
-                Cancel
+                CANCEL
             </button>
         </c-modal-footer>
     </form>
