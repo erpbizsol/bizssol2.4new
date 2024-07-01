@@ -43,13 +43,11 @@ export class BankService{
 
 
   
-    
-  
-   deleteBank(code: number, reason: any) {
-    // let url = this._urlService.API_ENDPOINT_BANK_MASTER + "/DeleteBankMaster" + `?code=${code}&${this.userCode}=13&ReasonForDelete=${reason}`;
-   let url = this._urlService.API_ENDPOINT_BANK_MASTER + "/DeleteBankMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}&IPAddress=0&Location=0`;
-   return this._http.post(url, '', { headers: this.headers() });
-  }
+ deleteBank(code: number, reason: any): Observable<any> {
+    const userMasterCode = this.authService.getUserMasterCode();
+    let url = this._urlService.API_ENDPOINT_BANK_MASTER + "/DeleteBankMaster" + `?code=${code}&UserMaster_Code=${this.userCode}&ReasonForDelete=${reason}&IPAddress=1&Location=1`;
+    return this._http.post(url, { headers: this.headers() });
+   }
 
   GetDebitAccountData():Observable<any> {
     let url = this._urlService.API_ENDPOINT_BANK_MASTER + '/GetDebitAccountDetails';

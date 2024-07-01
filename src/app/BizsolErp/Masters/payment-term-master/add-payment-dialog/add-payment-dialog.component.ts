@@ -52,7 +52,7 @@ export class AddPaymentDialogComponent implements AfterViewInit, OnInit {
   paymentTermsForm = new FormGroup({
     description: new FormControl('', Validators.required),
     advancePayment: new FormControl(false),
-    status: new FormControl('', Validators.required),
+    status: new FormControl('Y'),
     advancePaymentPercentage: new FormControl(''),
   })
 
@@ -88,7 +88,8 @@ export class AddPaymentDialogComponent implements AfterViewInit, OnInit {
       "advPaymentApplicable": this.paymentTermsForm.value.advancePayment == true ? 'Y' : 'N',
       "advancePayment": this.paymentTermsForm.value.advancePaymentPercentage !== '' ? this.paymentTermsForm.value.advancePaymentPercentage : 0,
       "defaultForOrder": 'Y',
-      "isActive": this.paymentTermsForm.value.status !== undefined ? 'Y' : 'N',
+      "isActive": 'Y',
+    // "isActive": this.paymentTermsForm.value.status !== undefined ? 'Y' : 'N',
       "userMaster_Code": 2
     }]
 
